@@ -4,7 +4,9 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
 
 
-set(ENGINE_HEADERS 
+set(ENGINE_HEADERS
+		include/engine/error.hpp
+
 		include/engine/application.hpp
 )
 
