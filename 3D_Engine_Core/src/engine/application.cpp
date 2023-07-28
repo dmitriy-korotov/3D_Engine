@@ -18,6 +18,7 @@ namespace engine
 		{
 			throw std::logic_error("Application already exists.");
 		}
+        is_created = true;
 		return Application();
 	}
 
