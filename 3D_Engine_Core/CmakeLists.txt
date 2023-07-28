@@ -5,11 +5,11 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
 
 set(ENGINE_HEADERS 
-		include/application.hpp
+		include/engine/application.hpp
 )
 
 set(ENGINE_SOURCES 
-		src/application.cpp
+		src/engine/application.cpp
 )
 
 
