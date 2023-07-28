@@ -7,6 +7,6 @@ add_library(${CORE_PROJECT_NAME} STATIC
 		src/engine/util/test.cpp
 )
 
-target_compile_features(${CORE_PROJECT_NAME} PUBLIC cxx_std_17)
-
 target_include_directories(${CORE_PROJECT_NAME} PUBLIC include/)
+
+target_compile_features(${CORE_PROJECT_NAME} PUBLIC cxx_std_17)
