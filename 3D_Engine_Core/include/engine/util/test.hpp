@@ -4,5 +4,5 @@
 
 namespace engine3D
 {
-	void test() noexcept;
+	int testGLFW() noexcept;
 }
