@@ -2,9 +2,21 @@ cmake_minimum_required(VERSION 3.26)
 
 set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
+
+
+set(ENGINE_HEADERS 
+		include/application.hpp
+)
+
+set(ENGINE_SOURCES 
+		src/application.cpp
+)
+
+
+
 add_library(${ENGINE_PROJECT_NAME} STATIC
-		include/engine/util/test.hpp
-		src/engine/util/test.cpp
+		${ENGINE_HEADERS}
+		${ENGINE_SOURCES}
 )
 
 target_include_directories(${ENGINE_PROJECT_NAME} PUBLIC include/)
