@@ -3,6 +3,7 @@
 #include <engine/error.hpp>
 #include <engine/logging/log.hpp>
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
@@ -33,23 +34,30 @@ namespace engine
 
         if (!glfwInit())
         {
-            LOG_ERROR("Can't initializate glfw.");
+            LOG_CRITICAL("Can't initializate glfw.");
             return error::app_error::can_not_create;
         }
 
         window_ = glfwCreateWindow(_width, _height, _application_name.data(), NULL, NULL);
         if (!window_)
         {
-            LOG_ERROR("Can't create window.");
+            LOG_CRITICAL("Can't create window.");
             glfwTerminate();
             return error::app_error::can_not_create;
         }
 
         glfwMakeContextCurrent(window_);
+
+        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+        {
+            LOG_CRITICAL("Can't load glad.");
+            glfwTerminate();
+            return error::app_error::can_not_create;
+        }
         
         while (!glfwWindowShouldClose(window_))
         {
-            //glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT);
             glfwSwapBuffers(window_);
             glfwPollEvents();
 
