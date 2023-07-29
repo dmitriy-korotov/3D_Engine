@@ -33,7 +33,7 @@ namespace engine
 
 	private:
 
-		static bool is_created;
+		static bool m_is_created;
 
 	};
 }

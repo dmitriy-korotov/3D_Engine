@@ -4,7 +4,7 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
 
 
-set(ENGINE_HEADERS
+set(ENGINE_PUBLIC_HEADERS
 		include/engine/error.hpp
 
 		include/engine/application.hpp
@@ -12,18 +12,27 @@ set(ENGINE_HEADERS
 		include/engine/logging/log.hpp
 )
 
-set(ENGINE_SOURCES 
+set(ENGINE_PRIVATE_HEADERS
+		include/engine/basic_window.hpp
+		include/engine/glfw_window.hpp
+)
+
+set(ENGINE_PRIVATE_SOURCES 
 		src/engine/application.cpp
+		src/engine/basic_window.cpp
+		src/engine/glfw_window.cpp
 )
 
 
 
 add_library(${ENGINE_PROJECT_NAME} STATIC
-		${ENGINE_HEADERS}
-		${ENGINE_SOURCES}
+		${ENGINE_PUBLIC_HEADERS}
+		${ENGINE_PRIVATE_HEADERS}
+		${ENGINE_PRIVATE_SOURCES}
 )
-
 target_include_directories(${ENGINE_PROJECT_NAME} PUBLIC include/)
+
+
 
 target_compile_features(${ENGINE_PROJECT_NAME} PUBLIC cxx_std_17)
 

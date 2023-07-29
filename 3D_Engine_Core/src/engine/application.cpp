@@ -10,18 +10,18 @@
 
 namespace engine
 {
-	bool Application::is_created = false;
+	bool Application::m_is_created = false;
 
 
 
 	Application Application::create()
 	{
-		if (is_created)
+		if (m_is_created)
 		{
             LOG_ERROR("Application already exists.");
 			throw std::logic_error("Application already exists.");
 		}
-        is_created = true;
+        m_is_created = true;
 		return Application();
 	}
 
@@ -54,7 +54,7 @@ namespace engine
             glfwTerminate();
             return error::app_error::can_not_create;
         }
-        
+
         while (!glfwWindowShouldClose(window_))
         {
             glClear(GL_COLOR_BUFFER_BIT);
