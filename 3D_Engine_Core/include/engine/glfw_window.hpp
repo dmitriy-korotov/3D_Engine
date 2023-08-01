@@ -14,6 +14,7 @@ namespace engine
 
 		glfw_window(std::uint16_t _width, std::uint16_t _height,
 					const std::string_view& _title);
+		~glfw_window();
 
 		void onUpdate() noexcept override;
 		bool isShouldClose() const noexcept override;
@@ -23,7 +24,7 @@ namespace engine
 		std::optional<error::window_error> create() noexcept override;
 		void shutdown() noexcept override;
 		
-		std::optional<error::window_error> glfwInit() const noexcept;
+		std::optional<error::window_error> __glfwInit() const noexcept;
 
 	private:
 

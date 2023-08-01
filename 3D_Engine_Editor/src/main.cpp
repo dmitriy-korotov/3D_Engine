@@ -3,7 +3,7 @@
 
 
 
-int main()
+int main(int argc, char** argv)
 {
 	engine::Application app_ = engine::Application::create(1024, 720, "3D Engine");
 

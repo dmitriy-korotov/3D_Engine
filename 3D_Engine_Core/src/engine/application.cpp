@@ -19,7 +19,10 @@ namespace engine
     Application::Application(std::uint16_t _width, std::uint16_t _height,
                              const std::string_view& _application_name)
             : m_window_ptr(std::make_unique<Window>(_width, _height, _application_name))
-    { }
+    { 
+        LOG_INFO("Application '{0}' started, size: {1}x{2}",
+                 m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
+    }
 
 
 
@@ -62,4 +65,12 @@ namespace engine
 
 	void Application::onUpdate() const noexcept
 	{ }
+
+
+
+    Application::~Application()
+    {
+        LOG_INFO("Application '{0}' closed, size: {1}x{2}",
+                  m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
+    }
 }

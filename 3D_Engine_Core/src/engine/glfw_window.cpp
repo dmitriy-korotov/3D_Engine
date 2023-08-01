@@ -41,7 +41,7 @@ namespace engine
 
 
 
-	std::optional<error::window_error> glfw_window::glfwInit() const noexcept
+	std::optional<error::window_error> glfw_window::__glfwInit() const noexcept
 	{
 		if (!s_glfw_ininted)
 		{
@@ -59,7 +59,7 @@ namespace engine
 
 	std::optional<error::window_error> glfw_window::create() noexcept
 	{
-		auto result_ = glfwInit();
+		auto result_ = __glfwInit();
 		if (result_.has_value())
 		{
 			return result_;
@@ -72,8 +72,9 @@ namespace engine
 			glfwTerminate();
 			return error::window_error::can_not_create;
 		}
-
 		glfwMakeContextCurrent(m_window_ptr);
+
+		return std::nullopt;
 	}
 
 
@@ -82,5 +83,12 @@ namespace engine
 	{
 		glfwDestroyWindow(m_window_ptr);
 		glfwTerminate();
+	}
+
+
+
+	glfw_window::~glfw_window()
+	{
+		shutdown();
 	}
 }

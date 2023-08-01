@@ -20,7 +20,7 @@ namespace engine
 
 
 
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		Application(const Application&) = delete;
 		Application(Application&&) noexcept = delete;
