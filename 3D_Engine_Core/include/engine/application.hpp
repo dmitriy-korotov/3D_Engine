@@ -2,8 +2,11 @@
 
 #include <engine/error.hpp>
 
+#include <engine/glfw_window.hpp>
+
 #include <iostream>
 #include <optional>
+#include <memory>
 
 
 
@@ -13,6 +16,10 @@ namespace engine
 	{
 	public:
 
+		using Window = glfw_window;
+
+
+
 		virtual ~Application() = default;
 
 		Application(const Application&) = delete;
@@ -20,20 +27,26 @@ namespace engine
 		Application& operator=(const Application&) = delete;
 		Application& operator=(Application&&) noexcept = delete;
 
-		static Application create();
+		static Application create(std::uint16_t _width, std::uint16_t _height,
+								  const std::string_view& _application_name);
 
-		std::optional<error::app_error> start(std::uint16_t _width, std::uint16_t _height,
-											  const std::string_view& _application_name) noexcept;
+		std::optional<error::app_error> start() noexcept;
 
+	private:
+
+		Application(std::uint16_t _width, std::uint16_t _height,
+					const std::string_view& _application_name);
+
+		void init();
 		virtual void onUpdate() const noexcept;
 
-	private:
-
-		Application() = default;
-
-	private:
+	protected:
 
 		static bool m_is_created;
+
+	protected:
+
+		std::unique_ptr<Window> m_window_ptr;
 
 	};
 }
