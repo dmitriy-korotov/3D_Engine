@@ -1,6 +1,7 @@
 #pragma once
 
 #include <engine/window/basic_window.hpp>
+#include <engine/window/event_structs.hpp>
 
 
 
@@ -17,6 +18,8 @@ namespace engine
 		~glfw_window();
 
 		void onUpdate() noexcept override;
+
+		template<>
 
 	private:
 

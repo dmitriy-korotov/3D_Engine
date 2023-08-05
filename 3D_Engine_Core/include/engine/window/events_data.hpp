@@ -5,11 +5,14 @@
 
 namespace engine
 {
-	enum class EWindowEvents : std::uint8_t
+	enum class WindowEvents : std::uint8_t
 	{
-		Resize,
-		MouseMove,
-		Close,
+		Resized,
+		MouseMoved,
+		Closed,
+
+		MouseButtonPress,
+		MuseButtonRelease,
 
 		PressKey,
 		ReleaseKey
@@ -17,7 +20,7 @@ namespace engine
 
 
 
-	struct ResizeEventData
+	struct ResizedEventData
 	{
 		std::uint16_t width;
 		std::uint16_t height;
