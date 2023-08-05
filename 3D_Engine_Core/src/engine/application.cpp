@@ -50,7 +50,7 @@ namespace engine
             return error::app_error::can_not_create;
         }
 
-        while (!m_window_ptr->isShouldClose())
+        while (true)
         {
             glClear(GL_COLOR_BUFFER_BIT);
             onUpdate();

@@ -1,4 +1,4 @@
-#include <engine/glfw_window.hpp>
+#include <engine/window/glfw_window.hpp>
 
 #include <engine/error.hpp>
 #include <engine/logging/log.hpp>
@@ -22,13 +22,6 @@ namespace engine
 			LOG_CRITICAL("Can't create window '{0}' with size {1}x{2}.", m_title, m_width, m_height);
 			throw std::exception("Window not inited.");
 		};
-	}
-
-
-
-	bool glfw_window::isShouldClose() const noexcept
-	{
-		return glfwWindowShouldClose(m_window_ptr);
 	}
 
 

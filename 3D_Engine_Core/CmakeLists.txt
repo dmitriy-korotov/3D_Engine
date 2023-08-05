@@ -13,8 +13,9 @@ set(ENGINE_PUBLIC_HEADERS
 )
 
 set(ENGINE_PRIVATE_HEADERS
-		include/engine/basic_window.hpp
-		include/engine/glfw_window.hpp
+		include/engine/window/event_structs.hpp
+		include/engine/window/basic_window.hpp
+		include/engine/window/glfw_window.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 

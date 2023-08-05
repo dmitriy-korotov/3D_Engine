@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/basic_window.hpp>
+#include <engine/window/basic_window.hpp>
 
 
 
@@ -17,7 +17,6 @@ namespace engine
 		~glfw_window();
 
 		void onUpdate() noexcept override;
-		bool isShouldClose() const noexcept override;
 
 	private:
 

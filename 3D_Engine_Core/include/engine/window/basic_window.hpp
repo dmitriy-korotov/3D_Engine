@@ -28,8 +28,6 @@ namespace engine
 
 		virtual void onUpdate() noexcept {};
 
-		virtual bool isShouldClose() const noexcept = 0;
-
 	protected:
 
 		virtual std::optional<error::window_error> create() noexcept = 0;

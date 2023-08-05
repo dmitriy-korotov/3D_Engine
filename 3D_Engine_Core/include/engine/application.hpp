@@ -2,7 +2,7 @@
 
 #include <engine/error.hpp>
 
-#include <engine/glfw_window.hpp>
+#include <engine/window/glfw_window.hpp>
 
 #include <iostream>
 #include <optional>
