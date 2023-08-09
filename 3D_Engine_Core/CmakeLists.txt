@@ -6,9 +6,7 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
 set(ENGINE_PUBLIC_HEADERS
 		include/engine/error.hpp
-
 		include/engine/application.hpp
-
 		include/engine/logging/log.hpp
 )
 
@@ -16,12 +14,17 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/events_data.hpp
 		include/engine/window/basic_window.hpp
 		include/engine/window/glfw_window.hpp
+		include/engine/window/events_data.hpp
+		include/engine/window/windows_collector.hpp
+		include/engine/window/windows_manager.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
 		src/engine/application.cpp
-		src/engine/basic_window.cpp
-		src/engine/glfw_window.cpp
+		src/engine/window/basic_window.cpp
+		src/engine/window/glfw_window.cpp
+		src/engine/window/windows_collector.cpp
+		src/engine/window/windows_manager.cpp
 )
 
 

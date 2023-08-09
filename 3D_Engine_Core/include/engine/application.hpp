@@ -46,6 +46,7 @@ namespace engine
 
 	protected:
 
+		bool m_is_closed = false;
 		std::unique_ptr<Window> m_window_ptr;
 
 	};

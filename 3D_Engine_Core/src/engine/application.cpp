@@ -53,12 +53,19 @@ namespace engine
         }
 
         m_window_ptr->addEventListener<window::Events::Resize>(
-            [](const window::ResizeEventData& _size) -> void
+            [this](const window::ResizeEventData& _size) -> void
             {
-                LOG_INFO("[RESIZED EVENT] Window size: {0}x{1}", _size.width, _size.height);
+                LOG_INFO("[RESIZE EVENT] Window '{0}', size: {1}x{2}", m_window_ptr->getTitle(), _size.width, _size.height);
             });
 
-        while (true)
+        m_window_ptr->addEventListener<window::Events::Close>(
+            [this]() -> void
+            {
+                LOG_INFO("[CLOSE EVENT] Window '{0}' closed", m_window_ptr->getTitle());
+                m_is_closed = true;
+            });
+
+        while (!m_is_closed)
         {
             glClear(GL_COLOR_BUFFER_BIT);
             onUpdate();

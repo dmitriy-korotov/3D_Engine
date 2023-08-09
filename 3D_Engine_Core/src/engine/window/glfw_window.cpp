@@ -33,7 +33,7 @@ namespace engine
 
 
 
-	const GLFWwindow* glfw_window::__getRawPtr() const noexcept
+	const GLFWwindow* const glfw_window::__getRawPtr() const noexcept
 	{
 		return m_window_ptr;
 	}
@@ -116,6 +116,7 @@ namespace engine
 				return window_;
 			}
 		}
+		return nullptr;
 	}
 
 

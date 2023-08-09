@@ -35,7 +35,7 @@ namespace engine
 		void shutdown() noexcept override;
 		
 		std::optional<error::window_error> __glfwInit() const noexcept;
-		const GLFWwindow const* __getRawPtr() const noexcept;
+		const GLFWwindow* const __getRawPtr() const noexcept;
 
 	private:
 
@@ -55,35 +55,29 @@ namespace engine
 	template<window::Events _event_type, typename _CallBackFunction>
 	void glfw_window::addEventListener(_CallBackFunction _call_back) noexcept
 	{
-		switch (_event_type)
+		if constexpr (_event_type == window::Events::Resize)
 		{
-		case engine::window::Events::Resize:
 			m_window_call_backs_.resize_call_back_ = std::move(_call_back);
 			glfwSetWindowSizeCallback(m_window_ptr,
-				[](GLFWwindow* _window, int _width, int _height) -> void
+				[](GLFWwindow* _window_ptr, int _width, int _height) -> void
 				{
-					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window));
+					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));
 					window_data.height = _height;
 					window_data.width = _width;
 
 					window::ResizeEventData resize_data = { window_data.height, window_data.width };
 					call_backs.resize_call_back_(resize_data);
 				});
-			break;
-		case engine::window::Events::MouseMove:
-			break;
-		case engine::window::Events::Close:
-			break;
-		case engine::window::Events::MouseButtonPress:
-			break;
-		case engine::window::Events::MouseButtonRelease:
-			break;
-		case engine::window::Events::PressKey:
-			break;
-		case engine::window::Events::ReleaseKey:
-			break;
-		default:
-			break;
+		}
+		if constexpr (_event_type == window::Events::Close)
+		{
+			m_window_call_backs_.close_call_back_ = std::move(_call_back);
+			glfwSetWindowCloseCallback(m_window_ptr,
+				[](GLFWwindow* _window_ptr) -> void
+				{
+					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));
+					call_backs.close_call_back_();
+				});
 		}
 	}
 }

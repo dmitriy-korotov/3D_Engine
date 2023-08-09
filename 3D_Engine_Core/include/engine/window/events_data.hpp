@@ -40,6 +40,7 @@ namespace engine::window
 
 	using ResizeCallBack = std::function<void(const ResizeEventData&)>;
 	using MouseMoveCallBack = std::function<void(const MouseMoveEventData&)>;
+	using CloseCallBack = std::function<void()>;
 
 
 
@@ -47,5 +48,6 @@ namespace engine::window
 	{
 		ResizeCallBack resize_call_back_;
 		MouseMoveCallBack mouse_move_call_back_;
+		CloseCallBack close_call_back_;
 	};
 }
