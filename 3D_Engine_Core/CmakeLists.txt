@@ -13,7 +13,7 @@ set(ENGINE_PUBLIC_HEADERS
 )
 
 set(ENGINE_PRIVATE_HEADERS
-		include/engine/window/event_structs.hpp
+		include/engine/window/events_data.hpp
 		include/engine/window/basic_window.hpp
 		include/engine/window/glfw_window.hpp
 )

@@ -35,9 +35,12 @@ namespace engine
 
 	protected:
 
-		std::uint16_t m_width = 0;
-		std::uint16_t m_height = 0;
-		std::string m_title;
-	
+		struct WindowData
+		{
+			std::uint16_t width = 0;
+			std::uint16_t height = 0;
+			std::string title;
+		} m_window_data;
+
 	};
 }

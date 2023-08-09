@@ -3,6 +3,8 @@
 #include <engine/error.hpp>
 #include <engine/logging/log.hpp>
 
+#include <engine/window/events_data.hpp>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -49,6 +51,12 @@ namespace engine
             glfwTerminate();
             return error::app_error::can_not_create;
         }
+
+        m_window_ptr->addEventListener<window::Events::Resize>(
+            [](const window::ResizeEventData& _size) -> void
+            {
+                LOG_INFO("[RESIZED EVENT] Window size: {0}x{1}", _size.width, _size.height);
+            });
 
         while (true)
         {
