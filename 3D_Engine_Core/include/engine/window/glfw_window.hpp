@@ -24,6 +24,7 @@ namespace engine
 					const std::string_view& _title);
 		~glfw_window();
 
+		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
 
 		template<window::Events _event_type, typename _CallBackFunction>
@@ -32,7 +33,6 @@ namespace engine
 	private:
 
 		std::optional<error::window_error> create() noexcept override;
-		void shutdown() noexcept override;
 		
 		std::optional<error::window_error> __glfwInit() const noexcept;
 		const GLFWwindow* const __getRawPtr() const noexcept;

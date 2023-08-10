@@ -26,12 +26,9 @@ namespace engine
 		std::uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
 
-		virtual void onUpdate() noexcept {};
-
-	protected:
-
 		virtual std::optional<error::window_error> create() noexcept = 0;
 		virtual void shutdown() noexcept = 0;
+		virtual void onUpdate() noexcept {};
 
 	protected:
 
