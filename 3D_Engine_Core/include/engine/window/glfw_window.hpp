@@ -3,11 +3,10 @@
 #include <engine/window/basic_window.hpp>
 #include <engine/window/events_data.hpp>
 
-#include <vector>
-
 
 
 struct GLFWwindow;
+class windows_manager;
 
 namespace engine
 {
@@ -15,15 +14,14 @@ namespace engine
 	{
 	public:
 
-		friend std::pair<WindowData&, const window::CallBackStorage&> __getWindowDataAndCallBackStorage(glfw_window& _window) noexcept;
-		friend glfw_window* getWindow(GLFWwindow* _window_ptr);
+		friend windows_manager;
 
 
 
-		glfw_window(std::uint16_t _width, std::uint16_t _height,
-					const std::string_view& _title);
+		glfw_window(const std::string_view& _title);
 		~glfw_window();
 
+		std::optional<error::window_error> create(std::uint16_t _width, std::uint16_t _height) noexcept override;
 		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
 
@@ -32,19 +30,13 @@ namespace engine
 
 	private:
 
-		std::optional<error::window_error> create() noexcept override;
-		
 		std::optional<error::window_error> __glfwInit() const noexcept;
 		const GLFWwindow* const __getRawPtr() const noexcept;
 
 	private:
 
-		GLFWwindow* m_window_ptr = nullptr;
+		GLFWwindow* m_window_ptr_ = nullptr;
 		window::CallBackStorage m_window_call_backs_;
-
-	private:
-
-		static std::vector<glfw_window*> s_all_windows_;
 
 	};
 
@@ -58,7 +50,7 @@ namespace engine
 		if constexpr (_event_type == window::Events::Resize)
 		{
 			m_window_call_backs_.resize_call_back_ = std::move(_call_back);
-			glfwSetWindowSizeCallback(m_window_ptr,
+			glfwSetWindowSizeCallback(m_window_ptr_,
 				[](GLFWwindow* _window_ptr, int _width, int _height) -> void
 				{
 					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));
@@ -72,7 +64,7 @@ namespace engine
 		if constexpr (_event_type == window::Events::Close)
 		{
 			m_window_call_backs_.close_call_back_ = std::move(_call_back);
-			glfwSetWindowCloseCallback(m_window_ptr,
+			glfwSetWindowCloseCallback(m_window_ptr_,
 				[](GLFWwindow* _window_ptr) -> void
 				{
 					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));

@@ -42,12 +42,8 @@ namespace engine
 
 	protected:
 
-		static bool m_is_created;
-
-	protected:
-
-		bool m_is_closed = false;
-		std::unique_ptr<Window> m_window_ptr;
+		bool m_is_closed_ = false;
+		std::unique_ptr<Window> m_window_ptr_;
 
 	};
 }
