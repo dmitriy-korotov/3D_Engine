@@ -1,7 +1,5 @@
 #pragma once
 
-#include <engine/window/glfw_window.hpp>
-
 #include <vector>
 #include <memory>
 
@@ -9,6 +7,10 @@
 
 namespace engine
 {
+	class glfw_window;
+
+
+
 	class windows_collector
 	{
 	public:
@@ -20,9 +22,9 @@ namespace engine
 		static void addNewWindow(std::shared_ptr<glfw_window> _window_ptr);
 		static void closeAllWindows() noexcept;
 
-	private:
+	protected:
 
-		static windows_storage s_windows_storage;
+		static windows_storage s_windows_storage_;
 
 	};
 }

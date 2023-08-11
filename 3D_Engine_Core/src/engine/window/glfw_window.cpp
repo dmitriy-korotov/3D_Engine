@@ -28,7 +28,6 @@ namespace engine
 
 	void glfw_window::onUpdate() noexcept
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(m_window_ptr_);
 		glfwPollEvents();
 	}

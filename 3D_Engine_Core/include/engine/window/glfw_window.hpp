@@ -6,10 +6,11 @@
 
 
 struct GLFWwindow;
-class windows_manager;
 
 namespace engine
 {
+	class windows_manager;
+
 	class glfw_window final : public basic_window
 	{
 	public:
@@ -47,7 +48,7 @@ namespace engine
 	template<window::Events _event_type, typename _CallBackFunction>
 	void glfw_window::addEventListener(_CallBackFunction _call_back) noexcept
 	{
-		if constexpr (_event_type == window::Events::Resize)
+		/*if constexpr (_event_type == window::Events::Resize)
 		{
 			m_window_call_backs_.resize_call_back_ = std::move(_call_back);
 			glfwSetWindowSizeCallback(m_window_ptr_,
@@ -70,6 +71,6 @@ namespace engine
 					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));
 					call_backs.close_call_back_();
 				});
-		}
+		}*/
 	}
 }

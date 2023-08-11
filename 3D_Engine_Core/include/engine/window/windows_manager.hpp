@@ -1,12 +1,13 @@
 #pragma once
 
 #include <engine/window/windows_collector.hpp>
+#include <engine/window/glfw_window.hpp>
 
 
 
 namespace engine
 {
-	class windows_manager : public windows_collector
+	class windows_manager: public windows_collector
 	{
 	public:
 
@@ -15,6 +16,10 @@ namespace engine
 
 		static std::pair<glfw_window::WindowData&, const window::CallBackStorage&>
 		getWindowDataAndCBS(GLFWwindow* _window_ptr) noexcept;
+
+	private:
+
+		static const std::shared_ptr<glfw_window>& __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
 
 	};
 }
