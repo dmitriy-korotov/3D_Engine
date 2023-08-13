@@ -9,8 +9,6 @@ namespace engine
 {
 	class glfw_window;
 
-
-
 	class windows_collector
 	{
 	public:

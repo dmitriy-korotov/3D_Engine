@@ -29,7 +29,7 @@ namespace engine
 		virtual void shutdown() noexcept = 0;
 		virtual void onUpdate() noexcept {};
 
-	protected:
+	public:
 
 		struct WindowData
 		{

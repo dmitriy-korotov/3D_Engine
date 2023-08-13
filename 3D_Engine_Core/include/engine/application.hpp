@@ -2,8 +2,6 @@
 
 #include <engine/error.hpp>
 
-#include <engine/window/glfw_window.hpp>
-
 #include <iostream>
 #include <optional>
 #include <memory>
@@ -12,11 +10,13 @@
 
 namespace engine
 {
+	class glfw_window;
+
 	class Application
 	{
 	public:
 
-		using Window = glfw_window;
+		using window_ptr = std::shared_ptr<glfw_window>;
 
 
 
@@ -37,13 +37,12 @@ namespace engine
 		Application(std::uint16_t _width, std::uint16_t _height,
 					const std::string_view& _application_name);
 
-		void init();
 		virtual void onUpdate() const noexcept;
 
 	protected:
 
 		bool m_is_closed_ = false;
-		std::unique_ptr<Window> m_window_ptr_;
+		window_ptr m_window_ptr_;
 
 	};
 }

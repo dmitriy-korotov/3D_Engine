@@ -3,6 +3,7 @@
 #include <engine/error.hpp>
 #include <engine/logging/log.hpp>
 
+#include <engine/window/glfw_window.hpp>
 #include <engine/window/events_data.hpp>
 
 #include <glad/glad.h>
@@ -18,7 +19,7 @@ namespace engine
 {
     Application::Application(std::uint16_t _width, std::uint16_t _height,
                              const std::string_view& _application_name)
-            : m_window_ptr_(std::make_unique<Window>(_application_name))
+            : m_window_ptr_(std::make_shared<glfw_window>(_application_name))
     { 
         if (m_window_ptr_->create(_width, _height).has_value())
         {

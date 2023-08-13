@@ -11,7 +11,9 @@ namespace engine
 {
 	class windows_manager;
 
-	class glfw_window final : public basic_window
+	class glfw_window final : public std::enable_shared_from_this<glfw_window>,
+							  public basic_window
+							  
 	{
 	public:
 
@@ -32,7 +34,6 @@ namespace engine
 	private:
 
 		std::optional<error::window_error> __glfwInit() const noexcept;
-		const GLFWwindow* const __getRawPtr() const noexcept;
 
 	private:
 
@@ -40,37 +41,54 @@ namespace engine
 		window::CallBackStorage m_window_call_backs_;
 
 	};
+}
 
 
 
+#include <engine/window/windows_manager.hpp>
+#include <engine/logging/log.hpp>
 
 
-	template<window::Events _event_type, typename _CallBackFunction>
-	void glfw_window::addEventListener(_CallBackFunction _call_back) noexcept
+
+template<engine::window::Events _event_type, typename _CallBackFunction>
+void engine::glfw_window::addEventListener(_CallBackFunction _call_back) noexcept
+{
+	if constexpr (_event_type == window::Events::Resize)
 	{
-		/*if constexpr (_event_type == window::Events::Resize)
-		{
-			m_window_call_backs_.resize_call_back_ = std::move(_call_back);
-			glfwSetWindowSizeCallback(m_window_ptr_,
-				[](GLFWwindow* _window_ptr, int _width, int _height) -> void
+		m_window_call_backs_.resize_call_back_ = std::move(_call_back);
+		glfwSetWindowSizeCallback(m_window_ptr_,
+			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
+			{
+				try
 				{
-					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));
+					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
 					window_data.height = _height;
 					window_data.width = _width;
 
 					window::ResizeEventData resize_data = { window_data.height, window_data.width };
 					call_backs.resize_call_back_(resize_data);
-				});
-		}
-		if constexpr (_event_type == window::Events::Close)
-		{
-			m_window_call_backs_.close_call_back_ = std::move(_call_back);
-			glfwSetWindowCloseCallback(m_window_ptr_,
-				[](GLFWwindow* _window_ptr) -> void
+				}
+				catch (const std::exception& ex_)
 				{
-					auto [window_data, call_backs] = __getWindowDataAndCallBackStorage(*getWindow(_window_ptr));
+					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
+				}
+			});
+	}
+	if constexpr (_event_type == window::Events::Close)
+	{
+		m_window_call_backs_.close_call_back_ = std::move(_call_back);
+		glfwSetWindowCloseCallback(m_window_ptr_,
+			[](GLFWwindow* _window_ptr) -> void
+			{
+				try
+				{
+					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
 					call_backs.close_call_back_();
-				});
-		}*/
+				}
+				catch (const std::exception& ex_)
+				{
+					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
+				}
+			});
 	}
 }

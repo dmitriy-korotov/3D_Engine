@@ -8,6 +8,12 @@
 
 namespace engine
 {
+	windows_collector::windows_storage windows_collector::s_windows_storage_;
+
+
+
+
+
 	void windows_collector::addNewWindow(std::shared_ptr<glfw_window> _window_ptr)
 	{
 		s_windows_storage_.push_back(std::move(_window_ptr));

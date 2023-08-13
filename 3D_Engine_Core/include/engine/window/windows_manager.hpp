@@ -15,11 +15,11 @@ namespace engine
 		getWindowDataAndCBS(const std::shared_ptr<glfw_window>& _window_ptr) noexcept;
 
 		static std::pair<glfw_window::WindowData&, const window::CallBackStorage&>
-		getWindowDataAndCBS(GLFWwindow* _window_ptr) noexcept;
+		getWindowDataAndCBS(GLFWwindow* _window_ptr);
 
 	private:
 
-		static const std::shared_ptr<glfw_window>& __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
+		static std::shared_ptr<glfw_window> __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
 
 	};
 }
