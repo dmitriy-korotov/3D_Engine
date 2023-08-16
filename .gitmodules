@@ -4,3 +4,6 @@
 [submodule "3D_Engine_Core/external/spdlog"]
 	path = 3D_Engine_Core/external/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/ocornut/imgui.git

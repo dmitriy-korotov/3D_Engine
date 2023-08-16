@@ -9,6 +9,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+
 
 
 static bool m_is_created_ = false;
@@ -71,6 +74,10 @@ namespace engine
                 m_is_closed_ = true;
             });
 
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGui_ImplOpenGL3_Init();
+
         while (!m_is_closed_)
         {
             glClear(GL_COLOR_BUFFER_BIT);
@@ -85,7 +92,19 @@ namespace engine
 
 
 	void Application::onUpdate() const noexcept
-	{ }
+	{
+        ImGuiIO& io_ = ImGui::GetIO();
+        io_.DisplaySize.x = static_cast<float>(m_window_ptr_->getWidth());
+        io_.DisplaySize.y = static_cast<float>(m_window_ptr_->getHeight());
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::ShowDemoWindow();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
 
 
 
