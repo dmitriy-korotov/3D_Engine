@@ -73,7 +73,6 @@ namespace engine
 
         while (!m_is_closed_)
         {
-            glClear(GL_COLOR_BUFFER_BIT);
             onUpdate();
             m_window_ptr_->onUpdate();
         }

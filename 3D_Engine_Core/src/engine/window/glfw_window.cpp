@@ -2,6 +2,7 @@
 
 #include <engine/error.hpp>
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
@@ -20,6 +21,8 @@ namespace engine
 
 	void glfw_window::onUpdate() noexcept
 	{
+		glClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
+		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(m_window_ptr_);
 		glfwPollEvents();
 	}

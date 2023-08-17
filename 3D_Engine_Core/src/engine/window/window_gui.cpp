@@ -36,6 +36,7 @@ namespace engine
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGui_ImplOpenGL3_Init();
+		ImGui_ImplGlfw_InitForOpenGL(m_window_ptr_, true);
 
 		return std::nullopt;
 	}
@@ -49,7 +50,12 @@ namespace engine
 		io_.DisplaySize.y = static_cast<float>(getHeight());
 
 		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
+		ImGui::Begin("BG Color Editor");
+		ImGui::ColorEdit4("Background color", m_bg_color_.data());
+		ImGui::End();
 
 		ImGui::ShowDemoWindow();
 

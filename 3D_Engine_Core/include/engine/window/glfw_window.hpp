@@ -3,6 +3,8 @@
 #include <engine/window/basic_window.hpp>
 #include <engine/window/events_data.hpp>
 
+#include <array>
+
 
 
 struct GLFWwindow;
@@ -21,6 +23,8 @@ namespace engine
 
 
 
+		using bg_color = std::array<float, 4>;
+
 		glfw_window(const std::string_view& _title);
 		~glfw_window();
 
@@ -35,11 +39,12 @@ namespace engine
 
 		std::optional<error::window_error> __glfwInit() const noexcept;
 
-	private:
+	protected:
 
 		GLFWwindow* m_window_ptr_ = nullptr;
 		window::CallBackStorage m_window_call_backs_;
 
+		 bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 0.f };
 	};
 }
 
