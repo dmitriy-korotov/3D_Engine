@@ -3,14 +3,12 @@
 #include <engine/error.hpp>
 #include <engine/logging/log.hpp>
 
-#include <engine/window/glfw_window.hpp>
+#include <engine/window/window_gui.hpp>
 #include <engine/window/events_data.hpp>
+#include <engine/window/windows_manager.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
-#include <imgui/imgui.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
 
 
 
@@ -22,7 +20,7 @@ namespace engine
 {
     Application::Application(std::uint16_t _width, std::uint16_t _height,
                              const std::string_view& _application_name)
-            : m_window_ptr_(std::make_shared<glfw_window>(_application_name))
+            : m_window_ptr_(std::make_shared<window_gui>(_application_name))
     { 
         if (m_window_ptr_->create(_width, _height).has_value())
         {
@@ -53,13 +51,12 @@ namespace engine
 
 	std::optional<error::app_error> Application::start() noexcept
 	{
-
-        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+       /* if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
         {
             LOG_CRITICAL("Can't load glad.");
             glfwTerminate();
             return error::app_error::can_not_create;
-        }
+        }*/
 
         m_window_ptr_->addEventListener<window::Events::Resize>(
             [this](const window::ResizeEventData& _size) -> void
@@ -73,10 +70,6 @@ namespace engine
                 LOG_INFO("[CLOSE EVENT] Window '{0}' closed", m_window_ptr_->getTitle());
                 m_is_closed_ = true;
             });
-
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGui_ImplOpenGL3_Init();
 
         while (!m_is_closed_)
         {
@@ -92,19 +85,7 @@ namespace engine
 
 
 	void Application::onUpdate() const noexcept
-	{
-        ImGuiIO& io_ = ImGui::GetIO();
-        io_.DisplaySize.x = static_cast<float>(m_window_ptr_->getWidth());
-        io_.DisplaySize.y = static_cast<float>(m_window_ptr_->getHeight());
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui::NewFrame();
-
-        ImGui::ShowDemoWindow();
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    }
+	{ }
 
 
 

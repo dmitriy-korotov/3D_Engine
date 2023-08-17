@@ -11,8 +11,8 @@ namespace engine
 {
 	class windows_manager;
 
-	class glfw_window final : public std::enable_shared_from_this<glfw_window>,
-							  public basic_window
+	class glfw_window : public std::enable_shared_from_this<glfw_window>,
+					    public basic_window
 							  
 	{
 	public:

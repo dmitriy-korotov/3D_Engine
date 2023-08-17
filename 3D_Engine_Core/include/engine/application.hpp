@@ -10,13 +10,13 @@
 
 namespace engine
 {
-	class glfw_window;
+	class window_gui;
 
 	class Application
 	{
 	public:
 
-		using window_ptr = std::shared_ptr<glfw_window>;
+		using window_ptr = std::shared_ptr<window_gui>;
 
 
 
