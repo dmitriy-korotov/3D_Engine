@@ -42,7 +42,7 @@ namespace engine
 	protected:
 
 		bool m_is_closed_ = false;
-		window_ptr m_window_ptr_;
+		window_ptr m_window_ptr_ = nullptr;
 
 	};
 }

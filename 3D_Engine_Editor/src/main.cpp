@@ -12,6 +12,7 @@ int main(int argc, char** argv)
 
 		if (app_.start().has_value())
 		{
+			std::cerr << "ERROR: Application not started." << std::endl;
 			return -1;
 		}
 	}

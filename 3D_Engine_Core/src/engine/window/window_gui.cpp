@@ -29,7 +29,6 @@ namespace engine
 		if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
 		{
 			LOG_CRITICAL("Can't load glad.");
-			glfwTerminate();
 			return error::window_error::can_not_create;
 		}
 
@@ -45,6 +44,9 @@ namespace engine
 
 	void window_gui::onUpdate() noexcept
 	{
+		glClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
+		glClear(GL_COLOR_BUFFER_BIT);
+		
 		ImGuiIO& io_ = ImGui::GetIO();
 		io_.DisplaySize.x = static_cast<float>(getWidth());
 		io_.DisplaySize.y = static_cast<float>(getHeight());
@@ -56,8 +58,6 @@ namespace engine
 		ImGui::Begin("BG Color Editor");
 		ImGui::ColorEdit4("Background color", m_bg_color_.data());
 		ImGui::End();
-
-		ImGui::ShowDemoWindow();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

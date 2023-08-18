@@ -22,7 +22,7 @@ namespace engine
 		friend windows_manager;
 
 
-
+			
 		using bg_color = std::array<float, 4>;
 
 		glfw_window(const std::string_view& _title);
