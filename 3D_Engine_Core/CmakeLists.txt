@@ -20,6 +20,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/windows_collector.hpp
 		include/engine/window/windows_manager.hpp
 
+		include/engine/render/open_gl/shader_program.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -31,14 +32,24 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/window/windows_collector.cpp
 		src/engine/window/windows_manager.cpp
+
+		src/engine/render/open_gl/shader_program.cpp
+)
+
+set(ENGINE_ALL_SOURCES
+		${ENGINE_PUBLIC_HEADERS}
+		${ENGINE_PRIVATE_HEADERS}
+		${ENGINE_PRIVATE_SOURCES}
 )
 
 
 
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_ALL_SOURCES})
+
+
+
 add_library(${ENGINE_PROJECT_NAME} STATIC
-		${ENGINE_PUBLIC_HEADERS}
-		${ENGINE_PRIVATE_HEADERS}
-		${ENGINE_PRIVATE_SOURCES}
+		${ENGINE_ALL_SOURCES}
 )
 target_include_directories(${ENGINE_PROJECT_NAME} PUBLIC include/)
 
