@@ -65,6 +65,13 @@ namespace engine::render
 
 
 
+	shader_program::~shader_program()
+	{
+		glDeleteProgram(m_id);
+	}
+
+
+
 	bool shader_program::isCompiled() const noexcept
 	{
 		return m_is_compiled;

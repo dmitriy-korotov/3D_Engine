@@ -28,6 +28,7 @@ namespace engine::render
 					   const std::string_view& _fragment_shader_source) noexcept;
 		shader_program(shader_program&& _other) noexcept;
 		shader_program& operator=(shader_program&& _right) noexcept;
+		~shader_program();
 
 		bool isCompiled() const noexcept;
 
