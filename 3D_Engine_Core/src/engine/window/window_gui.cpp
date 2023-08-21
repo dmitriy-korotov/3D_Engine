@@ -1,5 +1,7 @@
 #include <engine/window/window_gui.hpp>
 
+#include <engine/render/open_gl/shader_program.hpp>
+
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <imgui/backends/imgui_impl_glfw.h>
@@ -39,7 +41,7 @@ const char* fragment_shader =
 "	frag_color = vec4(color, 1.0);"
 "}";
 
-GLuint shader_program_ = 0;
+std::unique_ptr<engine::render::shader_program> shader_program_;
 GLuint VAO_ = 0;
 
 
@@ -72,34 +74,7 @@ namespace engine
 		ImGui_ImplOpenGL3_Init();
 		ImGui_ImplGlfw_InitForOpenGL(m_window_ptr_, true);
 
-
-
-		GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vs, 1, &vertex_shader, nullptr);
-		glCompileShader(vs);
-
-		int success;
-		char infoLog[512];
-		glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vs, 512, NULL, infoLog);
-			LOG_CRITICAL("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n{}", infoLog);
-		}
-
-		GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fs, 1, &fragment_shader, nullptr);
-		glCompileShader(fs);
-
-		shader_program_ = glCreateProgram();
-		glAttachShader(shader_program_, vs);
-		glAttachShader(shader_program_, fs);
-		glLinkProgram(shader_program_);
-
-		glDetachShader(shader_program_, vs);
-		glDetachShader(shader_program_, fs);
-		glDeleteShader(vs);
-		glDeleteShader(fs);
+		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
 
 		GLuint points_vbo = 0;
 		glGenBuffers(1, &points_vbo);
@@ -132,7 +107,7 @@ namespace engine
 		glClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		glUseProgram(shader_program_);
+		shader_program_->bind();
 		glBindVertexArray(VAO_);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3);

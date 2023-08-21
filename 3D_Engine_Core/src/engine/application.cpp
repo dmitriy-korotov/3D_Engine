@@ -51,13 +51,6 @@ namespace engine
 
 	std::optional<error::app_error> Application::start() noexcept
 	{
-       /* if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-        {
-            LOG_CRITICAL("Can't load glad.");
-            glfwTerminate();
-            return error::app_error::can_not_create;
-        }*/
-
         m_window_ptr_->addEventListener<window::Events::Resize>(
             [this](const window::ResizeEventData& _size) -> void
             {

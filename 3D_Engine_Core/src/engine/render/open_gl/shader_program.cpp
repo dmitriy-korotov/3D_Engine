@@ -3,6 +3,7 @@
 #include <engine/logging/log.hpp>
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 
 
@@ -97,7 +98,9 @@ namespace engine::render
 			shader_ = glCreateShader(GL_FRAGMENT_SHADER);
 			break;
 		}
-		glShaderSource(shader_, 1, reinterpret_cast<const GLchar* const*>(_source.data()), nullptr);
+
+		const char* source_code_ = _source.data();
+		glShaderSource(shader_, 1, &source_code_, nullptr);
 		glCompileShader(shader_);
 
 		GLint success_;
@@ -106,7 +109,6 @@ namespace engine::render
 		{
 			char info_log_[1024] = {};
 			glGetShaderInfoLog(shader_, 1024, nullptr, info_log_);
-			
 			LOG_CRITICAL("ERROR: Can't compiling shader: {}", info_log_);
 			
 			glDeleteShader(shader_);
