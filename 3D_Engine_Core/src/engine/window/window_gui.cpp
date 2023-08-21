@@ -1,6 +1,7 @@
 #include <engine/window/window_gui.hpp>
 
 #include <engine/render/open_gl/shader_program.hpp>
+#include <engine/render/open_gl/vertex_buffer.hpp>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
@@ -42,6 +43,8 @@ const char* fragment_shader =
 "}";
 
 std::unique_ptr<engine::render::shader_program> shader_program_;
+std::unique_ptr<engine::render::vertex_buffer> points_vbo_;
+std::unique_ptr<engine::render::vertex_buffer> colors_vbo_;
 GLuint VAO_ = 0;
 
 
@@ -76,7 +79,7 @@ namespace engine
 
 		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
 
-		GLuint points_vbo = 0;
+		/*GLuint points_vbo = 0;
 		glGenBuffers(1, &points_vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
@@ -84,17 +87,23 @@ namespace engine
 		GLuint colors_vbo = 0;
 		glGenBuffers(1, &colors_vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);*/
+
+		points_vbo_ = std::make_unique<render::vertex_buffer>(points, sizeof(points),
+															  render::vertex_buffer::Usage::Static);
+
+		colors_vbo_ = std::make_unique<render::vertex_buffer>(colors, sizeof(colors),
+						 									  render::vertex_buffer::Usage::Static);
 
 		glGenVertexArrays(1, &VAO_);
 		glBindVertexArray(VAO_);
 
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
+		points_vbo_->bind();
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
+		colors_vbo_->bind();
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		return std::nullopt;
