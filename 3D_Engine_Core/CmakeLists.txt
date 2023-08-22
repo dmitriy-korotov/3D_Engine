@@ -22,6 +22,7 @@ set(ENGINE_PRIVATE_HEADERS
 
 		include/engine/render/open_gl/shader_program.hpp
 		include/engine/render/open_gl/vertex_buffer.hpp
+		include/engine/render/open_gl/vertex_array.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -36,6 +37,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/render/open_gl/shader_program.cpp
 		src/engine/render/open_gl/vertex_buffer.cpp
+		src/engine/render/open_gl/vertex_array.cpp
 )
 
 set(ENGINE_ALL_SOURCES

@@ -2,6 +2,7 @@
 
 #include <engine/render/open_gl/shader_program.hpp>
 #include <engine/render/open_gl/vertex_buffer.hpp>
+#include <engine/render/open_gl/vertex_array.hpp>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
@@ -45,7 +46,8 @@ const char* fragment_shader =
 std::unique_ptr<engine::render::shader_program> shader_program_;
 std::unique_ptr<engine::render::vertex_buffer> points_vbo_;
 std::unique_ptr<engine::render::vertex_buffer> colors_vbo_;
-GLuint VAO_ = 0;
+std::unique_ptr<engine::render::vertex_array> VAO_;
+//GLuint VAO_ = 0;
 
 
 
@@ -79,32 +81,16 @@ namespace engine
 
 		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
 
-		/*GLuint points_vbo = 0;
-		glGenBuffers(1, &points_vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
-
-		GLuint colors_vbo = 0;
-		glGenBuffers(1, &colors_vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);*/
-
 		points_vbo_ = std::make_unique<render::vertex_buffer>(points, sizeof(points),
 															  render::vertex_buffer::Usage::Static);
 
 		colors_vbo_ = std::make_unique<render::vertex_buffer>(colors, sizeof(colors),
 						 									  render::vertex_buffer::Usage::Static);
 
-		glGenVertexArrays(1, &VAO_);
-		glBindVertexArray(VAO_);
+		VAO_ = std::make_unique<render::vertex_array>();
 
-		glEnableVertexAttribArray(0);
-		points_vbo_->bind();
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-		glEnableVertexAttribArray(1);
-		colors_vbo_->bind();
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		VAO_->addBuffer(*points_vbo_);
+		VAO_->addBuffer(*colors_vbo_);
 
 		return std::nullopt;
 	}
@@ -117,8 +103,8 @@ namespace engine
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		shader_program_->bind();
-		glBindVertexArray(VAO_);
-
+		VAO_->bind();
+		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		ImGuiIO& io_ = ImGui::GetIO();
