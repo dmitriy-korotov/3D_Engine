@@ -25,12 +25,19 @@ namespace engine::render
 	void vertex_array::addBuffer(const vertex_buffer& _buffer) noexcept
 	{
 		bind();
-
-		glEnableVertexAttribArray(m_amount_buffers_);
 		_buffer.bind();
-		glVertexAttribPointer(m_amount_buffers_, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-		++m_amount_buffers_;
+		for (const auto& element : _buffer.getBufferLayout().getElements())
+		{
+			glEnableVertexAttribArray(m_amount_buffers_);
+			glVertexAttribPointer(m_amount_buffers_,
+								  element.components_count_,
+								  element.components_type_,
+								  GL_FALSE,
+								  _buffer.getBufferLayout().getStride(),
+								  reinterpret_cast<const void*>(element.offset_));
+			++m_amount_buffers_;
+		}
 	}
 
 

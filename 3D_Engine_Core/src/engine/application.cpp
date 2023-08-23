@@ -55,6 +55,7 @@ namespace engine
             [this](const window::ResizeEventData& _size) -> void
             {
                 LOG_INFO("[RESIZE EVENT] Window '{0}', size: {1}x{2}", m_window_ptr_->getTitle(), _size.width, _size.height);
+                glViewport(0, 0, _size.width, _size.height);
             });
 
         m_window_ptr_->addEventListener<window::Events::Close>(

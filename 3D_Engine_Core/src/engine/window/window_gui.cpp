@@ -3,6 +3,7 @@
 #include <engine/render/open_gl/shader_program.hpp>
 #include <engine/render/open_gl/vertex_buffer.hpp>
 #include <engine/render/open_gl/vertex_array.hpp>
+#include <engine/render/open_gl/buffer_layout.hpp>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
@@ -25,6 +26,14 @@ GLfloat colors[] = {
 		0.f, 0.f, 1.f
 };
 
+GLfloat points_colors[] = {
+		-0.5f, -0.5f, 0.f,		1.f, 1.f, 0.f,
+		0.f, 0.5f, 0.f,			0.f, 1.f, 1.f,
+		0.5f, -0.5f, 0.f,		1.f, 0.f, 1.f
+};
+
+
+
 const char* vertex_shader =
 "#version 460\n"
 "layout(location = 0) in vec3 vertex_poistion;"
@@ -43,11 +52,18 @@ const char* fragment_shader =
 "	frag_color = vec4(color, 1.0);"
 "}";
 
+
+
+
+
 std::unique_ptr<engine::render::shader_program> shader_program_;
+
 std::unique_ptr<engine::render::vertex_buffer> points_vbo_;
 std::unique_ptr<engine::render::vertex_buffer> colors_vbo_;
-std::unique_ptr<engine::render::vertex_array> VAO_;
-//GLuint VAO_ = 0;
+std::unique_ptr<engine::render::vertex_buffer> points_colors_vbo_;
+
+std::unique_ptr<engine::render::vertex_array> VAO_1buffer_;
+std::unique_ptr<engine::render::vertex_array> VAO_2buffers_;
 
 
 
@@ -81,16 +97,40 @@ namespace engine
 
 		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
 
-		points_vbo_ = std::make_unique<render::vertex_buffer>(points, sizeof(points),
+
+		render::buffer_layout points_layout_
+		{
+			render::ShaderDataType::Float3
+		};
+		points_vbo_ = std::make_unique<render::vertex_buffer>(points, sizeof(points), points_layout_,
 															  render::vertex_buffer::Usage::Static);
 
-		colors_vbo_ = std::make_unique<render::vertex_buffer>(colors, sizeof(colors),
+		render::buffer_layout colors_layout_
+		{
+			render::ShaderDataType::Float3
+		};
+		colors_vbo_ = std::make_unique<render::vertex_buffer>(colors, sizeof(colors), colors_layout_,
 						 									  render::vertex_buffer::Usage::Static);
 
-		VAO_ = std::make_unique<render::vertex_array>();
+		VAO_2buffers_ = std::make_unique<render::vertex_array>();
 
-		VAO_->addBuffer(*points_vbo_);
-		VAO_->addBuffer(*colors_vbo_);
+		VAO_2buffers_->addBuffer(*points_vbo_);
+		VAO_2buffers_->addBuffer(*colors_vbo_);
+
+
+
+		render::buffer_layout points_colors_layout_
+		{
+			render::ShaderDataType::Float3,
+			render::ShaderDataType::Float3
+		};
+
+		points_colors_vbo_ = std::make_unique<render::vertex_buffer>(points_colors, sizeof(points_colors),
+																	 points_colors_layout_, render::vertex_buffer::Usage::Static);
+
+		VAO_1buffer_ = std::make_unique<render::vertex_array>();
+
+		VAO_1buffer_->addBuffer(*points_colors_vbo_);
 
 		return std::nullopt;
 	}
@@ -103,8 +143,17 @@ namespace engine
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		shader_program_->bind();
-		VAO_->bind();
 		
+		static bool is_one_buffer = false;
+		if (is_one_buffer)
+		{
+			VAO_1buffer_->bind();
+		}
+		else
+		{
+			VAO_2buffers_->bind();
+		}
+
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		ImGuiIO& io_ = ImGui::GetIO();
@@ -117,6 +166,7 @@ namespace engine
 
 		ImGui::Begin("BG Color Editor");
 		ImGui::ColorEdit4("Background color", m_bg_color_.data());
+		ImGui::Checkbox("One buffer rendering", &is_one_buffer);
 		ImGui::End();
 
 		ImGui::Render();
