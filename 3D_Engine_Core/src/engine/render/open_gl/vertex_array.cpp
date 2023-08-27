@@ -1,6 +1,7 @@
 #include <engine/render/open_gl/vertex_array.hpp>
 
 #include <engine/render/open_gl/vertex_buffer.hpp>
+#include <engine/render/open_gl/index_buffer.hpp>
 
 #include <glad/glad.h>
 
@@ -22,22 +23,30 @@ namespace engine::render
 
 
 
-	void vertex_array::addBuffer(const vertex_buffer& _buffer) noexcept
+	void vertex_array::addVertexBuffer(const vertex_buffer& _vertex_buffer) noexcept
 	{
 		bind();
-		_buffer.bind();
+		_vertex_buffer.bind();
 
-		for (const auto& element : _buffer.getBufferLayout().getElements())
+		for (const auto& element : _vertex_buffer.getBufferLayout().getElements())
 		{
 			glEnableVertexAttribArray(m_amount_buffers_);
 			glVertexAttribPointer(m_amount_buffers_,
 								  element.components_count_,
 								  element.components_type_,
 								  GL_FALSE,
-								  _buffer.getBufferLayout().getStride(),
+								  _vertex_buffer.getBufferLayout().getStride(),
 								  reinterpret_cast<const void*>(element.offset_));
 			++m_amount_buffers_;
 		}
+	}
+
+
+
+	void vertex_array::setIndexBuffer(const index_buffer& _index_buffer) noexcept
+	{
+		bind();
+		_index_buffer.bind();
 	}
 
 

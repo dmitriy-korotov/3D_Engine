@@ -24,6 +24,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/vertex_buffer.hpp
 		include/engine/render/open_gl/vertex_array.hpp
 		include/engine/render/open_gl/buffer_layout.hpp
+		include/engine/render/open_gl/index_buffer.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -40,6 +41,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/vertex_buffer.cpp
 		src/engine/render/open_gl/vertex_array.cpp
 		src/engine/render/open_gl/buffer_layout.cpp
+		src/engine/render/open_gl/index_buffer.cpp
 )
 
 set(ENGINE_ALL_SOURCES

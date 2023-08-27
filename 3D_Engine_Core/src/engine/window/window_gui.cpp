@@ -2,6 +2,7 @@
 
 #include <engine/render/open_gl/shader_program.hpp>
 #include <engine/render/open_gl/vertex_buffer.hpp>
+#include <engine/render/open_gl/index_buffer.hpp>
 #include <engine/render/open_gl/vertex_array.hpp>
 #include <engine/render/open_gl/buffer_layout.hpp>
 
@@ -32,6 +33,15 @@ GLfloat points_colors[] = {
 		0.5f, -0.5f, 0.f,		1.f, 0.f, 1.f
 };
 
+GLfloat square_points_colors[] = {
+		-0.5f, -0.5f, 0.f,		1.f, 1.f, 0.f,
+		-0.5f, 0.5f, 0.f,		0.f, 1.f, 1.f,
+		0.5f, 0.5f, 0.f,		1.f, 0.f, 1.f,
+		0.5f, -0.5f, 0.f,		0.f, 1.f, 0.f
+};
+
+GLuint indexes[] = { 0, 1, 2, 2, 3, 0 };
+
 
 
 const char* vertex_shader =
@@ -61,6 +71,8 @@ std::unique_ptr<engine::render::shader_program> shader_program_;
 std::unique_ptr<engine::render::vertex_buffer> points_vbo_;
 std::unique_ptr<engine::render::vertex_buffer> colors_vbo_;
 std::unique_ptr<engine::render::vertex_buffer> points_colors_vbo_;
+
+std::unique_ptr<engine::render::index_buffer> index_buffer_;
 
 std::unique_ptr<engine::render::vertex_array> VAO_1buffer_;
 std::unique_ptr<engine::render::vertex_array> VAO_2buffers_;
@@ -114,8 +126,8 @@ namespace engine
 
 		VAO_2buffers_ = std::make_unique<render::vertex_array>();
 
-		VAO_2buffers_->addBuffer(*points_vbo_);
-		VAO_2buffers_->addBuffer(*colors_vbo_);
+		VAO_2buffers_->addVertexBuffer(*points_vbo_);
+		VAO_2buffers_->addVertexBuffer(*colors_vbo_);
 
 
 
@@ -125,12 +137,15 @@ namespace engine
 			render::ShaderDataType::Float3
 		};
 
-		points_colors_vbo_ = std::make_unique<render::vertex_buffer>(points_colors, sizeof(points_colors),
+		points_colors_vbo_ = std::make_unique<render::vertex_buffer>(square_points_colors, sizeof(square_points_colors),
 																	 points_colors_layout_, render::vertex_buffer::Usage::Static);
+
+		index_buffer_ = std::make_unique<render::index_buffer>(indexes, 5, render::vertex_buffer::Usage::Static);
 
 		VAO_1buffer_ = std::make_unique<render::vertex_array>();
 
-		VAO_1buffer_->addBuffer(*points_colors_vbo_);
+		VAO_1buffer_->addVertexBuffer(*points_colors_vbo_);
+		VAO_1buffer_->setIndexBuffer(*index_buffer_);
 
 		return std::nullopt;
 	}
@@ -144,17 +159,19 @@ namespace engine
 		
 		shader_program_->bind();
 		
-		static bool is_one_buffer = false;
+		static bool is_one_buffer = true;
 		if (is_one_buffer)
 		{
 			VAO_1buffer_->bind();
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 		else
 		{
 			VAO_2buffers_->bind();
+			glDrawArrays(GL_TRIANGLES, 0, 3);
 		}
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
 
 		ImGuiIO& io_ = ImGui::GetIO();
 		io_.DisplaySize.x = static_cast<float>(getWidth());

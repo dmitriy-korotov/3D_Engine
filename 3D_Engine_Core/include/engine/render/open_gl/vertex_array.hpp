@@ -5,6 +5,7 @@
 namespace engine::render
 {
 	class vertex_buffer;
+	class index_buffer;
 
 
 
@@ -22,7 +23,8 @@ namespace engine::render
 		vertex_array& operator=(vertex_array&&) = default;
 		~vertex_array();
 
-		void addBuffer(const vertex_buffer& _buffer) noexcept;
+		void addVertexBuffer(const vertex_buffer& _vertex_buffer) noexcept;
+		void setIndexBuffer(const index_buffer& _index_buffer) noexcept;
 		void bind() const noexcept;
 		void unbind() const noexcept;
 
