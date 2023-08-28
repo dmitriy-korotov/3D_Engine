@@ -140,7 +140,7 @@ namespace engine
 		points_colors_vbo_ = std::make_unique<render::vertex_buffer>(square_points_colors, sizeof(square_points_colors),
 																	 points_colors_layout_, render::vertex_buffer::Usage::Static);
 
-		index_buffer_ = std::make_unique<render::index_buffer>(indexes, 5, render::vertex_buffer::Usage::Static);
+		index_buffer_ = std::make_unique<render::index_buffer>(indexes, 6, render::vertex_buffer::Usage::Static);
 
 		VAO_1buffer_ = std::make_unique<render::vertex_array>();
 
