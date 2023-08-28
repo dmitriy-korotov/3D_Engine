@@ -48,6 +48,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/window/windows_collector.cpp
 		src/engine/window/windows_manager.cpp
 
+		src/engine/render/open_gl/basic_open_gl_buffer.cpp
 		src/engine/render/open_gl/vertex_buffer.cpp
 		src/engine/render/open_gl/index_buffer.cpp
 		src/engine/render/open_gl/buffer_layout.cpp

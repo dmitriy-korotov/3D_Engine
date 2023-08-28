@@ -8,26 +8,6 @@
 
 namespace engine::render
 {
-	constexpr GLenum usageToGLenum(vertex_buffer::Usage _usage_type) noexcept
-	{
-		switch (_usage_type)
-		{
-		case engine::render::vertex_buffer::Usage::Static:
-			return GL_STATIC_DRAW;
-		case engine::render::vertex_buffer::Usage::Dynamic:
-			return GL_DYNAMIC_DRAW;
-		case engine::render::vertex_buffer::Usage::Stream:
-			return GL_STREAM_DRAW;
-		}
-		LOG_ERROR("ERROR: Can't find this usage.");
-
-		return GL_STREAM_DRAW;
-	}
-
-
-
-
-
 	vertex_buffer::vertex_buffer(const void* _data, size_t _size, buffer_layout _buffer_layout, Usage _usage_type) noexcept
 			: m_buffer_layout_(std::move(_buffer_layout))
 	{
