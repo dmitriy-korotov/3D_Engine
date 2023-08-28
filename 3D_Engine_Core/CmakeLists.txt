@@ -8,6 +8,8 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/error.hpp
 		include/engine/application.hpp
 		include/engine/logging/log.hpp
+
+		include/engine/util/nocopyeble.hpp
 )
 
 set(ENGINE_PRIVATE_HEADERS
