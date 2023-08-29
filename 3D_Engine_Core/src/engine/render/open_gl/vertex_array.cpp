@@ -32,11 +32,11 @@ namespace engine::render
 		{
 			glEnableVertexAttribArray(m_amount_buffers_);
 			glVertexAttribPointer(m_amount_buffers_,
-								  element.components_count_,
-								  element.components_type_,
+								  element.components_count,
+								  element.components_type,
 								  GL_FALSE,
 								  _vertex_buffer.getBufferLayout().getStride(),
-								  reinterpret_cast<const void*>(element.offset_));
+								  reinterpret_cast<const void*>(element.offset));
 			++m_amount_buffers_;
 		}
 	}

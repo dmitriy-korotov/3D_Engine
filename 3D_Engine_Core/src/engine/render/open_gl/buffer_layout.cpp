@@ -25,7 +25,7 @@ namespace engine::render
 		case engine::render::ShaderDataType::Int4:
 			return 4;
 		}
-		LOG_ERROR("Not found count elements for this shader data type.");
+		LOG_ERROR("Not found count elements for this shader data type (code: {0}).", static_cast<uint8_t>(_shader_data_type));
 		
 		return 0;
 	}
@@ -47,7 +47,7 @@ namespace engine::render
 		case engine::render::ShaderDataType::Int4:
 			return GL_INT;
 		}
-		LOG_ERROR("OpenGL type for this shader data type not found.");
+		LOG_ERROR("OpenGL type for this shader data type not found (code: {0}).", static_cast<uint8_t>(_shader_data_type));
 
 		return 0;
 	}
@@ -69,7 +69,7 @@ namespace engine::render
 		case engine::render::ShaderDataType::Int4:
 			return sizeof(GLint);
 		}
-		LOG_ERROR("Sizeof type for this shader data type not found.");
+		LOG_ERROR("Sizeof type for this shader data type not found (code: {0}).", static_cast<uint8_t>(_shader_data_type));
 
 		return 0;
 	}
@@ -85,25 +85,25 @@ namespace engine::render
 
 
 	buffer_element::buffer_element(ShaderDataType _shader_data_type) noexcept
-			: shader_data_type_(_shader_data_type)
-			, components_type_(get_openGL_type_for_shader_data_type(shader_data_type_))
-			, components_count_(get_components_count_for_shader_data_type(shader_data_type_))
-			, size_(get_sizeof_shader_data_type(shader_data_type_))
-		    , offset_(0)
+			: shader_data_type(_shader_data_type)
+			, components_type(get_openGL_type_for_shader_data_type(shader_data_type))
+			, components_count(get_components_count_for_shader_data_type(shader_data_type))
+			, size(get_sizeof_shader_data_type(shader_data_type))
+		    , offset(0)
 	{ }
 
 
 
 
-	buffer_layout::buffer_layout(std::initializer_list<buffer_element> _buffer_elements)
+	buffer_layout::buffer_layout(std::initializer_list<buffer_element> _buffer_elements) noexcept
 			: m_buffer_elements_(std::move(_buffer_elements))
 	{
 		size_t offset = 0;
-		for (auto& elem : m_buffer_elements_)
+		for (auto& elem_ : m_buffer_elements_)
 		{
-			elem.offset_ = offset;
-			offset += elem.size_;
-			m_stride_ += elem.size_;
+			elem_.offset = offset;
+			offset += elem_.size;
+			m_stride += elem_.size;
 		}
 	}
 
@@ -111,7 +111,7 @@ namespace engine::render
 
 	size_t buffer_layout::getStride() const noexcept
 	{
-		return m_stride_;
+		return m_stride;
 	}
 
 

@@ -23,11 +23,11 @@ namespace engine::render
 
 	struct buffer_element
 	{
-		ShaderDataType shader_data_type_;
-		uint32_t components_type_;
-		size_t components_count_;
-		size_t offset_;
-		size_t size_;
+		ShaderDataType shader_data_type;
+		uint32_t components_type;
+		size_t components_count;
+		size_t offset;
+		size_t size;
 
 		buffer_element(ShaderDataType _shader_data_type) noexcept;
 	};
@@ -38,7 +38,7 @@ namespace engine::render
 	{
 	public:
 
-		buffer_layout(std::initializer_list<buffer_element> _buffer_elements);
+		buffer_layout(std::initializer_list<buffer_element> _buffer_elements) noexcept;
 
 		const std::vector<buffer_element>& getElements() const noexcept;
 		size_t getStride() const noexcept;
@@ -46,7 +46,7 @@ namespace engine::render
 	private:
 
 		std::vector<buffer_element> m_buffer_elements_;
-		size_t m_stride_ = 0;
+		size_t m_stride = 0;
 
 	};
 }
