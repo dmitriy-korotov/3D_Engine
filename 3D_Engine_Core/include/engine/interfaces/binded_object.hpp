@@ -8,10 +8,10 @@ namespace engine
 	{
 	public:
 
-		virtual ~binded_object() {}
+		virtual ~binded_object(){}
 
-		virtual void bind() const noexcept = delete;
-		virtual void unbind() const noexcept = delete;
+		virtual void bind() const noexcept = 0;
+		virtual void unbind() const noexcept = 0;
 
 	};
 }

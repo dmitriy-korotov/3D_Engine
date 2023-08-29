@@ -2,6 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 #include <engine/interfaces/binded_object.hpp>
+#include <engine/render/open_gl/gl_types.hpp>
 
 #include <stdint.h>
 
@@ -20,13 +21,16 @@ namespace engine::render
 			Stream
 		};
 
+		basic_open_gl_buffer() = default;
+		basic_open_gl_buffer(GLuint _buffer_id) noexcept;
+
 	protected:
 
-		static auto usageToGLenum(Usage _usage_type) noexcept;
+		GLenum usageToGLenum(Usage _usage_type) noexcept;
 
 	protected:
 
-		unsigned int m_id = 0;
+		GLuint m_id = 0;
 
 	};
 }

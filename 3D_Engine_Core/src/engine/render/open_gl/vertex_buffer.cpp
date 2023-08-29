@@ -19,7 +19,7 @@ namespace engine::render
 
 
 	vertex_buffer::vertex_buffer(vertex_buffer&& _other) noexcept
-			: m_id(_other.m_id)
+			: basic_open_gl_buffer(_other.m_id)
 			, m_buffer_layout_(std::move(_other.m_buffer_layout_))
 	{
 		_other.m_id = 0;

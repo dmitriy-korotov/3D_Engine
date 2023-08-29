@@ -8,7 +8,7 @@
 
 namespace engine::render
 {
-	auto basic_open_gl_buffer::usageToGLenum(Usage _usage_type) noexcept
+	GLenum basic_open_gl_buffer::usageToGLenum(Usage _usage_type) noexcept
 	{
 		switch (_usage_type)
 		{
@@ -16,8 +16,14 @@ namespace engine::render
 		case Usage::Dynamic:		return GL_DYNAMIC_DRAW;
 		case Usage::Stream:			return GL_STREAM_DRAW;
 		}
-		LOG_ERROR("ERROR: Can't find this usage (code: {}).", static_cast<uint8_t>(_usage_type));
+		LOG_ERROR("ERROR: Can't find this usage (code: {0}).", static_cast<uint8_t>(_usage_type));
 
 		return GL_STREAM_DRAW;
 	}
+
+
+
+	basic_open_gl_buffer::basic_open_gl_buffer(GLuint _buffer_id) noexcept
+			: m_id(_buffer_id)
+	{ }
 }

@@ -28,6 +28,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/windows_collector.hpp
 		include/engine/window/windows_manager.hpp
 
+		include/engine/render/open_gl/gl_types.hpp
+
 		include/engine/render/open_gl/basic_open_gl_buffer.hpp
 		include/engine/render/open_gl/index_buffer.hpp
 		include/engine/render/open_gl/vertex_buffer.hpp
