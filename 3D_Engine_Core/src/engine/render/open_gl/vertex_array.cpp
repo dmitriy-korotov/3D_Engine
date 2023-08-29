@@ -11,14 +11,41 @@ namespace engine::render
 {
 	vertex_array::vertex_array() noexcept
 	{
-		glGenVertexArrays(1, &m_id_);
+		glGenVertexArrays(1, &m_id);
+	}
+
+
+
+	vertex_array::vertex_array(vertex_array&& _other) noexcept
+			: m_id(_other.m_id)
+			, m_amount_buffers(_other.m_amount_buffers)
+	{
+		_other.m_id = 0;
+		_other.m_amount_buffers = 0;
+	}
+
+
+
+	vertex_array& vertex_array::operator=(vertex_array&& _right) noexcept
+	{
+		if (m_id != _right.m_id)
+		{
+			glDeleteVertexArrays(1, &m_id);
+
+			m_id = _right.m_id;
+			m_amount_buffers = _right.m_amount_buffers;
+
+			_right.m_id = 0;
+			_right.m_amount_buffers = 0;
+		}
+		return *this;
 	}
 
 
 
 	vertex_array::~vertex_array()
 	{
-		glDeleteBuffers(1, &m_id_);
+		glDeleteVertexArrays(1, &m_id);
 	}
 
 
@@ -30,14 +57,14 @@ namespace engine::render
 
 		for (const auto& element : _vertex_buffer.getBufferLayout().getElements())
 		{
-			glEnableVertexAttribArray(m_amount_buffers_);
-			glVertexAttribPointer(m_amount_buffers_,
+			glEnableVertexAttribArray(m_amount_buffers);
+			glVertexAttribPointer(m_amount_buffers,
 								  element.components_count,
 								  element.components_type,
 								  GL_FALSE,
 								  _vertex_buffer.getBufferLayout().getStride(),
 								  reinterpret_cast<const void*>(element.offset));
-			++m_amount_buffers_;
+			++m_amount_buffers;
 		}
 	}
 
@@ -53,7 +80,7 @@ namespace engine::render
 
 	void vertex_array::bind() const noexcept
 	{
-		glBindVertexArray(m_id_);
+		glBindVertexArray(m_id);
 	}
 
 

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <engine/render/open_gl/gl_types.hpp>
+#include <engine/util/nocopyeble.hpp>
+
 #include <iostream>
 #include <optional>
 
@@ -7,7 +10,7 @@
 
 namespace engine::render
 {
-	enum class shader_type : uint8_t
+	enum class ShaderType : uint8_t
 	{
 		vertex_shader,
 		fragment_shader
@@ -15,14 +18,9 @@ namespace engine::render
 
 
 
-	class shader_program
+	class shader_program : private util::nocopyeble
 	{
 	public:
-
-		shader_program(const shader_program&) = delete;
-		shader_program& operator=(const shader_program&) = delete;
-
-
 
 		shader_program(const std::string_view& _vertex_shader_source,
 					   const std::string_view& _fragment_shader_source) noexcept;
@@ -37,12 +35,12 @@ namespace engine::render
 
 	private:
 
-		static std::optional<unsigned int> createShader(shader_type _shader_type, const std::string_view& _source) noexcept;
+		static std::optional<unsigned int> createShader(ShaderType _shader_type, const std::string_view& _source) noexcept;
 
 	private:
 
 		bool m_is_compiled = false;
-		unsigned int m_id = 0;
+		GLuint m_id = 0;
 
 	};
 }
