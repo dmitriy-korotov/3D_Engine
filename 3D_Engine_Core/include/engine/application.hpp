@@ -1,5 +1,6 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
 #include <engine/error.hpp>
 
 #include <iostream>
@@ -12,7 +13,7 @@ namespace engine
 {
 	class window_gui;
 
-	class Application
+	class Application: private util::nocopyeble
 	{
 	public:
 
@@ -22,8 +23,6 @@ namespace engine
 
 		virtual ~Application();
 
-		Application(const Application&) = delete;
-		Application(Application&&) noexcept = delete;
 		Application& operator=(const Application&) = delete;
 		Application& operator=(Application&&) noexcept = delete;
 
@@ -41,8 +40,8 @@ namespace engine
 
 	protected:
 
-		bool m_is_closed_ = false;
-		window_ptr m_window_ptr_ = nullptr;
+		bool m_is_closed = false;
+		window_ptr m_window_ptr = nullptr;
 
 	};
 }

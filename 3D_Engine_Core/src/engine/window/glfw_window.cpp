@@ -2,7 +2,6 @@
 
 #include <engine/error.hpp>
 
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
@@ -21,7 +20,7 @@ namespace engine
 
 	void glfw_window::onUpdate() noexcept
 	{
-		glfwSwapBuffers(m_window_ptr_);
+		glfwSwapBuffers(m_window_ptr);
 		glfwPollEvents();
 	}
 
@@ -54,14 +53,14 @@ namespace engine
 		m_window_data_.width = _width;
 		m_window_data_.height = _height;
 
-		m_window_ptr_ = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
-		if (!m_window_ptr_)
+		m_window_ptr = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
+		if (!m_window_ptr)
 		{
 			LOG_CRITICAL("Can't create window '{0}'.", m_window_data_.title);
 			glfwTerminate();
 			return error::window_error::can_not_create;
 		}
-		glfwMakeContextCurrent(m_window_ptr_);
+		glfwMakeContextCurrent(m_window_ptr);
 
 		try
 		{
@@ -81,7 +80,7 @@ namespace engine
 
 	void glfw_window::shutdown() noexcept
 	{
-		glfwDestroyWindow(m_window_ptr_);
+		glfwDestroyWindow(m_window_ptr);
 		glfwTerminate();
 	}
 

@@ -15,7 +15,6 @@ namespace engine
 
 	class glfw_window : public std::enable_shared_from_this<glfw_window>,
 					    public basic_window
-							  
 	{
 	public:
 
@@ -41,10 +40,11 @@ namespace engine
 
 	protected:
 
-		GLFWwindow* m_window_ptr_ = nullptr;
+		GLFWwindow* m_window_ptr = nullptr;
 		window::CallBackStorage m_window_call_backs_;
 
 		 bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 0.f };
+
 	};
 }
 
@@ -61,7 +61,7 @@ void engine::glfw_window::addEventListener(_CallBackFunction _call_back) noexcep
 	if constexpr (_event_type == window::Events::Resize)
 	{
 		m_window_call_backs_.resize_call_back_ = std::move(_call_back);
-		glfwSetWindowSizeCallback(m_window_ptr_,
+		glfwSetWindowSizeCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
 			{
 				try
@@ -82,7 +82,7 @@ void engine::glfw_window::addEventListener(_CallBackFunction _call_back) noexcep
 	if constexpr (_event_type == window::Events::Close)
 	{
 		m_window_call_backs_.close_call_back_ = std::move(_call_back);
-		glfwSetWindowCloseCallback(m_window_ptr_,
+		glfwSetWindowCloseCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr) -> void
 			{
 				try

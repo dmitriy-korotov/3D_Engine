@@ -7,7 +7,7 @@
 
 namespace engine::window
 {
-	enum class Events : std::uint8_t
+	enum class Events : uint8_t
 	{
 		Resize,
 		MouseMove,
@@ -24,8 +24,8 @@ namespace engine::window
 
 	struct ResizeEventData
 	{
-		std::uint16_t width;
-		std::uint16_t height;
+		uint16_t width;
+		uint16_t height;
 	};
 
 	struct MouseMoveEventData

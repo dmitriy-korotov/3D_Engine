@@ -11,10 +11,10 @@ namespace engine
 	{
 	public:
 
-		static std::pair<glfw_window::WindowData&, const window::CallBackStorage&>
+		static std::pair<glfw_window::window_data&, const window::CallBackStorage&>
 		getWindowDataAndCBS(const std::shared_ptr<glfw_window>& _window_ptr) noexcept;
 
-		static std::pair<glfw_window::WindowData&, const window::CallBackStorage&>
+		static std::pair<glfw_window::window_data&, const window::CallBackStorage&>
 		getWindowDataAndCBS(GLFWwindow* _window_ptr);
 
 	private:

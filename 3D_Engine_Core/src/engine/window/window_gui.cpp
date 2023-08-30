@@ -105,7 +105,7 @@ namespace engine
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGui_ImplOpenGL3_Init();
-		ImGui_ImplGlfw_InitForOpenGL(m_window_ptr_, true);
+		ImGui_ImplGlfw_InitForOpenGL(m_window_ptr, true);
 
 		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
 

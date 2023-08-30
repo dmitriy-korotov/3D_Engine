@@ -12,14 +12,14 @@ namespace engine
 
 
 
-	std::uint16_t basic_window::getWidth() const noexcept
+	uint16_t basic_window::getWidth() const noexcept
 	{
 		return m_window_data_.width;
 	}
 
 
 
-	std::uint16_t basic_window::getHeight() const noexcept
+	uint16_t basic_window::getHeight() const noexcept
 	{
 		return m_window_data_.height;
 	}
