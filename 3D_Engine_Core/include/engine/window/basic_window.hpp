@@ -28,7 +28,7 @@ namespace engine
 		virtual void shutdown() noexcept = 0;
 		virtual void onUpdate() noexcept {}
 
-	public:
+	protected:
 
 		struct window_data
 		{
