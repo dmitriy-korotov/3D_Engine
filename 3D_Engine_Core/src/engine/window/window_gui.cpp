@@ -10,6 +10,8 @@
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <imgui/backends/imgui_impl_glfw.h>
 
+#include <glm/matrix.hpp>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -170,8 +172,6 @@ namespace engine
 			VAO_2buffers_->bind();
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 		}
-
-		
 
 		ImGuiIO& io_ = ImGui::GetIO();
 		io_.DisplaySize.x = static_cast<float>(getWidth());
