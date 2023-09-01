@@ -6,10 +6,6 @@
 
 
 
-static bool s_glfw_ininted_ = false;
-
-
-
 namespace engine
 {
 	glfw_window::glfw_window(const std::string_view& _title)
@@ -28,14 +24,10 @@ namespace engine
 
 	std::optional<error::window_error> glfw_window::__glfwInit() const noexcept
 	{
-		if (!s_glfw_ininted_)
+		if (!glfwInit())
 		{
-			if (!glfwInit())
-			{
-				LOG_CRITICAL("Can't initializate glfw.");
-				return error::window_error::can_not_create;
-			}
-			s_glfw_ininted_ = true;
+			LOG_CRITICAL("Can't initializate glfw.");
+			return error::window_error::can_not_create;
 		}
 		return std::nullopt;
 	}
