@@ -15,6 +15,8 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/util/nocopyeble.hpp
 
 		include/engine/interfaces/binded_object.hpp
+
+		include/engine/render/camera.hpp
 )
 
 set(ENGINE_PRIVATE_HEADERS
@@ -57,6 +59,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/vertex_array.cpp
 		
 		src/engine/render/open_gl/shader_program.cpp
+
+		src/engine/render/camera.cpp
 )
 
 set(ENGINE_ALL_SOURCES
