@@ -3,6 +3,8 @@
 #include <engine/render/open_gl/gl_types.hpp>
 #include <engine/util/nocopyeble.hpp>
 
+#include <glm/mat4x4.hpp>
+
 #include <iostream>
 #include <optional>
 
@@ -29,6 +31,7 @@ namespace engine::render
 		~shader_program();
 
 		bool isCompiled() const noexcept;
+		void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept;
 
 		void bind() const noexcept;
 		void unbind() const noexcept;

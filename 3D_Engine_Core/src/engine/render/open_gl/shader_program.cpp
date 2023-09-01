@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <glad/glad.h>
 
 
@@ -124,5 +126,12 @@ namespace engine::render
 			return std::nullopt;
 		}
 		return shader;
+	}
+
+
+
+	void shader_program::setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept
+	{
+		glUniformMatrix4fv(glGetUniformLocation(m_id, _varieble_name.data()), 1, GL_FALSE, glm::value_ptr(_matrix));
 	}
 }

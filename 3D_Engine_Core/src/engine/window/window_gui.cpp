@@ -11,6 +11,7 @@
 #include <imgui/backends/imgui_impl_glfw.h>
 
 #include <glm/matrix.hpp>
+#include <glm/trigonometric.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -46,23 +47,32 @@ GLuint indexes[] = { 0, 1, 2, 2, 3, 0 };
 
 
 
+float scale[] = { 1.f, 1.f, 1.f };
+float translate[] = { 0.f, 0.f, 0.f };
+float rotate = 0.f;
+
+
+
 const char* vertex_shader =
-"#version 460\n"
-"layout(location = 0) in vec3 vertex_poistion;"
-"layout(location = 1) in vec3 vertex_color;"
-"out vec3 color;"
-"void main() {"
-"	color = vertex_color;"
-"	gl_Position = vec4(vertex_poistion, 1.0);"
-"}";
+		R"(#version 460
+		layout(location = 0) in vec3 vertex_poistion;
+		layout(location = 1) in vec3 vertex_color;
+		uniform mat4 scale_matrix;
+		uniform mat4 translate_matrix;
+		uniform mat4 rotate_matrix;
+		out vec3 color;
+		void main() {
+			color = vertex_color;
+			gl_Position = translate_matrix * rotate_matrix * scale_matrix * vec4(vertex_poistion, 1.0);
+		})";
 
 const char* fragment_shader =
-"#version 460\n"
-"in vec3 color;"
-"out vec4 frag_color;"
-"void main() {"
-"	frag_color = vec4(color, 1.0);"
-"}";
+		R"(#version 460
+		in vec3 color;
+		out vec4 frag_color;
+		void main() {
+			frag_color = vec4(color, 1.0);
+		})";
 
 
 
@@ -173,6 +183,27 @@ namespace engine
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 		}
 
+		glm::mat4 scale_matrix(scale[0],	    0,		  0,		 0,
+							   0,		 scale[1],		  0,		 0,
+							   0,				0,	scale[2],		 0,
+							   0,			    0,		  0,		 1);
+
+		glm::mat4 translate_matrix(1,			0,		  0,		 0,
+								   0,			1,		  0,		 0,
+								   0,			0,		  1,		 0,
+								   translate[0], translate[1], translate[2], 1);
+
+		float rad_angle = glm::radians(rotate);
+
+		glm::mat4 rotate_matrix(glm::cos(rad_angle), glm::sin(rad_angle), 0, 0,
+							    -glm::sin(rad_angle), glm::cos(rad_angle), 0, 0,
+								0, 0, 1, 0,
+								0, 0, 0, 1);
+
+		shader_program_->setMatrix4f("scale_matrix", scale_matrix);
+		shader_program_->setMatrix4f("translate_matrix", translate_matrix);
+		shader_program_->setMatrix4f("rotate_matrix", rotate_matrix);
+
 		ImGuiIO& io_ = ImGui::GetIO();
 		io_.DisplaySize.x = static_cast<float>(getWidth());
 		io_.DisplaySize.y = static_cast<float>(getHeight());
@@ -184,6 +215,9 @@ namespace engine
 		ImGui::Begin("BG Color Editor");
 		ImGui::ColorEdit4("Background color", m_bg_color_.data());
 		ImGui::Checkbox("One buffer rendering", &is_one_buffer);
+		ImGui::SliderFloat3("Scale", scale, 0.f, 2.f);
+		ImGui::SliderFloat3("Translate", translate, -1.f, 1.f);
+		ImGui::SliderFloat("Rotate", &rotate, 0.f, 360.f);
 		ImGui::End();
 
 		ImGui::Render();
