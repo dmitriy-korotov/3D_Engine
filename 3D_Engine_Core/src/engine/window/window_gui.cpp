@@ -117,12 +117,6 @@ namespace engine
 			return error::window_error::can_not_create;
 		}
 
-		if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-		{
-			LOG_CRITICAL("Can't load glad.");
-			return error::window_error::can_not_create;
-		}
-
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGui_ImplOpenGL3_Init();

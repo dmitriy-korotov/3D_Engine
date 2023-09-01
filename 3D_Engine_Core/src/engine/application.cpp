@@ -71,7 +71,6 @@ namespace engine
             m_window_ptr->onUpdate();
         }
 
-        glfwTerminate();
         return std::nullopt;
 	}
 

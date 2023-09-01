@@ -49,7 +49,6 @@ namespace engine
 		if (!m_window_ptr)
 		{
 			LOG_CRITICAL("Can't create window '{0}'.", m_window_data_.title);
-			glfwTerminate();
 			return error::window_error::can_not_create;
 		}
 		glfwMakeContextCurrent(m_window_ptr);
@@ -61,7 +60,6 @@ namespace engine
 		catch (const std::exception& ex_)
 		{
 			LOG_CRITICAL("Can't add window '{0}' in windows manager: " + std::string(ex_.what()), m_window_data_.title);
-			glfwTerminate();
 			return error::window_error::can_not_add_new_window;
 		}
 
