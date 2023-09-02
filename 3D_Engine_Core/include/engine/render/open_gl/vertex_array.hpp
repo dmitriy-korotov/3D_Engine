@@ -29,10 +29,13 @@ namespace engine::render
 		void bind() const noexcept override;
 		void unbind() const noexcept override;
 
+		uint64_t getIndexesCount() const noexcept;
+
 	private:
 
 		GLuint m_id = 0;
 		uint16_t m_amount_buffers = 0;
+		uint64_t m_indexes_count = 0;
 
 	};
 }

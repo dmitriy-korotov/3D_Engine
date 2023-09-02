@@ -72,8 +72,16 @@ namespace engine::render
 
 	void vertex_array::setIndexBuffer(const index_buffer& _index_buffer) noexcept
 	{
+		m_indexes_count = _index_buffer.getIndexesCount();
 		bind();
 		_index_buffer.bind();
+	}
+
+
+
+	uint64_t vertex_array::getIndexesCount() const noexcept
+	{
+		return m_indexes_count;
 	}
 
 

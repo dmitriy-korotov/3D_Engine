@@ -10,6 +10,8 @@
 
 #include <engine/render/camera.hpp>
 
+#include <engine/render/open_gl/renderer_open_gl.hpp>
+
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <imgui/backends/imgui_impl_glfw.h>
@@ -118,6 +120,7 @@ namespace engine
 			LOG_CRITICAL("Can't create window_glfw '{0}' in window_gui.", m_window_data_.title);
 			return error::window_error::can_not_create;
 		}
+		render::renderer_open_gl::init_with_glfw();
 
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -177,21 +180,21 @@ namespace engine
 
 	void window_gui::onUpdate() noexcept
 	{
-		glClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
-		glClear(GL_COLOR_BUFFER_BIT);
-		
+		render::renderer_open_gl::setClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
+		render::renderer_open_gl::clear(render::renderer_open_gl::Mask::ColorBuffer);
+
 		shader_program_->bind();
 		
 		static bool is_one_buffer = true;
 		if (is_one_buffer)
 		{
 			VAO_1buffer_->bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			render::renderer_open_gl::draw(*VAO_1buffer_);
 		}
 		else
 		{
 			VAO_2buffers_->bind();
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			render::renderer_open_gl::draw(*VAO_2buffers_);
 		}
 
 		glm::mat4 scale_matrix(scale[0],	    0,		  0,		 0,
