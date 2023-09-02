@@ -11,21 +11,13 @@ struct GLFWwindow;
 
 namespace engine
 {
-	class windows_manager;
-
 	class glfw_window : public std::enable_shared_from_this<glfw_window>,
 					    public basic_window
 	{
 	public:
 
-		friend windows_manager;
-
-
-			
-		using bg_color = std::array<float, 4>;
-
 		glfw_window(const std::string_view& _title);
-		~glfw_window();
+		~glfw_window() override;
 
 		std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept override;
 		void shutdown() noexcept override;
@@ -44,9 +36,6 @@ namespace engine
 	protected:
 
 		GLFWwindow* m_window_ptr = nullptr;
-		window::CallBackStorage m_window_call_backs_;
-
-		 bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 0.f };
 
 	};
 }

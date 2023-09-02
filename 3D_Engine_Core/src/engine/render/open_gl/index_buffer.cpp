@@ -4,7 +4,7 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	index_buffer::index_buffer(const void* _data, uint64_t _count, Usage _usage_type)
 			: m_indexes_count(_count)
@@ -18,7 +18,7 @@ namespace engine::render
 
 	index_buffer::index_buffer(index_buffer&& _other) noexcept
 			: basic_open_gl_buffer(_other.m_id)
-			, m_indexes_count(_other.m_id)
+			, m_indexes_count(_other.m_indexes_count)
 	{
 		_other.m_id = 0;
 		_other.m_indexes_count = 0;

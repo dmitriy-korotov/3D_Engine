@@ -237,7 +237,7 @@ namespace engine
 		ImGui::SliderFloat3("Translate", translate, -1.f, 1.f);
 		ImGui::SliderFloat("Rotate", &rotate, 0.f, 360.f);
 		ImGui::SliderFloat3("Camera position", camera_position, -10.f, 10.f);
-		ImGui::SliderFloat3("Camera rotation", camera_rotation, 0.f, 360.f);
+		ImGui::SliderFloat3("Camera rotation", camera_rotation, -360.f, 360.f);
 		ImGui::Checkbox("Perspective projection", &is_perspective_projection);
 		ImGui::End();
 

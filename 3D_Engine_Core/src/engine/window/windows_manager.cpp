@@ -6,8 +6,8 @@
 
 namespace engine
 {
-	std::pair<glfw_window::window_data&, const window::CallBackStorage&>
-	windows_manager::getWindowDataAndCBS(const std::shared_ptr<glfw_window>& _window_ptr) noexcept
+	std::pair<basic_window::window_data&, const window::CallBackStorage&>
+	windows_manager::getWindowDataAndCBS(const window_ptr& _window_ptr) noexcept
 	{
 		return std::make_pair(std::ref(_window_ptr->m_window_data_),
 							  std::cref(_window_ptr->m_window_call_backs_));
@@ -15,7 +15,7 @@ namespace engine
 
 
 
-	std::pair<glfw_window::window_data&, const window::CallBackStorage&>
+	std::pair<basic_window::window_data&, const window::CallBackStorage&>
 	windows_manager::getWindowDataAndCBS(GLFWwindow* _window_ptr)
 	{
 		auto& window_ = __getWindowFromRawPtr(_window_ptr);
@@ -30,7 +30,7 @@ namespace engine
 
 
 
-	std::shared_ptr<glfw_window> windows_manager::__getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept
+	const windows_manager::window_ptr& windows_manager::__getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept
 	{
 		for (const auto& window_ : s_windows_storage_)
 		{

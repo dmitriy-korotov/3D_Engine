@@ -2,13 +2,14 @@
 
 #include <engine/logging/log.hpp>
 
+#include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	shader_program::shader_program(const std::string_view& _vertex_shader_source,
 								   const std::string_view& _fragment_shader_source) noexcept
@@ -16,14 +17,14 @@ namespace engine::render
 		auto vertex_shader_ = shader_program::createShader(ShaderType::vertex_shader, _vertex_shader_source);
 		if (!vertex_shader_.has_value())
 		{
-			LOG_CRITICAL("ERROR: vertex shader not created.");
+			LOG_CRITICAL("[Shader Program ERROR] Vertex shader is not created.");
 			return;
 		}
 
 		auto fragment_shader_ = shader_program::createShader(ShaderType::fragment_shader, _fragment_shader_source);
 		if (!fragment_shader_.has_value())
 		{
-			LOG_CRITICAL("ERROR: fragment shader not created.");
+			LOG_CRITICAL("[Shader Program ERROR]: Fragment shader is not created.");
 			glDeleteShader(*vertex_shader_);
 			return;
 		}
@@ -37,6 +38,8 @@ namespace engine::render
 		glDetachShader(m_id, *fragment_shader_);
 		glDeleteShader(*vertex_shader_);
 		glDeleteShader(*fragment_shader_);
+
+		m_is_compiled = true;
 	}
 
 
@@ -96,15 +99,15 @@ namespace engine::render
 
 
 
-	std::optional<unsigned int> shader_program::createShader(ShaderType _shader_type, const std::string_view& _source) noexcept
+	std::optional<GLuint> shader_program::createShader(ShaderType _shader_type, const std::string_view& _source) noexcept
 	{
 		GLuint shader = 0;
 		switch (_shader_type)
 		{
-		case engine::render::ShaderType::vertex_shader:
+		case ShaderType::vertex_shader:
 			shader = glCreateShader(GL_VERTEX_SHADER);
 			break;
-		case engine::render::ShaderType::fragment_shader:
+		case ShaderType::fragment_shader:
 			shader = glCreateShader(GL_FRAGMENT_SHADER);
 			break;
 		}
@@ -119,7 +122,7 @@ namespace engine::render
 		{
 			char info_log[1024] = {};
 			glGetShaderInfoLog(shader, 1024, nullptr, info_log);
-			LOG_CRITICAL("ERROR: Can't compiling shader: {0}", info_log);
+			LOG_CRITICAL("[[Shader Program ERROR]] Can't compiling shader: {0}", info_log);
 			
 			glDeleteShader(shader);
 			

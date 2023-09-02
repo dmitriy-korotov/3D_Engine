@@ -1,9 +1,11 @@
 #pragma once
 
 #include <engine/window/windows_collector.hpp>
-#include <engine/window/glfw_window.hpp>
+#include <engine/window/basic_window.hpp>
 
 
+
+struct GLFWwindow;
 
 namespace engine
 {
@@ -11,15 +13,14 @@ namespace engine
 	{
 	public:
 
-		static std::pair<glfw_window::window_data&, const window::CallBackStorage&>
-		getWindowDataAndCBS(const std::shared_ptr<glfw_window>& _window_ptr) noexcept;
+		using WindowDataAndCBS = std::pair<basic_window::window_data&, const window::CallBackStorage&>;
 
-		static std::pair<glfw_window::window_data&, const window::CallBackStorage&>
-		getWindowDataAndCBS(GLFWwindow* _window_ptr);
+		static WindowDataAndCBS getWindowDataAndCBS(const window_ptr& _window_ptr) noexcept;
+		static WindowDataAndCBS	getWindowDataAndCBS(GLFWwindow* _window_ptr);
 
 	private:
 
-		static std::shared_ptr<glfw_window> __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
+		static const window_ptr& __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
 
 	};
 }

@@ -30,4 +30,14 @@ namespace engine
 	{
 		return m_window_data_.title;
 	}
+
+
+
+	void basic_window::setBackgroundColor(uint16_t _red, uint16_t _green, uint16_t _blue, float _alpha) noexcept
+	{
+		m_bg_color_[0] = _red;
+		m_bg_color_[1] = _green;
+		m_bg_color_[2] = _blue;
+		m_bg_color_[3] = _alpha;
+	}
 }

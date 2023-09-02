@@ -6,7 +6,7 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	GLenum basic_open_gl_buffer::usageToGLenum(Usage _usage_type) noexcept
 	{
@@ -16,7 +16,7 @@ namespace engine::render
 		case Usage::Dynamic:		return GL_DYNAMIC_DRAW;
 		case Usage::Stream:			return GL_STREAM_DRAW;
 		}
-		LOG_ERROR("ERROR: Can't find this usage (code: {0}).", static_cast<uint8_t>(_usage_type));
+		LOG_ERROR("[Basic OpenGL buffer ERROR] Can't find this usage (code: {0}).", static_cast<uint8_t>(_usage_type));
 
 		return GL_STREAM_DRAW;
 	}

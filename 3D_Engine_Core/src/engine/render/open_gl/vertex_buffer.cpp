@@ -1,12 +1,10 @@
 #include <engine/render/open_gl/vertex_buffer.hpp>
 
-#include <engine/logging/log.hpp>
-
 #include <glad/glad.h>
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	vertex_buffer::vertex_buffer(const void* _data, size_t _size, buffer_layout _buffer_layout, Usage _usage_type) noexcept
 			: m_buffer_layout_(std::move(_buffer_layout))

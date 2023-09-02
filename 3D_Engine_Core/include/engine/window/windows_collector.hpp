@@ -7,17 +7,18 @@
 
 namespace engine
 {
-	class glfw_window;
+	class basic_window;
 
 	class windows_collector
 	{
 	public:
 
-		using windows_storage = std::vector<std::shared_ptr<glfw_window>>;
+		using window_ptr = std::shared_ptr<basic_window>;
+		using windows_storage = std::vector<window_ptr>;
 
 		windows_collector() = delete;
 
-		static void addNewWindow(std::shared_ptr<glfw_window> _window_ptr);
+		static void addNewWindow(window_ptr _window_ptr);
 		static void closeAllWindows() noexcept;
 
 	protected:

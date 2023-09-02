@@ -6,70 +6,70 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	constexpr uint8_t get_components_count_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
 	{
 		switch (_shader_data_type)
 		{
-		case engine::render::ShaderDataType::Float:
-		case engine::render::ShaderDataType::Int:
+		case ShaderDataType::Float:
+		case ShaderDataType::Int:
 			return 1;
-		case engine::render::ShaderDataType::Float2:
-		case engine::render::ShaderDataType::Int2:
+		case ShaderDataType::Float2:
+		case ShaderDataType::Int2:
 			return 2;
-		case engine::render::ShaderDataType::Float3:
-		case engine::render::ShaderDataType::Int3:
+		case ShaderDataType::Float3:
+		case ShaderDataType::Int3:
 			return 3;
-		case engine::render::ShaderDataType::Float4:
-		case engine::render::ShaderDataType::Int4:
+		case ShaderDataType::Float4:
+		case ShaderDataType::Int4:
 			return 4;
 		}
-		LOG_ERROR("Not found count elements for this shader data type (code: {0}).", static_cast<uint8_t>(_shader_data_type));
+		LOG_ERROR("[Buffer Layout ERROR] Not found count elements for this shader data type (code: {0}).", static_cast<uint8_t>(_shader_data_type));
 		
 		return 0;
 	}
 
 
 
-	constexpr std::uint32_t get_openGL_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
+	constexpr uint32_t get_openGL_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
 	{
 		switch (_shader_data_type)
 		{
-		case engine::render::ShaderDataType::Float:
-		case engine::render::ShaderDataType::Float2:
-		case engine::render::ShaderDataType::Float3:
-		case engine::render::ShaderDataType::Float4:
+		case ShaderDataType::Float:
+		case ShaderDataType::Float2:
+		case ShaderDataType::Float3:
+		case ShaderDataType::Float4:
 			return GL_FLOAT;
-		case engine::render::ShaderDataType::Int:
-		case engine::render::ShaderDataType::Int2:
-		case engine::render::ShaderDataType::Int3:
-		case engine::render::ShaderDataType::Int4:
+		case ShaderDataType::Int:
+		case ShaderDataType::Int2:
+		case ShaderDataType::Int3:
+		case ShaderDataType::Int4:
 			return GL_INT;
 		}
-		LOG_ERROR("OpenGL type for this shader data type not found (code: {0}).", static_cast<uint8_t>(_shader_data_type));
+		LOG_ERROR("[BUFFER LAYOUT ERROR] OpenGL type for this shader data type not found (code: {0}).", static_cast<uint8_t>(_shader_data_type));
 
 		return 0;
 	}
 
 
 
-	constexpr std::uint32_t get_sizeof_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
+	constexpr uint32_t get_sizeof_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
 	{
 		switch (_shader_data_type)
 		{
-		case engine::render::ShaderDataType::Float:
-		case engine::render::ShaderDataType::Float2:
-		case engine::render::ShaderDataType::Float3:
-		case engine::render::ShaderDataType::Float4:
+		case ShaderDataType::Float:
+		case ShaderDataType::Float2:
+		case ShaderDataType::Float3:
+		case ShaderDataType::Float4:
 			return sizeof(GLfloat);
-		case engine::render::ShaderDataType::Int:
-		case engine::render::ShaderDataType::Int2:
-		case engine::render::ShaderDataType::Int3:
-		case engine::render::ShaderDataType::Int4:
+		case ShaderDataType::Int:
+		case ShaderDataType::Int2:
+		case ShaderDataType::Int3:
+		case ShaderDataType::Int4:
 			return sizeof(GLint);
 		}
-		LOG_ERROR("Sizeof type for this shader data type not found (code: {0}).", static_cast<uint8_t>(_shader_data_type));
+		LOG_ERROR("[BUFFER LAYOUT ERROR] Sizeof type for this shader data type not found (code: {0}).", static_cast<uint8_t>(_shader_data_type));
 
 		return 0;
 	}

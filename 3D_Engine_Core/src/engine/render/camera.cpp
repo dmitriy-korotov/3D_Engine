@@ -80,27 +80,28 @@ namespace engine::render
 
 
 
-		float rotate_in_redians_x = glm::radians(-m_rotation_.x);
+		float rotate_in_radians_x = glm::radians(-m_rotation_.x);
 		glm::mat4 rotate_matrix_x(1.f,		0.f,							0.f,							0.f,
-								  0.f,		cos(rotate_in_redians_x),		sin(rotate_in_redians_x),		0.f,
-								  0.f,		-sin(rotate_in_redians_x),		cos(rotate_in_redians_x),		0.f,
+								  0.f,		cos(rotate_in_radians_x),		sin(rotate_in_radians_x),		0.f,
+								  0.f,		-sin(rotate_in_radians_x),		cos(rotate_in_radians_x),		0.f,
 								  0.f,		0.f,							0.f,							1.f);
 
 
 
-		float rotate_in_redians_y = glm::radians(-m_rotation_.y);
-		glm::mat4 rotate_matrix_y(cos(rotate_in_redians_y),		 0.f,		 -sin(rotate_in_redians_y),		 0.f,
+		float rotate_in_radians_y = glm::radians(-m_rotation_.y);
+		glm::mat4 rotate_matrix_y(cos(rotate_in_radians_y),		 0.f,		 -sin(rotate_in_radians_y),		 0.f,
 								  0.f,							 1.f,		 0.f,							 0.f,
-								  sin(rotate_in_redians_y),		 0.f,		 cos(rotate_in_redians_y),		 0.f,
+								  sin(rotate_in_radians_y),		 0.f,		 cos(rotate_in_radians_y),		 0.f,
 								  0.f,							 0.f,		 0.f,							 1.f);
 
 
 
-		float rotate_in_redians_z = glm::radians(-m_rotation_.z);
-		glm::mat4 rotate_matrix_z(glm::cos(rotate_in_redians_z),	glm::sin(rotate_in_redians_z),		0.f,	 0.f,
-								  -glm::sin(rotate_in_redians_z),	glm::cos(rotate_in_redians_z),		0.f,	 0.f,
+		float rotate_in_radians_z = glm::radians(-m_rotation_.z);
+		glm::mat4 rotate_matrix_z(glm::cos(rotate_in_radians_z),	glm::sin(rotate_in_radians_z),		0.f,	 0.f,
+								  -glm::sin(rotate_in_radians_z),	glm::cos(rotate_in_radians_z),		0.f,	 0.f,
 								  0.f,								0.f,								1.f,	 0.f,
 								  0.f,								0.f,								0.f,	 1.f);
+
 
 
 		m_view_matrix = rotate_matrix_y * rotate_matrix_x * translate_matrix;
@@ -113,7 +114,7 @@ namespace engine::render
 		if (m_projection_mode == Projection::Perspective)
 		{
 			float r = 0.1f;
-			float t = 0.1f;
+			float t = 0.1f;			// TODO: added posibility set this camera parametrs
 			float f = 10.f;
 			float n = 0.1f;
 

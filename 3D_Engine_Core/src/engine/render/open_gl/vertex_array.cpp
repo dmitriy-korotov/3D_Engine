@@ -7,7 +7,7 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	vertex_array::vertex_array() noexcept
 	{

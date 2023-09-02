@@ -1,6 +1,6 @@
-#include <engine/window/glfw_window.hpp>
+#include <engine/window/glfw/glfw_window.hpp>
 
-#include <engine/error.hpp>
+#include <engine/error/error.hpp>
 #include <engine/logging/log.hpp>
 
 #include <engine/window/windows_manager.hpp>
