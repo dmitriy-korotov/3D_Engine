@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/window/basic_window.hpp>
-#include <engine/window/events_data.hpp>
+#include <engine/window/glfw/events_data.hpp>
 
 #include <array>
 
@@ -9,21 +9,25 @@
 
 struct GLFWwindow;
 
-namespace engine
+namespace engine::window::glfw
 {
-	class glfw_window : public std::enable_shared_from_this<glfw_window>,
-					    public basic_window
+	class windows_manager;
+
+	class window : public std::enable_shared_from_this<window>,
+				   public basic_window
 	{
 	public:
+		
+		friend windows_manager;
 
-		glfw_window(const std::string_view& _title);
-		~glfw_window() override;
+		window(const std::string_view& _title);
+		~window() override;
 
 		std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept override;
 		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
 
-		template<window::Events _event_type, typename CallBackFunction>
+		template<Events _event_type, typename CallBackFunction>
 		void addEventListener(CallBackFunction _call_back) noexcept;
 
 	private:
@@ -36,6 +40,7 @@ namespace engine
 	protected:
 
 		GLFWwindow* m_window_ptr = nullptr;
+		window::CallBackStorage m_window_call_backs_;
 
 	};
 }
@@ -44,8 +49,8 @@ namespace engine
 
 
 
-template<engine::window::Events _event_type, typename CallBackFunction>
-void engine::glfw_window::addEventListener(CallBackFunction _call_back) noexcept
+template<engine::window::glfw::Events _event_type, typename CallBackFunction>
+void engine::window::glfw::window::addEventListener(CallBackFunction _call_back) noexcept
 {
 	if constexpr (_event_type == window::Events::Resize)
 	{

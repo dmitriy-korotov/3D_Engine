@@ -1,19 +1,17 @@
 #pragma once
 
-#include <engine/window/windows_collector.hpp>
-#include <engine/window/basic_window.hpp>
+#include <engine/window/glfw/windows_collector.hpp>
+#include <engine/window/glfw/glfw_window.hpp>
 
 
 
-struct GLFWwindow;
-
-namespace engine
+namespace engine::window::glfw
 {
-	class windows_manager: public windows_collector
+	class windows_manager : public windows_collector
 	{
 	public:
 
-		using WindowDataAndCBS = std::pair<basic_window::window_data&, const window::CallBackStorage&>;
+		using WindowDataAndCBS = std::pair<window::window_data&, const CallBackStorage&>;
 
 		static WindowDataAndCBS getWindowDataAndCBS(const window_ptr& _window_ptr) noexcept;
 		static WindowDataAndCBS	getWindowDataAndCBS(GLFWwindow* _window_ptr);

@@ -2,9 +2,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 #include <engine/util/nomoveble.hpp>
-#include <engine/error/error.hpp>
 
-#include <engine/window/events_data.hpp>
+#include <engine/error/error.hpp>
 
 #include <string>
 #include <optional>
@@ -14,13 +13,10 @@
 
 namespace engine
 {
-	class windows_manger;
 
 	class basic_window: private util::nocopyeble, private util::nomoveble
 	{
 	public:
-
-		friend windows_manager;
 
 		using bg_color = std::array<float, 4>;
 
@@ -46,7 +42,6 @@ namespace engine
 			std::string title;
 		} m_window_data_;
 
-		window::CallBackStorage m_window_call_backs_;
 		bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 0.f };
 	};
 }

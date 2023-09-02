@@ -3,21 +3,21 @@
 #include <engine/error/error.hpp>
 #include <engine/logging/log.hpp>
 
-#include <engine/window/windows_manager.hpp>
+#include <engine/window/glfw/windows_manager.hpp>
 
 #include <GLFW/glfw3.h>
 
 
 
-namespace engine
+namespace engine::window::glfw
 {
-	glfw_window::glfw_window(const std::string_view& _title)
+	window::window(const std::string_view& _title)
 			: basic_window(_title)
 	{ }
 
 
 
-	void glfw_window::onUpdate() noexcept
+	void window::onUpdate() noexcept
 	{
 		glfwSwapBuffers(m_window_ptr);
 		glfwPollEvents();
@@ -25,11 +25,11 @@ namespace engine
 
 
 
-	std::optional<error::window_error> glfw_window::__glfwInit() const noexcept
+	std::optional<error::window_error> window::__glfwInit() const noexcept
 	{
 		if (!glfwInit())
 		{
-			LOG_CRITICAL("Can't initializate glfw.");
+			LOG_CRITICAL("[Glfw Window ERROR] Can't initializate glfw.");
 			return error::window_error::can_not_create;
 		}
 		return std::nullopt;
@@ -37,7 +37,7 @@ namespace engine
 
 
 
-	std::optional<error::window_error> glfw_window::create(uint16_t _width, uint16_t _height) noexcept
+	std::optional<error::window_error> window::create(uint16_t _width, uint16_t _height) noexcept
 	{
 		auto result_ = __glfwInit();
 		if (result_.has_value())
@@ -47,7 +47,7 @@ namespace engine
 		glfwSetErrorCallback(
 			[](int _error_code, const char* _description) -> void
 			{
-				LOG_ERROR("GLFW error (code: {0}): {1}", _error_code, _description);
+				LOG_ERROR("[GLFW ERROR] (code: {0}): {1}", _error_code, _description);
 			});
 
 		m_window_data_.width = _width;
@@ -56,7 +56,7 @@ namespace engine
 		m_window_ptr = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
 		if (!m_window_ptr)
 		{
-			LOG_CRITICAL("Can't create window '{0}'.", m_window_data_.title);
+			LOG_CRITICAL("[Glfw Window ERROR] Can't create window '{0}'.", m_window_data_.title);
 			return error::window_error::can_not_create;
 		}
 		glfwMakeContextCurrent(m_window_ptr);
@@ -67,7 +67,7 @@ namespace engine
 		}
 		catch (const std::exception& ex_)
 		{
-			LOG_CRITICAL("Can't add window '{0}' in windows manager: " + std::string(ex_.what()), m_window_data_.title);
+			LOG_CRITICAL("[Glfw Window ERROR] Can't add window '{0}' in windows manager: " + std::string(ex_.what()), m_window_data_.title);
 			return error::window_error::can_not_add_new_window;
 		}
 
@@ -76,7 +76,7 @@ namespace engine
 
 
 
-	void glfw_window::setWindowResizeCallBack() const noexcept
+	void window::setWindowResizeCallBack() const noexcept
 	{
 		glfwSetWindowSizeCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
@@ -87,19 +87,19 @@ namespace engine
 					window_data.height = _height;
 					window_data.width = _width;
 
-					window::ResizeEventData resize_data = { window_data.height, window_data.width };
+					ResizeEventData resize_data = { window_data.height, window_data.width };
 					call_backs.resize_call_back(resize_data);
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled event: " + std::string(ex_.what()));
 				}
 			});
 	}
 
 
 
-	void glfw_window::setWindowCloseCallBack() const noexcept
+	void window::setWindowCloseCallBack() const noexcept
 	{
 		glfwSetWindowCloseCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr) -> void
@@ -111,14 +111,14 @@ namespace engine
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled event: " + std::string(ex_.what()));
 				}
 			});
 	}
 
 
 
-	void glfw_window::shutdown() noexcept
+	void window::shutdown() noexcept
 	{
 		glfwDestroyWindow(m_window_ptr);
 		glfwTerminate();
@@ -126,7 +126,7 @@ namespace engine
 
 
 
-	glfw_window::~glfw_window()
+	window::~window()
 	{
 		shutdown();
 	}

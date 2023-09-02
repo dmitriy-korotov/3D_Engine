@@ -5,7 +5,7 @@
 
 
 
-namespace engine::window
+namespace engine::window::glfw
 {
 	enum class Events : uint8_t
 	{

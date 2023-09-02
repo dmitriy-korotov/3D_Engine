@@ -20,14 +20,13 @@ set(ENGINE_PUBLIC_HEADERS
 
 set(ENGINE_PRIVATE_HEADERS
 
-		include/engine/window/events_data.hpp
-
 		include/engine/window/basic_window.hpp
-		include/engine/window/glfw/glfw_window.hpp
 		include/engine/window/window_gui.hpp
-
-		include/engine/window/windows_collector.hpp
-		include/engine/window/windows_manager.hpp
+		
+		include/engine/window/glfw/glfw_window.hpp
+		include/engine/window/glfw/events_data.hpp
+		include/engine/window/glfw/windows_collector.hpp
+		include/engine/window/glfw/windows_manager.hpp
 
 		include/engine/render/open_gl/gl_types.hpp
 
@@ -49,12 +48,12 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/application.cpp
 
-		src/engine/window/basic_window.cpp
-		src/engine/window/glfw/glfw_window.cpp
 		src/engine/window/window_gui.cpp
+		src/engine/window/basic_window.cpp
 
-		src/engine/window/windows_collector.cpp
-		src/engine/window/windows_manager.cpp
+		src/engine/window/glfw/glfw_window.cpp
+		src/engine/window/glfw/windows_collector.cpp
+		src/engine/window/glfw/windows_manager.cpp
 
 		src/engine/render/open_gl/basic_open_gl_buffer.cpp
 		src/engine/render/open_gl/vertex_buffer.cpp

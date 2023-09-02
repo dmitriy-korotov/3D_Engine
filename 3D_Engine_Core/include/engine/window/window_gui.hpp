@@ -1,12 +1,12 @@
 #pragma once
 
-#include <engine/window/glfw_window.hpp>
+#include <engine/window/glfw/glfw_window.hpp>
 
 
 
 namespace engine
 {
-	class window_gui final: public glfw_window
+	class window_gui final: public window::glfw::window
 	{
 	public:
 

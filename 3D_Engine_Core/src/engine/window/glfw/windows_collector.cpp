@@ -1,4 +1,4 @@
-#include <engine/window/windows_collector.hpp>
+#include <engine/window/glfw/windows_collector.hpp>
 
 #include <engine/window/glfw/glfw_window.hpp>
 
@@ -6,7 +6,7 @@
 
 
 
-namespace engine
+namespace engine::window::glfw
 {
 	windows_collector::windows_storage windows_collector::s_windows_storage_;
 

@@ -2,11 +2,11 @@
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 
-#include <engine/error.hpp>
+#include <engine/error/error.hpp>
 #include <engine/logging/log.hpp>
 
 #include <engine/window/window_gui.hpp>
-#include <engine/window/events_data.hpp>
+#include <engine/window/glfw/events_data.hpp>
 
 
 

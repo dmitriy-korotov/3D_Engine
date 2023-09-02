@@ -89,79 +89,85 @@ const char* fragment_shader =
 
 
 
+using namespace engine::render::open_gl;
 
 
-std::unique_ptr<engine::render::shader_program> shader_program_;
 
-std::unique_ptr<engine::render::vertex_buffer> points_vbo_;
-std::unique_ptr<engine::render::vertex_buffer> colors_vbo_;
-std::unique_ptr<engine::render::vertex_buffer> points_colors_vbo_;
+std::unique_ptr<shader_program> shader_program_;
 
-std::unique_ptr<engine::render::index_buffer> index_buffer_;
+std::unique_ptr<vertex_buffer> points_vbo_;
+std::unique_ptr<vertex_buffer> colors_vbo_;
+std::unique_ptr<vertex_buffer> points_colors_vbo_;
 
-std::unique_ptr<engine::render::vertex_array> VAO_1buffer_;
-std::unique_ptr<engine::render::vertex_array> VAO_2buffers_;
+std::unique_ptr<index_buffer> index_buffer_;
+
+std::unique_ptr<vertex_array> VAO_1buffer_;
+std::unique_ptr<vertex_array> VAO_2buffers_;
 
 
 
 namespace engine
 {
 	window_gui::window_gui(const std::string_view& _title)
-			: glfw_window(_title)
+			: window(_title)
 	{ }
 
 
 
 	std::optional<error::window_error> window_gui::create(uint16_t _width, uint16_t _height) noexcept
 	{
-		auto result_ = glfw_window::create(_width, _height);
+		auto result_ = window::create(_width, _height);
 		if (result_.has_value())
 		{
 			LOG_CRITICAL("Can't create window_glfw '{0}' in window_gui.", m_window_data_.title);
 			return error::window_error::can_not_create;
 		}
-		render::renderer_open_gl::init_with_glfw();
+		if (!renderer::init_with_glfw())
+		{
+			LOG_CRITICAL("[GUI Window ERROR] Can't initialized openGL with Glfw");
+			return error::window_error::can_not_create;
+		}
 
 		ui::ImGuiModule::onWindowCreate(m_window_ptr);
 
 
 
-		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
+		shader_program_ = std::make_unique<shader_program>(vertex_shader, fragment_shader);
 
 
-		render::buffer_layout points_layout_
+		buffer_layout points_layout_
 		{
-			render::ShaderDataType::Float3
+			ShaderDataType::Float3
 		};
-		points_vbo_ = std::make_unique<render::vertex_buffer>(points, sizeof(points), points_layout_,
-															  render::vertex_buffer::Usage::Static);
+		points_vbo_ = std::make_unique<vertex_buffer>(points, sizeof(points), points_layout_,
+															  vertex_buffer::Usage::Static);
 
-		render::buffer_layout colors_layout_
+		buffer_layout colors_layout_
 		{
-			render::ShaderDataType::Float3
+			ShaderDataType::Float3
 		};
-		colors_vbo_ = std::make_unique<render::vertex_buffer>(colors, sizeof(colors), colors_layout_,
-						 									  render::vertex_buffer::Usage::Static);
+		colors_vbo_ = std::make_unique<vertex_buffer>(colors, sizeof(colors), colors_layout_,
+						 									  vertex_buffer::Usage::Static);
 
-		VAO_2buffers_ = std::make_unique<render::vertex_array>();
+		VAO_2buffers_ = std::make_unique<vertex_array>();
 
 		VAO_2buffers_->addVertexBuffer(*points_vbo_);
 		VAO_2buffers_->addVertexBuffer(*colors_vbo_);
 
 
 
-		render::buffer_layout points_colors_layout_
+		buffer_layout points_colors_layout_
 		{
-			render::ShaderDataType::Float3,
-			render::ShaderDataType::Float3
+			ShaderDataType::Float3,
+			ShaderDataType::Float3
 		};
 
-		points_colors_vbo_ = std::make_unique<render::vertex_buffer>(square_points_colors, sizeof(square_points_colors),
-																	 points_colors_layout_, render::vertex_buffer::Usage::Static);
+		points_colors_vbo_ = std::make_unique<vertex_buffer>(square_points_colors, sizeof(square_points_colors),
+																	 points_colors_layout_, vertex_buffer::Usage::Static);
 
-		index_buffer_ = std::make_unique<render::index_buffer>(indexes, 6, render::vertex_buffer::Usage::Static);
+		index_buffer_ = std::make_unique<index_buffer>(indexes, 6, vertex_buffer::Usage::Static);
 
-		VAO_1buffer_ = std::make_unique<render::vertex_array>();
+		VAO_1buffer_ = std::make_unique<vertex_array>();
 
 		VAO_1buffer_->addVertexBuffer(*points_colors_vbo_);
 		VAO_1buffer_->setIndexBuffer(*index_buffer_);
@@ -179,8 +185,8 @@ namespace engine
 
 	void window_gui::onUpdate() noexcept
 	{
-		render::renderer_open_gl::setClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
-		render::renderer_open_gl::clear(render::renderer_open_gl::Mask::ColorBuffer);
+		renderer::setClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
+		renderer::clear(renderer::Mask::ColorBuffer);
 
 		shader_program_->bind();
 		
@@ -188,12 +194,12 @@ namespace engine
 		if (is_one_buffer)
 		{
 			VAO_1buffer_->bind();
-			render::renderer_open_gl::draw(*VAO_1buffer_);
+			renderer::draw(*VAO_1buffer_);
 		}
 		else
 		{
 			VAO_2buffers_->bind();
-			render::renderer_open_gl::draw(*VAO_2buffers_);
+			renderer::draw(*VAO_2buffers_);
 		}
 
 		glm::mat4 scale_matrix(scale[0],	    0,		  0,		 0,
@@ -243,7 +249,7 @@ namespace engine
 
 		ui::ImGuiModule::onUIDrawEnd();
 
-		glfw_window::onUpdate();
+		window::onUpdate();
 	}
 
 

@@ -1,22 +1,22 @@
 #pragma once
 
+#include <engine/util/noconstructible.hpp>
+
 #include <vector>
 #include <memory>
 
 
 
-namespace engine
+namespace engine::window::glfw
 {
-	class basic_window;
+	class window;
 
-	class windows_collector
+	class windows_collector : private util::noconstructible
 	{
 	public:
 
-		using window_ptr = std::shared_ptr<basic_window>;
+		using window_ptr = std::shared_ptr<window>;
 		using windows_storage = std::vector<window_ptr>;
-
-		windows_collector() = delete;
 
 		static void addNewWindow(window_ptr _window_ptr);
 		static void closeAllWindows() noexcept;
