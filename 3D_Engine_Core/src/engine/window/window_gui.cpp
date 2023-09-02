@@ -12,9 +12,9 @@
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 
+#include <engine/modules/ui/ImGuiModule.hpp>
+
 #include <imgui/imgui.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
-#include <imgui/backends/imgui_impl_glfw.h>
 
 #include <glm/matrix.hpp>
 #include <glm/trigonometric.hpp>
@@ -112,7 +112,7 @@ namespace engine
 
 
 
-	std::optional<error::window_error> window_gui::create(std::uint16_t _width, std::uint16_t _height) noexcept
+	std::optional<error::window_error> window_gui::create(uint16_t _width, uint16_t _height) noexcept
 	{
 		auto result_ = glfw_window::create(_width, _height);
 		if (result_.has_value())
@@ -122,10 +122,9 @@ namespace engine
 		}
 		render::renderer_open_gl::init_with_glfw();
 
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		ImGui_ImplOpenGL3_Init();
-		ImGui_ImplGlfw_InitForOpenGL(m_window_ptr, true);
+		ui::ImGuiModule::onWindowCreate(m_window_ptr);
+
+
 
 		shader_program_ = std::make_unique<engine::render::shader_program>(vertex_shader, fragment_shader);
 
@@ -225,14 +224,7 @@ namespace engine
 		shader_program_->setMatrix4f("view_projection_matrix", camera->getViewProjectionMatrix());
 
 
-
-		ImGuiIO& io_ = ImGui::GetIO();
-		io_.DisplaySize.x = static_cast<float>(getWidth());
-		io_.DisplaySize.y = static_cast<float>(getHeight());
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+		ui::ImGuiModule::onUIDrawBegin();
 
 		ImGui::Begin("BG Color Editor");
 		ImGui::ColorEdit4("Background color", m_bg_color_.data());
@@ -245,9 +237,15 @@ namespace engine
 		ImGui::Checkbox("Perspective projection", &is_perspective_projection);
 		ImGui::End();
 
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		ui::ImGuiModule::onUIDrawEnd();
 
 		glfw_window::onUpdate();
+	}
+
+
+
+	window_gui::~window_gui()
+	{
+		ui::ImGuiModule::onWindowShutdown();
 	}
 }

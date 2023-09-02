@@ -7,15 +7,10 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/application.hpp
-
 		include/engine/error.hpp
-
 		include/engine/logging/log.hpp
-
 		include/engine/util/nocopyeble.hpp
-
 		include/engine/interfaces/binded_object.hpp
-
 		include/engine/render/camera.hpp
 )
 
@@ -39,8 +34,9 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/buffer_layout.hpp
 
 		include/engine/render/open_gl/shader_program.hpp
-
 		include/engine/render/open_gl/renderer_open_gl.hpp
+
+		include/engine/modules/ui/ImGuiModule.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -61,10 +57,11 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/vertex_array.cpp
 		
 		src/engine/render/open_gl/shader_program.cpp
-
 		src/engine/render/open_gl/renderer_open_gl.cpp
 
 		src/engine/render/camera.cpp
+
+		src/engine/modules/ui/ImGuiModule.cpp
 )
 
 set(ENGINE_ALL_SOURCES
