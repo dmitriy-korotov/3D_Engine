@@ -95,7 +95,7 @@ namespace engine::render
 
 	std::string renderer_open_gl::getRenderer() noexcept
 	{
-		return reinterpret_cast<const char*>(glGetString(GL_RENDER));
+		return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 	}
 
 
