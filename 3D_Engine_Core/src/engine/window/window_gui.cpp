@@ -226,6 +226,10 @@ namespace engine
 
 		ui::ImGuiModule::onUIDrawBegin();
 
+		bool open = true;
+		ui::ImGuiModule::ShowExampleAppDockSpace(&open);
+		ImGui::ShowDemoWindow();
+
 		ImGui::Begin("BG Color Editor");
 		ImGui::ColorEdit4("Background color", m_bg_color_.data());
 		ImGui::Checkbox("One buffer rendering", &is_one_buffer);

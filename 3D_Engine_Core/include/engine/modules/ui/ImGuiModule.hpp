@@ -17,5 +17,7 @@ namespace engine::ui
 		static void onUIDrawBegin() noexcept;
 		static void onUIDrawEnd() noexcept;
 
+		static void ShowExampleAppDockSpace(bool* p_open);
+
 	};
 }
