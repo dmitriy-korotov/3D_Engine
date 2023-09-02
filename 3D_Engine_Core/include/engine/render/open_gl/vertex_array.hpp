@@ -8,14 +8,12 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	class vertex_buffer;
 	class index_buffer;
 
-
-
-	class vertex_array final: private util::nocopyeble, private binded_object
+	class vertex_array final: private util::nocopyeble, public interfaces::binded_object
 	{
 	public:
 

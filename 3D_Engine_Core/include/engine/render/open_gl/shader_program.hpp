@@ -2,15 +2,16 @@
 
 #include <engine/render/open_gl/gl_types.hpp>
 #include <engine/util/nocopyeble.hpp>
+#include <engine/interfaces/binded_object.hpp>
 
-#include <glm/mat4x4.hpp>
+#include <glm/fwd.hpp>	// glm dependens (TODO: try to remove)
 
 #include <iostream>
 #include <optional>
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	enum class ShaderType : uint8_t
 	{
@@ -18,9 +19,7 @@ namespace engine::render
 		fragment_shader
 	};
 
-
-
-	class shader_program : private util::nocopyeble
+	class shader_program final: private util::nocopyeble, public interfaces::binded_object
 	{
 	public:
 
@@ -33,12 +32,12 @@ namespace engine::render
 		bool isCompiled() const noexcept;
 		void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept;
 
-		void bind() const noexcept;
-		void unbind() const noexcept;
+		void bind() const noexcept override;
+		void unbind() const noexcept override;
 
 	private:
 
-		static std::optional<unsigned int> createShader(ShaderType _shader_type, const std::string_view& _source) noexcept;
+		static std::optional<GLuint> createShader(ShaderType _shader_type, const std::string_view& _source) noexcept;
 
 	private:
 

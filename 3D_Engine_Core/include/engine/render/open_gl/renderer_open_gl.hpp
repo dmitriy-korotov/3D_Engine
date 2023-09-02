@@ -1,21 +1,24 @@
 #pragma once
 
+#include <engine/util/noconstructible.hpp>
+
 #include <string>
 #include <stdint.h>
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	class vertex_array;
 
-	class renderer_open_gl
+	class renderer : private util::noconstructible
 	{
 	public:
 
 		enum class Mask : uint8_t
 		{
-			ColorBuffer
+			ColorBuffer,
+			DepthBuffer
 		};
 
 		enum class DrawingMode : uint8_t
@@ -23,10 +26,6 @@ namespace engine::render
 			Triangle,
 			Line
 		};
-
-
-
-		renderer_open_gl() = delete;
 
 		static bool init_with_glfw() noexcept;
 		static void draw(const vertex_array& _vertex_array_buffer, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;

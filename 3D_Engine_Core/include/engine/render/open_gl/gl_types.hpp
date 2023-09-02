@@ -2,7 +2,7 @@
 
 
 
-namespace engine
+namespace engine::render::open_gl
 {
 	using GLuint = unsigned int;
 	using GLenum = unsigned int;

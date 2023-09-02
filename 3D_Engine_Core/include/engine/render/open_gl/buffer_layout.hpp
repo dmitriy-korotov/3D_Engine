@@ -4,7 +4,7 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	enum class ShaderDataType : uint8_t
 	{

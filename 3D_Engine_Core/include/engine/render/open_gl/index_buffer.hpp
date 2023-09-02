@@ -4,7 +4,7 @@
 
 
 
-namespace engine::render
+namespace engine::render::open_gl
 {
 	class index_buffer final: public basic_open_gl_buffer
 	{

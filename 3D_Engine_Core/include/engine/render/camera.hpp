@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/vec3.hpp>
+#include <glm/vec3.hpp>						// glm dependens (TODO: try to remove)
 #include <glm/ext/matrix_float4x4.hpp>
 
 
@@ -16,8 +16,6 @@ namespace engine::render
 			Perspective,
 			Orthographic
 		};
-
-
 
 		explicit camera(const glm::vec3& _position = glm::vec3(0.f), const glm::vec3& _rotation = glm::vec3(0.f),
 						Projection _projection_mode = Projection::Perspective) noexcept;

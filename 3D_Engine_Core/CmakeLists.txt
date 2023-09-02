@@ -7,11 +7,15 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/application.hpp
-		include/engine/error.hpp
+
+		include/engine/error/error.hpp
 		include/engine/logging/log.hpp
+		
 		include/engine/util/nocopyeble.hpp
+		include/engine/util/noconstructible.hpp
+		include/engine/util/nomoveble.hpp
+
 		include/engine/interfaces/binded_object.hpp
-		include/engine/render/camera.hpp
 )
 
 set(ENGINE_PRIVATE_HEADERS
@@ -19,7 +23,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/events_data.hpp
 
 		include/engine/window/basic_window.hpp
-		include/engine/window/glfw_window.hpp
+		include/engine/window/glfw/glfw_window.hpp
 		include/engine/window/window_gui.hpp
 
 		include/engine/window/windows_collector.hpp
@@ -36,6 +40,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/shader_program.hpp
 		include/engine/render/open_gl/renderer_open_gl.hpp
 
+		include/engine/render/camera.hpp
+
 		include/engine/modules/ui/ImGuiModule.hpp
 )
 
@@ -44,7 +50,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/application.cpp
 
 		src/engine/window/basic_window.cpp
-		src/engine/window/glfw_window.cpp
+		src/engine/window/glfw/glfw_window.cpp
 		src/engine/window/window_gui.cpp
 
 		src/engine/window/windows_collector.cpp
