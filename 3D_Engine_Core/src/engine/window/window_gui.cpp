@@ -1,5 +1,7 @@
 #include <engine/window/window_gui.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/render/open_gl/shader_program.hpp>
 #include <engine/render/open_gl/vertex_buffer.hpp>
 #include <engine/render/open_gl/index_buffer.hpp>

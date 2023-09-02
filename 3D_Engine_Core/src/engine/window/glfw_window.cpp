@@ -1,6 +1,9 @@
 #include <engine/window/glfw_window.hpp>
 
 #include <engine/error.hpp>
+#include <engine/logging/log.hpp>
+
+#include <engine/window/windows_manager.hpp>
 
 #include <GLFW/glfw3.h>
 
@@ -64,6 +67,48 @@ namespace engine
 		}
 
 		return std::nullopt;
+	}
+
+
+
+	void glfw_window::setWindowResizeCallBack() const noexcept
+	{
+		glfwSetWindowSizeCallback(m_window_ptr,
+			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
+			{
+				try
+				{
+					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
+					window_data.height = _height;
+					window_data.width = _width;
+
+					window::ResizeEventData resize_data = { window_data.height, window_data.width };
+					call_backs.resize_call_back_(resize_data);
+				}
+				catch (const std::exception& ex_)
+				{
+					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
+				}
+			});
+	}
+
+
+
+	void glfw_window::setWindowCloseCallBack() const noexcept
+	{
+		glfwSetWindowCloseCallback(m_window_ptr,
+			[](GLFWwindow* _window_ptr) -> void
+			{
+				try
+				{
+					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
+					call_backs.close_call_back_();
+				}
+				catch (const std::exception& ex_)
+				{
+					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
+				}
+			});
 	}
 
 

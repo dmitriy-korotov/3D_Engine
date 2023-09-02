@@ -31,10 +31,13 @@ namespace engine
 		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
 
-		template<window::Events _event_type, typename _CallBackFunction>
-		void addEventListener(_CallBackFunction _call_back) noexcept;
+		template<window::Events _event_type, typename CallBackFunction>
+		void addEventListener(CallBackFunction _call_back) noexcept;
 
 	private:
+
+		void setWindowResizeCallBack() const noexcept;
+		void setWindowCloseCallBack() const noexcept;
 
 		std::optional<error::window_error> __glfwInit() const noexcept;
 
@@ -50,50 +53,19 @@ namespace engine
 
 
 
-#include <engine/window/windows_manager.hpp>
-#include <engine/logging/log.hpp>
 
 
-
-template<engine::window::Events _event_type, typename _CallBackFunction>
-void engine::glfw_window::addEventListener(_CallBackFunction _call_back) noexcept
+template<engine::window::Events _event_type, typename CallBackFunction>
+void engine::glfw_window::addEventListener(CallBackFunction _call_back) noexcept
 {
 	if constexpr (_event_type == window::Events::Resize)
 	{
 		m_window_call_backs_.resize_call_back_ = std::move(_call_back);
-		glfwSetWindowSizeCallback(m_window_ptr,
-			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
-			{
-				try
-				{
-					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
-					window_data.height = _height;
-					window_data.width = _width;
-
-					window::ResizeEventData resize_data = { window_data.height, window_data.width };
-					call_backs.resize_call_back_(resize_data);
-				}
-				catch (const std::exception& ex_)
-				{
-					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
-				}
-			});
+		setWindowResizeCallBack();
 	}
 	if constexpr (_event_type == window::Events::Close)
 	{
 		m_window_call_backs_.close_call_back_ = std::move(_call_back);
-		glfwSetWindowCloseCallback(m_window_ptr,
-			[](GLFWwindow* _window_ptr) -> void
-			{
-				try
-				{
-					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
-					call_backs.close_call_back_();
-				}
-				catch (const std::exception& ex_)
-				{
-					LOG_ERROR("Window catched exception when handeled event: " + std::string(ex_.what()));
-				}
-			});
+		setWindowCloseCallBack();
 	}
 }

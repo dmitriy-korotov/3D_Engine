@@ -1,14 +1,12 @@
 #include <engine/application.hpp>
 
+#include <engine/render/open_gl/renderer_open_gl.hpp>
+
 #include <engine/error.hpp>
 #include <engine/logging/log.hpp>
 
 #include <engine/window/window_gui.hpp>
 #include <engine/window/events_data.hpp>
-#include <engine/window/windows_manager.hpp>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 
 
@@ -55,7 +53,7 @@ namespace engine
             [this](const window::ResizeEventData& _size) -> void
             {
                 LOG_INFO("[RESIZE EVENT] Window '{0}', size: {1}x{2}", m_window_ptr->getTitle(), _size.width, _size.height);
-                glViewport(0, 0, _size.width, _size.height);
+                render::renderer_open_gl::setViewport(_size.width, _size.height);
             });
 
         m_window_ptr->addEventListener<window::Events::Close>(
