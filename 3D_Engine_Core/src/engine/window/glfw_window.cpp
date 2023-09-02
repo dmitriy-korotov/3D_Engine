@@ -37,13 +37,18 @@ namespace engine
 
 
 
-	std::optional<error::window_error> glfw_window::create(std::uint16_t _width, std::uint16_t _height) noexcept
+	std::optional<error::window_error> glfw_window::create(uint16_t _width, uint16_t _height) noexcept
 	{
 		auto result_ = __glfwInit();
 		if (result_.has_value())
 		{
 			return result_;
 		}
+		glfwSetErrorCallback(
+			[](int _error_code, const char* _description) -> void
+			{
+				LOG_ERROR("GLFW error (code: {0}): {1}", _error_code, _description);
+			});
 
 		m_window_data_.width = _width;
 		m_window_data_.height = _height;
@@ -83,7 +88,7 @@ namespace engine
 					window_data.width = _width;
 
 					window::ResizeEventData resize_data = { window_data.height, window_data.width };
-					call_backs.resize_call_back_(resize_data);
+					call_backs.resize_call_back(resize_data);
 				}
 				catch (const std::exception& ex_)
 				{
@@ -102,7 +107,7 @@ namespace engine
 				try
 				{
 					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
-					call_backs.close_call_back_();
+					call_backs.close_call_back();
 				}
 				catch (const std::exception& ex_)
 				{

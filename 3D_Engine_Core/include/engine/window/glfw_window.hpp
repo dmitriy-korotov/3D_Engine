@@ -27,7 +27,7 @@ namespace engine
 		glfw_window(const std::string_view& _title);
 		~glfw_window();
 
-		std::optional<error::window_error> create(std::uint16_t _width, std::uint16_t _height) noexcept override;
+		std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept override;
 		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
 
@@ -60,12 +60,12 @@ void engine::glfw_window::addEventListener(CallBackFunction _call_back) noexcept
 {
 	if constexpr (_event_type == window::Events::Resize)
 	{
-		m_window_call_backs_.resize_call_back_ = std::move(_call_back);
+		m_window_call_backs_.resize_call_back = std::move(_call_back);
 		setWindowResizeCallBack();
 	}
 	if constexpr (_event_type == window::Events::Close)
 	{
-		m_window_call_backs_.close_call_back_ = std::move(_call_back);
+		m_window_call_backs_.close_call_back = std::move(_call_back);
 		setWindowCloseCallBack();
 	}
 }

@@ -48,6 +48,10 @@ namespace engine::render
 			LOG_CRITICAL("Can't load glad.");
 			return false;
 		}
+		LOG_INFO("OpenGL vendor: {0}", renderer_open_gl::getVendor());
+		LOG_INFO("OpenGL renderer: {0}", renderer_open_gl::getRenderer());
+		LOG_INFO("OpenGL version: {0}", renderer_open_gl::getVersion());
+
 		return true;
 	}
 

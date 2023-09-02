@@ -17,7 +17,9 @@ namespace engine::window
 		MouseButtonRelease,
 
 		PressKey,
-		ReleaseKey
+		ReleaseKey,
+
+		Error
 	};
 
 
@@ -34,20 +36,28 @@ namespace engine::window
 		double y;
 	};
 
+	struct ErrorEventData
+	{
+		int error_code;
+		const char* description;
+	};
+
 
 
 
 
 	using ResizeCallBack = std::function<void(const ResizeEventData&)>;
 	using MouseMoveCallBack = std::function<void(const MouseMoveEventData&)>;
+	using ErrorCallBack = std::function<void(const ErrorEventData*)>;
 	using CloseCallBack = std::function<void()>;
 
 
 
 	struct CallBackStorage
 	{
-		ResizeCallBack resize_call_back_;
-		MouseMoveCallBack mouse_move_call_back_;
-		CloseCallBack close_call_back_;
+		ResizeCallBack resize_call_back;
+		MouseMoveCallBack mouse_move_call_back;
+		ErrorCallBack error_call_back;
+		CloseCallBack close_call_back;
 	};
 }
