@@ -4,6 +4,9 @@
 #include <engine/window/glfw/events_data.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
+#include <engine/modules/imgui/UIModule.hpp>
+
+#include <imgui/imgui.h>
 
 
 
@@ -64,6 +67,8 @@ std::unique_ptr<vertex_array> VAO_1buffer_;
 */
 using namespace engine::window::glfw;
 using namespace engine::render::open_gl;
+using namespace engine::modules::imgui;
+
 
 
 namespace editor
@@ -71,6 +76,31 @@ namespace editor
 	editor_app::editor_app(uint16_t _width, uint16_t _height,
 		const std::string_view& _editor_name)
 		: application(_width, _height, _editor_name)
+	{
+		setEventListeners();
+		renderer::init_with_glfw();
+		//UIModule::onGlfwWindowCreate_OpenGLRenderer();
+	}
+
+
+
+	void editor_app::onUpdate() noexcept
+	{ 
+		auto bg_color = m_window_ptr->getBackgroundColor();
+		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
+		renderer::clear(renderer::Mask::ColorBuffer);
+	}
+
+
+
+	editor_app::~editor_app()
+	{
+		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
+	}
+
+
+
+	void editor_app::setEventListeners() const noexcept
 	{
 		m_window_ptr->addEventListener<Events::Resize>(
 			[this](const ResizeEventData& _size) -> void
@@ -83,14 +113,6 @@ namespace editor
 			{
 				s_is_closed = true;
 			});
-	}
-
-
-
-	void editor_app::onUpdate() noexcept
-	{ 
-		//renderer::setClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
-		//renderer::clear(renderer::Mask::ColorBuffer);
 	}
 }
 

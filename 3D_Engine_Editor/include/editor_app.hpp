@@ -12,8 +12,13 @@ namespace editor
 
 		editor_app(uint16_t _width, uint16_t _height,
 			const std::string_view& _editor_name);
+		~editor_app() override;
 
 		void onUpdate() noexcept override;
+
+	private:
+
+		void setEventListeners() const noexcept;
 
 	};
 }

@@ -2,10 +2,12 @@
 
 #include <engine/util/noconstructible.hpp>
 
-#include <vector>
+#include <unordered_set>
 #include <memory>
 
 
+
+struct GLFWwindow;
 
 namespace engine::window::glfw
 {
@@ -16,10 +18,18 @@ namespace engine::window::glfw
 	public:
 
 		using window_ptr = std::shared_ptr<window>;
-		using windows_storage = std::vector<window_ptr>;
+		using windows_storage = std::unordered_set<window_ptr>;
 
 		static void addNewWindow(window_ptr _window_ptr);
+		static void closeWindow(const window_ptr& _window_ptr) noexcept;
+		static void closeWindow(GLFWwindow* _window_ptr) noexcept;
 		static void closeAllWindows() noexcept;
+
+		static size_t getWindowsCount() noexcept;
+
+	protected:
+
+		static window_ptr getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
 
 	protected:
 

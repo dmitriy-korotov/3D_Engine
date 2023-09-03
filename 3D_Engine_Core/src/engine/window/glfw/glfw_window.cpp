@@ -121,7 +121,11 @@ namespace engine::window::glfw
 	void window::shutdown() noexcept
 	{
 		glfwDestroyWindow(m_window_ptr);
-		glfwTerminate();
+		windows_manager::closeWindow(m_window_ptr);
+		if (windows_manager::getWindowsCount() == 0)
+		{
+			glfwTerminate();
+		}
 	}
 
 
