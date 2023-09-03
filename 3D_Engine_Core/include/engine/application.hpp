@@ -12,13 +12,16 @@
 
 namespace engine
 {
-	class window_gui;
+	namespace window::glfw
+	{
+		class window;
+	}
 
 	class application: private util::nocopyeble
 	{
 	public:
 
-		using window_ptr = std::shared_ptr<window_gui>;
+		using window_ptr = std::shared_ptr<window::glfw::window>;
 
 		application(uint16_t _width, uint16_t _height,
 				    const std::string_view& _application_name);

@@ -3,7 +3,7 @@
 #include <engine/error/error.hpp>
 #include <engine/logging/log.hpp>
 
-#include <engine/window/window_gui.hpp>
+#include <engine/window/glfw/glfw_window.hpp>
 
 
 
@@ -18,7 +18,7 @@ namespace engine
 
     application::application(std::uint16_t _width, std::uint16_t _height,
                              const std::string_view& _application_name)
-            : m_window_ptr(std::make_shared<window_gui>(_application_name))
+            : m_window_ptr(std::make_shared<window::glfw::window>(_application_name))
     { 
         checkIsNotAlreadyCreated();
         if (m_window_ptr->create(_width, _height).has_value())
