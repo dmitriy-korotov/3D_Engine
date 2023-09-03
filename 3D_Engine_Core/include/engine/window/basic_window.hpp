@@ -3,7 +3,7 @@
 #include <engine/util/nocopyeble.hpp>
 #include <engine/util/nomoveble.hpp>
 
-#include <engine/error/error.hpp>
+#include <engine/error/window_error.hpp>
 
 #include <string>
 #include <optional>

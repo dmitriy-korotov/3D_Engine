@@ -10,11 +10,7 @@ int main(int argc, char** argv)
 	{
 		editor_app app_(1024, 720, "3D Engine");
 
-		if (app_.start().has_value())
-		{
-			std::cerr << "ERROR: Application is not started." << std::endl;
-			return -1;
-		}
+		app_.start();
 	}
 	catch (const std::exception& ex_)
 	{

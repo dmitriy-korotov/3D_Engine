@@ -8,7 +8,7 @@ set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/application.hpp
 
-		include/engine/error/error.hpp
+		include/engine/error/application_error.hpp
 		include/engine/logging/log.hpp
 		
 		include/engine/util/nocopyeble.hpp
@@ -19,6 +19,8 @@ set(ENGINE_PUBLIC_HEADERS
 )
 
 set(ENGINE_PRIVATE_HEADERS
+
+		include/engine/error/window_error.hpp
 
 		include/engine/window/basic_window.hpp
 		

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <engine/util/nocopyeble.hpp>
-#include <engine/error/error.hpp>
 
 #include <string>
 #include <optional>
@@ -30,7 +29,7 @@ namespace engine
 		application(application&&) noexcept = default;
 		application& operator=(application&&) noexcept = default;
 
-		std::optional<error::app_error> start() noexcept;
+		void start() noexcept;
 		void close() noexcept;
 
 	protected:

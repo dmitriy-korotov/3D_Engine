@@ -1,6 +1,5 @@
 #include <engine/application.hpp>
 
-#include <engine/error/error.hpp>
 #include <engine/logging/log.hpp>
 
 #include <engine/window/glfw/glfw_window.hpp>
@@ -43,14 +42,13 @@ namespace engine
 
 
 
-	std::optional<error::app_error> application::start() noexcept
+	void application::start() noexcept
 	{
         while (!s_is_closed)
         {
             m_window_ptr->onUpdate();
             onUpdate();
         }
-        return std::nullopt;
 	}
 
 

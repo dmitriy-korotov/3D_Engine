@@ -1,6 +1,6 @@
 #include <engine/window/glfw/glfw_window.hpp>
 
-#include <engine/error/error.hpp>
+#include <engine/error/window_error.hpp>
 #include <engine/logging/log.hpp>
 
 #include <engine/window/glfw/windows_manager.hpp>
@@ -30,8 +30,13 @@ namespace engine::window::glfw
 		if (!glfwInit())
 		{
 			LOG_CRITICAL("[Glfw Window ERROR] Can't initializate glfw.");
-			return error::window_error::can_not_create;
+			return error::window_error::can_not_init_glfw;
 		}
+		glfwSetErrorCallback(
+			[](int _error_code, const char* _description) -> void
+			{
+				LOG_ERROR("[Glfw Window ERROR] (code: {0}): {1}", _error_code, _description);
+			});
 		return std::nullopt;
 	}
 
@@ -44,11 +49,6 @@ namespace engine::window::glfw
 		{
 			return result_;
 		}
-		glfwSetErrorCallback(
-			[](int _error_code, const char* _description) -> void
-			{
-				LOG_ERROR("[GLFW ERROR] (code: {0}): {1}", _error_code, _description);
-			});
 
 		m_window_data_.width = _width;
 		m_window_data_.height = _height;
