@@ -30,7 +30,7 @@ namespace engine::window::glfw
 
 
 
-	const windows_manager::window_ptr& windows_manager::__getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept
+	windows_manager::window_ptr windows_manager::__getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept
 	{
 		for (const auto& window_ : s_windows_storage_)
 		{

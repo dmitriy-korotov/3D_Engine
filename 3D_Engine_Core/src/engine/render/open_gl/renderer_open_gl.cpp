@@ -62,7 +62,7 @@ namespace engine::render::open_gl
 
 
 
-	void renderer::setClearColor(uint8_t _red, uint8_t _green, uint8_t _blue, float _alpha) noexcept
+	void renderer::setClearColor(float _red, float _green, float _blue, float _alpha) noexcept
 	{
 		glClearColor(_red, _green, _blue, _alpha);
 	}

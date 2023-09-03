@@ -33,7 +33,7 @@ namespace engine
 
 
 
-	void basic_window::setBackgroundColor(uint16_t _red, uint16_t _green, uint16_t _blue, float _alpha) noexcept
+	void basic_window::setBackgroundColor(float _red, float _green, float _blue, float _alpha) noexcept
 	{
 		m_bg_color_[0] = _red;
 		m_bg_color_[1] = _green;

@@ -10,6 +10,10 @@
 
 
 
+using namespace engine::window::glfw;
+
+
+
 static bool s_is_created = false;
 
 
@@ -49,14 +53,14 @@ namespace engine
 
 	std::optional<error::app_error> Application::start() noexcept
 	{
-        m_window_ptr->addEventListener<window::Events::Resize>(
-            [this](const window::ResizeEventData& _size) -> void
+        m_window_ptr->addEventListener<Events::Resize>(
+            [this](const ResizeEventData& _size) -> void
             {
                 LOG_INFO("[RESIZE EVENT] Window '{0}', size: {1}x{2}", m_window_ptr->getTitle(), _size.width, _size.height);
-                render::renderer_open_gl::setViewport(_size.width, _size.height);
+                render::open_gl::renderer::setViewport(_size.width, _size.height);
             });
 
-        m_window_ptr->addEventListener<window::Events::Close>(
+        m_window_ptr->addEventListener<Events::Close>(
             [this]() -> void
             {
                 LOG_INFO("[CLOSE EVENT] Window '{0}' closed", m_window_ptr->getTitle());

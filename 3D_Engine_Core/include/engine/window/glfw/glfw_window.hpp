@@ -52,12 +52,12 @@ namespace engine::window::glfw
 template<engine::window::glfw::Events _event_type, typename CallBackFunction>
 void engine::window::glfw::window::addEventListener(CallBackFunction _call_back) noexcept
 {
-	if constexpr (_event_type == window::Events::Resize)
+	if constexpr (_event_type == Events::Resize)
 	{
 		m_window_call_backs_.resize_call_back = std::move(_call_back);
 		setWindowResizeCallBack();
 	}
-	if constexpr (_event_type == window::Events::Close)
+	if constexpr (_event_type == Events::Close)
 	{
 		m_window_call_backs_.close_call_back = std::move(_call_back);
 		setWindowCloseCallBack();

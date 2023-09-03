@@ -27,7 +27,7 @@ namespace engine
 		uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
 
-		void setBackgroundColor(uint16_t _red, uint16_t _green, uint16_t _blue, float _alpha) noexcept;
+		void setBackgroundColor(float _red, float _green, float _blue, float _alpha) noexcept;
 
 		virtual std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept = 0;
 		virtual void shutdown() noexcept = 0;
@@ -42,6 +42,6 @@ namespace engine
 			std::string title;
 		} m_window_data_;
 
-		bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 0.f };
+		bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 1.f };
 	};
 }

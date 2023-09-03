@@ -18,7 +18,7 @@ namespace engine::window::glfw
 
 	private:
 
-		static const window_ptr& __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
+		static window_ptr __getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
 
 	};
 }
