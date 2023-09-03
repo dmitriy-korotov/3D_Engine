@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		editor::editor_app app_(1024, 720, "3D Engine");
+		editor::editor_app app_(1024, 720, "Editor");
 
 		app_.start();
 	}
@@ -16,6 +16,6 @@ int main(int argc, char** argv)
 	{
 		std::cerr << "ERROR: Application is not started." << std::endl;
 	}
-
+	
 	return 0;
 }

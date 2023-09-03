@@ -21,8 +21,8 @@ namespace engine::window::glfw
 		using windows_storage = std::unordered_set<window_ptr>;
 
 		static void addNewWindow(window_ptr _window_ptr);
-		static void closeWindow(const window_ptr& _window_ptr) noexcept;
-		static void closeWindow(GLFWwindow* _window_ptr) noexcept;
+		static void removeWindow(const window_ptr& _window_ptr) noexcept;
+		static void removeWindow(GLFWwindow* _window_ptr) noexcept;
 		static void closeAllWindows() noexcept;
 
 		static size_t getWindowsCount() noexcept;

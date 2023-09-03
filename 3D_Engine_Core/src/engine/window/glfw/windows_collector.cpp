@@ -21,16 +21,22 @@ namespace engine::window::glfw
 
 
 
-	void windows_collector::closeWindow(const window_ptr& _window_ptr) noexcept
+	void windows_collector::removeWindow(const window_ptr& _window_ptr) noexcept
 	{
-		s_windows_storage_.erase(_window_ptr);
+		if (!s_windows_storage_.empty())
+		{
+			s_windows_storage_.erase(_window_ptr);
+		}
 	}
 
 
 
-	void windows_collector::closeWindow(GLFWwindow* _window_ptr) noexcept
+	void windows_collector::removeWindow(GLFWwindow* _window_ptr) noexcept
 	{
-		s_windows_storage_.erase(getWindowFromRawPtr(_window_ptr));
+		if (!s_windows_storage_.empty())
+		{
+			s_windows_storage_.erase(getWindowFromRawPtr(_window_ptr));
+		}
 	}
 
 

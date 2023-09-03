@@ -42,17 +42,8 @@ namespace engine::window::glfw
 
 
 
-	std::optional<error::window_error> window::create(uint16_t _width, uint16_t _height) noexcept
+	std::optional<error::window_error> window::__createGlfwWindow() noexcept
 	{
-		auto result_ = __glfwInit();
-		if (result_.has_value())
-		{
-			return result_;
-		}
-
-		m_window_data_.width = _width;
-		m_window_data_.height = _height;
-
 		m_window_ptr = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
 		if (!m_window_ptr)
 		{
@@ -60,6 +51,27 @@ namespace engine::window::glfw
 			return error::window_error::can_not_create;
 		}
 		glfwMakeContextCurrent(m_window_ptr);
+		return std::nullopt;
+	}
+
+
+
+	std::optional<error::window_error> window::create(uint16_t _width, uint16_t _height) noexcept
+	{
+		auto is_glfw_inited_ = __glfwInit();
+		if (is_glfw_inited_.has_value())
+		{
+			return is_glfw_inited_;
+		}
+
+		m_window_data_.width = _width;
+		m_window_data_.height = _height;
+
+		auto is_glfw_window_created_ = __createGlfwWindow();
+		if (is_glfw_window_created_.has_value())
+		{
+			return is_glfw_window_created_;
+		}
 
 		try
 		{
@@ -121,11 +133,7 @@ namespace engine::window::glfw
 	void window::shutdown() noexcept
 	{
 		glfwDestroyWindow(m_window_ptr);
-		windows_manager::closeWindow(m_window_ptr);
-		if (windows_manager::getWindowsCount() == 0)
-		{
-			glfwTerminate();
-		}
+		glfwTerminate();
 	}
 
 

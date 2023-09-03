@@ -38,6 +38,7 @@ namespace engine::window::glfw
 		void setWindowCloseCallBack() const noexcept;
 
 		std::optional<error::window_error> __glfwInit() const noexcept;
+		std::optional<error::window_error> __createGlfwWindow() noexcept;
 
 	protected:
 

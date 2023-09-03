@@ -8,6 +8,8 @@
 
 #include <imgui/imgui.h>
 
+#include <iostream>
+
 
 
 /*
@@ -78,7 +80,10 @@ namespace editor
 		: application(_width, _height, _editor_name)
 	{
 		setEventListeners();
-		renderer::init_with_glfw();
+		if (!renderer::init_with_glfw())
+		{
+			std::cerr << "[Editor ERROR] Can't init OpenGL with Glfw." << std::endl; 
+		}
 		//UIModule::onGlfwWindowCreate_OpenGLRenderer();
 	}
 
