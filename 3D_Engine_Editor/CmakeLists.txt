@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
+
+
 set(EDITOR_PROJECT_NAME 3D_Engine_Editor)
 
 
@@ -17,7 +19,7 @@ set(EDITOR_ALL_SOURCES ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
 
 
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_ALL_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_ALL_SOURCES})
 
 
 
@@ -27,7 +29,9 @@ add_executable(${EDITOR_PROJECT_NAME}
 
 
 
-target_include_directories(${EDITOR_PROJECT_NAME} PUBLIC include)
+target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE include)
 target_link_libraries(${EDITOR_PROJECT_NAME} PUBLIC 3D_Engine_Core)
+
+
 
 set_target_properties(${EDITOR_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)

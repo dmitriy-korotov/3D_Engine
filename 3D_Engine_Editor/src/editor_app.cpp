@@ -1,5 +1,10 @@
 #include <editor_app.hpp>
 
+#include <engine/window/glfw/glfw_window.hpp>
+#include <engine/window/glfw/events_data.hpp>
+
+#include <engine/render/open_gl/renderer_open_gl.hpp>
+
 
 
 /*
@@ -57,36 +62,43 @@ std::unique_ptr<index_buffer> index_buffer_;
 std::unique_ptr<vertex_array> VAO_1buffer_;
 //-----------------------------------------------------------------------------------------------------------------//
 */
+using namespace engine::window::glfw;
+using namespace engine::render::open_gl;
 
 
-
-editor_app::editor_app(uint16_t _width, uint16_t _height,
-				       const std::string_view& _editor_name)
+namespace editor
+{
+	editor_app::editor_app(uint16_t _width, uint16_t _height,
+		const std::string_view& _editor_name)
 		: application(_width, _height, _editor_name)
-{ }
+	{
+		m_window_ptr->addEventListener<Events::Resize>(
+			[this](const ResizeEventData& _size) -> void
+			{
+				renderer::setViewport(_size.width, _size.height);
+			});
+
+		m_window_ptr->addEventListener<Events::Close>(
+			[this]() -> void
+			{
+				s_is_closed = true;
+			});
+	}
 
 
 
-void editor_app::onUpdate() noexcept
-{ }
+	void editor_app::onUpdate() noexcept
+	{ 
+		//renderer::setClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
+		//renderer::clear(renderer::Mask::ColorBuffer);
+	}
+}
 
 
 
 /*
 //-----------------------------------------------------------------------------------------------------------------//   
-m_window_ptr->addEventListener<Events::Resize>(
-    [this](const ResizeEventData& _size) -> void
-    {
-        LOG_INFO("[RESIZE EVENT] Window '{0}', size: {1}x{2}", m_window_ptr->getTitle(), _size.width, _size.height);
-        render::open_gl::renderer::setViewport(_size.width, _size.height);
-    });
 
-m_window_ptr->addEventListener<Events::Close>(
-    [this]() -> void
-    {
-        LOG_INFO("[CLOSE EVENT] Window '{0}' closed", m_window_ptr->getTitle());
-        m_is_closed = true;
-    });
 //-----------------------------------------------------------------------------------------------------------------//
 shader_program_ = std::make_unique<shader_program>(vertex_shader, fragment_shader);
 
@@ -110,8 +122,7 @@ camera = std::make_unique<render::camera>();
 
 //-----------------------------------------------------------------------------------------------------------------//
 
-renderer::setClearColor(m_bg_color_[0], m_bg_color_[1], m_bg_color_[2], m_bg_color_[3]);
-renderer::clear(renderer::Mask::ColorBuffer);
+
 
 shader_program_->bind();
 

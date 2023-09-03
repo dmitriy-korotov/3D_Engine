@@ -4,13 +4,16 @@
 
 
 
-class editor_app : public engine::application
+namespace editor
 {
-public:
+	class editor_app : public engine::application
+	{
+	public:
 
-	editor_app(uint16_t _width, uint16_t _height,
-			   const std::string_view& _editor_name);
+		editor_app(uint16_t _width, uint16_t _height,
+			const std::string_view& _editor_name);
 
-	void onUpdate() noexcept override;
+		void onUpdate() noexcept override;
 
-};
+	};
+}

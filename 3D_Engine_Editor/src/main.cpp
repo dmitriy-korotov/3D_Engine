@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		editor_app app_(1024, 720, "3D Engine");
+		editor::editor_app app_(1024, 720, "3D Engine");
 
 		app_.start();
 	}
