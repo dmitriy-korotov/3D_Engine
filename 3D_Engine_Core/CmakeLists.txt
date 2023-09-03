@@ -40,7 +40,7 @@ set(ENGINE_PRIVATE_HEADERS
 
 		include/engine/render/camera.hpp
 
-		include/engine/modules/ui/ImGuiModule.hpp
+		include/engine/modules/imgui/UIModule.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -64,7 +64,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/render/camera.cpp
 
-		src/engine/modules/ui/ImGuiModule.cpp
+		src/engine/modules/imgui/UIModule.cpp
 )
 
 set(ENGINE_ALL_SOURCES

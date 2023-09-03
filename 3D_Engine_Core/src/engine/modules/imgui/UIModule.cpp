@@ -1,4 +1,4 @@
-#include <engine/modules/ui/ImGuiModule.hpp>
+#include <engine/modules/imgui/UIModule.hpp>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
@@ -8,24 +8,30 @@
 
 
 
-namespace engine::ui
+namespace engine::modules::imgui
 {
-	void ImGuiModule::onWindowCreate(GLFWwindow* _window_ptr) noexcept
+    void UIModule::setupImGuiConfig() noexcept
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_::ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_::ImGuiConfigFlags_ViewportsEnable;
+    }
+
+
+
+	void UIModule::onGlfwWindowCreate_OpenGLRenderer(GLFWwindow* _window_ptr) noexcept
 	{
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-
-		ImGuiIO& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_::ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_::ImGuiConfigFlags_ViewportsEnable;
-
+        setupImGuiConfig();
 		ImGui_ImplOpenGL3_Init();
 		ImGui_ImplGlfw_InitForOpenGL(_window_ptr, true);
 	}
 
 
 
-	void ImGuiModule::onWindowShutdown() noexcept
+	void UIModule::onGLfwWindowShutdown_OpenGLRenderer() noexcept
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -34,7 +40,7 @@ namespace engine::ui
 
 
 
-	void ImGuiModule::onUIDrawBegin() noexcept
+	void UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer() noexcept
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -43,7 +49,7 @@ namespace engine::ui
 
 
 
-	void ImGuiModule::onUIDrawEnd() noexcept
+	void UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer() noexcept
 	{
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -58,7 +64,7 @@ namespace engine::ui
 
 
 
-    void ImGuiModule::ShowExampleAppDockSpace(bool* p_open)
+    void UIModule::ShowExampleAppDockSpace(bool* p_open)
     {
         // READ THIS !!!
         // TL;DR; this demo is more complicated than what most users you would normally use.

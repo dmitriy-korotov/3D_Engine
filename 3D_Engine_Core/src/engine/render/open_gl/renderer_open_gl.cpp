@@ -45,10 +45,6 @@ namespace engine::render::open_gl
 			LOG_CRITICAL("[OpenGL Renderer ERROR] Can't load glad.");
 			return false;
 		}
-		LOG_INFO("Vendor: {0}",			renderer::getVendor());
-		LOG_INFO("Renderer: {0}",		renderer::getRenderer());
-		LOG_INFO("OpenGL version: {0}", renderer::getVersion());
-		
 		return true;
 	}
 
