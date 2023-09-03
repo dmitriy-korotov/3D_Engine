@@ -21,7 +21,6 @@ set(ENGINE_PUBLIC_HEADERS
 set(ENGINE_PRIVATE_HEADERS
 
 		include/engine/window/basic_window.hpp
-		include/engine/window/window_gui.hpp
 		
 		include/engine/window/glfw/glfw_window.hpp
 		include/engine/window/glfw/events_data.hpp
@@ -48,7 +47,6 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/application.cpp
 
-		src/engine/window/window_gui.cpp
 		src/engine/window/basic_window.cpp
 
 		src/engine/window/glfw/glfw_window.cpp
