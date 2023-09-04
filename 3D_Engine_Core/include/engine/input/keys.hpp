@@ -6,6 +6,15 @@
 
 namespace engine::input
 {
+	enum class Action : uint8_t
+	{
+		Pressed,
+		Released,
+		Repeted
+	};
+
+
+
 	enum class KeyCode : uint16_t
 	{
 		KEY_UNKNOWN           =		-1,
