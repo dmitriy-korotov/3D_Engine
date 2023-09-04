@@ -8,8 +8,8 @@ namespace engine::input
 {
 	enum class Action : uint8_t
 	{
+		Released = 0,
 		Pressed,
-		Released,
 		Repeted
 	};
 

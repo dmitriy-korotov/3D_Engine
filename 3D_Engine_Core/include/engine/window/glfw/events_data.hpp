@@ -45,7 +45,6 @@ namespace engine::window::glfw
 
 	struct KeyboardInputEventData
 	{
-		input::KeyCode key_code;
 		input::Action action;
 	};
 
@@ -67,6 +66,6 @@ namespace engine::window::glfw
 		MouseMoveCallBack mouse_move_call_back;
 		ErrorCallBack error_call_back;
 		CloseCallBack close_call_back;
-		KeyboardInputCallBack keyboard_call_back;
+		KeyboardInputCallBack keyboard_input_call_back;
 	};
 }

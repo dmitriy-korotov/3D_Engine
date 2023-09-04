@@ -1,5 +1,7 @@
 #include <engine/window/glfw/glfw_window.hpp>
 
+#include <engine/input/keyboard.hpp>
+
 #include <engine/error/window_error.hpp>
 #include <engine/logging/log.hpp>
 
@@ -104,7 +106,7 @@ namespace engine::window::glfw
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'resize' event: " + std::string(ex_.what()));
 				}
 			});
 	}
@@ -123,9 +125,40 @@ namespace engine::window::glfw
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'window close' event: " + std::string(ex_.what()));
 				}
 			});
+	}
+
+
+
+	void window::setKeyboardInputCallBack() const noexcept
+	{
+		glfwSetKeyCallback(m_window_ptr,
+			[](GLFWwindow* _window_ptr, int _key_code, int _scancode, int _action, int _mode) -> void
+			{
+				try
+				{
+					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
+
+					KeyboardInputEventData keyboard_input_data = { static_cast<input::Action>(_action) };
+
+					if (keyboard_input_data.action == input::Action::Pressed)
+					{
+						input::keyboard::pressKey(static_cast<input::KeyCode>(_key_code));
+					}
+					else if (keyboard_input_data.action == input::Action::Released)
+					{
+						input::keyboard::releaseKey(static_cast<input::KeyCode>(_key_code));
+					}
+					call_backs.keyboard_input_call_back(keyboard_input_data);
+				}
+				catch (const std::exception& ex_)
+				{
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'keyboard input' event: " + std::string(ex_.what()));
+				}
+			}
+		);
 	}
 
 
