@@ -18,6 +18,9 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/util/nomoveble.hpp
 
 		include/engine/interfaces/binded_object.hpp
+
+		include/engine/input/keys.hpp
+		include/engine/input/keyboard.hpp
 )
 
 set(ENGINE_PRIVATE_HEADERS
@@ -69,6 +72,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/camera.cpp
 
 		src/engine/modules/imgui/UIModule.cpp
+
+		src/engine/input/keyboard.cpp
 )
 
 set(ENGINE_ALL_SOURCES
