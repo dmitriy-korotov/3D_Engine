@@ -2,7 +2,6 @@
 
 #include <engine/logging/log.hpp>
 
-#include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>

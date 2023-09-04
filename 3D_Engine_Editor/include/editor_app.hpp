@@ -4,9 +4,14 @@
 
 
 
+namespace engine::render
+{
+	class camera;
+}
+
 namespace editor
 {
-	class editor_app : public engine::application
+	class editor_app final : public engine::application
 	{
 	public:
 
@@ -20,6 +25,10 @@ namespace editor
 
 		void setEventListeners() const noexcept;
 		void drawUI() noexcept;
+
+	private:
+
+		std::unique_ptr<engine::render::camera> m_camera;
 
 	};
 }

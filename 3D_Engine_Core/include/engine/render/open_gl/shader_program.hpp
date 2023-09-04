@@ -4,7 +4,7 @@
 #include <engine/util/nocopyeble.hpp>
 #include <engine/interfaces/binded_object.hpp>
 
-#include <glm/fwd.hpp>	// glm dependens (TODO: try to remove)
+#include <glm/ext/matrix_float4x4.hpp>	// glm dependens (TODO: try to remove)
 
 #include <iostream>
 #include <optional>

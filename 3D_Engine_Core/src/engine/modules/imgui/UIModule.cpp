@@ -69,7 +69,7 @@ namespace engine::modules::imgui
 
     void UIModule::createDockSpace()
     {
-        static bool p_open = false;
+        static bool is_open = false;
         static bool opt_fullscreen = true;
         static bool opt_padding = false;
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -96,7 +96,7 @@ namespace engine::modules::imgui
 
         if (!opt_padding)
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin("DockSpace", &p_open, window_flags);
+        ImGui::Begin("DockSpace", &is_open, window_flags);
         if (!opt_padding)
             ImGui::PopStyleVar();
 
@@ -126,7 +126,7 @@ namespace engine::modules::imgui
                 ImGui::Separator();
 
                 if (ImGui::MenuItem("Close", NULL, false))
-                    p_open = false;
+                    is_open = false;
                 ImGui::EndMenu();
             }
             ImGui::EndMenuBar();

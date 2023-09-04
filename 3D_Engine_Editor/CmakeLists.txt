@@ -30,7 +30,7 @@ add_executable(${EDITOR_PROJECT_NAME}
 
 
 target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE include)
-target_link_libraries(${EDITOR_PROJECT_NAME} PUBLIC 3D_Engine_Core imgui)
+target_link_libraries(${EDITOR_PROJECT_NAME} PUBLIC 3D_Engine_Core imgui glm)
 
 
 
