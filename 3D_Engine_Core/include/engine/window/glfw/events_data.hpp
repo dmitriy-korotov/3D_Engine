@@ -1,5 +1,7 @@
 #pragma once
 
+#include <engine/input/keys.hpp>
+
 #include <cstdint>
 #include <functional>
 
@@ -42,13 +44,20 @@ namespace engine::window::glfw
 		const char* description;
 	};
 
+	struct KeyboardEventData
+	{
+		input::KeyCode key_code;
+		input::Action action;
+	};
+
 
 
 
 
 	using ResizeCallBack = std::function<void(const ResizeEventData&)>;
 	using MouseMoveCallBack = std::function<void(const MouseMoveEventData&)>;
-	using ErrorCallBack = std::function<void(const ErrorEventData*)>;
+	using ErrorCallBack = std::function<void(const ErrorEventData&)>;
+	using KeyboardCallBack = std::function<void(const KeyboardEventData&)>;
 	using CloseCallBack = std::function<void()>;
 
 
@@ -59,5 +68,6 @@ namespace engine::window::glfw
 		MouseMoveCallBack mouse_move_call_back;
 		ErrorCallBack error_call_back;
 		CloseCallBack close_call_back;
+		KeyboardCallBack keyboard_call_back;
 	};
 }
