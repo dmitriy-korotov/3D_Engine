@@ -162,7 +162,7 @@ namespace editor
 	void editor_app::setEventListeners() const noexcept
 	{
 		m_window_ptr->addEventListener<Events::Resize>(
-			[](const ResizeEventData& _size) -> void
+			[this](const ResizeEventData& _size) -> void
 			{
 				renderer::setViewport(_size.width, _size.height);
 			});

@@ -101,7 +101,7 @@ namespace engine::window::glfw
 					window_data.height = _height;
 					window_data.width = _width;
 
-					ResizeEventData resize_data = { window_data.height, window_data.width };
+					ResizeEventData resize_data = { window_data.width, window_data.height };
 					call_backs.resize_call_back(resize_data);
 				}
 				catch (const std::exception& ex_)
