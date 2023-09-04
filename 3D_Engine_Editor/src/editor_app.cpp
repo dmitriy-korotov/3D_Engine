@@ -175,20 +175,6 @@ namespace editor
 		m_window_ptr->addEventListener<Events::KeyboardInput>(
 			[](const KeyboardInputEventData& _keyboard_intput_data) -> void
 			{
-				if (_keyboard_intput_data.action == engine::input::Action::Pressed)
-				{
-					
-				}
-				else if (_keyboard_intput_data.action == engine::input::Action::Released)
-				{
-
-				}
-				else if (_keyboard_intput_data.action == engine::input::Action::Repeted)
-				{
-
-				}
-
-
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_W))
 				{
 					camera_position[2] -= 0.05f;
