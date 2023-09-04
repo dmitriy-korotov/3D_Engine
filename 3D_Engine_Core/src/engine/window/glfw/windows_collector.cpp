@@ -31,16 +31,6 @@ namespace engine::window::glfw
 
 
 
-	void windows_collector::removeWindow(GLFWwindow* _window_ptr) noexcept
-	{
-		if (!s_windows_storage_.empty())
-		{
-			s_windows_storage_.erase(getWindowFromRawPtr(_window_ptr));
-		}
-	}
-
-
-
 	size_t windows_collector::getWindowsCount() noexcept
 	{
 		return s_windows_storage_.size();
@@ -56,19 +46,5 @@ namespace engine::window::glfw
 				_window_ptr->shutdown();
 			});
 		s_windows_storage_.clear();
-	}
-
-
-
-	windows_collector::window_ptr windows_collector::getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept
-	{
-		for (const auto& window_ : s_windows_storage_)
-		{
-			if (window_->m_window_ptr == _window_raw_ptr)
-			{
-				return window_;
-			}
-		}
-		return nullptr;
 	}
 }

@@ -2,8 +2,14 @@
 
 #include <engine/util/noconstructible.hpp>
 
+#include <memory>
 
-struct GLFWwindow;
+
+
+namespace engine::window::glfw
+{
+	class window;
+}
 
 namespace engine::modules::imgui
 {
@@ -11,7 +17,9 @@ namespace engine::modules::imgui
 	{
 	public:
 
-		static void onGlfwWindowCreate_OpenGLRenderer(GLFWwindow* _window_ptr) noexcept;
+		using window_ptr = std::shared_ptr<window::glfw::window>;
+
+		static void onGlfwWindowCreate_OpenGLRenderer(const window_ptr& _window_ptr) noexcept;
 		static void onGLfwWindowShutdown_OpenGLRenderer() noexcept;
 		static void onUIDrawBegin_GlfwWindow_OpenGLRenderer() noexcept;
 		static void onUIDrawEnd_GlfwWindow_OpenGLRenderer() noexcept;

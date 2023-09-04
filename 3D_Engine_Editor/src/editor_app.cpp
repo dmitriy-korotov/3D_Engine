@@ -84,7 +84,7 @@ namespace editor
 		{
 			std::cerr << "[Editor ERROR] Can't init OpenGL with Glfw." << std::endl; 
 		}
-		//UIModule::onGlfwWindowCreate_OpenGLRenderer();
+		UIModule::onGlfwWindowCreate_OpenGLRenderer(m_window_ptr);
 	}
 
 
@@ -100,7 +100,7 @@ namespace editor
 
 	editor_app::~editor_app()
 	{
-		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
+		UIModule::onGLfwWindowShutdown_OpenGLRenderer();
 	}
 
 

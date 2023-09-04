@@ -22,14 +22,9 @@ namespace engine::window::glfw
 
 		static void addNewWindow(window_ptr _window_ptr);
 		static void removeWindow(const window_ptr& _window_ptr) noexcept;
-		static void removeWindow(GLFWwindow* _window_ptr) noexcept;
 		static void closeAllWindows() noexcept;
 
 		static size_t getWindowsCount() noexcept;
-
-	protected:
-
-		static window_ptr getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
 
 	protected:
 

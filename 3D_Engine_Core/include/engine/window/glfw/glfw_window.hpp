@@ -11,15 +11,13 @@ struct GLFWwindow;
 
 namespace engine::window::glfw
 {
-	class windows_collector;
 	class windows_manager;
 
 	class window : public std::enable_shared_from_this<window>,
-				   public basic_window
+		public basic_window
 	{
 	public:
-		
-		friend windows_collector;
+
 		friend windows_manager;
 
 		window(const std::string_view& _title);
@@ -46,6 +44,7 @@ namespace engine::window::glfw
 		window::CallBackStorage m_window_call_backs_;
 
 	};
+
 }
 
 

@@ -1,5 +1,8 @@
 #include <engine/modules/imgui/UIModule.hpp>
 
+#include <engine/window/glfw/glfw_window.hpp>
+#include <engine/window/glfw/windows_manager.hpp>
+
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <imgui/backends/imgui_impl_glfw.h>
@@ -22,11 +25,11 @@ namespace engine::modules::imgui
 
 
 
-	void UIModule::onGlfwWindowCreate_OpenGLRenderer(GLFWwindow* _window_ptr) noexcept
+	void UIModule::onGlfwWindowCreate_OpenGLRenderer(const window_ptr& _window_ptr) noexcept
 	{
         setupImGuiConfig();
 		ImGui_ImplOpenGL3_Init();
-		ImGui_ImplGlfw_InitForOpenGL(_window_ptr, true);
+		ImGui_ImplGlfw_InitForOpenGL(window::glfw::windows_manager::getRawPtrFromWindow(_window_ptr), true);
 	}
 
 

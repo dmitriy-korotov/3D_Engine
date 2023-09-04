@@ -16,5 +16,8 @@ namespace engine::window::glfw
 		static WindowDataAndCBS getWindowDataAndCBS(const window_ptr& _window_ptr) noexcept;
 		static WindowDataAndCBS	getWindowDataAndCBS(GLFWwindow* _window_ptr);
 
+		static window_ptr getWindowFromRawPtr(GLFWwindow* _window_raw_ptr) noexcept;
+		static GLFWwindow* getRawPtrFromWindow(window_ptr _window_ptr) noexcept;
+
 	};
 }
