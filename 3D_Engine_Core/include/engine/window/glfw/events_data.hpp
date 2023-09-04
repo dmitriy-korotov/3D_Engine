@@ -18,8 +18,7 @@ namespace engine::window::glfw
 		MouseButtonPress,
 		MouseButtonRelease,
 
-		PressKey,
-		ReleaseKey,
+		KeyboardInput,
 
 		Error
 	};
@@ -44,7 +43,7 @@ namespace engine::window::glfw
 		const char* description;
 	};
 
-	struct KeyboardEventData
+	struct KeyboardInputEventData
 	{
 		input::KeyCode key_code;
 		input::Action action;
@@ -57,7 +56,7 @@ namespace engine::window::glfw
 	using ResizeCallBack = std::function<void(const ResizeEventData&)>;
 	using MouseMoveCallBack = std::function<void(const MouseMoveEventData&)>;
 	using ErrorCallBack = std::function<void(const ErrorEventData&)>;
-	using KeyboardCallBack = std::function<void(const KeyboardEventData&)>;
+	using KeyboardInputCallBack = std::function<void(const KeyboardInputEventData&)>;
 	using CloseCallBack = std::function<void()>;
 
 
@@ -68,6 +67,6 @@ namespace engine::window::glfw
 		MouseMoveCallBack mouse_move_call_back;
 		ErrorCallBack error_call_back;
 		CloseCallBack close_call_back;
-		KeyboardCallBack keyboard_call_back;
+		KeyboardInputCallBack keyboard_call_back;
 	};
 }

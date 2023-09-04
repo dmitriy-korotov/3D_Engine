@@ -17,8 +17,6 @@ namespace engine::input
 
 	enum class KeyCode : uint16_t
 	{
-		KEY_UNKNOWN           =		-1,
-
 		KEY_SPACE             =		32,
 		KEY_APOSTROPHE        =		39,  
 		KEY_COMMA             =		44,  
