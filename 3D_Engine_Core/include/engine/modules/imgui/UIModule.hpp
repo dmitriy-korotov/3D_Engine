@@ -24,7 +24,7 @@ namespace engine::modules::imgui
 		static void onUIDrawBegin_GlfwWindow_OpenGLRenderer() noexcept;
 		static void onUIDrawEnd_GlfwWindow_OpenGLRenderer() noexcept;
 
-		static void ShowExampleAppDockSpace(bool* p_open);
+		static void createDockSpace();
 
 	private:
 

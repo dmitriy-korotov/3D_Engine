@@ -96,6 +96,9 @@ namespace editor
 		renderer::clear(renderer::Mask::ColorBuffer);
 
 		UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
+
+		UIModule::createDockSpace();
+
 		ImGui::Begin("BG Color Editor");
 		ImGui::ColorEdit4("Background color", bg_color.data());
 		//ImGui::SliderFloat3("Camera position", camera_position, -10.f, 10.f);
