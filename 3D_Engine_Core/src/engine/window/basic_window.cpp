@@ -40,6 +40,13 @@ namespace engine
 
 
 
+	basic_window::bg_color& basic_window::getBackgroundColor() noexcept
+	{
+		return m_bg_color_;
+	}
+
+
+
 	void basic_window::setBackgroundColor(float _red, float _green, float _blue, float _alpha) noexcept
 	{
 		m_bg_color_[0] = _red;

@@ -91,9 +91,18 @@ namespace editor
 
 	void editor_app::onUpdate() noexcept
 	{ 
-		auto bg_color = m_window_ptr->getBackgroundColor();
+		window::bg_color& bg_color = m_window_ptr->getBackgroundColor();
 		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
 		renderer::clear(renderer::Mask::ColorBuffer);
+
+		UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
+		ImGui::Begin("BG Color Editor");
+		ImGui::ColorEdit4("Background color", bg_color.data());
+		//ImGui::SliderFloat3("Camera position", camera_position, -10.f, 10.f);
+		//ImGui::SliderFloat3("Camera rotation", camera_rotation, -360.f, 360.f);
+		//ImGui::Checkbox("Perspective projection", &is_perspective_projection);
+		ImGui::End();
+		UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer();
 	}
 
 
@@ -119,6 +128,11 @@ namespace editor
 				s_is_closed = true;
 			});
 	}
+
+
+
+	void editor_app::drawUI() noexcept
+	{ }
 }
 
 
@@ -190,12 +204,7 @@ bool open = true;
 ui::ImGuiModule::ShowExampleAppDockSpace(&open);
 ImGui::ShowDemoWindow();
 
-ImGui::Begin("BG Color Editor");
-ImGui::ColorEdit4("Background color", m_bg_color_.data());
-ImGui::SliderFloat3("Camera position", camera_position, -10.f, 10.f);
-ImGui::SliderFloat3("Camera rotation", camera_rotation, -360.f, 360.f);
-ImGui::Checkbox("Perspective projection", &is_perspective_projection);
-ImGui::End();
+
 
 ui::ImGuiModule::onUIDrawEnd();
 

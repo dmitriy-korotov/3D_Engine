@@ -27,6 +27,8 @@ namespace engine
 		uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
 		const bg_color& getBackgroundColor() const noexcept;
+		bg_color& getBackgroundColor() noexcept;
+
 
 		void setBackgroundColor(float _red, float _green, float _blue, float _alpha) noexcept;
 		

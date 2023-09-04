@@ -19,6 +19,7 @@ namespace editor
 	private:
 
 		void setEventListeners() const noexcept;
+		void drawUI() noexcept;
 
 	};
 }
