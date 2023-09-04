@@ -12,11 +12,11 @@ namespace engine::input
 	{
 	public:
 
-		using keys_storage = std::array<bool, static_cast<size_t>(KeyCode::KEY_LAST)>;
+		using keys_storage = std::array<bool, static_cast<size_t>(Key::KEY_LAST)>;
 
-		static bool isKeyPressed(KeyCode _key_code) noexcept;
-		static void pressKey(KeyCode _key_code) noexcept;
-		static void releaseKey(KeyCode _key_code) noexcept;
+		static bool isKeyPressed(Key _key_code) noexcept;
+		static void pressKey(Key _key_code) noexcept;
+		static void releaseKey(Key _key_code) noexcept;
 
 	private:
 

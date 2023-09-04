@@ -15,6 +15,8 @@
 
 #include <engine/modules/imgui/UIModule.hpp>
 
+#include <engine/input/keyboard.hpp>
+
 #include <imgui/imgui.h>
 
 #include <iostream>
@@ -160,7 +162,7 @@ namespace editor
 	void editor_app::setEventListeners() const noexcept
 	{
 		m_window_ptr->addEventListener<Events::Resize>(
-			[this](const ResizeEventData& _size) -> void
+			[](const ResizeEventData& _size) -> void
 			{
 				renderer::setViewport(_size.width, _size.height);
 			});
@@ -169,6 +171,67 @@ namespace editor
 			[this]() -> void
 			{
 				s_is_closed = true;
+			});
+		m_window_ptr->addEventListener<Events::KeyboardInput>(
+			[](const KeyboardInputEventData& _keyboard_intput_data) -> void
+			{
+				if (_keyboard_intput_data.action == engine::input::Action::Pressed)
+				{
+					
+				}
+				else if (_keyboard_intput_data.action == engine::input::Action::Released)
+				{
+
+				}
+				else if (_keyboard_intput_data.action == engine::input::Action::Repeted)
+				{
+
+				}
+
+
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_W))
+				{
+					camera_position[2] -= 0.05f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_S))
+				{
+					camera_position[2] += 0.05f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_D))
+				{
+					camera_position[0] += 0.05f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_A))
+				{
+					camera_position[0] -= 0.05f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_E))
+				{
+					camera_position[1] += 0.05f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_Q))
+				{
+					camera_position[1] -= 0.05f;
+				}
+
+
+
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_UP))
+				{
+					camera_rotation[0] += 1.f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_DOWN))
+				{
+					camera_rotation[0] -= 1.f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_RIGHT))
+				{
+					camera_rotation[1] -= 1.f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_LEFT))
+				{
+					camera_rotation[1] += 1.f;
+				}
 			});
 	}
 

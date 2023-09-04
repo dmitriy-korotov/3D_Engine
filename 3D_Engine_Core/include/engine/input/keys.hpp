@@ -15,7 +15,7 @@ namespace engine::input
 
 
 
-	enum class KeyCode : uint16_t
+	enum class Key : uint16_t
 	{
 		KEY_SPACE             =		32,
 		KEY_APOSTROPHE        =		39,  
