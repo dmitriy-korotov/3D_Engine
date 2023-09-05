@@ -1,5 +1,7 @@
 #include <editor_app.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/window/glfw/glfw_window.hpp>
 #include <engine/window/glfw/events_data.hpp>
 
@@ -125,6 +127,10 @@ namespace editor
 		bg_color[1] = window_bg_color[1];
 		bg_color[2] = window_bg_color[2];
 		bg_color[3] = window_bg_color[3];
+
+
+
+		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 
 
@@ -155,13 +161,6 @@ namespace editor
 
 
 		drawUI();
-	}
-
-
-
-	editor_app::~editor_app()
-	{
-		UIModule::onGLfwWindowShutdown_OpenGLRenderer();
 	}
 
 
@@ -247,6 +246,14 @@ namespace editor
 		ImGui::End();
 
 		UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer();
+	}
+
+
+
+	editor_app::~editor_app()
+	{
+		UIModule::onGLfwWindowShutdown_OpenGLRenderer();
+		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 }
 
