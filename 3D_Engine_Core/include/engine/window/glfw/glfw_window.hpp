@@ -35,6 +35,7 @@ namespace engine::window::glfw
 		void setWindowResizeCallBack() const noexcept;
 		void setWindowCloseCallBack() const noexcept;
 		void setKeyboardInputCallBack() const noexcept;
+		void setMouseInputCallBack() const noexcept;
 
 		std::optional<error::window_error> __glfwInit() const noexcept;
 		std::optional<error::window_error> __createGlfwWindow() noexcept;
@@ -69,5 +70,10 @@ void engine::window::glfw::window::addEventListener(CallBackFunction _call_back)
 	{
 		m_window_call_backs_.keyboard_input_call_back = std::move(_call_back);
 		setKeyboardInputCallBack();
+	}
+	if constexpr (_event_type == Events::MouseInput)
+	{
+		m_window_call_backs_.mouse_input_call_back = std::move(_call_back);
+		setMouseInputCallBack();
 	}
 }

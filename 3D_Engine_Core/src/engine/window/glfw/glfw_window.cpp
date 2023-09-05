@@ -1,6 +1,7 @@
 #include <engine/window/glfw/glfw_window.hpp>
 
 #include <engine/input/keyboard.hpp>
+#include <engine/input/mouse.hpp>
 
 #include <engine/error/window_error.hpp>
 #include <engine/logging/log.hpp>
@@ -147,25 +148,12 @@ namespace engine::window::glfw
 					if (keyboard_input_data.action == input::Action::Released)
 					{
 						input::keyboard::releaseKey(static_cast<input::Key>(_key_code));
-						if (_key_code < static_cast<int>(input::Key::KEY_Z))
-						{
-							LOG_INFO("[Keyboard Input] Released key: {0}", static_cast<char>(_key_code));
-						}
+						
 					}
 					else if (keyboard_input_data.action == input::Action::Pressed)
 					{
 						input::keyboard::pressKey(static_cast<input::Key>(_key_code));
-						if (_key_code < static_cast<int>(input::Key::KEY_Z))
-						{
-							LOG_INFO("[Keyboard Input] Pressed key: {0}", static_cast<char>(_key_code));
-						}
-					}
-					else
-					{
-						if (_key_code < static_cast<int>(input::Key::KEY_Z))
-						{
-							LOG_INFO("[Keyboard Input] Repeted key: {0}", static_cast<char>(_key_code));
-						}
+						
 					}
 					call_backs.keyboard_input_call_back(keyboard_input_data);
 				}
@@ -175,6 +163,39 @@ namespace engine::window::glfw
 				}
 			}
 		);
+	}
+
+
+
+	void window::setMouseInputCallBack() const noexcept
+	{
+		glfwSetMouseButtonCallback(m_window_ptr,
+			[](GLFWwindow* _window_ptr, int _button, int _action, int _mods) -> void
+			{
+				try
+				{
+					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
+
+					MouseInputEventData mouse_input_data = { static_cast<input::MouseButton>(_button),
+															 static_cast<input::Action>(_action) };
+
+					if (mouse_input_data.action == input::Action::Released)
+					{
+						input::mouse::releaseButton(static_cast<input::MouseButton>(_button));
+
+					}
+					else if (mouse_input_data.action == input::Action::Pressed)
+					{
+						input::mouse::pressButton(static_cast<input::MouseButton>(_button));
+
+					}
+					call_backs.mouse_input_call_back(mouse_input_data);
+				}
+				catch (const std::exception& ex_)
+				{
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'mouse input' event: " + std::string(ex_.what()));
+				}
+			});
 	}
 
 
