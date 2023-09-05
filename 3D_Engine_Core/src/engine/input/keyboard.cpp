@@ -4,7 +4,7 @@
 
 namespace engine::input
 {
-	keyboard::keys_storage keyboard::s_keys = {};
+	keyboard::keys_storage keyboard::m_keyboard_keys = {};
 
 
 
@@ -12,20 +12,20 @@ namespace engine::input
 
 	bool keyboard::isKeyPressed(Key _key_code) noexcept
 	{
-		return s_keys[static_cast<size_t>(_key_code)];
+		return m_keyboard_keys[static_cast<size_t>(_key_code)];
 	}
 
 
 
 	void keyboard::pressKey(Key _key_code) noexcept
 	{
-		s_keys[static_cast<size_t>(_key_code)] = true;
+		m_keyboard_keys[static_cast<size_t>(_key_code)] = true;
 	}
 
 
 
 	void keyboard::releaseKey(Key _key_code) noexcept
 	{
-		s_keys[static_cast<size_t>(_key_code)] = false;
+		m_keyboard_keys[static_cast<size_t>(_key_code)] = false;
 	}
 }

@@ -21,6 +21,7 @@ set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/input/keys.hpp
 		include/engine/input/keyboard.hpp
+		include/engine/input/mouse.hpp
 )
 
 set(ENGINE_PRIVATE_HEADERS
@@ -74,6 +75,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/modules/imgui/UIModule.cpp
 
 		src/engine/input/keyboard.cpp
+		src/engine/input/mouse.cpp
 )
 
 set(ENGINE_ALL_SOURCES

@@ -20,7 +20,7 @@ namespace engine::input
 
 	private:
 
-		static keys_storage s_keys;
+		static keys_storage m_keyboard_keys;
 
 	};
 }
