@@ -18,6 +18,7 @@
 #include <engine/modules/imgui/UIModule.hpp>
 
 #include <engine/input/keyboard.hpp>
+#include <engine/input/mouse.hpp>
 
 #include <imgui/imgui.h>
 
@@ -135,6 +136,47 @@ namespace editor
 
 
 
+	void editor_app::setEventListeners() const noexcept
+	{
+		m_window_ptr->addEventListener<Events::Resize>(
+			[this](const ResizeEventData& _size) -> void
+			{
+				renderer::setViewport(_size.width, _size.height);
+			});
+
+		m_window_ptr->addEventListener<Events::Close>(
+			[this]() -> void
+			{
+				s_is_closed = true;
+			});
+		m_window_ptr->addEventListener<Events::KeyboardInput>(
+			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
+			{
+				if (_keyboard_intput_data.key < engine::input::Key::KEY_Z)
+				{
+					if (_keyboard_intput_data.action == engine::input::Action::Pressed)
+					{
+						LOG_INFO("[Keyboard Input] Pressed key: {0}", static_cast<char>(_keyboard_intput_data.key));
+					}
+					else if (_keyboard_intput_data.action == engine::input::Action::Released)
+					{
+						LOG_INFO("[Keyboard Input] Released key: {0}", static_cast<char>(_keyboard_intput_data.key));
+					}
+					else
+					{
+						LOG_INFO("[Keyboard Input] Repeted press key: {0}", static_cast<char>(_keyboard_intput_data.key));
+					}
+				}
+			});
+		m_window_ptr->addEventListener<Events::MouseInput>(
+			[this](const MouseInputEventData& _mouse_input_data) -> void
+			{
+
+			});
+	}
+
+
+
 	void editor_app::onUpdate() noexcept
 	{ 
 		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
@@ -154,7 +196,13 @@ namespace editor
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
+		
 		//-----------------------------------------------------------------------------------------------------------------//
+
+		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
+
+		//-----------------------------------------------------------------------------------------------------------------//
+		
 		glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
 		glm::vec3 rotation_delta = { 0.f, 0.f, 0.f };
 
@@ -211,44 +259,10 @@ namespace editor
 		}
 
 		m_camera->moveAndRotate(movement_delta, rotation_delta);
+		
 		//-----------------------------------------------------------------------------------------------------------------//
+
 		drawUI();
-	}
-
-
-
-	void editor_app::setEventListeners() const noexcept
-	{
-		m_window_ptr->addEventListener<Events::Resize>(
-			[this](const ResizeEventData& _size) -> void
-			{
-				renderer::setViewport(_size.width, _size.height);
-			});
-
-		m_window_ptr->addEventListener<Events::Close>(
-			[this]() -> void
-			{
-				s_is_closed = true;
-			});
-		m_window_ptr->addEventListener<Events::KeyboardInput>(
-			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
-			{
-				if (_keyboard_intput_data.key < engine::input::Key::KEY_Z)
-				{
-					if (_keyboard_intput_data.action == engine::input::Action::Pressed)
-					{
-						LOG_INFO("[Keyboard Input] Pressed key: {0}", static_cast<char>(_keyboard_intput_data.key));
-					}
-					else if (_keyboard_intput_data.action == engine::input::Action::Released)
-					{
-						LOG_INFO("[Keyboard Input] Released key: {0}", static_cast<char>(_keyboard_intput_data.key));
-					}
-					else
-					{
-						LOG_INFO("[Keyboard Input] Repeted press key: {0}", static_cast<char>(_keyboard_intput_data.key));
-					}
-				}
-			});
 	}
 
 

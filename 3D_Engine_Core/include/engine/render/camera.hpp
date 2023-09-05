@@ -25,9 +25,9 @@ namespace engine::render
 		void setRotation(const glm::vec3& _rotation) noexcept;
 		void setPositionAndRotation(const glm::vec3& _position, const glm::vec3& _rotation) noexcept;
 
-		const glm::mat4& getViewMatrix() const noexcept;
+		const glm::mat4& getViewMatrix() noexcept;
 		const glm::mat4& getProjectionMatrix() const noexcept;
-		glm::mat4 getViewProjectionMatrix() const noexcept;
+		glm::mat4 getViewProjectionMatrix() noexcept;
 		const glm::vec3& getPosition() const noexcept;
 		const glm::vec3& getRotation() const noexcept;
 
@@ -58,6 +58,8 @@ namespace engine::render
 
 		glm::mat4 m_view_matrix;
 		glm::mat4 m_projection_matrix;
+
+		bool m_is_needed_update_view_matrix = false;
 
 	};
 }

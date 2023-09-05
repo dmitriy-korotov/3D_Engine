@@ -66,8 +66,12 @@ namespace engine::render
 
 
 
-	const glm::mat4& camera::getViewMatrix() const noexcept
+	const glm::mat4& camera::getViewMatrix() noexcept
 	{
+		if (m_is_needed_update_view_matrix)
+		{
+			updateViewMatrix();
+		}
 		return m_view_matrix;
 	}
 
@@ -80,8 +84,12 @@ namespace engine::render
 
 
 
-	glm::mat4 camera::getViewProjectionMatrix() const noexcept
+	glm::mat4 camera::getViewProjectionMatrix() noexcept
 	{
+		if (m_is_needed_update_view_matrix)
+		{
+			updateViewMatrix();
+		}
 		return m_projection_matrix * m_view_matrix;
 	}
 
@@ -90,7 +98,7 @@ namespace engine::render
 	void camera::moveForward(float _delta) noexcept
 	{
 		m_position_ += m_direction_ * _delta;
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -98,7 +106,7 @@ namespace engine::render
 	void camera::moveRight(float _delta) noexcept
 	{
 		m_position_ += m_right_ * _delta;
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -106,7 +114,7 @@ namespace engine::render
 	void camera::moveUp(float _delta) noexcept
 	{
 		m_position_ += m_up_ * _delta;
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -119,7 +127,7 @@ namespace engine::render
 
 		m_rotation_ += _rotation_delta;
 
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -153,6 +161,8 @@ namespace engine::render
 		m_up_ = glm::cross(m_right_, m_direction_);
 
 		m_view_matrix = glm::lookAt(m_position_, m_position_ + m_direction_, m_up_);
+
+		m_is_needed_update_view_matrix = false;
 	}
 
 
