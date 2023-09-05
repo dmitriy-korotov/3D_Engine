@@ -44,6 +44,8 @@ float camera_position[] = { 0.f, 0.f, 0.f };
 float camera_rotation[] = { 0.f, 0.f, 0.f };
 bool is_perspective_projection = true;
 
+static float bg_color[4] = { 1.f, 0.f, 0.f, 1.f };
+
 //-----------------------------------------------------------------------------------------------------------------//
 
 const char* vertex_shader =
@@ -117,13 +119,18 @@ namespace editor
 
 		VAO_1buffer_->addVertexBuffer(*points_colors_vbo_);
 		VAO_1buffer_->setIndexBuffer(*index_buffer_);
+
+		const auto& window_bg_color = m_window_ptr->getBackgroundColor();
+		bg_color[0] = window_bg_color[0];
+		bg_color[1] = window_bg_color[1];
+		bg_color[2] = window_bg_color[2];
+		bg_color[3] = window_bg_color[3];
 	}
 
 
 
 	void editor_app::onUpdate() noexcept
 	{ 
-		window::bg_color& bg_color = m_window_ptr->getBackgroundColor();
 		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
 		renderer::clear(renderer::Mask::ColorBuffer);
 
@@ -225,14 +232,12 @@ namespace editor
 
 	void editor_app::drawUI() noexcept
 	{ 
-		window::bg_color& bg_color = m_window_ptr->getBackgroundColor();
-
 		UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
 
 		UIModule::createDockSpace();
 
 		ImGui::Begin("BG Color");
-		ImGui::ColorEdit4("Background color", bg_color.data());
+		ImGui::ColorEdit4("Background color", bg_color);
 		ImGui::End();
 
 		ImGui::Begin("Camera");
