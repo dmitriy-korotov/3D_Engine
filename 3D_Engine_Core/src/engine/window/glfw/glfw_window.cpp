@@ -141,7 +141,8 @@ namespace engine::window::glfw
 				{
 					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
 
-					KeyboardInputEventData keyboard_input_data = { static_cast<input::Action>(_action) };
+					KeyboardInputEventData keyboard_input_data = { static_cast<input::Key>(_key_code),
+																   static_cast<input::Action>(_action) };
 
 					if (keyboard_input_data.action == input::Action::Released)
 					{

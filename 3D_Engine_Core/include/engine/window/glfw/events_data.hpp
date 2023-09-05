@@ -45,6 +45,7 @@ namespace engine::window::glfw
 
 	struct KeyboardInputEventData
 	{
+		input::Key key;
 		input::Action action;
 	};
 

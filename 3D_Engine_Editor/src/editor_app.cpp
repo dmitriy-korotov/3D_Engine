@@ -233,7 +233,21 @@ namespace editor
 		m_window_ptr->addEventListener<Events::KeyboardInput>(
 			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
 			{
-				
+				if (_keyboard_intput_data.key < engine::input::Key::KEY_Z)
+				{
+					if (_keyboard_intput_data.action == engine::input::Action::Pressed)
+					{
+						LOG_INFO("[Keyboard Input] Pressed key: {0}", static_cast<char>(_keyboard_intput_data.key));
+					}
+					else if (_keyboard_intput_data.action == engine::input::Action::Released)
+					{
+						LOG_INFO("[Keyboard Input] Released key: {0}", static_cast<char>(_keyboard_intput_data.key));
+					}
+					else
+					{
+						LOG_INFO("[Keyboard Input] Repeted press key: {0}", static_cast<char>(_keyboard_intput_data.key));
+					}
+				}
 			});
 	}
 
