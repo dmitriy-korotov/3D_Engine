@@ -93,7 +93,7 @@ namespace editor
 	editor_app::editor_app(uint16_t _width, uint16_t _height,
 		const std::string_view& _editor_name)
 		: application(_width, _height, _editor_name)
-		, m_camera(std::make_unique<engine::render::camera>())
+		, m_camera(std::make_unique<engine::render::camera>(glm::vec3(-3.f, 0.f, 0.f)))
 	{
 		setEventListeners();
 		if (!renderer::init_with_glfw())
@@ -151,9 +151,6 @@ namespace editor
 		glm::mat4 model_matrix(1);
 
 		shader_program_->setMatrix4f("model_matrix", model_matrix);
-
-		m_camera->setPositionAndRotation(glm::vec3(camera_position[0], camera_position[1], camera_position[2]),
-										 glm::vec3(camera_rotation[0], camera_rotation[1], camera_rotation[2]));
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
@@ -179,51 +176,64 @@ namespace editor
 				s_is_closed = true;
 			});
 		m_window_ptr->addEventListener<Events::KeyboardInput>(
-			[](const KeyboardInputEventData& _keyboard_intput_data) -> void
+			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
 			{
+				glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
+				glm::vec3 rotation_delta = { 0.f, 0.f, 0.f };
+
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_W))
 				{
-					camera_position[2] -= 0.05f;
+					movement_delta.x += 0.05f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_S))
 				{
-					camera_position[2] += 0.05f;
+					movement_delta.x -= 0.05f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_D))
 				{
-					camera_position[0] += 0.05f;
+					movement_delta.y += 0.05f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_A))
 				{
-					camera_position[0] -= 0.05f;
+					movement_delta.y -= 0.05f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_E))
 				{
-					camera_position[1] += 0.05f;
+					movement_delta.z += 0.05f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_Q))
 				{
-					camera_position[1] -= 0.05f;
+					movement_delta.z -= 0.05f;
 				}
 
 
 
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_UP))
 				{
-					camera_rotation[0] += 1.f;
+					rotation_delta.y -= 1.f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_DOWN))
 				{
-					camera_rotation[0] -= 1.f;
+					rotation_delta.y += 1.f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_RIGHT))
 				{
-					camera_rotation[1] -= 1.f;
+					rotation_delta.z -= 1.f;
 				}
 				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_LEFT))
 				{
-					camera_rotation[1] += 1.f;
+					rotation_delta.z += 1.f;
 				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_KP_6))
+				{
+					rotation_delta.x -= 1.f;
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_KP_4))
+				{
+					rotation_delta.x += 1.f;
+				}
+
+				m_camera->moveAndRotate(movement_delta, rotation_delta);
 			});
 	}
 
@@ -231,6 +241,14 @@ namespace editor
 
 	void editor_app::drawUI() noexcept
 	{ 
+		camera_position[0] = m_camera->getPosition().x;
+		camera_position[1] = m_camera->getPosition().y;
+		camera_position[2] = m_camera->getPosition().z;
+
+		camera_rotation[0] = m_camera->getRotation().x;
+		camera_rotation[1] = m_camera->getRotation().y;
+		camera_rotation[2] = m_camera->getRotation().z;
+
 		UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
 
 		UIModule::createDockSpace();
@@ -240,8 +258,14 @@ namespace editor
 		ImGui::End();
 
 		ImGui::Begin("Camera");
-		ImGui::SliderFloat3("Camera position", camera_position, -10.f, 10.f);
-		ImGui::SliderFloat3("Camera rotation", camera_rotation, -360.f, 360.f);
+		if (ImGui::SliderFloat3("Camera position", camera_position, -10.f, 10.f))
+		{
+			m_camera->setPosition(glm::vec3(camera_position[0], camera_position[1], camera_position[2]));
+		}
+		if (ImGui::SliderFloat3("Camera rotation", camera_rotation, -360.f, 360.f))
+		{
+			m_camera->setRotation(glm::vec3(camera_rotation[0], camera_rotation[1], camera_rotation[2]));
+		}
 		ImGui::Checkbox("Perspective projection", &is_perspective_projection);
 		ImGui::End();
 

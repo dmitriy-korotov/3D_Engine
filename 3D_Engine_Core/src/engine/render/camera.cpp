@@ -51,6 +51,21 @@ namespace engine::render
 
 
 
+	
+	const glm::vec3& camera::getPosition() const noexcept
+	{
+		return m_position_;
+	}
+
+
+
+	const glm::vec3& camera::getRotation() const noexcept
+	{
+		return m_rotation_;
+	}
+
+
+
 	const glm::mat4& camera::getViewMatrix() const noexcept
 	{
 		return m_view_matrix;
@@ -137,7 +152,7 @@ namespace engine::render
 		m_right_ = glm::normalize(euler_rotate_matrix * s_world_right);
 		m_up_ = glm::cross(m_right_, m_direction_);
 
-		m_view_matrix = glm::lookAt(m_position_, m_direction_, m_up_);
+		m_view_matrix = glm::lookAt(m_position_, m_position_ + m_direction_, m_up_);
 	}
 
 

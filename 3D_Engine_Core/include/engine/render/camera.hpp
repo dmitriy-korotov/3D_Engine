@@ -28,6 +28,8 @@ namespace engine::render
 		const glm::mat4& getViewMatrix() const noexcept;
 		const glm::mat4& getProjectionMatrix() const noexcept;
 		glm::mat4 getViewProjectionMatrix() const noexcept;
+		const glm::vec3& getPosition() const noexcept;
+		const glm::vec3& getRotation() const noexcept;
 
 		void moveForward(float _delta) noexcept;
 		void moveRight(float _delta) noexcept;

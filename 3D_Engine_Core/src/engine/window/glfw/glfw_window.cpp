@@ -146,18 +146,25 @@ namespace engine::window::glfw
 					if (keyboard_input_data.action == input::Action::Released)
 					{
 						input::keyboard::releaseKey(static_cast<input::Key>(_key_code));
-
-						LOG_INFO("[Keyboard Input] Released key: {0}", static_cast<char>(_key_code));
+						if (_key_code < static_cast<int>(input::Key::KEY_Z))
+						{
+							LOG_INFO("[Keyboard Input] Released key: {0}", static_cast<char>(_key_code));
+						}
 					}
 					else if (keyboard_input_data.action == input::Action::Pressed)
 					{
 						input::keyboard::pressKey(static_cast<input::Key>(_key_code));
-
-						LOG_INFO("[Keyboard Input] Pressed key: {0}", static_cast<char>(_key_code));
+						if (_key_code < static_cast<int>(input::Key::KEY_Z))
+						{
+							LOG_INFO("[Keyboard Input] Pressed key: {0}", static_cast<char>(_key_code));
+						}
 					}
 					else
 					{
-						LOG_INFO("[Keyboard Input] Repeted key: {0}", static_cast<char>(_key_code));
+						if (_key_code < static_cast<int>(input::Key::KEY_Z))
+						{
+							LOG_INFO("[Keyboard Input] Repeted key: {0}", static_cast<char>(_key_code));
+						}
 					}
 					call_backs.keyboard_input_call_back(keyboard_input_data);
 				}
