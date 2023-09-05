@@ -3,6 +3,8 @@
 #include <engine/window/basic_window.hpp>
 #include <engine/window/glfw/events_data.hpp>
 
+#include <glm/vec2.hpp>
+
 #include <array>
 
 
@@ -26,6 +28,8 @@ namespace engine::window::glfw
 		std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept override;
 		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
+
+		glm::dvec2 getCurrentCursorPosition() const noexcept;
 
 		template<Events _event_type, typename CallBackFunction>
 		void addEventListener(CallBackFunction _call_back) noexcept;

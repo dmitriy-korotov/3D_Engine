@@ -20,6 +20,17 @@ namespace engine::window::glfw
 
 
 
+	glm::dvec2 window::getCurrentCursorPosition() const noexcept
+	{
+		double x = 0;
+		double y = 0;
+		glfwGetCursorPos(m_window_ptr, &x, &y);
+		
+		return { x, y };
+	}
+
+
+
 	void window::onUpdate() noexcept
 	{
 		glfwSwapBuffers(m_window_ptr);
