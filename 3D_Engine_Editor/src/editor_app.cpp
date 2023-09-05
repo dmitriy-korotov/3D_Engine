@@ -270,7 +270,7 @@ namespace editor
 		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_RIGHT))
 		{
 			movement_delta.y += (current_mouse_pos.x - last_mouse_pos[0]) / 100;
-			movement_delta.z -= (current_mouse_pos.y - last_mouse_pos[1]) / 100;
+			m_camera->moveWorldUp(-(current_mouse_pos.y - last_mouse_pos[1]) / 100);
 		}
 
 		last_mouse_pos[0] = current_mouse_pos.x;

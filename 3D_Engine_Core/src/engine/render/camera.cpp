@@ -29,7 +29,7 @@ namespace engine::render
 	void camera::setPosition(const glm::vec3& _position) noexcept
 	{
 		m_position_ = _position;
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -37,7 +37,7 @@ namespace engine::render
 	void camera::setRotation(const glm::vec3& _rotation) noexcept
 	{
 		m_rotation_ = _rotation;
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -46,7 +46,7 @@ namespace engine::render
 	{
 		m_position_ = _position;
 		m_rotation_ = _rotation;
-		updateViewMatrix();
+		m_is_needed_update_view_matrix = true;
 	}
 
 
@@ -114,6 +114,30 @@ namespace engine::render
 	void camera::moveUp(float _delta) noexcept
 	{
 		m_position_ += m_up_ * _delta;
+		m_is_needed_update_view_matrix = true;
+	}
+
+
+
+	void camera::moveWorldForward(float _delta) noexcept
+	{
+		m_position_ += s_world_forward * _delta;
+		m_is_needed_update_view_matrix = true;
+	}
+
+
+
+	void camera::moveWorldRight(float _delta) noexcept
+	{
+		m_position_ += s_world_right * _delta;
+		m_is_needed_update_view_matrix = true;
+	}
+
+
+
+	void camera::moveWorldUp(float _delta) noexcept
+	{
+		m_position_ += s_world_up * _delta;
 		m_is_needed_update_view_matrix = true;
 	}
 

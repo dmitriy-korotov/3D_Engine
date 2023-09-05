@@ -34,6 +34,9 @@ namespace engine::render
 		void moveForward(float _delta) noexcept;
 		void moveRight(float _delta) noexcept;
 		void moveUp(float _delta) noexcept;
+		void moveWorldForward(float _delta) noexcept;
+		void moveWorldRight(float _delta) noexcept;
+		void moveWorldUp(float _delta) noexcept;
 		void moveAndRotate(const glm::vec3& _movement_delta, const glm::vec3& _rotation_delta) noexcept;
 
 	private:
