@@ -29,6 +29,11 @@ namespace engine::render
 		const glm::mat4& getProjectionMatrix() const noexcept;
 		glm::mat4 getViewProjectionMatrix() const noexcept;
 
+		void moveForward(float _delta) noexcept;
+		void moveRight(float _delta) noexcept;
+		void moveUp(float _delta) noexcept;
+		void moveAndRotate(const glm::vec3& _movement_delta, const glm::vec3& _rotation_delta) noexcept;
+
 	private:
 
 		void updateViewMatrix() noexcept;
@@ -36,10 +41,18 @@ namespace engine::render
 
 	private:
 
+		Projection m_projection_mode;
+
 		glm::vec3 m_position_;
 		glm::vec3 m_rotation_;
 
-		Projection m_projection_mode;
+		glm::vec3 m_direction_;
+		glm::vec3 m_right_;
+		glm::vec3 m_up_;
+
+		static constexpr glm::vec3 s_world_up = { 0.f, 0.f, 1.f };
+		static constexpr glm::vec3 s_world_right = { 0.f, -1.f, 0.f };
+		static constexpr glm::vec3 s_world_forward = { 1.f, 0.f, 0.f };
 
 		glm::mat4 m_view_matrix;
 		glm::mat4 m_projection_matrix;

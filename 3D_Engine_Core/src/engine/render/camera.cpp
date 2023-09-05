@@ -1,15 +1,16 @@
 #include <engine/render/camera.hpp>
 
 #include <glm/trigonometric.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 
 
 namespace engine::render
 {
 	camera::camera(const glm::vec3& _position, const glm::vec3& _rotation, Projection _projection_mode) noexcept
-			: m_position_(_position)
-			, m_rotation_(_rotation)
-			, m_projection_mode(_projection_mode)
+		: m_position_(_position)
+		, m_rotation_(_rotation)
+		, m_projection_mode(_projection_mode)
 	{
 		updateViewMatrix();
 		updateProjectionMatrix();
@@ -71,40 +72,72 @@ namespace engine::render
 
 
 
+	void camera::moveForward(float _delta) noexcept
+	{
+		m_position_ += m_direction_ * _delta;
+		updateViewMatrix();
+	}
+
+
+
+	void camera::moveRight(float _delta) noexcept
+	{
+		m_position_ += m_right_ * _delta;
+		updateViewMatrix();
+	}
+
+
+
+	void camera::moveUp(float _delta) noexcept
+	{
+		m_position_ += m_up_ * _delta;
+		updateViewMatrix();
+	}
+
+
+
+	void camera::moveAndRotate(const glm::vec3& _movement_delta, const glm::vec3& _rotation_delta) noexcept
+	{
+		m_position_ += m_direction_ * _movement_delta.x;
+		m_position_ += m_right_ * _movement_delta.y;
+		m_position_ += m_up_ * _movement_delta.z;
+
+		m_rotation_ += _rotation_delta;
+
+		updateViewMatrix();
+	}
+
+
+
 	void camera::updateViewMatrix() noexcept
 	{
-		glm::mat4 translate_matrix(1.f,				 0.f,				0.f,				0.f,
-								   0.f,				 1.f,				0.f,				0.f,
-								   0.f,				 0.f,				1.f,				0.f,
-								   -m_position_.x,	 -m_position_.y,	-m_position_.z,		1.f);
+		float roll_in_radians	= glm::radians(m_rotation_.x);
+		float pitch_in_radians	= glm::radians(m_rotation_.y);
+		float yaw_in_radians	= glm::radians(m_rotation_.z);
 
 
 
-		float rotate_in_radians_x = glm::radians(-m_rotation_.x);
-		glm::mat4 rotate_matrix_x(1.f,		0.f,							0.f,							0.f,
-								  0.f,		cos(rotate_in_radians_x),		sin(rotate_in_radians_x),		0.f,
-								  0.f,		-sin(rotate_in_radians_x),		cos(rotate_in_radians_x),		0.f,
-								  0.f,		0.f,							0.f,							1.f);
+		glm::mat3 rotate_matrix_x(1.f,		0.f,							0.f,			
+								  0.f,		cos(roll_in_radians),			sin(roll_in_radians),
+								  0.f,		-sin(roll_in_radians),			cos(roll_in_radians));
+
+		glm::mat3 rotate_matrix_y(cos(pitch_in_radians),		 0.f,		 -sin(pitch_in_radians),
+								  0.f,							 1.f,		 0.f,					
+								  sin(pitch_in_radians),		 0.f,		 cos(pitch_in_radians));
+
+		glm::mat3 rotate_matrix_z(glm::cos(yaw_in_radians),		glm::sin(yaw_in_radians),		0.f,
+								  -glm::sin(yaw_in_radians),	glm::cos(yaw_in_radians),		0.f,
+								  0.f,								0.f,						1.f);
 
 
 
-		float rotate_in_radians_y = glm::radians(-m_rotation_.y);
-		glm::mat4 rotate_matrix_y(cos(rotate_in_radians_y),		 0.f,		 -sin(rotate_in_radians_y),		 0.f,
-								  0.f,							 1.f,		 0.f,							 0.f,
-								  sin(rotate_in_radians_y),		 0.f,		 cos(rotate_in_radians_y),		 0.f,
-								  0.f,							 0.f,		 0.f,							 1.f);
+		glm::mat3 euler_rotate_matrix = rotate_matrix_z * rotate_matrix_y * rotate_matrix_x;
 
+		m_direction_ = glm::normalize(euler_rotate_matrix * s_world_forward);
+		m_right_ = glm::normalize(euler_rotate_matrix * s_world_right);
+		m_up_ = glm::cross(m_right_, m_direction_);
 
-
-		float rotate_in_radians_z = glm::radians(-m_rotation_.z);
-		glm::mat4 rotate_matrix_z(glm::cos(rotate_in_radians_z),	glm::sin(rotate_in_radians_z),		0.f,	 0.f,
-								  -glm::sin(rotate_in_radians_z),	glm::cos(rotate_in_radians_z),		0.f,	 0.f,
-								  0.f,								0.f,								1.f,	 0.f,
-								  0.f,								0.f,								0.f,	 1.f);
-
-
-
-		m_view_matrix = rotate_matrix_y * rotate_matrix_x * translate_matrix;
+		m_view_matrix = glm::lookAt(m_position_, m_direction_, m_up_);
 	}
 
 
