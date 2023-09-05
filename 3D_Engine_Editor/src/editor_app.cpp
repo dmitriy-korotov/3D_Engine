@@ -154,9 +154,64 @@ namespace editor
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
+		//-----------------------------------------------------------------------------------------------------------------//
+		glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
+		glm::vec3 rotation_delta = { 0.f, 0.f, 0.f };
+
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_W))
+		{
+			movement_delta.x += 0.005f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_S))
+		{
+			movement_delta.x -= 0.005f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_D))
+		{
+			movement_delta.y += 0.005f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_A))
+		{
+			movement_delta.y -= 0.005f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_E))
+		{
+			movement_delta.z += 0.005f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_Q))
+		{
+			movement_delta.z -= 0.005f;
+		}
 
 
 
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_UP))
+		{
+			rotation_delta.y -= 0.1f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_DOWN))
+		{
+			rotation_delta.y += 0.1f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_RIGHT))
+		{
+			rotation_delta.z -= 0.1f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_LEFT))
+		{
+			rotation_delta.z += 0.1f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_KP_6))
+		{
+			rotation_delta.x -= 0.1f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_KP_4))
+		{
+			rotation_delta.x += 0.1f;
+		}
+
+		m_camera->moveAndRotate(movement_delta, rotation_delta);
+		//-----------------------------------------------------------------------------------------------------------------//
 		drawUI();
 	}
 
@@ -178,62 +233,7 @@ namespace editor
 		m_window_ptr->addEventListener<Events::KeyboardInput>(
 			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
 			{
-				glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
-				glm::vec3 rotation_delta = { 0.f, 0.f, 0.f };
-
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_W))
-				{
-					movement_delta.x += 0.05f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_S))
-				{
-					movement_delta.x -= 0.05f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_D))
-				{
-					movement_delta.y += 0.05f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_A))
-				{
-					movement_delta.y -= 0.05f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_E))
-				{
-					movement_delta.z += 0.05f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_Q))
-				{
-					movement_delta.z -= 0.05f;
-				}
-
-
-
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_UP))
-				{
-					rotation_delta.y -= 1.f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_DOWN))
-				{
-					rotation_delta.y += 1.f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_RIGHT))
-				{
-					rotation_delta.z -= 1.f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_LEFT))
-				{
-					rotation_delta.z += 1.f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_KP_6))
-				{
-					rotation_delta.x -= 1.f;
-				}
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_KP_4))
-				{
-					rotation_delta.x += 1.f;
-				}
-
-				m_camera->moveAndRotate(movement_delta, rotation_delta);
+				
 			});
 	}
 
