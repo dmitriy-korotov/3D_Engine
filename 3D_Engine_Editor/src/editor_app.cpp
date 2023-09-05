@@ -49,6 +49,8 @@ bool is_perspective_projection = true;
 
 static float bg_color[4] = { 1.f, 0.f, 0.f, 1.f };
 
+static double last_mouse_pos[2] = {0, 0};
+
 //-----------------------------------------------------------------------------------------------------------------//
 
 const char* vertex_shader =
@@ -171,7 +173,8 @@ namespace editor
 		m_window_ptr->addEventListener<Events::MouseInput>(
 			[this](const MouseInputEventData& _mouse_input_data) -> void
 			{
-
+				//last_mouse_pos[0] = m_window_ptr->getCurrentCursorPosition().x;
+				//last_mouse_pos[1] = m_window_ptr->getCurrentCursorPosition().y;
 			});
 	}
 
@@ -196,10 +199,6 @@ namespace editor
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
-		
-		//-----------------------------------------------------------------------------------------------------------------//
-
-		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
 
 		//-----------------------------------------------------------------------------------------------------------------//
 		
@@ -257,6 +256,25 @@ namespace editor
 		{
 			rotation_delta.x += 0.1f;
 		}
+		
+		//-----------------------------------------------------------------------------------------------------------------//
+
+		auto current_mouse_pos = m_window_ptr->getCurrentCursorPosition();
+
+		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
+		{
+			
+			rotation_delta.z -= (current_mouse_pos.x - last_mouse_pos[0]) / 10;
+			rotation_delta.y += (current_mouse_pos.y - last_mouse_pos[1]) / 10;	
+		}
+		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_RIGHT))
+		{
+			movement_delta.y += (current_mouse_pos.x - last_mouse_pos[0]) / 100;
+			movement_delta.z -= (current_mouse_pos.y - last_mouse_pos[1]) / 100;
+		}
+
+		last_mouse_pos[0] = current_mouse_pos.x;
+		last_mouse_pos[1] = current_mouse_pos.y;
 
 		m_camera->moveAndRotate(movement_delta, rotation_delta);
 		
