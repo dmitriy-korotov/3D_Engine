@@ -136,4 +136,11 @@ namespace engine::render::open_gl
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_id, _varieble_name.data()), 1, GL_FALSE, glm::value_ptr(_matrix));
 	}
+
+
+
+	void shader_program::setInt1(const std::string_view& _varieble_name, int _value) const noexcept
+	{
+		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _value);
+	}
 }

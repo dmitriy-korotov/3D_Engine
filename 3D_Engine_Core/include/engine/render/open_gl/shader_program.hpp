@@ -31,6 +31,7 @@ namespace engine::render::open_gl
 
 		bool isCompiled() const noexcept;
 		void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept;
+		void setInt1(const std::string_view& _varieble_name, int _value) const noexcept;
 
 		void bind() const noexcept override;
 		void unbind() const noexcept override;

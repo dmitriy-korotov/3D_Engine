@@ -31,10 +31,10 @@
 //-----------------------------------------------------------------------------------------------------------------//   
 
 engine::render::open_gl::GLfloat square_points_colors[] = {
-		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,		0.f, 0.f,
-	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,		0.f, 1.f,
-	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,		1.f, 1.f,
-	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		1.f, 0.f
+		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,		-1.f, -1.f,
+	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,		-1.f, 2.f,
+	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,		2.f, 2.f,
+	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		2.f, -1.f
 };
 
 engine::render::open_gl::GLuint indexes[] = { 0, 1, 2, 2, 3, 0 };
@@ -78,13 +78,14 @@ const char* fragment_shader =
 		in vec3 color;
 		in vec2 texture_coord;
 
-		layout (binding = 0) uniform sampler2D inTexture;
+		layout (binding = 0) uniform sampler2D inTextureSmile;
+		layout (binding = 1) uniform sampler2D inTextureQuads;
 
 		out vec4 frag_color;
 
 		void main() {
 			//frag_color = vec4(color, 1.0);
-			frag_color = texture(inTexture, texture_coord);
+			frag_color = texture(inTextureSmile, texture_coord) * texture(inTextureQuads, texture_coord);
 		})";
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -103,7 +104,8 @@ std::unique_ptr<index_buffer> index_buffer_;
 
 std::unique_ptr<vertex_array> VAO_1buffer_;
 
-std::unique_ptr<texture2D> texture;
+std::unique_ptr<texture2D> textureSmile;
+std::unique_ptr<texture2D> textureQuads;
 
 
 
@@ -155,7 +157,27 @@ void generateSmileTexture(unsigned char* _data, std::uint16_t _width, std::uint1
 
 
 
-
+void generateQuadsTexture(unsigned char* _data, std::uint16_t _width, std::uint16_t _height)
+{
+	for (size_t x = 0; x < _width; x++)
+	{
+		for (size_t y = 0; y < _height; y++)
+		{
+			if (x < _width / 2 && y < _height / 2 || x > _width / 2 && y > _height / 2)
+			{
+				_data[3 * (x + _width * y) + 0] = 0;
+				_data[3 * (x + _width * y) + 1] = 255;
+				_data[3 * (x + _width * y) + 2] = 0;
+			}
+			else
+			{
+				_data[3 * (x + _width * y) + 0] = 255;
+				_data[3 * (x + _width * y) + 1] = 255;
+				_data[3 * (x + _width * y) + 2] = 255;
+			}
+		}
+	}
+}
 
 
 
@@ -209,10 +231,15 @@ namespace editor
 		auto* data = new unsigned char[width * height * 3];
 		generateSmileTexture(data, width, height);
 
-		texture = std::make_unique<texture2D>();
+		textureSmile = std::make_unique<texture2D>();
+		textureQuads = std::make_unique<texture2D>();
 
-		texture->setTextureData(data, width, height);
-		texture->bindTexture(0);
+		textureSmile->setTextureData(data, width, height);
+		textureSmile->bindTexture(0);
+
+		generateQuadsTexture(data, width, height);
+		textureQuads->setTextureData(data, width, height);
+		textureQuads->bindTexture(1);
 
 		delete[] data;
 
