@@ -13,6 +13,8 @@
 #include <engine/render/open_gl/vertex_buffer.hpp>
 #include <engine/render/open_gl/vertex_array.hpp>
 
+#include <engine/render/open_gl/texture2D.hpp>
+
 #include <engine/render/camera.hpp>
 
 #include <engine/modules/imgui/UIModule.hpp>
@@ -29,10 +31,10 @@
 //-----------------------------------------------------------------------------------------------------------------//   
 
 engine::render::open_gl::GLfloat square_points_colors[] = {
-		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,
-	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,
-	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,
-	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f
+		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,		0.f, 0.f,
+	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,		0.f, 1.f,
+	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,		1.f, 1.f,
+	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		1.f, 0.f
 };
 
 engine::render::open_gl::GLuint indexes[] = { 0, 1, 2, 2, 3, 0 };
@@ -49,7 +51,7 @@ bool is_perspective_projection = true;
 
 static float bg_color[4] = { 1.f, 0.f, 0.f, 1.f };
 
-static double last_mouse_pos[2] = {0, 0};
+static double last_mouse_pos[2] = { 0, 0 };
 
 //-----------------------------------------------------------------------------------------------------------------//
 
@@ -57,20 +59,32 @@ const char* vertex_shader =
 		R"(#version 460
 		layout(location = 0) in vec3 vertex_poistion;
 		layout(location = 1) in vec3 vertex_color;
+		layout(location = 2) in vec2 in_texture_coord;
+		
 		uniform mat4 model_matrix;
 		uniform mat4 view_projection_matrix;
+		
 		out vec3 color;
+		out vec2 texture_coord;		
+
 		void main() {
 			color = vertex_color;
+			texture_coord = in_texture_coord;
 			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion, 1.0);
 		})";
 
 const char* fragment_shader =
 		R"(#version 460
 		in vec3 color;
+		in vec2 texture_coord;
+
+		layout (binding = 0) uniform sampler2D inTexture;
+
 		out vec4 frag_color;
+
 		void main() {
-			frag_color = vec4(color, 1.0);
+			//frag_color = vec4(color, 1.0);
+			frag_color = texture(inTexture, texture_coord);
 		})";
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -88,6 +102,62 @@ std::unique_ptr<vertex_buffer> points_colors_vbo_;
 std::unique_ptr<index_buffer> index_buffer_;
 
 std::unique_ptr<vertex_array> VAO_1buffer_;
+
+std::unique_ptr<texture2D> texture;
+
+
+
+void generateCircle(unsigned char* _data,
+					unsigned int _width,
+					unsigned int _height,
+					unsigned int center_x,
+					unsigned int center_y,
+					unsigned int radius,
+					unsigned char r,
+				    unsigned char g,
+					unsigned char b)
+{
+	for (size_t x = 0; x < _width; x++)
+	{
+		for (size_t y = 0; y < _height; y++)
+		{
+			if ((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y) < radius * radius)
+			{
+				_data[3 * (x + _width * y) + 0] = r;
+				_data[3 * (x + _width * y) + 1] = g;
+				_data[3 * (x + _width * y) + 2] = b;
+			}
+		}
+	}
+}
+
+
+
+void generateSmileTexture(unsigned char* _data, std::uint16_t _width, std::uint16_t _height) noexcept
+{
+	for (size_t x = 0; x < _width; x++)
+	{
+		for (size_t y = 0; y < _height; y++)
+		{
+			_data[3 * (x + _width * y) + 0] = 200;
+			_data[3 * (x + _width * y) + 1] = 191;
+			_data[3 * (x + _width * y) + 2] = 231;
+		}
+	}
+	generateCircle(_data, _width, _height, _width * 0.5, _height * 0.5, _width * 0.4, 255, 255, 0);
+
+	generateCircle(_data, _width, _height, _width * 0.5, _height * 0.4, _width * 0.2, 0, 0, 0);
+	generateCircle(_data, _width, _height, _width * 0.5, _height * 0.45, _width * 0.2, 255, 255, 0);
+
+	generateCircle(_data, _width, _height, _width * 0.35, _height * 0.6, _width * 0.07, 255, 0, 255);
+	generateCircle(_data, _width, _height, _width * 0.65, _height * 0.6, _width * 0.07, 0, 0, 255);
+}
+
+
+
+
+
+
 
 
 
@@ -112,7 +182,8 @@ namespace editor
 		buffer_layout points_colors_layout_
 		{
 			ShaderDataType::Float3,
-			ShaderDataType::Float3
+			ShaderDataType::Float3,
+			ShaderDataType::Float2
 		};
 
 		points_colors_vbo_ = std::make_unique<vertex_buffer>(square_points_colors, sizeof(square_points_colors),
@@ -130,6 +201,20 @@ namespace editor
 		bg_color[1] = window_bg_color[1];
 		bg_color[2] = window_bg_color[2];
 		bg_color[3] = window_bg_color[3];
+
+
+		unsigned int width = 1000;
+		unsigned int height = 1000;
+
+		auto* data = new unsigned char[width * height * 3];
+		generateSmileTexture(data, width, height);
+
+		texture = std::make_unique<texture2D>();
+
+		texture->setTextureData(data, width, height);
+		texture->bindTexture(0);
+
+		delete[] data;
 
 
 
@@ -190,7 +275,6 @@ namespace editor
 		shader_program_->bind();
 		VAO_1buffer_->bind();
 		renderer::draw(*VAO_1buffer_);
-
 
 
 		glm::mat4 model_matrix(1);

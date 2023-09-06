@@ -43,6 +43,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/vertex_array.hpp
 		include/engine/render/open_gl/buffer_layout.hpp
 
+		include/engine/render/open_gl/texture2D.hpp
+
 		include/engine/render/open_gl/shader_program.hpp
 		include/engine/render/open_gl/renderer_open_gl.hpp
 
@@ -66,6 +68,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/index_buffer.cpp
 		src/engine/render/open_gl/buffer_layout.cpp
 		src/engine/render/open_gl/vertex_array.cpp
+
+		src/engine/render/open_gl/texture2D.cpp
 		
 		src/engine/render/open_gl/shader_program.cpp
 		src/engine/render/open_gl/renderer_open_gl.cpp
