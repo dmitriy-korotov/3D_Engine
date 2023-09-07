@@ -63,20 +63,24 @@ const char* vertex_shader =
 		
 		uniform mat4 model_matrix;
 		uniform mat4 view_projection_matrix;
+		uniform int current_frame;
 		
 		out vec3 color;
-		out vec2 texture_coord;		
+		out vec2 texture_coord_smile;	
+		out vec2 texture_coord_quads;		
 
 		void main() {
 			color = vertex_color;
-			texture_coord = in_texture_coord;
+			texture_coord_smile = in_texture_coord;
+			texture_coord_quads = in_texture_coord + vec2(current_frame / 1500.f, current_frame / 1500.f);
 			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion, 1.0);
 		})";
 
 const char* fragment_shader =
 		R"(#version 460
 		in vec3 color;
-		in vec2 texture_coord;
+		in vec2 texture_coord_smile;
+		in vec2 texture_coord_quads;
 
 		layout (binding = 0) uniform sampler2D inTextureSmile;
 		layout (binding = 1) uniform sampler2D inTextureQuads;
@@ -85,7 +89,7 @@ const char* fragment_shader =
 
 		void main() {
 			//frag_color = vec4(color, 1.0);
-			frag_color = texture(inTextureSmile, texture_coord) * texture(inTextureQuads, texture_coord);
+			frag_color = texture(inTextureSmile, texture_coord_smile) * texture(inTextureQuads, texture_coord_quads);
 		})";
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -166,7 +170,7 @@ void generateQuadsTexture(unsigned char* _data, std::uint16_t _width, std::uint1
 			if (x < _width / 2 && y < _height / 2 || x > _width / 2 && y > _height / 2)
 			{
 				_data[3 * (x + _width * y) + 0] = 0;
-				_data[3 * (x + _width * y) + 1] = 255;
+				_data[3 * (x + _width * y) + 1] = 0;
 				_data[3 * (x + _width * y) + 2] = 0;
 			}
 			else
@@ -218,6 +222,8 @@ namespace editor
 		VAO_1buffer_->addVertexBuffer(*points_colors_vbo_);
 		VAO_1buffer_->setIndexBuffer(*index_buffer_);
 
+
+		m_window_ptr->setBackgroundColor(0.3f, 0.3f, 0.3f, 1.f);
 		const auto& window_bg_color = m_window_ptr->getBackgroundColor();
 		bg_color[0] = window_bg_color[0];
 		bg_color[1] = window_bg_color[1];
@@ -285,8 +291,7 @@ namespace editor
 		m_window_ptr->addEventListener<Events::MouseInput>(
 			[this](const MouseInputEventData& _mouse_input_data) -> void
 			{
-				//last_mouse_pos[0] = m_window_ptr->getCurrentCursorPosition().x;
-				//last_mouse_pos[1] = m_window_ptr->getCurrentCursorPosition().y;
+
 			});
 	}
 
@@ -306,7 +311,9 @@ namespace editor
 
 		glm::mat4 model_matrix(1);
 
+		static int currnet_frame = 0;
 		shader_program_->setMatrix4f("model_matrix", model_matrix);
+		shader_program_->setInt1("current_frame", currnet_frame++);
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());

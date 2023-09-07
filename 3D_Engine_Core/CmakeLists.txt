@@ -43,6 +43,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/vertex_array.hpp
 		include/engine/render/open_gl/buffer_layout.hpp
 
+		include/engine/render/texture_parametrs.hpp
 		include/engine/render/open_gl/texture2D.hpp
 
 		include/engine/render/open_gl/shader_program.hpp

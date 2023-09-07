@@ -1,6 +1,7 @@
 #pragma once
 
 #include <engine/render/open_gl/gl_types.hpp>
+#include <engine/render/texture_parametrs.hpp>
 
 #include <stdint.h>
 
@@ -15,9 +16,13 @@ namespace engine::render::open_gl
 		explicit texture2D() noexcept;
 		~texture2D();
 
-		void setTextureData(const uint8_t* _data, uint16_t _width, uint16_t _height) noexcept;
+		uint16_t getWidth() const noexcept;
+		uint16_t getHeight() const noexcept;
 
-		void bindTexture(uint8_t _target) noexcept;
+		void setTextureData(const uint8_t* _data, uint16_t _width, uint16_t _height,
+						    InternalFormat _internal_format = InternalFormat::RGB_8) noexcept;
+		void setTextureParams(const TextureParamsStorage& _texture_params) noexcept;
+		void bindTexture(uint8_t _target) const noexcept;
 
 	private:
 
