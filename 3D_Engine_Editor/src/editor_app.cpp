@@ -240,11 +240,16 @@ namespace editor
 		textureSmile = std::make_unique<texture2D>();
 		textureQuads = std::make_unique<texture2D>();
 
+		TextureParamsStorage tex_params_storage_ = { Wrap::Repeat, Wrap::Repeat,
+													 Filter::Linear, Filter::Linear };
+
 		textureSmile->setTextureData(data, width, height);
+		textureSmile->setTextureParams(tex_params_storage_);
 		textureSmile->bindTexture(0);
 
 		generateQuadsTexture(data, width, height);
 		textureQuads->setTextureData(data, width, height);
+		textureQuads->setTextureParams(tex_params_storage_);
 		textureQuads->bindTexture(1);
 
 		delete[] data;
@@ -256,7 +261,7 @@ namespace editor
 
 
 
-	void editor_app::setEventListeners() const noexcept
+	void editor_app::setEventListeners() noexcept
 	{
 		m_window_ptr->addEventListener<Events::Resize>(
 			[this](const ResizeEventData& _size) -> void
@@ -267,7 +272,7 @@ namespace editor
 		m_window_ptr->addEventListener<Events::Close>(
 			[this]() -> void
 			{
-				s_is_closed = true;
+				close();
 			});
 		m_window_ptr->addEventListener<Events::KeyboardInput>(
 			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
@@ -286,6 +291,10 @@ namespace editor
 					{
 						LOG_INFO("[Keyboard Input] Repeted press key: {0}", static_cast<char>(_keyboard_intput_data.key));
 					}
+				}
+				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_ESCAPE))
+				{
+					close();
 				}
 			});
 		m_window_ptr->addEventListener<Events::MouseInput>(

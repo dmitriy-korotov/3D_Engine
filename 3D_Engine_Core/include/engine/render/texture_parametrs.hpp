@@ -31,7 +31,7 @@ namespace engine::render
 	{
 		Wrap texture_wrap_s;
 		Wrap texture_wrap_t;
-		Filter texture_mag_filter;
 		Filter texture_min_filter;
+		Filter texture_mag_filter;
 	};
 }

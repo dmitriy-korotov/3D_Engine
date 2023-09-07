@@ -89,8 +89,8 @@ namespace engine::render::open_gl
 		m_width = _width;
 		m_height = _height;
 
-		glTextureStorage2D(m_texture_id, 1, GL_RGB8, m_width, m_height);
-		glTextureSubImage2D(m_texture_id, 0, 0, 0, m_width, m_height, internal_format_to_GLenum(_internal_format), GL_UNSIGNED_BYTE, _data);
+		glTextureStorage2D(m_texture_id, 1, internal_format_to_GLenum(_internal_format), m_width, m_height);
+		glTextureSubImage2D(m_texture_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
 	}
 
 
