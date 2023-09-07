@@ -197,7 +197,7 @@ namespace engine::render
 		{
 			float r = 0.1f;
 			float t = 0.1f;			// TODO: added posibility set this camera parametrs
-			float f = 10.f;
+			float f = 100.f;
 			float n = 0.1f;
 
 			m_projection_matrix = glm::mat4(n / r,		0.f,		0.f,						0.f,

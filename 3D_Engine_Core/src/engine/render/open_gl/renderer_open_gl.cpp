@@ -58,6 +58,20 @@ namespace engine::render::open_gl
 
 
 
+	void renderer::enableDepthTest() noexcept
+	{
+		glEnable(GL_DEPTH_TEST);
+	}
+
+
+
+	void renderer::disableDepthTest() noexcept
+	{
+		glDisable(GL_DEPTH_TEST);
+	}
+
+
+
 	void renderer::setClearColor(float _red, float _green, float _blue, float _alpha) noexcept
 	{
 		glClearColor(_red, _green, _blue, _alpha);
@@ -68,6 +82,18 @@ namespace engine::render::open_gl
 	void renderer::clear(Mask _mask_type) noexcept
 	{
 		glClear(mask_enum_to_GLbitfield(_mask_type));
+	}
+
+
+
+	void renderer::clear(std::vector<Mask> _mask_types) noexcept
+	{
+		GLbitfield masks = 0;
+		for (Mask mask: _mask_types)
+		{
+			masks |= mask_enum_to_GLbitfield(mask);
+		}
+		glClear(masks);
 	}
 
 

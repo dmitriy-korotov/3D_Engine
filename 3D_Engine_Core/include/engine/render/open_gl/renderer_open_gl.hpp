@@ -3,6 +3,7 @@
 #include <engine/util/noconstructible.hpp>
 
 #include <string>
+#include <vector>
 #include <stdint.h>
 
 
@@ -29,7 +30,10 @@ namespace engine::render::open_gl
 
 		static bool init_with_glfw() noexcept;
 		static void draw(const vertex_array& _vertex_array_buffer, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
+		static void enableDepthTest() noexcept;
+		static void disableDepthTest() noexcept;
 		static void clear(Mask _mask_type) noexcept;
+		static void clear(std::vector<Mask> _mask_types) noexcept;
 		static void setClearColor(float _red, float _green, float _blue, float _alpha) noexcept;
 		static void setViewport(uint16_t _width, uint16_t _height,
 								uint16_t _left_offset = 0, uint16_t _bottom_offset = 0) noexcept;

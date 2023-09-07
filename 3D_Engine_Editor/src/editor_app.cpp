@@ -30,14 +30,26 @@
 
 //-----------------------------------------------------------------------------------------------------------------//   
 
-engine::render::open_gl::GLfloat square_points_colors[] = {
-		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,		-10.f, -10.f,
-	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,		-10.f, 20.f,
-	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,		20.f, 20.f,
-	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		20.f, -10.f
+engine::render::open_gl::GLfloat square_points[] = {
+		0.f,  -0.5f,  -0.5f,		-1.f, -1.f,
+	    0.f,  -0.5f,  0.5f,			-1.f, 2.f,		// far plane
+	    0.f,  0.5f,   0.5f,			2.f, 2.f,
+	    0.f,  0.5f,   -0.5f,		2.f, -1.f,
+
+		-1.f,  -0.5f,  -0.5f,		-1.f, -1.f,
+		-1.f,  -0.5f,  0.5f,		-1.f, 2.f,		// near plain
+		-1.f,  0.5f,   0.5f,		2.f, 2.f,
+		-1.f,  0.5f,   -0.5f,		2.f, -1.f,
 };
 
-engine::render::open_gl::GLuint indexes[] = { 0, 1, 2, 2, 3, 0 };
+engine::render::open_gl::GLuint indexes[] = {
+	0, 1, 2, 2, 3, 0, // front
+	0, 1, 4, 4, 5, 1, // right
+	3, 2, 7, 7, 6, 2, // left
+	1, 2, 5, 5, 6, 2, // top
+	0, 3, 4, 4, 7, 3, // bottom
+	4, 5, 6, 6, 7, 4  // back
+};
 
 float scale[] = { 1.f, 1.f, 1.f };
 float translate[] = { 0.f, 0.f, 0.f };
@@ -58,19 +70,16 @@ static double last_mouse_pos[2] = { 0, 0 };
 const char* vertex_shader =
 		R"(#version 460
 		layout(location = 0) in vec3 vertex_poistion;
-		layout(location = 1) in vec3 vertex_color;
-		layout(location = 2) in vec2 in_texture_coord;
+		layout(location = 1) in vec2 in_texture_coord;
 		
 		uniform mat4 model_matrix;
 		uniform mat4 view_projection_matrix;
 		uniform int current_frame;
 		
-		out vec3 color;
 		out vec2 texture_coord_smile;	
 		out vec2 texture_coord_quads;		
 
 		void main() {
-			color = vertex_color;
 			texture_coord_smile = in_texture_coord;
 			texture_coord_quads = in_texture_coord + vec2(current_frame / 1500.f, current_frame / 1500.f);
 			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion, 1.0);
@@ -78,7 +87,6 @@ const char* vertex_shader =
 
 const char* fragment_shader =
 		R"(#version 460
-		in vec3 color;
 		in vec2 texture_coord_smile;
 		in vec2 texture_coord_quads;
 
@@ -88,7 +96,6 @@ const char* fragment_shader =
 		out vec4 frag_color;
 
 		void main() {
-			//frag_color = vec4(color, 1.0);
 			frag_color = texture(inTextureSmile, texture_coord_smile) * texture(inTextureQuads, texture_coord_quads);
 		})";
 
@@ -201,21 +208,20 @@ namespace editor
 		}
 		UIModule::onGlfwWindowCreate_OpenGLRenderer(m_window_ptr);
 
-
+		renderer::enableDepthTest();
 
 		shader_program_ = std::make_unique<shader_program>(vertex_shader, fragment_shader);
 
 		buffer_layout points_colors_layout_
 		{
 			ShaderDataType::Float3,
-			ShaderDataType::Float3,
 			ShaderDataType::Float2
 		};
 
-		points_colors_vbo_ = std::make_unique<vertex_buffer>(square_points_colors, sizeof(square_points_colors),
-			points_colors_layout_, vertex_buffer::Usage::Static);
+		points_colors_vbo_ = std::make_unique<vertex_buffer>(square_points, sizeof(square_points),
+															 points_colors_layout_, vertex_buffer::Usage::Static);
 
-		index_buffer_ = std::make_unique<index_buffer>(indexes, 6, vertex_buffer::Usage::Static);
+		index_buffer_ = std::make_unique<index_buffer>(indexes, sizeof(indexes) / sizeof(GLuint), vertex_buffer::Usage::Static);
 
 		VAO_1buffer_ = std::make_unique<vertex_array>();
 
@@ -312,7 +318,7 @@ namespace editor
 	void editor_app::onUpdate() noexcept
 	{ 
 		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
-		renderer::clear(renderer::Mask::ColorBuffer);
+		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
 
 
 
@@ -325,7 +331,7 @@ namespace editor
 
 		static int currnet_frame = 0;
 		shader_program_->setMatrix4f("model_matrix", model_matrix);
-		shader_program_->setInt1("current_frame", currnet_frame++);
+		//shader_program_->setInt1("current_frame", currnet_frame++);
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
