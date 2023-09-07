@@ -89,8 +89,10 @@ namespace engine::render::open_gl
 		m_width = _width;
 		m_height = _height;
 
-		glTextureStorage2D(m_texture_id, 1, internal_format_to_GLenum(_internal_format), m_width, m_height);
+		GLsizei mip_map_levels = static_cast<GLsizei>(log(std::max(_width, _height))) + 1;
+		glTextureStorage2D(m_texture_id, mip_map_levels, internal_format_to_GLenum(_internal_format), m_width, m_height);
 		glTextureSubImage2D(m_texture_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
+		glGenerateTextureMipmap(m_texture_id);
 	}
 
 

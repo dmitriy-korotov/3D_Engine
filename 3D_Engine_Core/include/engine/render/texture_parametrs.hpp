@@ -25,6 +25,11 @@ namespace engine::render
 	enum class Filter : uint8_t
 	{
 		Linear,
+		Nearest,
+		NearestMipMapNearest,
+		LinearMipMapNearest,
+		NearestMipMapLinear,
+		LinearMipMapLinear
 	};
 
 	struct TextureParamsStorage
