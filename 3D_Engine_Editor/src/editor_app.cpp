@@ -24,22 +24,26 @@
 
 #include <imgui/imgui.h>
 
+#include <glm/ext/matrix_transform.hpp>
+
 #include <iostream>
+
+#include <complex>
 
 
 
 //-----------------------------------------------------------------------------------------------------------------//   
 
 engine::render::open_gl::GLfloat square_points[] = {
-		0.f,  -0.5f,  -0.5f,		-1.f, -1.f,
-	    0.f,  -0.5f,  0.5f,			-1.f, 2.f,		// far plane
-	    0.f,  0.5f,   0.5f,			2.f, 2.f,
-	    0.f,  0.5f,   -0.5f,		2.f, -1.f,
+		0.f,  -0.5f,  -0.5f,		1.f, 0.f,
+	    0.f,  -0.5f,  0.5f,			1.f, 1.f,		// far plane
+	    0.f,  0.5f,   0.5f,			0.f, 1.f,
+	    0.f,  0.5f,   -0.5f,		0.f, 0.f,
 
-		-1.f,  -0.5f,  -0.5f,		-1.f, -1.f,
-		-1.f,  -0.5f,  0.5f,		-1.f, 2.f,		// near plain
-		-1.f,  0.5f,   0.5f,		2.f, 2.f,
-		-1.f,  0.5f,   -0.5f,		2.f, -1.f,
+		-1.f,  -0.5f,  -0.5f,		1.f, 0.f,	
+		-1.f,  -0.5f,  0.5f,		1.f, 1.f,		// near plain
+		-1.f,  0.5f,   0.5f,		0.f, 1.f,	
+		-1.f,  0.5f,   -0.5f,		0.f, 0.f,	
 };
 
 engine::render::open_gl::GLuint indexes[] = {
@@ -117,6 +121,16 @@ std::unique_ptr<vertex_array> VAO_1buffer_;
 
 std::unique_ptr<texture2D> textureSmile;
 std::unique_ptr<texture2D> textureQuads;
+std::unique_ptr<texture2D> textureMandelbrotSet;
+
+
+
+std::vector<glm::vec3> positions = { glm::vec3(-2.f, 1.f, 2.f),
+									 glm::vec3(3.f, 0.f, -2.f),
+									 glm::vec3(3.f, 3.f, 2.f),
+									 glm::vec3(-3.f, 1.f, 0.f),
+									 glm::vec3(2.f, -2.f, -2.f),
+									 glm::vec3(0.f, -2.f, 1.f) };
 
 
 
@@ -165,6 +179,51 @@ void generateSmileTexture(unsigned char* _data, std::uint16_t _width, std::uint1
 	generateCircle(_data, _width, _height, _width * 0.35, _height * 0.6, _width * 0.07, 255, 0, 255);
 	generateCircle(_data, _width, _height, _width * 0.65, _height * 0.6, _width * 0.07, 0, 0, 255);
 }
+
+
+
+
+void generateMandelbrotSet(unsigned char* _data, std::uint16_t _size) noexcept
+{
+	uint16_t _P = _size / 2;
+	double scale = _P / 2;
+	size_t n_iter = 100;
+
+	for (int x = -_P; x < _P; x++)
+	{
+		for (int y = -_P; y < _P; y++)
+		{
+			double a = x / scale;
+			double b = y / scale;
+			std::complex c(a, b);
+			std::complex<double> z(0);
+			size_t n = 0;
+
+			for (n = 0; n < n_iter; n++)
+			{
+				z = z * z + c;
+				if (std::abs(z) > 2)
+				{
+					break;
+				}
+			}
+
+			if (n == n_iter)
+			{
+				_data[3 * ((x + _P) + _size * (y + _P)) + 0] = 0;
+				_data[3 * ((x + _P) + _size * (y + _P)) + 1] = 0;
+				_data[3 * ((x + _P) + _size * (y + _P)) + 2] = 0;
+			}
+			else
+			{
+				_data[3 * ((x + _P) + _size * (y + _P)) + 0] = (n % 2) * 32 + 128;
+				_data[3 * ((x + _P) + _size * (y + _P)) + 1] = (n % 4) * 64;
+				_data[3 * ((x + _P) + _size * (y + _P)) + 2] = (n % 2) * 16 + 128;
+			}
+		}
+	}
+}
+
 
 
 
@@ -237,14 +296,15 @@ namespace editor
 		bg_color[3] = window_bg_color[3];
 
 
-		unsigned int width = 1000;
-		unsigned int height = 1000;
+		unsigned int width = 500;
+		unsigned int height = 500;
 
 		auto* data = new unsigned char[width * height * 3];
 		generateSmileTexture(data, width, height);
 
 		textureSmile = std::make_unique<texture2D>();
 		textureQuads = std::make_unique<texture2D>();
+		textureMandelbrotSet = std::make_unique<texture2D>();
 
 		TextureParamsStorage tex_params_storage_;
 		tex_params_storage_.texture_wrap_s = Wrap::Repeat;
@@ -255,6 +315,11 @@ namespace editor
 		textureSmile->setData(data, width, height);
 		textureSmile->setParametrs(tex_params_storage_);
 		textureSmile->bind(0);
+		
+		//generateMandelbrotSet(data, width);
+		//textureMandelbrotSet->setData(data, width, height);
+		//textureMandelbrotSet->setParametrs(tex_params_storage_);
+		//textureMandelbrotSet->bind(0);
 
 		generateQuadsTexture(data, width, height);
 		textureQuads->setData(data, width, height);
@@ -262,7 +327,6 @@ namespace editor
 		textureQuads->bind(1);
 
 		delete[] data;
-
 
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
@@ -321,49 +385,63 @@ namespace editor
 		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
 
 
-
 		shader_program_->bind();
 		VAO_1buffer_->bind();
-		renderer::draw(*VAO_1buffer_);
-
-
-		glm::mat4 model_matrix(1);
 
 		static int currnet_frame = 0;
-		shader_program_->setMatrix4f("model_matrix", model_matrix);
 		//shader_program_->setInt1("current_frame", currnet_frame++);
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
-
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
 
+		glm::mat4 model_matrix(1);
+		shader_program_->setMatrix4f("model_matrix", model_matrix);
+		renderer::draw(*VAO_1buffer_);
+
+		for (const glm::vec3 position : positions)
+		{
+			glm::mat4 translate_matrix = glm::translate(model_matrix, position);
+			shader_program_->setMatrix4f("model_matrix", translate_matrix);
+			renderer::draw(*VAO_1buffer_);
+		}
+		
 		//-----------------------------------------------------------------------------------------------------------------//
 		
+		float velosity = 0.001f;
+
 		glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
 		glm::vec3 rotation_delta = { 0.f, 0.f, 0.f };
 
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_LEFT_SHIFT))
+		{
+			velosity *= 5.f;
+		}
+		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_LEFT_CONTROL))
+		{
+			velosity /= 5.f;
+		}
 		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_W))
 		{
-			movement_delta.x += 0.005f;
+			movement_delta.x += velosity;
 		}
 		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_S))
 		{
-			movement_delta.x -= 0.005f;
+			movement_delta.x -= velosity;
 		}
 		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_D))
 		{
-			movement_delta.y += 0.005f;
+			movement_delta.y += velosity;
 		}
 		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_A))
 		{
-			movement_delta.y -= 0.005f;
+			movement_delta.y -= velosity;
 		}
 		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_E))
 		{
-			movement_delta.z += 0.005f;
+			movement_delta.z += velosity;
 		}
 		if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_Q))
 		{
-			movement_delta.z -= 0.005f;
+			movement_delta.z -= velosity;
 		}
 
 
