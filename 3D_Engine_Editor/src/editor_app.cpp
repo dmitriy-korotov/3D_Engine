@@ -31,10 +31,10 @@
 //-----------------------------------------------------------------------------------------------------------------//   
 
 engine::render::open_gl::GLfloat square_points_colors[] = {
-		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,		-1.f, -1.f,
-	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,		-1.f, 2.f,
-	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,		2.f, 2.f,
-	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		2.f, -1.f
+		0.f,  -0.5f, -0.5f,		1.f, 1.f, 0.f,		-10.f, -10.f,
+	    0.f,  -0.5f, 0.5f,		0.f, 1.f, 1.f,		-10.f, 20.f,
+	    0.f,  0.5f,  0.5f,		1.f, 0.f, 1.f,		20.f, 20.f,
+	    0.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		20.f, -10.f
 };
 
 engine::render::open_gl::GLuint indexes[] = { 0, 1, 2, 2, 3, 0 };
@@ -240,8 +240,11 @@ namespace editor
 		textureSmile = std::make_unique<texture2D>();
 		textureQuads = std::make_unique<texture2D>();
 
-		TextureParamsStorage tex_params_storage_ = { Wrap::Repeat, Wrap::Repeat,
-													 Filter::Linear, Filter::Linear };
+		TextureParamsStorage tex_params_storage_;
+		tex_params_storage_.texture_wrap_s = Wrap::Repeat;
+		tex_params_storage_.texture_wrap_t = Wrap::Repeat;
+		tex_params_storage_.texture_min_filter = Filter::LinearMipMapLinear;
+		tex_params_storage_.texture_mag_filter = Filter::Linear;
 
 		textureSmile->setData(data, width, height);
 		textureSmile->setParametrs(tex_params_storage_);

@@ -54,6 +54,16 @@ namespace engine::render::open_gl
 		{
 		case Filter::Linear:
 			return GL_LINEAR;
+		case Filter::LinearMipMapLinear:
+			return GL_LINEAR_MIPMAP_LINEAR;
+		case Filter::LinearMipMapNearest:
+			return GL_LINEAR_MIPMAP_NEAREST;
+		case Filter::NearestMipMapLinear:
+			return GL_NEAREST_MIPMAP_LINEAR;
+		case Filter::NearestMipMapNearest:
+			return GL_NEAREST_MIPMAP_NEAREST;
+		case Filter::Nearest:
+			return GL_NEAREST;
 		}
 		LOG_ERROR("[Texture2D ERROR] This filter type is not found (code: {0}).", static_cast<uint8_t>(_filter_type));
 
@@ -120,7 +130,7 @@ namespace engine::render::open_gl
 		m_width = _width;
 		m_height = _height;
 
-		GLsizei mip_map_levels = static_cast<GLsizei>(log(std::max(_width, _height))) + 1;
+		GLsizei mip_map_levels = static_cast<GLsizei>(std::log2(std::max(_width, _height))) + 1;
 		glTextureStorage2D(m_id, mip_map_levels, internal_format_to_GLenum(_internal_format), m_width, m_height);
 		glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
 		glGenerateTextureMipmap(m_id);
