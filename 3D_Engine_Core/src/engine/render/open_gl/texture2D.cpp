@@ -65,7 +65,38 @@ namespace engine::render::open_gl
 
 	texture2D::texture2D() noexcept
 	{
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_texture_id);
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_id);
+	}
+
+
+
+	texture2D::texture2D(texture2D&& _other) noexcept
+			: m_id(_other.m_id)
+			, m_height(_other.m_height)
+			, m_width(_other.m_width)
+	{
+		_other.m_height = 0;
+		_other.m_width = 0;
+		_other.m_id = 0;
+	}
+
+
+
+	texture2D& texture2D::operator=(texture2D&& _right) noexcept
+	{
+		if (m_id != _right.m_id)
+		{
+			glDeleteTextures(1, &m_id);
+
+			m_id = _right.m_id;
+			m_width = _right.m_width;
+			m_height = _right.m_height;
+
+			_right.m_height = 0;
+			_right.m_width = 0;
+			_right.m_id = 0;
+		}
+		return *this;
 	}
 
 
@@ -84,38 +115,38 @@ namespace engine::render::open_gl
 
 
 
-	void texture2D::setTextureData(const uint8_t* _data, uint16_t _width, uint16_t _height, InternalFormat _internal_format) noexcept
+	void texture2D::setData(const uint8_t* _data, uint16_t _width, uint16_t _height, InternalFormat _internal_format) noexcept
 	{
 		m_width = _width;
 		m_height = _height;
 
 		GLsizei mip_map_levels = static_cast<GLsizei>(log(std::max(_width, _height))) + 1;
-		glTextureStorage2D(m_texture_id, mip_map_levels, internal_format_to_GLenum(_internal_format), m_width, m_height);
-		glTextureSubImage2D(m_texture_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
-		glGenerateTextureMipmap(m_texture_id);
+		glTextureStorage2D(m_id, mip_map_levels, internal_format_to_GLenum(_internal_format), m_width, m_height);
+		glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
+		glGenerateTextureMipmap(m_id);
 	}
 
 
 
-	void texture2D::setTextureParams(const TextureParamsStorage& _texture_params) noexcept
+	void texture2D::setParametrs(const TextureParamsStorage& _texture_params) noexcept
 	{
-		glTextureParameteri(m_texture_id, GL_TEXTURE_WRAP_S, wrap_type_to_GLenum(_texture_params.texture_wrap_s));
-		glTextureParameteri(m_texture_id, GL_TEXTURE_WRAP_T, wrap_type_to_GLenum(_texture_params.texture_wrap_t));
-		glTextureParameteri(m_texture_id, GL_TEXTURE_MIN_FILTER, filter_type_to_GLenum(_texture_params.texture_min_filter));
-		glTextureParameteri(m_texture_id, GL_TEXTURE_MAG_FILTER, filter_type_to_GLenum(_texture_params.texture_mag_filter));
+		glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, wrap_type_to_GLenum(_texture_params.texture_wrap_s));
+		glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, wrap_type_to_GLenum(_texture_params.texture_wrap_t));
+		glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, filter_type_to_GLenum(_texture_params.texture_min_filter));
+		glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, filter_type_to_GLenum(_texture_params.texture_mag_filter));
 	}
 
 
 
-	void texture2D::bindTexture(uint8_t _target) const noexcept
+	void texture2D::bind(uint8_t _unit) const noexcept
 	{
-		glBindTextureUnit(_target, m_texture_id);
+		glBindTextureUnit(_unit, m_id);
 	}
 
 
 
 	texture2D::~texture2D()
 	{
-		glDeleteTextures(1, &m_texture_id);
+		glDeleteTextures(1, &m_id);
 	}
 }

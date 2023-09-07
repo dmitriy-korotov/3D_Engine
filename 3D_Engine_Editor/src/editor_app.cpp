@@ -243,14 +243,14 @@ namespace editor
 		TextureParamsStorage tex_params_storage_ = { Wrap::Repeat, Wrap::Repeat,
 													 Filter::Linear, Filter::Linear };
 
-		textureSmile->setTextureData(data, width, height);
-		textureSmile->setTextureParams(tex_params_storage_);
-		textureSmile->bindTexture(0);
+		textureSmile->setData(data, width, height);
+		textureSmile->setParametrs(tex_params_storage_);
+		textureSmile->bind(0);
 
 		generateQuadsTexture(data, width, height);
-		textureQuads->setTextureData(data, width, height);
-		textureQuads->setTextureParams(tex_params_storage_);
-		textureQuads->bindTexture(1);
+		textureQuads->setData(data, width, height);
+		textureQuads->setParametrs(tex_params_storage_);
+		textureQuads->bind(1);
 
 		delete[] data;
 
