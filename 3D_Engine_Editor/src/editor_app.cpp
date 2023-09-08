@@ -65,6 +65,10 @@ float camera_position[] = { 0.f, 0.f, 0.f };
 float camera_rotation[] = { 0.f, 0.f, 0.f };
 bool is_perspective_projection = true;
 
+float field_of_view = 0.f;
+float near_plane = 0.f;
+float far_plane = 0.f;
+
 static float bg_color[4] = { 1.f, 0.f, 0.f, 1.f };
 
 static double last_mouse_pos[2] = { 0, 0 };
@@ -261,6 +265,10 @@ namespace editor
 		, m_camera(std::make_unique<engine::render::camera>(glm::vec3(-3.f, 0.f, 0.f)))
 	{
 		m_camera->setViewPortSize(m_window_ptr->getWidth(), m_window_ptr->getHeight());
+		field_of_view = m_camera->getFieldOfView();
+		near_plane = m_camera->getNearPlane();
+		far_plane = m_camera->getFarPlane();
+
 		setEventListeners();
 		if (!renderer::init_with_glfw())
 		{
@@ -477,16 +485,19 @@ namespace editor
 
 		auto current_mouse_pos = m_window_ptr->getCurrentCursorPosition();
 
-		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
+		auto io = ImGui::GetIO();
+		if (!io.WantCaptureMouse)
 		{
-			
-			rotation_delta.z -= (current_mouse_pos.x - last_mouse_pos[0]) / 10;
-			rotation_delta.y += (current_mouse_pos.y - last_mouse_pos[1]) / 10;	
-		}
-		if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_RIGHT))
-		{
-			movement_delta.y += (current_mouse_pos.x - last_mouse_pos[0]) / 100;
-			m_camera->moveWorldUp(-(current_mouse_pos.y - last_mouse_pos[1]) / 100);
+			if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
+			{
+				rotation_delta.z -= (current_mouse_pos.x - last_mouse_pos[0]) / 10;
+				rotation_delta.y += (current_mouse_pos.y - last_mouse_pos[1]) / 10;
+			}
+			if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_RIGHT))
+			{
+				movement_delta.y += (current_mouse_pos.x - last_mouse_pos[0]) / 100;
+				m_camera->moveWorldUp(-(current_mouse_pos.y - last_mouse_pos[1]) / 100);
+			}
 		}
 
 		last_mouse_pos[0] = current_mouse_pos.x;
@@ -528,7 +539,22 @@ namespace editor
 		{
 			m_camera->setRotation(glm::vec3(camera_rotation[0], camera_rotation[1], camera_rotation[2]));
 		}
+		ImGui::Separator();
 		ImGui::Checkbox("Perspective projection", &is_perspective_projection);
+		ImGui::Separator();
+		if (ImGui::SliderFloat("Field of view", &field_of_view, 0.f, 180.f))
+		{
+			m_camera->setFieldOfView(field_of_view);
+		}
+		if (ImGui::SliderFloat("Near plane", &near_plane, 0.1f, 2.f))
+		{
+			m_camera->setNearPlane(near_plane);
+		}
+		if (ImGui::SliderFloat("Far plane", &far_plane, 2.f, 100.f))
+		{
+			m_camera->setFarPlane(far_plane);
+		}
+		ImGui::Separator();
 		ImGui::End();
 
 		UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer();

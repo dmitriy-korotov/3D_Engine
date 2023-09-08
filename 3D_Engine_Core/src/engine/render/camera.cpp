@@ -248,15 +248,6 @@ namespace engine::render
 	{
 		if (m_projection_mode == Projection::Perspective)
 		{
-			/*float r = 0.1f;
-			float t = 0.1f;			
-			float f = 100.f;
-			float n = 0.1f;
-
-			m_projection_matrix = glm::mat4(n / r,		0.f,		0.f,						0.f,
-											0.f,		n / t,		0.f,						0.f,
-											0.f,		0.f,		(-f - n) / (f - n),			-1.f,
-											0.f,		0.f,		-2.f * f * n / (f - n),		0.f);*/
 			m_projection_matrix = glm::perspective(glm::radians(m_field_of_view), m_view_port_size.x / m_view_port_size.y, m_near_plane, m_far_plane);
 		}
 		else
