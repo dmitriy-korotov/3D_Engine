@@ -1,7 +1,7 @@
 #include <engine/render/camera.hpp>
 
 #include <glm/trigonometric.hpp>
-#include <glm/ext/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 
@@ -21,7 +21,7 @@ namespace engine::render
 	void camera::setProjectionMode(Projection _projection_mode) noexcept
 	{
 		m_projection_mode = _projection_mode;
-		updateProjectionMatrix();
+		m_is_needed_update_projection_matrix = true;
 	}
 
 
@@ -51,6 +51,59 @@ namespace engine::render
 
 
 
+
+	void camera::setNearPlane(float _distance_to_near_plane) noexcept
+	{
+		m_near_plane = _distance_to_near_plane;
+		m_is_needed_update_projection_matrix = true;
+	}
+
+
+
+	void camera::setFarPlane(float _distance_to_far_plane) noexcept
+	{
+		m_far_plane = _distance_to_far_plane;
+		m_is_needed_update_projection_matrix = true;
+	}
+
+
+
+	void camera::setFieldOfView(float _fov) noexcept
+	{
+		m_field_of_view = _fov;
+		m_is_needed_update_projection_matrix = true;
+	}
+
+
+
+	void camera::setViewPortSize(float _width, float _height) noexcept
+	{
+		m_view_port_size = glm::vec2(_width, _height);
+		m_is_needed_update_projection_matrix = true;
+	}
+
+
+
+	float camera::getNearPlane() const noexcept
+	{
+		return m_near_plane;
+	}
+
+
+
+	float camera::getFarPlane() const noexcept
+	{
+		return m_far_plane;
+	}
+
+
+
+	float camera::getFieldOfView() const noexcept
+	{
+		return m_field_of_view;
+	}
+
+
 	
 	const glm::vec3& camera::getPosition() const noexcept
 	{
@@ -77,8 +130,12 @@ namespace engine::render
 
 
 
-	const glm::mat4& camera::getProjectionMatrix() const noexcept
+	const glm::mat4& camera::getProjectionMatrix() noexcept
 	{
+		if (m_is_needed_update_projection_matrix)
+		{
+			updateProjectionMatrix();
+		}
 		return m_projection_matrix;
 	}
 
@@ -86,11 +143,7 @@ namespace engine::render
 
 	glm::mat4 camera::getViewProjectionMatrix() noexcept
 	{
-		if (m_is_needed_update_view_matrix)
-		{
-			updateViewMatrix();
-		}
-		return m_projection_matrix * m_view_matrix;
+		return getProjectionMatrix() * getViewMatrix();
 	}
 
 
@@ -195,20 +248,21 @@ namespace engine::render
 	{
 		if (m_projection_mode == Projection::Perspective)
 		{
-			float r = 0.1f;
-			float t = 0.1f;			// TODO: added posibility set this camera parametrs
+			/*float r = 0.1f;
+			float t = 0.1f;			
 			float f = 100.f;
 			float n = 0.1f;
 
 			m_projection_matrix = glm::mat4(n / r,		0.f,		0.f,						0.f,
 											0.f,		n / t,		0.f,						0.f,
 											0.f,		0.f,		(-f - n) / (f - n),			-1.f,
-											0.f,		0.f,		-2.f * f * n / (f - n),		0.f);
+											0.f,		0.f,		-2.f * f * n / (f - n),		0.f);*/
+			m_projection_matrix = glm::perspective(glm::radians(m_field_of_view), m_view_port_size.x / m_view_port_size.y, m_near_plane, m_far_plane);
 		}
 		else
 		{
 			float r = 2.f;
-			float t = 2.f;
+			float t = 2.f;				// TODO: added posibility set this camera parametrs
 			float f = 100.f;
 			float n = 0.1f;
 
@@ -217,5 +271,6 @@ namespace engine::render
 											0.f,		0.f,		 -2.f / (f - n),			0.f,
 											0.f,		0.f,		 (-f - n) / (f - n),		1.f);
 		}
+		m_is_needed_update_projection_matrix = false;
 	}
 }

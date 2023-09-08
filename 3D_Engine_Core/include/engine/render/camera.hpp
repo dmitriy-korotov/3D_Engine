@@ -24,12 +24,19 @@ namespace engine::render
 		void setPosition(const glm::vec3& _position) noexcept;
 		void setRotation(const glm::vec3& _rotation) noexcept;
 		void setPositionAndRotation(const glm::vec3& _position, const glm::vec3& _rotation) noexcept;
+		void setNearPlane(float _distance_to_near_plane) noexcept;
+		void setFarPlane(float _distance_to_far_plane) noexcept;
+		void setFieldOfView(float _fov) noexcept;
+		void setViewPortSize(float _width, float _height) noexcept;
 
 		const glm::mat4& getViewMatrix() noexcept;
-		const glm::mat4& getProjectionMatrix() const noexcept;
+		const glm::mat4& getProjectionMatrix() noexcept;
 		glm::mat4 getViewProjectionMatrix() noexcept;
 		const glm::vec3& getPosition() const noexcept;
 		const glm::vec3& getRotation() const noexcept;
+		float getNearPlane() const noexcept;
+		float getFarPlane() const noexcept;
+		float getFieldOfView() const noexcept;
 
 		void moveForward(float _delta) noexcept;
 		void moveRight(float _delta) noexcept;
@@ -51,6 +58,12 @@ namespace engine::render
 		glm::vec3 m_position_;
 		glm::vec3 m_rotation_;
 
+		float m_near_plane = 0.1f;
+		float m_far_plane = 100.f;		// TODO: Create phrustum class
+		float m_field_of_view = 60.f;
+
+		glm::vec2 m_view_port_size = { 600, 900 };
+
 		glm::vec3 m_direction_;
 		glm::vec3 m_right_;
 		glm::vec3 m_up_;
@@ -63,6 +76,7 @@ namespace engine::render
 		glm::mat4 m_projection_matrix;
 
 		bool m_is_needed_update_view_matrix = false;
+		bool m_is_needed_update_projection_matrix = false;
 
 	};
 }

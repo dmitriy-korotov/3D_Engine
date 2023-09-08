@@ -260,6 +260,7 @@ namespace editor
 		: application(_width, _height, _editor_name)
 		, m_camera(std::make_unique<engine::render::camera>(glm::vec3(-3.f, 0.f, 0.f)))
 	{
+		m_camera->setViewPortSize(m_window_ptr->getWidth(), m_window_ptr->getHeight());
 		setEventListeners();
 		if (!renderer::init_with_glfw())
 		{
@@ -340,6 +341,7 @@ namespace editor
 			[this](const ResizeEventData& _size) -> void
 			{
 				renderer::setViewport(_size.width, _size.height);
+				m_camera->setViewPortSize(_size.width, _size.height);
 			});
 
 		m_window_ptr->addEventListener<Events::Close>(
@@ -406,7 +408,7 @@ namespace editor
 		
 		//-----------------------------------------------------------------------------------------------------------------//
 		
-		float velosity = 0.001f;
+		float velosity = 0.003f;
 
 		glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
 		glm::vec3 rotation_delta = { 0.f, 0.f, 0.f };
