@@ -139,8 +139,22 @@ namespace engine::render::open_gl
 
 
 
-	void shader_program::setInt1(const std::string_view& _varieble_name, int _value) const noexcept
+	void shader_program::setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept
+	{
+		glUniform3f(glGetUniformLocation(m_id, _varieble_name.data()), _vector.x, _vector.y, _vector.z);
+	}
+
+
+
+	void shader_program::setInt(const std::string_view& _varieble_name, int _value) const noexcept
 	{
 		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _value);
+	}
+
+
+
+	void shader_program::setFloat(const std::string_view& _varieble_name, float _value) const noexcept
+	{
+		glUniform1f(glGetUniformLocation(m_id, _varieble_name.data()), _value);
 	}
 }

@@ -33,8 +33,8 @@ namespace engine::window::glfw
 
 	void window::onUpdate() noexcept
 	{
-		glfwSwapBuffers(m_window_ptr);
 		glfwPollEvents();
+		glfwSwapBuffers(m_window_ptr);
 	}
 
 

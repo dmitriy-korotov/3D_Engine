@@ -35,15 +35,35 @@
 //-----------------------------------------------------------------------------------------------------------------//   
 
 engine::render::open_gl::GLfloat square_points[] = {
-		0.f,  -0.5f,  -0.5f,		1.f, 0.f,
-	    0.f,  -0.5f,  0.5f,			1.f, 1.f,		// far plane
-	    0.f,  0.5f,   0.5f,			0.f, 1.f,
-	    0.f,  0.5f,   -0.5f,		0.f, 0.f,
+		0.f,  -0.5f,  -0.5f,		1.f, 0.f, 0.f,		1.f, 0.f,
+	    0.f,  -0.5f,  0.5f,			1.f, 0.f, 0.f,		1.f, 1.f,		// far plane
+	    0.f,  0.5f,   0.5f,			1.f, 0.f, 0.f,		0.f, 1.f,
+	    0.f,  0.5f,   -0.5f,		1.f, 0.f, 0.f,		0.f, 0.f,
 
-		-1.f,  -0.5f,  -0.5f,		1.f, 0.f,	
-		-1.f,  -0.5f,  0.5f,		1.f, 1.f,		// near plain
-		-1.f,  0.5f,   0.5f,		0.f, 1.f,	
-		-1.f,  0.5f,   -0.5f,		0.f, 0.f,	
+		-1.f,  -0.5f,  -0.5f,		-1.f, 0.f, 0.f,		1.f, 0.f,
+		-1.f,  -0.5f,  0.5f,		-1.f, 0.f, 0.f,		1.f, 1.f,		// near plain
+		-1.f,  0.5f,   0.5f,		-1.f, 0.f, 0.f,		0.f, 1.f,
+		-1.f,  0.5f,   -0.5f,		-1.f, 0.f, 0.f,		0.f, 0.f,
+
+		-1.f,  -0.5f,  -0.5f,		0.f, -1.f, 0.f,		1.f, 0.f,
+		-1.f,  -0.5f,  0.5f,		0.f, -1.f, 0.f,		1.f, 1.f,		// right plane
+		0.f,  -0.5f,  0.5f,			0.f, -1.f, 0.f,		1.f, 1.f,
+		0.f,  -0.5f,  -0.5f,		0.f, -1.f, 0.f,		1.f, 0.f,
+
+		-1.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		1.f, 0.f,
+		-1.f,  0.5f,  0.5f,			0.f, 1.f, 0.f,		1.f, 1.f,		// left plane
+		0.f,   0.5f,  0.5f,			0.f, 1.f, 0.f,		1.f, 1.f,
+		0.f,   0.5f,  -0.5f,		0.f, 1.f, 0.f,		1.f, 0.f,
+
+		-1.f,  -0.5f,  -0.5f,		0.f, 0.f, -1.f,		1.f, 0.f,
+		-1.f,  0.5f,   -0.5f,		0.f, 0.f, -1.f,		0.f, 0.f,		// bottom plane
+		0.f,   0.5f,   -0.5f,		0.f, 0.f, -1.f,		0.f, 0.f,
+		0.f,   -0.5f,  -0.5f,		0.f, 0.f, -1.f,		1.f, 0.f,
+
+		-1.f,  -0.5f,  0.5f,		0.f, 0.f, 1.f,		1.f, 0.f,
+		-1.f,  0.5f,   0.5f,		0.f, 0.f, 1.f,		0.f, 0.f,		// bottom plane
+		0.f,   0.5f,   0.5f,		0.f, 0.f, 1.f,		0.f, 0.f,
+		0.f,   -0.5f,  0.5f,		0.f, 0.f, 1.f,		1.f, 0.f
 };
 
 engine::render::open_gl::GLuint indexes[] = {
@@ -78,33 +98,40 @@ static double last_mouse_pos[2] = { 0, 0 };
 const char* vertex_shader =
 		R"(#version 460
 		layout(location = 0) in vec3 vertex_poistion;
-		layout(location = 1) in vec2 in_texture_coord;
+		layout(location = 1) in vec3 vertex_normal;
+		layout(location = 2) in vec2 texture_coords;
 		
 		uniform mat4 model_matrix;
 		uniform mat4 view_projection_matrix;
 		uniform int current_frame;
 		
-		out vec2 texture_coord_smile;	
-		out vec2 texture_coord_quads;		
+		out vec2 frag_texture_coord_smile;	
+		out vec2 frag_texture_coord_quads;	
+		out vec3 frag_normal;	
 
 		void main() {
-			texture_coord_smile = in_texture_coord;
-			texture_coord_quads = in_texture_coord + vec2(current_frame / 1500.f, current_frame / 1500.f);
+			frag_texture_coord_smile = texture_coords;
+			frag_texture_coord_quads = texture_coords + vec2(current_frame / 1500.f, current_frame / 1500.f);
 			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion, 1.0);
 		})";
 
 const char* fragment_shader =
 		R"(#version 460
-		in vec2 texture_coord_smile;
-		in vec2 texture_coord_quads;
+		in vec2 frag_texture_coord_smile;
+		in vec2 frag_texture_coord_quads;
+		in vec3 frag_normal;
 
 		layout (binding = 0) uniform sampler2D inTextureSmile;
 		layout (binding = 1) uniform sampler2D inTextureQuads;
 
+		uniform vec3 source_light_color;
+		uniform float ambient_factor;
+
 		out vec4 frag_color;
 
 		void main() {
-			frag_color = texture(inTextureSmile, texture_coord_smile) * texture(inTextureQuads, texture_coord_quads);
+			vec4 light = ambient_factor * source_light_color;
+			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile) * texture(inTextureQuads, frag_texture_coord_quads);
 		})";
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -283,6 +310,7 @@ namespace editor
 		buffer_layout points_colors_layout_
 		{
 			ShaderDataType::Float3,
+			ShaderDataType::Float3,
 			ShaderDataType::Float2
 		};
 
@@ -391,31 +419,7 @@ namespace editor
 
 	void editor_app::onUpdate() noexcept
 	{ 
-		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
-		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
 
-
-		shader_program_->bind();
-		VAO_1buffer_->bind();
-
-		static int currnet_frame = 0;
-		//shader_program_->setInt1("current_frame", currnet_frame++);
-		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
-		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
-
-		glm::mat4 model_matrix(1);
-		shader_program_->setMatrix4f("model_matrix", model_matrix);
-		renderer::draw(*VAO_1buffer_);
-
-		for (const glm::vec3 position : positions)
-		{
-			glm::mat4 translate_matrix = glm::translate(model_matrix, position);
-			shader_program_->setMatrix4f("model_matrix", translate_matrix);
-			renderer::draw(*VAO_1buffer_);
-		}
-		
-		//-----------------------------------------------------------------------------------------------------------------//
-		
 		float velosity = 0.003f;
 
 		glm::vec3 movement_delta = { 0.f, 0.f, 0.f };
@@ -505,7 +509,6 @@ namespace editor
 
 		m_camera->moveAndRotate(movement_delta, rotation_delta);
 		
-		//-----------------------------------------------------------------------------------------------------------------//
 
 		drawUI();
 	}
@@ -525,6 +528,33 @@ namespace editor
 		UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
 
 		UIModule::createDockSpace();
+
+
+
+		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
+		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
+
+		
+		shader_program_->bind();
+		VAO_1buffer_->bind();
+
+		static int currnet_frame = 0;
+		shader_program_->setInt("current_frame", currnet_frame);
+		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
+		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
+
+		glm::mat4 model_matrix(1);
+		shader_program_->setMatrix4f("model_matrix", model_matrix);
+		renderer::draw(*VAO_1buffer_);
+
+		for (const glm::vec3 position : positions)
+		{
+			glm::mat4 translate_matrix = glm::translate(model_matrix, position);
+			shader_program_->setMatrix4f("model_matrix", translate_matrix);
+			renderer::draw(*VAO_1buffer_);
+		}
+
+
 
 		ImGui::Begin("BG Color");
 		ImGui::ColorEdit4("Background color", bg_color);
@@ -568,54 +598,3 @@ namespace editor
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 }
-
-
-
-/*
-//-----------------------------------------------------------------------------------------------------------------//   
-
-//-----------------------------------------------------------------------------------------------------------------//
-
-
-//-----------------------------------------------------------------------------------------------------------------//
-
-
-
-
-
-static bool is_one_buffer = true;
-if (is_one_buffer)
-{
-	
-}
-else
-{
-	VAO_2buffers_->bind();
-	renderer::draw(*VAO_2buffers_);
-}
-
-
-float rad_angle = glm::radians(rotate);
-
-glm::mat4 rotate_matrix(glm::cos(rad_angle), glm::sin(rad_angle), 0, 0,
-						-glm::sin(rad_angle), glm::cos(rad_angle), 0, 0,
-						0, 0, 1, 0,
-						0, 0, 0, 1);
-
-glm::mat4 model_matrix = translate_matrix * rotate_matrix * scale_matrix;
-
-
-
-
-ui::ImGuiModule::onUIDrawBegin();
-
-bool open = true;
-ui::ImGuiModule::ShowExampleAppDockSpace(&open);
-ImGui::ShowDemoWindow();
-
-
-
-ui::ImGuiModule::onUIDrawEnd();
-
-window::onUpdate();
-*/

@@ -44,6 +44,7 @@ namespace engine
 
 	void application::start() noexcept
 	{
+
         while (!s_is_closed)
         {
             m_window_ptr->onUpdate();

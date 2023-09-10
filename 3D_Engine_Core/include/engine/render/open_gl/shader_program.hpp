@@ -5,6 +5,7 @@
 #include <engine/interfaces/binded_object.hpp>
 
 #include <glm/ext/matrix_float4x4.hpp>	// glm dependens (TODO: try to remove)
+#include <glm/ext/vector_float3.hpp>
 
 #include <iostream>
 #include <optional>
@@ -31,7 +32,9 @@ namespace engine::render::open_gl
 
 		bool isCompiled() const noexcept;
 		void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept;
-		void setInt1(const std::string_view& _varieble_name, int _value) const noexcept;
+		void setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept;
+		void setInt(const std::string_view& _varieble_name, int _value) const noexcept;
+		void setFloat(const std::string_view& _varieble_name, float _value) const noexcept;
 
 		void bind() const noexcept override;
 		void unbind() const noexcept override;
