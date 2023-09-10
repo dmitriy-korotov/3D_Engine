@@ -25,6 +25,7 @@
 #include <imgui/imgui.h>
 
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/trigonometric.hpp>
 
 #include <iostream>
 
@@ -45,34 +46,35 @@ engine::render::open_gl::GLfloat square_points[] = {
 		-1.f,  0.5f,   0.5f,		-1.f, 0.f, 0.f,		0.f, 1.f,
 		-1.f,  0.5f,   -0.5f,		-1.f, 0.f, 0.f,		0.f, 0.f,
 
-		-1.f,  -0.5f,  -0.5f,		0.f, -1.f, 0.f,		1.f, 0.f,
-		-1.f,  -0.5f,  0.5f,		0.f, -1.f, 0.f,		1.f, 1.f,		// right plane
+		-1.f,  -0.5f,  -0.5f,		0.f, -1.f, 0.f,		0.f, 0.f,
+		-1.f,  -0.5f,  0.5f,		0.f, -1.f, 0.f,		0.f, 1.f,		// right plane
 		0.f,  -0.5f,  0.5f,			0.f, -1.f, 0.f,		1.f, 1.f,
 		0.f,  -0.5f,  -0.5f,		0.f, -1.f, 0.f,		1.f, 0.f,
 
 		-1.f,  0.5f,  -0.5f,		0.f, 1.f, 0.f,		1.f, 0.f,
 		-1.f,  0.5f,  0.5f,			0.f, 1.f, 0.f,		1.f, 1.f,		// left plane
-		0.f,   0.5f,  0.5f,			0.f, 1.f, 0.f,		1.f, 1.f,
-		0.f,   0.5f,  -0.5f,		0.f, 1.f, 0.f,		1.f, 0.f,
+		0.f,   0.5f,  0.5f,			0.f, 1.f, 0.f,		0.f, 1.f,
+		0.f,   0.5f,  -0.5f,		0.f, 1.f, 0.f,		0.f, 0.f,
 
-		-1.f,  -0.5f,  -0.5f,		0.f, 0.f, -1.f,		1.f, 0.f,
-		-1.f,  0.5f,   -0.5f,		0.f, 0.f, -1.f,		0.f, 0.f,		// bottom plane
+		-1.f,  -0.5f,  -0.5f,		0.f, 0.f, -1.f,		1.f, 1.f,
+		-1.f,  0.5f,   -0.5f,		0.f, 0.f, -1.f,		0.f, 1.f,		// bottom plane
 		0.f,   0.5f,   -0.5f,		0.f, 0.f, -1.f,		0.f, 0.f,
 		0.f,   -0.5f,  -0.5f,		0.f, 0.f, -1.f,		1.f, 0.f,
 
 		-1.f,  -0.5f,  0.5f,		0.f, 0.f, 1.f,		1.f, 0.f,
-		-1.f,  0.5f,   0.5f,		0.f, 0.f, 1.f,		0.f, 0.f,		// bottom plane
-		0.f,   0.5f,   0.5f,		0.f, 0.f, 1.f,		0.f, 0.f,
-		0.f,   -0.5f,  0.5f,		0.f, 0.f, 1.f,		1.f, 0.f
+		-1.f,  0.5f,   0.5f,		0.f, 0.f, 1.f,		0.f, 0.f,		// top plane
+		0.f,   0.5f,   0.5f,		0.f, 0.f, 1.f,		0.f, 1.f,
+		0.f,   -0.5f,  0.5f,		0.f, 0.f, 1.f,		1.f, 1.f
 };
 
 engine::render::open_gl::GLuint indexes[] = {
-	0, 1, 2, 2, 3, 0, // front
-	0, 1, 4, 4, 5, 1, // right
-	3, 2, 7, 7, 6, 2, // left
-	1, 2, 5, 5, 6, 2, // top
-	0, 3, 4, 4, 7, 3, // bottom
-	4, 5, 6, 6, 7, 4  // back
+	0, 1, 2, 2, 3, 0,			// front
+	4, 5, 6, 6, 7, 4,			// back
+	8, 9, 10, 10, 8, 11,		// right
+	15, 14, 13, 13, 15, 12,		// left
+	18, 17, 16, 16, 18, 19,		// bottom
+	21, 22, 23, 23, 21, 20		// top
+	
 };
 
 float scale[] = { 1.f, 1.f, 1.f };
@@ -96,6 +98,7 @@ static double last_mouse_pos[2] = { 0, 0 };
 //-----------------------------------------------------------------------------------------------------------------//
 
 float ambient_factor = 0.1f;
+float diffuse_factor = 0.85f;
 float source_light_color[] = { 1.f, 1.f, 1.f, 1.f };
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -113,11 +116,17 @@ const char* vertex_shader =
 		out vec2 frag_texture_coord_smile;	
 		out vec2 frag_texture_coord_quads;	
 		out vec3 frag_normal;	
+		out vec3 frag_position;
 
 		void main() {
 			frag_texture_coord_smile = texture_coords;
 			frag_texture_coord_quads = texture_coords + vec2(current_frame / 1500.f, current_frame / 1500.f);
-			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion, 1.0);
+			
+			frag_normal = normalize(mat3(transpose(inverse(model_matrix))) * vertex_normal);
+
+			vec4 world_vertex_position = model_matrix * vec4(vertex_poistion, 1.0);
+			frag_position = world_vertex_position.xyz;
+			gl_Position = view_projection_matrix * world_vertex_position;
 		})";
 
 const char* fragment_shader =
@@ -125,18 +134,50 @@ const char* fragment_shader =
 		in vec2 frag_texture_coord_smile;
 		in vec2 frag_texture_coord_quads;
 		in vec3 frag_normal;
+		in vec3 frag_position;
 
 		layout (binding = 0) uniform sampler2D inTextureSmile;
 		layout (binding = 1) uniform sampler2D inTextureQuads;
 
 		uniform vec3 source_light_color;
+		uniform vec3 source_light_position;
 		uniform float ambient_factor;
+		uniform float diffuse_factor;
 
 		out vec4 frag_color;
 
 		void main() {
-			vec4 light = ambient_factor * vec4(source_light_color, 1.0);
-			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile) * texture(inTextureQuads, frag_texture_coord_quads);
+			vec3 ambient_light = ambient_factor * source_light_color;
+			
+			vec3 light_direction = normalize(source_light_position - frag_position);
+			vec3 diffuse_light = diffuse_factor * source_light_color * max(dot(frag_normal, light_direction), 0.0);
+
+			vec4 light = vec4(ambient_light + diffuse_light, 1.0);
+			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile);// * texture(inTextureQuads, frag_texture_coord_quads);
+		})";
+
+
+const char* source_light_vertex_shader =
+		R"(#version 460
+		layout(location = 0) in vec3 vertex_poistion;
+		layout(location = 1) in vec3 vertex_normal;
+		layout(location = 2) in vec2 texture_coords;
+		
+		uniform mat4 model_matrix;
+		uniform mat4 view_projection_matrix;
+
+		void main() {
+			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion * 0.25, 1.0);
+		})";
+
+const char* source_light_fragment_shader =
+		R"(#version 460
+		uniform vec3 source_light_color;
+		
+		out vec4 frag_color;
+
+		void main() {
+			frag_color = vec4(source_light_color, 1.0);
 		})";
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -149,6 +190,7 @@ using namespace engine::modules::imgui;
 //-----------------------------------------------------------------------------------------------------------------//
 
 std::unique_ptr<shader_program> shader_program_;
+std::unique_ptr<shader_program> source_light_shader_program_;
 
 std::unique_ptr<vertex_buffer> points_colors_vbo_;
 std::unique_ptr<index_buffer> index_buffer_;
@@ -311,6 +353,7 @@ namespace editor
 		renderer::enableDepthTest();
 
 		shader_program_ = std::make_unique<shader_program>(vertex_shader, fragment_shader);
+		source_light_shader_program_ = std::make_unique<shader_program>(source_light_vertex_shader, source_light_fragment_shader);
 
 		buffer_layout points_colors_layout_
 		{
@@ -541,18 +584,17 @@ namespace editor
 
 		
 		shader_program_->bind();
-		VAO_1buffer_->bind();
 
 		static int currnet_frame = 0;
 		shader_program_->setInt("current_frame", currnet_frame);
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
 		shader_program_->setFloat("ambient_factor", ambient_factor);
+		shader_program_->setFloat("diffuse_factor", diffuse_factor);
 		shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
+		shader_program_->setVector3f("source_light_position", glm::vec3(translate[0], translate[1], translate[2]));
 
 		glm::mat4 model_matrix(1);
-		shader_program_->setMatrix4f("model_matrix", model_matrix);
-		renderer::draw(*VAO_1buffer_);
 
 		for (const glm::vec3 position : positions)
 		{
@@ -561,7 +603,14 @@ namespace editor
 			renderer::draw(*VAO_1buffer_);
 		}
 
-
+		glm::mat4 model_matrix_2(1);
+		model_matrix_2 = glm::translate(model_matrix_2, glm::vec3(translate[0], translate[1], translate[2]));
+		model_matrix_2 = glm::scale(model_matrix_2, glm::vec3(scale[0], scale[1], scale[2]));
+		source_light_shader_program_->bind();
+		source_light_shader_program_->setMatrix4f("model_matrix", model_matrix_2);
+		source_light_shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
+		source_light_shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
+		renderer::draw(*VAO_1buffer_);
 
 		ImGui::Begin("BG Color");
 		ImGui::ColorEdit4("Background color", bg_color);
@@ -594,6 +643,10 @@ namespace editor
 		ImGui::Separator();
 		ImGui::ColorEdit4("Source light color", source_light_color);
 		ImGui::SliderFloat("Ambient factor", &ambient_factor, 0.f, 1.f);
+		ImGui::SliderFloat("Diffuse factor", &diffuse_factor, 0.f, 2.f);
+		ImGui::Separator();
+		ImGui::SliderFloat3("Source light position", translate, -10.f, 10.f);
+		ImGui::SliderFloat3("Source light scale", scale, 0.f, 10.f);
 		ImGui::Separator();
 		ImGui::End();
 
