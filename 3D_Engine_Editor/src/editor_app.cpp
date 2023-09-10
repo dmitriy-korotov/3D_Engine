@@ -95,6 +95,11 @@ static double last_mouse_pos[2] = { 0, 0 };
 
 //-----------------------------------------------------------------------------------------------------------------//
 
+float ambient_factor = 0.1f;
+float source_light_color[] = { 1.f, 1.f, 1.f, 1.f };
+
+//-----------------------------------------------------------------------------------------------------------------//
+
 const char* vertex_shader =
 		R"(#version 460
 		layout(location = 0) in vec3 vertex_poistion;
@@ -130,7 +135,7 @@ const char* fragment_shader =
 		out vec4 frag_color;
 
 		void main() {
-			vec4 light = ambient_factor * source_light_color;
+			vec4 light = ambient_factor * vec4(source_light_color, 1.0);
 			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile) * texture(inTextureQuads, frag_texture_coord_quads);
 		})";
 
@@ -542,6 +547,8 @@ namespace editor
 		shader_program_->setInt("current_frame", currnet_frame);
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
+		shader_program_->setFloat("ambient_factor", ambient_factor);
+		shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
 
 		glm::mat4 model_matrix(1);
 		shader_program_->setMatrix4f("model_matrix", model_matrix);
@@ -584,6 +591,9 @@ namespace editor
 		{
 			m_camera->setFarPlane(far_plane);
 		}
+		ImGui::Separator();
+		ImGui::ColorEdit4("Source light color", source_light_color);
+		ImGui::SliderFloat("Ambient factor", &ambient_factor, 0.f, 1.f);
 		ImGui::Separator();
 		ImGui::End();
 
