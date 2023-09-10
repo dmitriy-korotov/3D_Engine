@@ -124,7 +124,7 @@ const char* vertex_shader =
 			frag_texture_coord_smile = texture_coords;
 			frag_texture_coord_quads = texture_coords + vec2(current_frame / 1500.f, current_frame / 1500.f);
 			
-			frag_normal = normalize(mat3(transpose(inverse(model_matrix))) * vertex_normal);
+			frag_normal = mat3(transpose(inverse(model_matrix))) * vertex_normal;
 
 			vec4 world_vertex_position = model_matrix * vec4(vertex_poistion, 1.0);
 			frag_position = world_vertex_position.xyz;
@@ -152,12 +152,15 @@ const char* fragment_shader =
 		out vec4 frag_color;
 
 		void main() {
+
+			vec3 normal = normalize(frag_normal);
+
 			vec3 ambient_light = ambient_factor * source_light_color;
 			
 			vec3 light_direction = normalize(source_light_position - frag_position);
-			vec3 diffuse_light = diffuse_factor * source_light_color * max(dot(frag_normal, light_direction), 0.0);
+			vec3 diffuse_light = diffuse_factor * source_light_color * max(dot(normal, light_direction), 0.0);
 
-			vec3 reflect_dir = reflect(-light_direction, frag_normal);
+			vec3 reflect_dir = reflect(-light_direction, normal);
 			vec3 direction_in_camera = normalize(camera_position - frag_position);
 			vec3 reflection_light = specular_factor * source_light_color * pow(max(dot(reflect_dir, direction_in_camera), 0.0), shiniess);
 
