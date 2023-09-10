@@ -98,7 +98,9 @@ static double last_mouse_pos[2] = { 0, 0 };
 //-----------------------------------------------------------------------------------------------------------------//
 
 float ambient_factor = 0.1f;
-float diffuse_factor = 0.85f;
+float diffuse_factor = 1.f;
+float specular_factor = 0.5f;
+float shiniess = 32.f;
 float source_light_color[] = { 1.f, 1.f, 1.f, 1.f };
 
 //-----------------------------------------------------------------------------------------------------------------//
@@ -141,8 +143,11 @@ const char* fragment_shader =
 
 		uniform vec3 source_light_color;
 		uniform vec3 source_light_position;
+		uniform vec3 camera_position;
 		uniform float ambient_factor;
 		uniform float diffuse_factor;
+		uniform float specular_factor;
+		uniform float shiniess;
 
 		out vec4 frag_color;
 
@@ -152,8 +157,13 @@ const char* fragment_shader =
 			vec3 light_direction = normalize(source_light_position - frag_position);
 			vec3 diffuse_light = diffuse_factor * source_light_color * max(dot(frag_normal, light_direction), 0.0);
 
-			vec4 light = vec4(ambient_light + diffuse_light, 1.0);
-			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile);// * texture(inTextureQuads, frag_texture_coord_quads);
+			vec3 reflect_dir = reflect(-light_direction, frag_normal);
+			vec3 direction_in_camera = normalize(camera_position - frag_position);
+			vec3 reflection_light = specular_factor * source_light_color * pow(max(dot(reflect_dir, direction_in_camera), 0.0), shiniess);
+
+			//vec4 light = vec4((ambient_light + diffuse_light + reflection_light) / pow(abs(source_light_position - frag_position), 2), 1.f);
+			vec4 light = vec4((ambient_light + diffuse_light + reflection_light), 1.f);
+			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile);//* texture(inTextureQuads, frag_texture_coord_quads);
 		})";
 
 
@@ -591,8 +601,11 @@ namespace editor
 		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
 		shader_program_->setFloat("ambient_factor", ambient_factor);
 		shader_program_->setFloat("diffuse_factor", diffuse_factor);
+		shader_program_->setFloat("specular_factor", specular_factor);
+		shader_program_->setFloat("shiniess", shiniess);
 		shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
 		shader_program_->setVector3f("source_light_position", glm::vec3(translate[0], translate[1], translate[2]));
+		shader_program_->setVector3f("camera_position", m_camera->getPosition());
 
 		glm::mat4 model_matrix(1);
 
@@ -644,6 +657,8 @@ namespace editor
 		ImGui::ColorEdit4("Source light color", source_light_color);
 		ImGui::SliderFloat("Ambient factor", &ambient_factor, 0.f, 1.f);
 		ImGui::SliderFloat("Diffuse factor", &diffuse_factor, 0.f, 2.f);
+		ImGui::SliderFloat("Specular factor", &specular_factor, 0.1f, 5.f);
+		ImGui::SliderFloat("Shiniess", &shiniess, 0.1f, 100.f);
 		ImGui::Separator();
 		ImGui::SliderFloat3("Source light position", translate, -10.f, 10.f);
 		ImGui::SliderFloat3("Source light scale", scale, 0.f, 10.f);
