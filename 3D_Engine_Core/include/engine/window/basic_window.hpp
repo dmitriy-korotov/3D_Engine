@@ -30,7 +30,7 @@ namespace engine
 
 		void setBackgroundColor(float _red, float _green, float _blue, float _alpha) noexcept;
 
-		virtual std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept = 0;
+		virtual std::optional<error::window_error> create(uint16_t _width, uint16_t _height, bool _is_full_screen_mode = false) noexcept = 0;
 		virtual void shutdown() noexcept = 0;
 		virtual void onUpdate() noexcept {}
 

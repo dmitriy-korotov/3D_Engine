@@ -77,9 +77,24 @@ namespace engine::window::glfw
 
 
 
-	std::optional<error::window_error> window::__createGlfwWindow() noexcept
+	std::optional<error::window_error> window::__createGlfwWindow(bool _is_full_screen_mode) noexcept
 	{
-		m_window_ptr = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
+		if (_is_full_screen_mode)
+		{
+			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+			glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+			glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+			glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+			glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+			m_window_ptr = glfwCreateWindow(mode->width, mode->height, m_window_data_.title.c_str(), monitor, nullptr);
+		}
+		else
+		{
+			m_window_ptr = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
+		}
+
 		if (!m_window_ptr)
 		{
 			LOG_CRITICAL("[Glfw Window ERROR] Can't create window '{0}'.", m_window_data_.title);
@@ -91,7 +106,7 @@ namespace engine::window::glfw
 
 
 
-	std::optional<error::window_error> window::create(uint16_t _width, uint16_t _height) noexcept
+	std::optional<error::window_error> window::create(uint16_t _width, uint16_t _height, bool _is_full_screen_mode) noexcept
 	{
 		auto is_glfw_inited_ = __glfwInit();
 		if (is_glfw_inited_.has_value())
@@ -102,7 +117,7 @@ namespace engine::window::glfw
 		m_window_data_.width = _width;
 		m_window_data_.height = _height;
 
-		auto is_glfw_window_created_ = __createGlfwWindow();
+		auto is_glfw_window_created_ = __createGlfwWindow(_is_full_screen_mode);
 		if (is_glfw_window_created_.has_value())
 		{
 			return is_glfw_window_created_;

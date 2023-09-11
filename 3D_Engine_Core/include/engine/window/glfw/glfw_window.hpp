@@ -26,7 +26,7 @@ namespace engine::window::glfw
 		window(const std::string_view& _title);
 		~window() override;
 
-		std::optional<error::window_error> create(uint16_t _width, uint16_t _height) noexcept override;
+		std::optional<error::window_error> create(uint16_t _width, uint16_t _height, bool _is_full_screen_mode = false) noexcept override;
 		void shutdown() noexcept override;
 		void onUpdate() noexcept override;
 
@@ -45,7 +45,7 @@ namespace engine::window::glfw
 		void setMouseInputCallBack() const noexcept;
 
 		std::optional<error::window_error> __glfwInit() const noexcept;
-		std::optional<error::window_error> __createGlfwWindow() noexcept;
+		std::optional<error::window_error> __createGlfwWindow(bool _is_full_screen_mode = false) noexcept;
 
 	protected:
 

@@ -23,7 +23,8 @@ namespace engine
 		using window_ptr = std::shared_ptr<window::glfw::window>;
 
 		application(uint16_t _width, uint16_t _height,
-				    const std::string_view& _application_name);
+				    const std::string_view& _application_name,
+					bool _is_full_screen_mode = false);
 		virtual ~application() = default;
 
 		application(application&&) noexcept = default;

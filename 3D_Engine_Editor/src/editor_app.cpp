@@ -348,7 +348,7 @@ namespace editor
 {
 	editor_app::editor_app(uint16_t _width, uint16_t _height,
 		const std::string_view& _editor_name)
-		: application(_width, _height, _editor_name)
+		: application(_width, _height, _editor_name, false)
 		, m_camera(std::make_unique<engine::render::camera>(glm::vec3(-3.f, 0.f, 0.f)))
 	{
 
