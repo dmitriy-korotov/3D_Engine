@@ -26,6 +26,8 @@ set(ENGINE_PUBLIC_HEADERS
 
 set(ENGINE_PRIVATE_HEADERS
 
+		include/engine/image.hpp
+
 		include/engine/error/window_error.hpp
 
 		include/engine/window/basic_window.hpp
@@ -57,6 +59,8 @@ set(ENGINE_PRIVATE_HEADERS
 set(ENGINE_PRIVATE_SOURCES 
 
 		src/engine/application.cpp
+
+		src/engine/image.cpp
 
 		src/engine/window/basic_window.cpp
 
@@ -123,3 +127,6 @@ target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE glm)
 
 add_subdirectory(../external/imgui ${CMAKE_CURRENT_BINARY_DIR}/imgui)
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE imgui)
+
+add_subdirectory(../external/stb ${CMAKE_CURRENT_BINARY_DIR}/stb)
+target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE stb)
