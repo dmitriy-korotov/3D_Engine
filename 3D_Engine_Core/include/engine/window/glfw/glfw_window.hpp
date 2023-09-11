@@ -5,6 +5,7 @@
 
 #include <glm/vec2.hpp>
 
+#include <filesystem>
 #include <array>
 
 
@@ -33,6 +34,8 @@ namespace engine::window::glfw
 
 		template<Events _event_type, typename CallBackFunction>
 		void addEventListener(CallBackFunction _call_back) noexcept;
+
+		void setupIcon(const std::filesystem::path& _path_to_icon) const noexcept;
 
 	private:
 

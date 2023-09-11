@@ -19,6 +19,7 @@ namespace engine
 		int getHeight() const noexcept;
 		int getChannels() const noexcept;
 		const uint8_t* getData() const noexcept;
+		uint8_t* getData() noexcept;
 
 		bool isLoaded() const noexcept;
 

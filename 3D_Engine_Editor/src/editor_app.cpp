@@ -351,6 +351,9 @@ namespace editor
 		: application(_width, _height, _editor_name)
 		, m_camera(std::make_unique<engine::render::camera>(glm::vec3(-3.f, 0.f, 0.f)))
 	{
+
+		m_window_ptr->setupIcon("C:\\Users\\User\\MyProjects\\3D_Engine\\res\\icon\\pngwing.png");
+
 		m_camera->setViewPortSize(m_window_ptr->getWidth(), m_window_ptr->getHeight());
 		field_of_view = m_camera->getFieldOfView();
 		near_plane = m_camera->getNearPlane();

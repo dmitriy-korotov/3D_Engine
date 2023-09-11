@@ -45,6 +45,13 @@ namespace engine
 
 
 
+	uint8_t* image::getData() noexcept
+	{
+		return m_data;
+	}
+
+
+
 	bool image::isLoaded() const noexcept
 	{
 		return m_is_loaded;

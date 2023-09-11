@@ -8,6 +8,8 @@
 
 #include <engine/window/glfw/windows_manager.hpp>
 
+#include <engine/image.hpp>
+
 #include <GLFW/glfw3.h>
 
 
@@ -27,6 +29,25 @@ namespace engine::window::glfw
 		glfwGetCursorPos(m_window_ptr, &x, &y);
 		
 		return { x, y };
+	}
+
+
+
+	void window::setupIcon(const std::filesystem::path& _path_to_icon) const noexcept
+	{
+		image icon(_path_to_icon);
+		if (icon.isLoaded())
+		{
+			GLFWimage glfw_icon;
+			glfw_icon.pixels = icon.getData();
+			glfw_icon.height = icon.getHeight();
+			glfw_icon.width = icon.getWidth();
+			glfwSetWindowIcon(m_window_ptr, 1, &glfw_icon);
+		}
+		else
+		{
+			LOG_ERROR("[Window Glfw ERROR] Can't load icon: {0}.", _path_to_icon.generic_string());
+		}
 	}
 
 
