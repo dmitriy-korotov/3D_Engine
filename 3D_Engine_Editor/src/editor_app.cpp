@@ -27,6 +27,8 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/trigonometric.hpp>
 
+#include <engine/util/file_reader.hpp>
+
 #include <iostream>
 
 #include <complex>
@@ -104,71 +106,6 @@ float shiniess = 32.f;
 float source_light_color[] = { 1.f, 1.f, 1.f, 1.f };
 
 //-----------------------------------------------------------------------------------------------------------------//
-
-const char* vertex_shader =
-		R"(#version 460
-		layout(location = 0) in vec3 vertex_poistion;
-		layout(location = 1) in vec3 vertex_normal;
-		layout(location = 2) in vec2 texture_coords;
-		
-		uniform mat4 model_matrix;
-		uniform mat4 view_projection_matrix;
-		uniform int current_frame;
-		
-		out vec2 frag_texture_coord_smile;	
-		out vec2 frag_texture_coord_quads;	
-		out vec3 frag_normal;	
-		out vec3 frag_position;
-
-		void main() {
-			frag_texture_coord_smile = texture_coords;
-			frag_texture_coord_quads = texture_coords + vec2(current_frame / 1500.f, current_frame / 1500.f);
-			
-			frag_normal = mat3(transpose(inverse(model_matrix))) * vertex_normal;
-
-			vec4 world_vertex_position = model_matrix * vec4(vertex_poistion, 1.0);
-			frag_position = world_vertex_position.xyz;
-			gl_Position = view_projection_matrix * world_vertex_position;
-		})";
-
-const char* fragment_shader =
-		R"(#version 460
-		in vec2 frag_texture_coord_smile;
-		in vec2 frag_texture_coord_quads;
-		in vec3 frag_normal;
-		in vec3 frag_position;
-
-		layout (binding = 0) uniform sampler2D inTextureSmile;
-		layout (binding = 1) uniform sampler2D inTextureQuads;
-
-		uniform vec3 source_light_color;
-		uniform vec3 source_light_position;
-		uniform vec3 camera_position;
-		uniform float ambient_factor;
-		uniform float diffuse_factor;
-		uniform float specular_factor;
-		uniform float shiniess;
-
-		out vec4 frag_color;
-
-		void main() {
-
-			vec3 normal = normalize(frag_normal);
-
-			vec3 ambient_light = ambient_factor * source_light_color;
-			
-			vec3 light_direction = normalize(source_light_position - frag_position);
-			vec3 diffuse_light = diffuse_factor * source_light_color * max(dot(normal, light_direction), 0.0);
-
-			vec3 reflect_dir = reflect(-light_direction, normal);
-			vec3 direction_in_camera = normalize(camera_position - frag_position);
-			vec3 reflection_light = specular_factor * source_light_color * pow(max(dot(reflect_dir, direction_in_camera), 0.0), shiniess);
-
-			//vec4 light = vec4((ambient_light + diffuse_light + reflection_light) / pow(abs(source_light_position - frag_position), 2), 1.f);
-			vec4 light = vec4((ambient_light + diffuse_light + reflection_light), 1.f);
-			frag_color = light * texture(inTextureSmile, frag_texture_coord_smile);//* texture(inTextureQuads, frag_texture_coord_quads);
-		})";
-
 
 const char* source_light_vertex_shader =
 		R"(#version 460
@@ -368,7 +305,11 @@ namespace editor
 
 		renderer::enableDepthTest();
 
-		shader_program_ = std::make_unique<shader_program>(vertex_shader, fragment_shader);
+		engine::util::file_reader vertex_shader_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\VertexShader.glsl");
+		std::string& vertex_shader_surces = vertex_shader_reader.getData();
+		engine::util::file_reader fragment_shader_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\FragmentShader.glsl");
+		std::string& fragment_shader_surces = fragment_shader_reader.getData();
+		shader_program_ = std::make_unique<shader_program>(vertex_shader_surces, fragment_shader_surces);
 		source_light_shader_program_ = std::make_unique<shader_program>(source_light_vertex_shader, source_light_fragment_shader);
 
 		buffer_layout points_colors_layout_
