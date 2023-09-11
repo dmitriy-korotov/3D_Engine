@@ -49,4 +49,11 @@ namespace engine
 	{
 		return m_is_loaded;
 	}
+
+
+
+	image::~image()
+	{
+		stbi_image_free(m_data);
+	}
 }

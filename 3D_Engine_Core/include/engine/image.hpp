@@ -13,6 +13,7 @@ namespace engine
 	public:
 
 		image(const std::filesystem::path& _path_to_image);
+		~image();
 
 		int getWidth() const noexcept;
 		int getHeight() const noexcept;
