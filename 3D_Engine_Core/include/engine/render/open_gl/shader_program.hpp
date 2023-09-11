@@ -42,6 +42,7 @@ namespace engine::render::open_gl
 	private:
 
 		static std::optional<GLuint> createShader(ShaderType _shader_type, const std::string_view& _source) noexcept;
+		bool isProgramLinked() const noexcept;
 
 	private:
 

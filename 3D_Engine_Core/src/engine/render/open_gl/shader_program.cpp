@@ -38,7 +38,10 @@ namespace engine::render::open_gl
 		glDeleteShader(*vertex_shader_);
 		glDeleteShader(*fragment_shader_);
 
-		m_is_compiled = true;
+		if (isProgramLinked())
+		{
+			m_is_compiled = true;
+		}
 	}
 
 
@@ -128,6 +131,22 @@ namespace engine::render::open_gl
 			return std::nullopt;
 		}
 		return shader;
+	}
+
+
+
+	bool shader_program::isProgramLinked() const noexcept
+	{
+		GLint success;
+		glGetProgramiv(m_id, GL_LINK_STATUS, &success);
+		if (success == GL_FALSE)
+		{
+			char info_log[1024] = {};
+			glGetProgramInfoLog(m_id, 1024, nullptr, info_log);
+			LOG_CRITICAL("[Shader Program ERROR] Can't link program: {0}", info_log);
+			return false;
+		}
+		return true;
 	}
 
 
