@@ -545,21 +545,21 @@ namespace editor
 		static int currnet_frame = 0;
 		shader_program_->setInt("current_frame", currnet_frame);
 		m_camera->setProjectionMode(is_perspective_projection ? camera::Projection::Perspective : camera::Projection::Orthographic);
-		shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
 		shader_program_->setFloat("ambient_factor", ambient_factor);
 		shader_program_->setFloat("diffuse_factor", diffuse_factor);
 		shader_program_->setFloat("specular_factor", specular_factor);
 		shader_program_->setFloat("shiniess", shiniess);
 		shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
 		shader_program_->setVector3f("source_light_position", glm::vec3(translate[0], translate[1], translate[2]));
-		shader_program_->setVector3f("camera_position", m_camera->getPosition());
 
 		glm::mat4 model_matrix(1);
 
 		for (const glm::vec3 position : positions)
 		{
 			glm::mat4 translate_matrix = glm::translate(model_matrix, position);
-			shader_program_->setMatrix4f("model_matrix", translate_matrix);
+			shader_program_->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * translate_matrix);
+			shader_program_->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * translate_matrix);
+			shader_program_->setMatrix3f("normal_matrix", glm::mat3(glm::transpose(glm::inverse(translate_matrix))));
 			renderer::draw(*VAO_1buffer_);
 		}
 

@@ -37,7 +37,7 @@ namespace engine::render::open_gl
 		glDetachShader(m_id, *fragment_shader_);
 		glDeleteShader(*vertex_shader_);
 		glDeleteShader(*fragment_shader_);
-
+		
 		if (isProgramLinked())
 		{
 			m_is_compiled = true;
@@ -124,7 +124,7 @@ namespace engine::render::open_gl
 		{
 			char info_log[1024] = {};
 			glGetShaderInfoLog(shader, 1024, nullptr, info_log);
-			LOG_CRITICAL("[[Shader Program ERROR]] Can't compiling shader: {0}", info_log);
+			LOG_CRITICAL("[Shader Program ERROR] Can't compiling shader: {0}", info_log);
 			
 			glDeleteShader(shader);
 			
@@ -154,6 +154,13 @@ namespace engine::render::open_gl
 	void shader_program::setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_id, _varieble_name.data()), 1, GL_FALSE, glm::value_ptr(_matrix));
+	}
+
+
+
+	void shader_program::setMatrix3f(const std::string_view& _varieble_name, const glm::mat3& _matrix) const noexcept
+	{
+		glUniformMatrix3fv(glGetUniformLocation(m_id, _varieble_name.data()), 1, GL_FALSE, glm::value_ptr(_matrix));
 	}
 
 
