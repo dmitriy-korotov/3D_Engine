@@ -129,7 +129,7 @@ namespace engine::window::glfw
 		}
 		catch (const std::exception& ex_)
 		{
-			LOG_CRITICAL("[Glfw Window ERROR] Can't add window '{0}' in windows manager: " + std::string(ex_.what()), m_window_data_.title);
+			LOG_CRITICAL("[Glfw Window ERROR] Can't add window '{1}' in windows manager: {0}.", std::string(ex_.what()), m_window_data_.title);
 			return error::window_error::can_not_add_new_window;
 		}
 
@@ -154,7 +154,7 @@ namespace engine::window::glfw
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'resize' event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'resize' event: {0}.", std::string(ex_.what()));
 				}
 			});
 	}
@@ -173,7 +173,7 @@ namespace engine::window::glfw
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'window close' event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'window close' event: {0}.", std::string(ex_.what()));
 				}
 			});
 	}
@@ -206,7 +206,7 @@ namespace engine::window::glfw
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'keyboard input' event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'keyboard input' event: {0}.", std::string(ex_.what()));
 				}
 			}
 		);
@@ -240,7 +240,7 @@ namespace engine::window::glfw
 				}
 				catch (const std::exception& ex_)
 				{
-					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'mouse input' event: " + std::string(ex_.what()));
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'mouse input' event: {0}.", std::string(ex_.what()));
 				}
 			});
 	}

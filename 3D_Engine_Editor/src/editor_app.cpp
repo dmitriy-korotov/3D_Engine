@@ -113,11 +113,10 @@ const char* source_light_vertex_shader =
 		layout(location = 1) in vec3 vertex_normal;
 		layout(location = 2) in vec2 texture_coords;
 		
-		uniform mat4 model_matrix;
-		uniform mat4 view_projection_matrix;
+		uniform mat4 mvp_matrix;
 
 		void main() {
-			gl_Position = view_projection_matrix * model_matrix * vec4(vertex_poistion * 0.25, 1.0);
+			gl_Position = mvp_matrix * vec4(vertex_poistion * 0.25, 1.0);
 		})";
 
 const char* source_light_fragment_shader =
@@ -553,7 +552,6 @@ namespace editor
 		shader_program_->setVector3f("source_light_position", glm::vec3(translate[0], translate[1], translate[2]));
 
 		glm::mat4 model_matrix(1);
-
 		for (const glm::vec3 position : positions)
 		{
 			glm::mat4 translate_matrix = glm::translate(model_matrix, position);
@@ -567,8 +565,7 @@ namespace editor
 		model_matrix_2 = glm::translate(model_matrix_2, glm::vec3(translate[0], translate[1], translate[2]));
 		model_matrix_2 = glm::scale(model_matrix_2, glm::vec3(scale[0], scale[1], scale[2]));
 		source_light_shader_program_->bind();
-		source_light_shader_program_->setMatrix4f("model_matrix", model_matrix_2);
-		source_light_shader_program_->setMatrix4f("view_projection_matrix", m_camera->getViewProjectionMatrix());
+		source_light_shader_program_->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_matrix_2);
 		source_light_shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
 		renderer::draw(*VAO_1buffer_);
 

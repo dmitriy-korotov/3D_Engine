@@ -36,6 +36,53 @@ namespace engine::render::open_gl
 
 
 
+	std::string GLenum_debug_severity_to_string(GLenum _severity) noexcept
+	{
+		switch (_severity)
+		{
+		case GL_DEBUG_SEVERITY_HIGH:				return "GL_DEBUG_SEVERITY_HIGH";
+		case GL_DEBUG_SEVERITY_MEDIUM:				return "GL_DEBUG_SEVERITY_MEDIUM";
+		case GL_DEBUG_SEVERITY_LOW:					return "GL_DEBUG_SEVERITY_LOW";
+		case GL_DEBUG_SEVERITY_NOTIFICATION:		return "GL_DEBUG_SEVERITY_NOTIFICATION";
+		}
+		return "INVALID_SEVERITY_LEVEL";
+	}
+
+
+
+	std::string GLenum_source_message_to_string(GLenum _source) noexcept
+	{
+		switch (_source)
+		{
+		case GL_DEBUG_SOURCE_API:					return "GL_DEBUG_SOURCE_API";
+		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:			return "GL_DEBUG_SOURCE_WINDOW_SYSTEM";
+		case GL_DEBUG_SOURCE_SHADER_COMPILER:		return "GL_DEBUG_SOURCE_SHADER_COMPILER";
+		case GL_DEBUG_SOURCE_THIRD_PARTY:			return "GL_DEBUG_SOURCE_THIRD_PARTY";
+		case GL_DEBUG_SOURCE_APPLICATION:			return "GL_DEBUG_SOURCE_APPLICATION";
+		case GL_DEBUG_SOURCE_OTHER:					return "GL_DEBUG_SOURCE_OTHER";
+		}
+		return "INVALID_SOURCE_ERROR";
+	}
+
+
+
+	std::string GLenum_message_type_to_string(GLenum _message_type) noexcept
+	{
+		switch (_message_type)
+		{
+		case GL_DEBUG_TYPE_ERROR:					return "GL_DEBUG_TYPE_ERROR";
+		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:		return "GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR";
+		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:		return "GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR";
+		case GL_DEBUG_TYPE_PORTABILITY:				return "GL_DEBUG_TYPE_PORTABILITY";
+		case GL_DEBUG_TYPE_PERFORMANCE:				return "GL_DEBUG_TYPE_PERFORMANCE";
+		case GL_DEBUG_TYPE_MARKER:					return "GL_DEBUG_TYPE_MARKER";
+		case GL_DEBUG_TYPE_PUSH_GROUP:				return "GL_DEBUG_TYPE_PUSH_GROUP";
+		default:									return "GL_DEBUG_TYPE_OTHER";
+		}
+	}
+
+
+
 
 
 	bool renderer::init_with_glfw() noexcept
@@ -45,7 +92,52 @@ namespace engine::render::open_gl
 			LOG_CRITICAL("[OpenGL Renderer ERROR] Can't load glad.");
 			return false;
 		}
+#ifndef NDEBUG
+		setupDebugContext();
+#endif
 		return true;
+	}
+
+
+
+	void renderer::setupDebugContext() noexcept
+	{
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(
+			[](GLenum _source, GLenum _type, GLuint _id, GLenum _severity, GLsizei _length, const GLchar* _message, const void* _userParam) -> void
+			{
+				switch (_severity)
+				{
+				case GL_DEBUG_SEVERITY_HIGH:		
+					LOG_CRITICAL("[OpenGL ERROR] Severity level: {0}.\nSource massage: {1}.\nMessage type: {2}.\nMessage: {3}",
+								 GLenum_debug_severity_to_string(_severity),
+								 GLenum_source_message_to_string(_source),
+								 GLenum_message_type_to_string(_type),
+								 _message);
+					break;
+				case GL_DEBUG_SEVERITY_MEDIUM:	
+					LOG_ERROR("[OpenGL ERROR] Severity level: {0}.\nSource massage: {1}.\nMessage type: {2}.\nMessage: {3}",
+							  GLenum_debug_severity_to_string(_severity),
+							  GLenum_source_message_to_string(_source),
+							  GLenum_message_type_to_string(_type),
+							  _message);
+					break;
+				case GL_DEBUG_SEVERITY_LOW:		
+					LOG_WARN("[OpenGL ERROR] Severity level: {0}.\nSource massage: {1}.\nMessage type: {2}.\nMessage: {3}",
+							 GLenum_debug_severity_to_string(_severity),
+							 GLenum_source_message_to_string(_source),
+							 GLenum_message_type_to_string(_type),
+							 _message);
+					break;
+				case GL_DEBUG_SEVERITY_NOTIFICATION:	
+					LOG_INFO("[OpenGL ERROR] Severity level: {0}.\nSource massage: {1}.\nMessage type: {2}.\nMessage: {3}",
+							 GLenum_debug_severity_to_string(_severity),
+							 GLenum_source_message_to_string(_source),
+							 GLenum_message_type_to_string(_type),
+							 _message);
+					break;
+				}
+			}, nullptr);
 	}
 
 

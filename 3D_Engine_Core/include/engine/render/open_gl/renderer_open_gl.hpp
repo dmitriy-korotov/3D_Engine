@@ -42,5 +42,9 @@ namespace engine::render::open_gl
 		static std::string getRenderer() noexcept;
 		static std::string getVersion() noexcept;
 
+	private:
+
+		static void setupDebugContext() noexcept;
+
 	};
 }
