@@ -58,6 +58,10 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/modules/imgui/UIModule.hpp
 )
 
+set(ENGINE_ECS_PRIVATE_HEADERS
+		include/engine/ecs/entities/basic_entity.hpp
+)
+
 set(ENGINE_PRIVATE_SOURCES 
 
 		src/engine/application.cpp
@@ -91,6 +95,10 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/util/file_reader.cpp
 )
 
+set(ENGINE_ECS_PRIVATE_SOURCES
+		src/engine/ecs/entities/basic_entity.cpp
+)
+
 set(ENGINE_SHADER_SORCES
 		res/shaders/VertexShader.glsl
 		res/shaders/FragmentShader.glsl
@@ -100,13 +108,13 @@ set(ENGINE_SHADER_SORCES
 set(ENGINE_ALL_SOURCES
 		${ENGINE_PUBLIC_HEADERS}
 		${ENGINE_PRIVATE_HEADERS}
+		${ENGINE_ECS_PRIVATE_HEADERS}
 		${ENGINE_PRIVATE_SOURCES}
+		${ENGINE_ECS_PRIVATE_SOURCES}
 )
 
 set(ENGINE_ALL_FILES
-		${ENGINE_PUBLIC_HEADERS}
-		${ENGINE_PRIVATE_HEADERS}
-		${ENGINE_PRIVATE_SOURCES}
+		${ENGINE_ALL_SOURCES}
 		${ENGINE_SHADER_SORCES}
 )
 
