@@ -59,7 +59,11 @@ set(ENGINE_PRIVATE_HEADERS
 )
 
 set(ENGINE_ECS_PRIVATE_HEADERS
+
+		include/engine/ecs/ecs.hpp
+
 		include/engine/ecs/entities/basic_entity.hpp
+		include/engine/ecs/entities/entity_manager.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -97,6 +101,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/entities/basic_entity.cpp
+		src/engine/ecs/entities/entity_manager.cpp
 )
 
 set(ENGINE_SHADER_SORCES
