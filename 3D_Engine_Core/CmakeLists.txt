@@ -56,6 +56,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/camera.hpp
 
 		include/engine/modules/imgui/UIModule.hpp
+
+		include/engine/models/cube.hpp
 )
 
 set(ENGINE_ECS_PRIVATE_HEADERS
