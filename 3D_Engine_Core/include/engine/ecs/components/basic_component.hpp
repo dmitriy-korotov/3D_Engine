@@ -8,10 +8,16 @@
 
 namespace engine::ecs::components
 {
+	class components_manager;
+
 	template <typename T>
 	class basic_component : private util::nocopyeble
 	{
 	public:
+
+		friend components_manager;
+
+
 
 		static component_type_id s_component_type_id;
 
@@ -21,6 +27,8 @@ namespace engine::ecs::components
 		component_id getID() const noexcept { return m_id; }
 
 	private:
+
+		void setOwner(entities::entity_id _entity_id) noexcept;
 
 		static component_id generateComponentID() noexcept;
 
@@ -43,7 +51,7 @@ namespace engine::ecs::components
 	component_type_id basic_component<T>::s_component_type_id = typeid(T).get_hash();
 
 	template <typename T>
-	static size_t basic_component<T>::m_components_count = 0;
+	size_t basic_component<T>::m_components_count = 0;
 
 
 
@@ -51,6 +59,14 @@ namespace engine::ecs::components
 	basic_component<T>::basic_component() noexcept
 			: m_id(generateComponentID())
 	{ }
+
+
+
+	template <typename T>
+	void basic_component<T>::setOwner(entities::entity_id _entity_id) noexcept
+	{
+		m_owner = _entity_id;
+	}
 
 
 
