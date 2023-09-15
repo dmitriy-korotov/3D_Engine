@@ -8,13 +8,13 @@
 
 namespace engine::ecs::entities
 {
-	class entity_manager;
+	class entities_manager;
 
 	class basic_entity : private util::nocopyeble
 	{
 	public:
 
-		friend entity_manager;
+		friend entities_manager;
 
 		basic_entity();
 		virtual ~basic_entity();

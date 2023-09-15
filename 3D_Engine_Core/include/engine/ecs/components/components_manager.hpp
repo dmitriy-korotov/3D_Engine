@@ -22,7 +22,9 @@ namespace engine::ecs::components
 		using components_storage = std::unordered_map<component_type_id, std::vector<component_ptr>>;
 
 		template <typename ComponentType, typename ...Args>
-		void addComponent(entities::entity_id _entity_id, Args&& ..._args) noexcept;
+		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
+
+		void removeAllComponents() noexcept;
 
 	private:
 
@@ -35,7 +37,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType, typename ...Args>
-	void components_manager::addComponent(entities::entity_id _entity_id, Args&& ..._args) noexcept
+	void components_manager::addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v <basic_component, ComponentType> "ComponentType is not derived basic_component");
 
