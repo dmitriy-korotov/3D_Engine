@@ -69,6 +69,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/entities/entity_manager.hpp
 
 		include/engine/ecs/components/basic_component.hpp
+		include/engine/ecs/components/transform_component.hpp
 
 		include/engine/ecs/systems/basic_system.hpp
 		include/engine/ecs/systems/systems_manager.hpp
@@ -111,6 +112,8 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/entities/basic_entity.cpp
 		src/engine/ecs/entities/entity_manager.cpp
+
+		src/engine/ecs/components/transform_component.cpp
 
 		src/engine/ecs/systems/systems_manager.cpp
 )
