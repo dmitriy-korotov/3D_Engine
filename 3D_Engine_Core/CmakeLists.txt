@@ -66,6 +66,8 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/entities/basic_entity.hpp
 		include/engine/ecs/entities/entity_manager.hpp
 
+		include/engine/ecs/components/basic_component.hpp
+
 		include/engine/ecs/systems/basic_system.hpp
 		include/engine/ecs/systems/systems_manager.hpp
 )
