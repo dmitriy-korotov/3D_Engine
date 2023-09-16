@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <optional>
 #include <typeinfo>
 
 
@@ -19,12 +20,16 @@ namespace engine::ecs::components
 	{
 	public:
 
+		template <typename T>
+		using component_iterator = typename std::vector<std::shared_ptr<T>>::iterator;
 		using component_ptr = std::shared_ptr<basic_component>;
-
 		using components_storage = std::unordered_map<component_type_id, std::vector<component_ptr>>;
 
 		template <typename ComponentType, typename ...Args>
 		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
+
+		template <typename ComponentType>
+		std::optional<component_iterator<ComponentType>> getComponents() noexcept;
 
 		void removeAllComponents() noexcept;
 
@@ -55,6 +60,24 @@ namespace engine::ecs::components
 		else
 		{
 			m_components.find(ComponentType::getComponentTypeID())->second.push_back(std::move(component));
+		}
+	}
+
+
+
+	template <typename ComponentType>
+	std::optional<components_manager::component_iterator<ComponentType>>
+	components_manager::getComponents() noexcept
+	{
+		auto components_iter = m_components.find(ComponentType::getComponentTypeID());
+		if (components_iter != m_components.end())
+		{
+			auto result = components_iter->second.begin();
+			return *reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&result);
+		}
+		else
+		{
+			return std::nullopt;
 		}
 	}
 }

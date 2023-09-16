@@ -12,7 +12,7 @@ namespace engine::ecs::systems
 
 		virtual ~basic_system() {}
 
-		virtual void update(float _delta) = 0;
+		virtual void update(float _delta_time) = 0;
 
 	};
 }
