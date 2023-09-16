@@ -33,6 +33,8 @@
 #include <engine/ecs/entities/entities_manager.hpp>
 #include <engine/ecs/components/components_manager.hpp>
 #include <engine/ecs/components/transform_component.hpp>
+#include <engine/ecs/systems/systems_manager.hpp>
+#include <engine/ecs/systems/render_system.hpp>
 
 #include <engine/models/cube.hpp>
 
@@ -382,6 +384,7 @@ namespace editor
 
 		engine::ecs::entities::entity_id ID = engine::ecs::ECS::getEntitiesManager()->createEntity<engine::models::cube>();
 		engine::ecs::ECS::getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
+		engine::ecs::ECS::getSystemsManager()->addSystem<engine::ecs::systems::render_system>();
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}

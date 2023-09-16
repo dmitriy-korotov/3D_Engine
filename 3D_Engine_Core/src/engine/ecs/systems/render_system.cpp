@@ -22,6 +22,7 @@ namespace engine::ecs::systems
 			for (;begin != end; begin++)
 			{
 				auto& component = *begin;
+				//ECS::getComponentsManager()->getComponent(component->getOwner());
 				//component->m_shader_program->bind();
 				//render::open_gl::renderer::draw();
 			}

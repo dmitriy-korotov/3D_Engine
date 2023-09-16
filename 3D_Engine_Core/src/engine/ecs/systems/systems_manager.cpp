@@ -6,11 +6,11 @@
 
 namespace engine::ecs::systems
 {
-	void systems_manager::update(float _delta)
+	void systems_manager::update(float _delta_time)
 	{
 		for (auto& system : m_systems)
 		{
-			system->update(_delta);
+			system->update(_delta_time);
 		}
 	}
 }
