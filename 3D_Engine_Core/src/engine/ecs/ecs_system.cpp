@@ -7,8 +7,8 @@
 
 namespace engine::ecs
 {
-	std::unique_ptr<entities::entities_manager> ECS::m_entities_manager;
-	std::unique_ptr<components::components_manager> ECS::m_components_manager;
+	std::unique_ptr<entities::entities_manager> ECS::m_entities_manager = std::make_unique<entities::entities_manager>();
+	std::unique_ptr<components::components_manager> ECS::m_components_manager = std::make_unique<components::components_manager>();
 
 
 

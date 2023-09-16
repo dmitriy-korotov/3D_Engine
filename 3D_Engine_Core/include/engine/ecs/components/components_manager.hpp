@@ -22,6 +22,8 @@ namespace engine::ecs::components
 
 		template <typename T>
 		using component_iterator = typename std::vector<std::shared_ptr<T>>::iterator;
+		template <typename T>
+		using component_range = std::pair<component_iterator<T>, component_iterator<T>>;
 		using component_ptr = std::shared_ptr<basic_component>;
 		using components_storage = std::unordered_map<component_type_id, std::vector<component_ptr>>;
 
@@ -29,7 +31,7 @@ namespace engine::ecs::components
 		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
-		std::optional<component_iterator<ComponentType>> getComponents() noexcept;
+		std::optional<component_range<ComponentType>> getComponents() noexcept;
 
 		void removeAllComponents() noexcept;
 
@@ -66,14 +68,16 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	std::optional<components_manager::component_iterator<ComponentType>>
+	std::optional<components_manager::component_range<ComponentType>>
 	components_manager::getComponents() noexcept
 	{
 		auto components_iter = m_components.find(ComponentType::getComponentTypeID());
 		if (components_iter != m_components.end())
 		{
-			auto result = components_iter->second.begin();
-			return *reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&result);
+			auto range_begin = components_iter->second.begin();
+			auto range_end = components_iter->second.end();
+			return std::make_pair(*reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&range_begin),
+								  *reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&range_end));
 		}
 		else
 		{

@@ -18,6 +18,7 @@ namespace engine::ecs::entities
 		using entity_ptr = std::shared_ptr<basic_entity>;
 		using entities_storage = std::vector<entity_ptr>;
 
+		entities_manager() = default;
 		~entities_manager();
 
 		template <typename EntityType, typename ...Args>
