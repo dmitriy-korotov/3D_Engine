@@ -30,7 +30,7 @@ namespace engine::ecs::entities
 
 
 
-	entity_id basic_entity::getEntityId() const noexcept
+	entity_id basic_entity::getID() const noexcept
 	{
 		return m_id;
 	}

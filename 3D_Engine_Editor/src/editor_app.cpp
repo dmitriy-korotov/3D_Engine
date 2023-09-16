@@ -29,6 +29,14 @@
 
 #include <engine/util/file_reader.hpp>
 
+#include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/entities/entities_manager.hpp>
+#include <engine/ecs/components/components_manager.hpp>
+#include <engine/ecs/components/transform_component.hpp>
+
+#include <engine/models/cube.hpp>
+
+
 #include <iostream>
 
 #include <complex>
@@ -370,6 +378,11 @@ namespace editor
 		delete[] data;
 
 
+		engine::ecs::ECS::initialize();
+
+		engine::ecs::entities::entity_id ID = engine::ecs::ECS::getEntitiesManager()->createEntity<engine::models::cube>();
+		engine::ecs::ECS::getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
+
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 
@@ -616,6 +629,7 @@ namespace editor
 
 	editor_app::~editor_app()
 	{
+		engine::ecs::ECS::terminate();
 		UIModule::onGLfwWindowShutdown_OpenGLRenderer();
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}

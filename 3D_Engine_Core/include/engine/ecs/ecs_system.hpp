@@ -22,13 +22,21 @@ namespace engine::ecs
 	{
 	public:
 
+		using entities_manager_ptr = std::unique_ptr<entities::entities_manager>;
+		using components_manager_ptr = std::unique_ptr<components::components_manager>;
+
 		static bool initialize() noexcept;
 		static void terminate() noexcept;
 
+		static const entities_manager_ptr& getEntitiesManager() noexcept;
+		static const components_manager_ptr& getComponentsManager() noexcept;
+
+		static void update(float _delta_time) noexcept;
+
 	private:
 
-		static std::unique_ptr<entities::entities_manager> m_entities_manager;
-		static std::unique_ptr<components::components_manager> m_components_manager;
+		static entities_manager_ptr m_entities_manager;
+		static components_manager_ptr m_components_manager;
 
 	};
 }

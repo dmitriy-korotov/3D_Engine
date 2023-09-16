@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class transform_component : public basic_component<transform_component>
+	class transform_component : public basic_component
 	{
 	public:
 

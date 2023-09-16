@@ -18,6 +18,7 @@ namespace engine::ecs
 		using component_type_id = size_t;
 		using component_id = size_t;
 
+		constexpr component_type_id INVALID_COMPONENT_TYPE_ID = 0;
 		constexpr component_id INVALID_COMPONENT_ID = 0;
 	}
 }

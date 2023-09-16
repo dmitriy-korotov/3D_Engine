@@ -116,6 +116,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/entities/basic_entity.cpp
 		src/engine/ecs/entities/entities_manager.cpp
 
+		src/engine/ecs/components/basic_component.cpp
 		src/engine/ecs/components/transform_component.cpp
 		src/engine/ecs/components/components_manager.cpp
 

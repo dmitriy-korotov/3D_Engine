@@ -19,7 +19,7 @@ namespace engine::ecs::entities
 		basic_entity();
 		virtual ~basic_entity();
 
-		entity_id getEntityId() const noexcept;
+		entity_id getID() const noexcept;
 
 	private:
 
