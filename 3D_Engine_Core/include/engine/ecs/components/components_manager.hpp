@@ -22,16 +22,25 @@ namespace engine::ecs::components
 
 		template <typename T>
 		using component_iterator = typename std::vector<std::shared_ptr<T>>::iterator;
+
 		template <typename T>
 		using component_range = std::pair<component_iterator<T>, component_iterator<T>>;
-		using component_ptr = std::shared_ptr<basic_component>;
-		using components_storage = std::unordered_map<component_type_id, std::vector<component_ptr>>;
+		
+		template <typename T>
+		using component_ptr = std::shared_ptr<T>;
+		
+		using components_storage = std::unordered_map<component_type_id, std::vector<component_ptr<basic_component>>>;
+
+	public:
 
 		template <typename ComponentType, typename ...Args>
 		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
 		std::optional<component_range<ComponentType>> getComponents() noexcept;
+
+		template <typename ComponentType>
+		component_ptr<ComponentType> getComponent(entities::entity_id _entity_id) noexcept;
 
 		void removeAllComponents() noexcept;
 
@@ -55,7 +64,7 @@ namespace engine::ecs::components
 		if (ComponentType::getComponentTypeID() == INVALID_COMPONENT_TYPE_ID)
 		{
 			ComponentType::setComponentTypeID(typeid(ComponentType).hash_code());
-			std::vector<component_ptr> this_type_components_storage;
+			std::vector<component_ptr<basic_component>> this_type_components_storage;
 			this_type_components_storage.push_back(std::move(component));
 			m_components.emplace(ComponentType::getComponentTypeID(), std::move(this_type_components_storage));
 		}
@@ -71,17 +80,44 @@ namespace engine::ecs::components
 	std::optional<components_manager::component_range<ComponentType>>
 	components_manager::getComponents() noexcept
 	{
-		auto components_iter = m_components.find(ComponentType::getComponentTypeID());
-		if (components_iter != m_components.end())
+		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto components_range = m_components.find(ComponentType::getComponentTypeID());
+		if (components_range != m_components.end())
 		{
-			auto range_begin = components_iter->second.begin();
-			auto range_end = components_iter->second.end();
+			auto range_begin = components_range->second.begin();
+			auto range_end = components_range->second.end();
 			return std::make_pair(*reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&range_begin),
 								  *reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&range_end));
 		}
 		else
 		{
 			return std::nullopt;
+		}
+	}
+
+
+
+	template <typename ComponentType>
+	components_manager::component_ptr<ComponentType> 
+	components_manager::getComponent(entities::entity_id _entity_id) noexcept
+	{
+		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto components_range = m_components.find(ComponentType::getComponentTypeID());
+		if (components_range != m_components.end())
+		{
+			auto component_iter = std::find(
+				[&_entity_id](const auto& component_ptr) -> bool
+				{
+					return component_ptr->getOwner() == _entity_id;
+				}, components_range->second.begin(), components_range->second.end());
+
+			return component_iter == m_components.end() ? nullptr : *component_iter;
+		}
+		else
+		{
+			return nullptr;
 		}
 	}
 }
