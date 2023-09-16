@@ -525,6 +525,9 @@ namespace editor
 		last_mouse_pos[1] = current_mouse_pos.y;
 
 		m_camera->moveAndRotate(movement_delta, rotation_delta);
+
+
+		engine::ecs::ECS::update(1.f);
 		
 
 		drawUI();

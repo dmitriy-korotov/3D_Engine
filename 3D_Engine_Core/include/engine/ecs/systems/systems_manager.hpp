@@ -16,7 +16,7 @@ namespace engine::ecs::systems
 		using system_ptr = std::unique_ptr<basic_system>;
 		using systems_storage = std::vector<system_ptr>;
 
-		void update(float _delta);
+		void update(float _delta_time);
 
 	private:
 

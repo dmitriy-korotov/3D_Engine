@@ -18,7 +18,7 @@ namespace engine::ecs::components
 
 		void setTransform(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale) noexcept;
 
-	private:
+	public:
 
 		glm::vec3 m_position;
 		glm::vec3 m_rotation;
