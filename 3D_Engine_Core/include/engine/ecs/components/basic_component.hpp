@@ -21,12 +21,13 @@ namespace engine::ecs::components
 		entities::entity_id getOwner() const noexcept { return m_owner; };
 		component_id getID() const noexcept { return m_id; }
 
+		static component_type_id getComponentTypeID() noexcept;
+
 	private:
 
 		void setOwner(entities::entity_id _entity_id) noexcept;
 
 		static void setComponentTypeID(component_type_id _component_type_id) noexcept;
-		static component_type_id getComponentTypeID() noexcept;
 		static component_id generateComponentID() noexcept;
 
 	private:

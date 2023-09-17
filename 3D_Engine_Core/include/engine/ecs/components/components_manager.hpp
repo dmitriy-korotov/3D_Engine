@@ -24,7 +24,7 @@ namespace engine::ecs::components
 		using component_iterator = typename std::vector<std::shared_ptr<T>>::iterator;
 
 		template <typename T>
-		using component_range = std::pair<component_iterator<T>, component_iterator<T>>;
+		using components_range = std::pair<component_iterator<T>, component_iterator<T>>;
 		
 		template <typename T>
 		using component_ptr = std::shared_ptr<T>;
@@ -37,7 +37,7 @@ namespace engine::ecs::components
 		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
-		std::optional<component_range<ComponentType>> getComponents() noexcept;
+		std::optional<components_range<ComponentType>> getComponents() noexcept;
 
 		template <typename ComponentType>
 		component_ptr<ComponentType> getComponent(entities::entity_id _entity_id) noexcept;
@@ -77,7 +77,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	std::optional<components_manager::component_range<ComponentType>>
+	std::optional<components_manager::components_range<ComponentType>>
 	components_manager::getComponents() noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
