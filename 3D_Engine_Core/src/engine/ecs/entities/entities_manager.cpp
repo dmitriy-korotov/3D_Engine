@@ -8,12 +8,22 @@ namespace engine::ecs::entities
 {
 	void entities_manager::destroyEntity(entity_id _entity_id) noexcept
 	{
-		auto removed_element_iter = std::remove_if(m_entities.begin(), m_entities.end(),
-												   [&_entity_id](const auto& _entity_ptr) -> bool
-												   {
-														return _entity_ptr->m_id == _entity_id;
-												   });
-		m_entities.erase(removed_element_iter);
+		m_entities.erase(_entity_id);
+	}
+
+
+
+	entities_manager::entity_ptr entities_manager::getEntity(entity_id _entity_id) const noexcept
+	{
+		auto entity = m_entities.find(_entity_id);
+		if (entity != m_entities.end())
+		{
+			return (*entity).second;
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
 
 

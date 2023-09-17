@@ -2,8 +2,15 @@
 
 #include <engine/ecs/ecs.hpp>
 
-#include <vector>
+#include <unordered_map>
 #include <memory>
+
+
+
+namespace engine::ecs::components
+{
+	class components_manager;
+}
 
 
 
@@ -15,8 +22,10 @@ namespace engine::ecs::entities
 	{
 	public:
 
+		friend components::components_manager;
+
 		using entity_ptr = std::shared_ptr<basic_entity>;
-		using entities_storage = std::vector<entity_ptr>;
+		using entities_storage = std::unordered_map<entity_id, entity_ptr>;
 
 		entities_manager() = default;
 		~entities_manager();
@@ -27,6 +36,10 @@ namespace engine::ecs::entities
 		void destroyEntity(entity_id _entity_id) noexcept;
 
 		void destroyAllEntities() noexcept;
+
+	private:
+
+		entity_ptr getEntity(entity_id _entity_id) const noexcept;
 
 	private:
 
@@ -45,7 +58,7 @@ namespace engine::ecs::entities
 
 		auto entity_ptr = std::make_shared<EntityType>(std::forward<Args>(_args)...);
 		entity_id id = entity_ptr->getID();
-		m_entities.push_back(std::move(entity_ptr));
+		m_entities.emplace(id, std::move(entity_ptr));
 
 		return id;
 	}

@@ -31,6 +31,7 @@ namespace engine::ecs::entities
 	public:
 
 		friend entities_manager;
+		friend components::components_manager;
 
 		basic_entity() noexcept;
 		virtual ~basic_entity();
@@ -44,6 +45,11 @@ namespace engine::ecs::entities
 
 		template <typename ComponentType, typename ...Args>
 		void addComponent(Args&&... _args) noexcept;
+
+	private:
+
+		template <typename ComponentType>
+		void addComponent(std::weak_ptr<ComponentType> _component) noexcept;
 
 	private:
 
@@ -72,12 +78,22 @@ namespace engine::ecs::entities
 
 
 	template <typename ComponentType>
+	void basic_entity::addComponent(std::weak_ptr<ComponentType> _component) noexcept
+	{
+		m_components.emplace(ComponentType::getComponentTypeID(), std::move(_component));
+	}
+
+
+
+	template <typename ComponentType>
 	const component_ptr& basic_entity::getComponent() const noexcept
 	{
+		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
 		auto component = m_components.find(ComponentType::getComponentTypeID());
 		if (component != m_components.end())
 		{
-			return *component;
+			return (*component).second;
 		}
 		else
 		{

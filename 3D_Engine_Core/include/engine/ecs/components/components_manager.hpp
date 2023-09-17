@@ -1,6 +1,8 @@
 #pragma once
 
 #include <engine/ecs/ecs.hpp>
+#include <engine/ecs/entities/entities_manager.hpp>
+#include <engine/ecs/entities/basic_entity.hpp>
 
 #include <engine/util/nocopyeble.hpp>
 
@@ -65,11 +67,13 @@ namespace engine::ecs::components
 		{
 			ComponentType::setComponentTypeID(typeid(ComponentType).hash_code());
 			std::vector<component_ptr<basic_component>> this_type_components_storage;
+			ECS::getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
 			this_type_components_storage.push_back(std::move(component));
 			m_components.emplace(ComponentType::getComponentTypeID(), std::move(this_type_components_storage));
 		}
 		else
 		{
+			ECS::getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
 			m_components.find(ComponentType::getComponentTypeID())->second.push_back(std::move(component));
 		}
 	}
