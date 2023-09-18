@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <memory>
+#include <typeinfo>
 
 
 
@@ -45,6 +46,7 @@ namespace engine::ecs::entities
 	{
 		static_assert(std::is_base_of_v<basic_entity, EntityType>, "EntityType is not derived basic_entity");
 
+		EntityType::setEntityTypeID(typeid(EntityType).hash_code());
 		auto entity_ptr = std::make_shared<EntityType>(std::forward<Args>(_args)...);
 		entity_id id = entity_ptr->getID();
 		m_entities.emplace(id, std::move(entity_ptr));

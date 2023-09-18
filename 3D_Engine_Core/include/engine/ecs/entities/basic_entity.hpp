@@ -38,11 +38,10 @@ namespace engine::ecs::entities
 		virtual ~basic_entity();
 
 		entity_id getID() const noexcept;
+		static entity_type_id getEntityTypeID() noexcept;
 
 		template <typename ComponentType>
 		std::optional<component_ptr> getComponent() const noexcept;
-
-	protected:
 
 		template <typename ComponentType, typename ...Args>
 		void addComponent(Args&&... _args) noexcept;
@@ -54,8 +53,10 @@ namespace engine::ecs::entities
 
 	private:
 
+		static void setEntityTypeID(entity_type_id _entity_type_id) noexcept;
 		static entity_id generateEntityId() noexcept;
 		static entity_id m_next_entity_id;
+		static entity_type_id m_entity_type_id;
 
 	private:
 
@@ -72,8 +73,8 @@ namespace engine::ecs::entities
 	void basic_entity::addComponent(Args&&... _args) noexcept
 	{
 		ECS::getComponentsManager()->addComponent<ComponentType>(m_id);
-		auto component = ECS::getComponentsManager()->getComponent<ComponentType>(m_id);
-		m_components.insert(ComponentType::getComponentTypeID(), component_ptr(component));
+		component_ptr component = ECS::getComponentsManager()->getComponent<ComponentType>(m_id);
+		m_components.insert(ComponentType::getComponentTypeID(), std::move(component));
 	}
 
 

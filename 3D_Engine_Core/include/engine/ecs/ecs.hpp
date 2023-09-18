@@ -6,8 +6,10 @@ namespace engine::ecs
 {
 	namespace entities
 	{
+		using entity_type_id = size_t;
 		using entity_id = size_t;
 
+		constexpr entity_type_id INVALID_ENTITY_TYPE_ID = 0;
 		constexpr entity_id INVALID_ENTITY_ID = 0;
 	}
 
