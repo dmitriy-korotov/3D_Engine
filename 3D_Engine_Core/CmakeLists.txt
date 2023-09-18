@@ -38,6 +38,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/glfw/events_data.hpp
 		include/engine/window/glfw/windows_collector.hpp
 		include/engine/window/glfw/windows_manager.hpp
+		
+		include/engine/render/shader_constructor.hpp
 
 		include/engine/render/open_gl/gl_types.hpp
 
