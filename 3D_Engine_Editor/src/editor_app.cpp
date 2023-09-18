@@ -29,6 +29,16 @@
 
 #include <engine/util/file_reader.hpp>
 
+#include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/entities/entities_manager.hpp>
+#include <engine/ecs/components/components_manager.hpp>
+#include <engine/ecs/components/transform_component.hpp>
+#include <engine/ecs/systems/systems_manager.hpp>
+#include <engine/ecs/systems/render_system.hpp>
+
+#include <engine/models/cube.hpp>
+
+
 #include <iostream>
 
 #include <complex>
@@ -370,6 +380,12 @@ namespace editor
 		delete[] data;
 
 
+		engine::ecs::ECS::initialize();
+
+		engine::ecs::entities::entity_id ID = engine::ecs::ECS::getEntitiesManager()->createEntity<engine::models::cube>();
+		engine::ecs::ECS::getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
+		engine::ecs::ECS::getSystemsManager()->addSystem<engine::ecs::systems::render_system>();
+
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 
@@ -512,6 +528,9 @@ namespace editor
 		last_mouse_pos[1] = current_mouse_pos.y;
 
 		m_camera->moveAndRotate(movement_delta, rotation_delta);
+
+
+		engine::ecs::ECS::update(1.f);
 		
 
 		drawUI();
@@ -616,6 +635,7 @@ namespace editor
 
 	editor_app::~editor_app()
 	{
+		engine::ecs::ECS::terminate();
 		UIModule::onGLfwWindowShutdown_OpenGLRenderer();
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}

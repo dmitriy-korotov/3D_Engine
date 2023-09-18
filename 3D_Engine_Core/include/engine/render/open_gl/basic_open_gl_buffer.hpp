@@ -13,7 +13,7 @@ namespace engine::render::open_gl
 	class basic_open_gl_buffer : private util::nocopyeble, public interfaces::binded_object
 	{
 	public:
-
+		
 		enum class Usage : uint8_t
 		{
 			Static,
