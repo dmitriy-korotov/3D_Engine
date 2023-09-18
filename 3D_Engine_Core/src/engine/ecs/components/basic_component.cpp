@@ -18,6 +18,27 @@ namespace engine::ecs::components
 
 
 
+	bool basic_component::isActive() const noexcept
+	{
+		return m_is_active;
+	}
+
+
+
+	void basic_component::enable() noexcept
+	{
+		m_is_active = true;
+	}
+
+
+
+	void basic_component::disable() noexcept
+	{
+		m_is_active = false;
+	}
+
+
+
 	entities::entity_id basic_component::getOwner() const noexcept
 	{
 		return m_owner;

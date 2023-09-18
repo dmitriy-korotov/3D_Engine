@@ -18,6 +18,10 @@ namespace engine::ecs::components
 
 		basic_component() noexcept;
 
+		bool isActive() const noexcept;
+		void enable() noexcept;
+		void disable() noexcept;
+
 		entities::entity_id getOwner() const noexcept;
 		component_id getID() const noexcept;
 
@@ -37,6 +41,7 @@ namespace engine::ecs::components
 
 	private:
 
+		bool m_is_active = true;
 		entities::entity_id m_owner = entities::INVALID_ENTITY_ID;
 		component_id m_id = INVALID_COMPONENT_ID;
 
