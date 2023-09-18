@@ -23,15 +23,16 @@ namespace engine::ecs::components
 	public:
 
 		template <typename T>
-		using component_iterator = typename std::vector<std::shared_ptr<T>>::iterator;
+		using component_ptr = std::shared_ptr<T>;
+
+		template <typename T>
+		using component_iterator = typename std::unordered_map<entities::entity_id, component_ptr<T>>::iterator;
 
 		template <typename T>
 		using components_range = std::pair<component_iterator<T>, component_iterator<T>>;
 		
-		template <typename T>
-		using component_ptr = std::shared_ptr<T>;
-		
-		using components_storage = std::unordered_map<component_type_id, std::vector<component_ptr<basic_component>>>;
+		using general_type_components_map = std::unordered_map<entities::entity_id, component_ptr<basic_component>>;
+		using components_storage = std::unordered_map<component_type_id, general_type_components_map>;
 
 	public:
 
@@ -39,10 +40,13 @@ namespace engine::ecs::components
 		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
-		std::optional<components_range<ComponentType>> getComponents() noexcept;
+		std::optional<components_range<ComponentType>> getComponents() const noexcept;
 
 		template <typename ComponentType>
-		component_ptr<ComponentType> getComponent(entities::entity_id _entity_id) noexcept;
+		component_ptr<ComponentType> getComponent(entities::entity_id _entity_id) const noexcept;
+
+		template <typename ComponentType>
+		void removeComponent(entities::entity_id _entity_id) noexcept;
 
 		void removeAllComponents() noexcept;
 
@@ -66,15 +70,29 @@ namespace engine::ecs::components
 		if (ComponentType::getComponentTypeID() == INVALID_COMPONENT_TYPE_ID)
 		{
 			ComponentType::setComponentTypeID(typeid(ComponentType).hash_code());
-			std::vector<component_ptr<basic_component>> this_type_components_storage;
+			general_type_components_map this_type_components_storage;
 			ECS::getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
-			this_type_components_storage.push_back(std::move(component));
+			this_type_components_storage.emplace(_entity_id, std::move(component));
 			m_components.emplace(ComponentType::getComponentTypeID(), std::move(this_type_components_storage));
 		}
 		else
 		{
 			ECS::getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
-			m_components.find(ComponentType::getComponentTypeID())->second.push_back(std::move(component));
+			m_components.find(ComponentType::getComponentTypeID())->second.emplace(_entity_id, std::move(component));
+		}
+	}
+
+
+
+	template <typename ComponentType>
+	void components_manager::removeComponent(entities::entity_id _entity_id) noexcept
+	{
+		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto components_range = m_components.find(ComponentType::getComponentTypeID());
+		if (components_range != m_components.end())
+		{
+			components_range->erase(_entity_id);
 		}
 	}
 
@@ -82,7 +100,7 @@ namespace engine::ecs::components
 
 	template <typename ComponentType>
 	std::optional<components_manager::components_range<ComponentType>>
-	components_manager::getComponents() noexcept
+	components_manager::getComponents() const noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -104,20 +122,16 @@ namespace engine::ecs::components
 
 	template <typename ComponentType>
 	components_manager::component_ptr<ComponentType> 
-	components_manager::getComponent(entities::entity_id _entity_id) noexcept
+	components_manager::getComponent(entities::entity_id _entity_id) const noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
 		auto components_range = m_components.find(ComponentType::getComponentTypeID());
 		if (components_range != m_components.end())
 		{
-			auto component_iter = std::find(
-				[&_entity_id](const auto& component_ptr) -> bool
-				{
-					return component_ptr->getOwner() == _entity_id;
-				}, components_range->second.begin(), components_range->second.end());
+			auto component_iter = components_range->find(_entity_id);
 
-			return component_iter == m_components.end() ? nullptr : *component_iter;
+			return component_iter == components_range.end() ? nullptr : component_iter->second;
 		}
 		else
 		{

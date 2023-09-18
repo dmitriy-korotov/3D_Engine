@@ -19,7 +19,6 @@ namespace engine::ecs::entities
 		using entity_ptr = std::shared_ptr<basic_entity>;
 		using entities_storage = std::unordered_map<entity_id, entity_ptr>;
 
-		entities_manager() = default;
 		~entities_manager();
 
 		template <typename EntityType, typename ...Args>

@@ -4,9 +4,9 @@
 
 namespace engine::ecs::components
 {
-	component_type_id basic_component::s_component_type_id = INVALID_COMPONENT_TYPE_ID;
+	component_type_id basic_component::m_component_type_id = INVALID_COMPONENT_TYPE_ID;
 
-	size_t basic_component::m_components_count = 0;
+	size_t basic_component::m_next_component_id = INVALID_COMPONENT_ID;
 
 
 
@@ -15,6 +15,20 @@ namespace engine::ecs::components
 	basic_component::basic_component() noexcept
 		: m_id(generateComponentID())
 	{ }
+
+
+
+	entities::entity_id basic_component::getOwner() const noexcept
+	{
+		return m_owner;
+	}
+
+
+
+	component_id basic_component::getID() const noexcept
+	{
+		return m_id;
+	}
 
 
 
@@ -27,20 +41,20 @@ namespace engine::ecs::components
 
 	void basic_component::setComponentTypeID(component_type_id _component_type_id) noexcept
 	{
-		s_component_type_id = _component_type_id;
+		m_component_type_id = _component_type_id;
 	}
 
 
 
 	component_type_id basic_component::getComponentTypeID() noexcept
 	{
-		return s_component_type_id;
+		return m_component_type_id;
 	}
 
 
 
 	component_id basic_component::generateComponentID() noexcept
 	{
-		return ++m_components_count;
+		return ++m_next_component_id;
 	}
 }

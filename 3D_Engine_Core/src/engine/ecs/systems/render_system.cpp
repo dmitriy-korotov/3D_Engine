@@ -22,7 +22,7 @@ namespace engine::ecs::systems
 			for (;begin != end; begin++)
 			{
 				auto& component = *begin;
-				auto owner = ECS::getEntitiesManager()->getEntity(component->getOwner());
+				auto owner = ECS::getEntitiesManager()->getEntity(component.second->getOwner());
 				owner->getComponent<components::render_component>();
 				//component->m_shader_program->bind();
 				//render::open_gl::renderer::draw();

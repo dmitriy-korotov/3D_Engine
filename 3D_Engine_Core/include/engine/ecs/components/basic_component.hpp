@@ -18,8 +18,8 @@ namespace engine::ecs::components
 
 		basic_component() noexcept;
 
-		entities::entity_id getOwner() const noexcept { return m_owner; };
-		component_id getID() const noexcept { return m_id; }
+		entities::entity_id getOwner() const noexcept;
+		component_id getID() const noexcept;
 
 		static component_type_id getComponentTypeID() noexcept;
 
@@ -32,8 +32,8 @@ namespace engine::ecs::components
 
 	private:
 
-		static size_t m_components_count;
-		static component_type_id s_component_type_id;
+		static size_t m_next_component_id;
+		static component_type_id m_component_type_id;
 
 	private:
 
