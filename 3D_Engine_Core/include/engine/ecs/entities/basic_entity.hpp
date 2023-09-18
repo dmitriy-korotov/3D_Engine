@@ -8,6 +8,7 @@
 
 #include <unordered_map>
 #include <memory>
+#include <optional>
 
 
 
@@ -39,7 +40,7 @@ namespace engine::ecs::entities
 		entity_id getID() const noexcept;
 
 		template <typename ComponentType>
-		const component_ptr& getComponent() const noexcept;
+		std::optional<component_ptr> getComponent() const noexcept;
 
 	protected:
 
@@ -86,7 +87,7 @@ namespace engine::ecs::entities
 
 
 	template <typename ComponentType>
-	const component_ptr& basic_entity::getComponent() const noexcept
+	std::optional<component_ptr> basic_entity::getComponent() const noexcept
 	{
 		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -97,7 +98,7 @@ namespace engine::ecs::entities
 		}
 		else
 		{
-			nullptr;
+			return std::nullopt;
 		}
 	}
 }

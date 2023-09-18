@@ -7,13 +7,6 @@
 
 
 
-namespace engine::ecs::components
-{
-	class components_manager;
-}
-
-
-
 namespace engine::ecs::entities
 {
 	class basic_entity;
@@ -21,8 +14,6 @@ namespace engine::ecs::entities
 	class entities_manager
 	{
 	public:
-
-		friend components::components_manager;
 
 		using entity_ptr = std::shared_ptr<basic_entity>;
 		using entities_storage = std::unordered_map<entity_id, entity_ptr>;
@@ -36,8 +27,6 @@ namespace engine::ecs::entities
 		void destroyEntity(entity_id _entity_id) noexcept;
 
 		void destroyAllEntities() noexcept;
-
-	private:
 
 		entity_ptr getEntity(entity_id _entity_id) const noexcept;
 
