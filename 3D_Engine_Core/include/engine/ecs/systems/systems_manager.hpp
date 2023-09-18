@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <typeinfo>
 
 
 
@@ -34,6 +35,10 @@ namespace engine::ecs::systems
 	{
 		static_assert(std::is_base_of_v<basic_system, SystemType>, "SystemType is not derived basic_system.");
 
+		if (SystemType::getSystemTypeID() == INVALID_SYSTEM_TYPE_ID)
+		{
+			SystemType::setSystemTypeID(typeid(SystemType).hash_code());
+		}
 		m_systems.push_back(std::make_shared<SystemType>(std::forward<Args>(_args)...));
 	}
 }

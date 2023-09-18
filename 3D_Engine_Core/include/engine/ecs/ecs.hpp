@@ -23,4 +23,13 @@ namespace engine::ecs
 		constexpr component_type_id INVALID_COMPONENT_TYPE_ID = 0;
 		constexpr component_id INVALID_COMPONENT_ID = 0;
 	}
+
+
+
+	namespace systems
+	{
+		using system_type_id = size_t;
+
+		constexpr system_type_id INVALID_SYSTEM_TYPE_ID = 0;
+	}
 }

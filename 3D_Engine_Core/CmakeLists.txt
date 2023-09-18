@@ -123,6 +123,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/render_component.cpp
 		src/engine/ecs/components/components_manager.cpp
 
+		src/engine/ecs/systems/basic_system.cpp
 		src/engine/ecs/systems/render_system.cpp
 		src/engine/ecs/systems/systems_manager.cpp
 )
