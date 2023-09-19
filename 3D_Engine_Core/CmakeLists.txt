@@ -24,6 +24,8 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/input/keys.hpp
 		include/engine/input/keyboard.hpp
 		include/engine/input/mouse.hpp
+
+		include/engine/materials/basic_material.hpp
 )
 
 set(ENGINE_PRIVATE_HEADERS
@@ -40,6 +42,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/glfw/windows_manager.hpp
 		
 		include/engine/render/shaders/shader_constructor.hpp
+		include/engine/render/shaders/basic_shader.hpp
 		include/engine/render/shaders/default_shader.hpp
 
 		include/engine/render/open_gl/gl_types.hpp

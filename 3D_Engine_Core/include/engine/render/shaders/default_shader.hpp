@@ -1,7 +1,6 @@
 #pragma once
 
-#include <engine/util/noconstructible.hpp>
-
+#include <engine/render/shaders/basic_shader.hpp>
 #include <engine/render/shaders/shader_constructor.hpp>
 
 #include <string>
@@ -10,12 +9,12 @@
 
 namespace engine::render::shaders
 {
-	class default_shader : util::noconstructible
+	class default_shader final : public basic_shader
 	{
 	public:
 
-		static const std::string_view& getVertexShader() noexcept;
-		static const std::string_view& getFragmentShader() noexcept;
+		const std::string_view& getVertexShader() const noexcept override;
+		const std::string_view& getFragmentShader() const noexcept override;
 
 	private:
 		
