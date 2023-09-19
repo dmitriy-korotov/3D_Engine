@@ -39,7 +39,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/glfw/windows_collector.hpp
 		include/engine/window/glfw/windows_manager.hpp
 		
-		include/engine/render/shader_constructor.hpp
+		include/engine/render/shaders/shader_constructor.hpp
+		include/engine/render/shaders/default_shader.hpp
 
 		include/engine/render/open_gl/gl_types.hpp
 
@@ -91,6 +92,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/window/glfw/glfw_window.cpp
 		src/engine/window/glfw/windows_collector.cpp
 		src/engine/window/glfw/windows_manager.cpp
+
+		src/engine/render/shaders/default_shader.cpp
 
 		src/engine/render/open_gl/basic_open_gl_buffer.cpp
 		src/engine/render/open_gl/vertex_buffer.cpp
