@@ -13,8 +13,31 @@ namespace engine::render::shaders
 	{
 	public:
 
+		static constexpr uint16_t s_GLSLVersion = 460;
+
+
+
 		const std::string_view& getVertexShader() const noexcept override;
 		const std::string_view& getFragmentShader() const noexcept override;
+
+		uint16_t getGLSLVersion() const noexcept override;
+
+		uint16_t getInputPostionVertexAttrib() const noexcept override;
+		std::optional<uint16_t> getInputNormalVertexAttrib() const noexcept override;
+		std::optional<uint16_t> getInputTexCoordVertexAttrib() const noexcept override;
+
+		std::optional<std::string_view> getModelViewMatrixName() const noexcept override;
+		std::optional<std::string_view> getModelViewPrijectionMatrixName() const noexcept override;
+		std::optional<std::string_view> getNormalMatrixName() const noexcept override;
+
+		std::optional<std::string_view> getSourceLightColorName() const noexcept override;
+		std::optional<std::string_view> getSourceLightPositionName() const noexcept override;
+		std::optional<std::string_view> getAmbientFactorName() const noexcept override;
+		std::optional<std::string_view> getSpecularFactorName() const noexcept override;
+		std::optional<std::string_view> getDiffuseFactorName() const noexcept override;
+		std::optional<std::string_view> getShiniessName() const noexcept override;
+
+		bool textureUnitExists(uint16_t _unit) const noexcept override;
 
 	private:
 		
@@ -53,7 +76,7 @@ namespace engine::render::shaders
 			SHADER_DEFINE_INPUT_NORMAL_FRAGMENT_ATTRIBUTE
 			SHADER_DEFINE_INPUT_TEXCOORD_FRAGMENT_ATTRIBUTE
 
-			SHADER_DEFINE_SAMPLER2D("inTexture")
+			SHADER_DEFINE_SAMPLER2D("inTexture", "0")
 
 			SHADER_DEFINE_UNIFORM(SHADER_UNIFORM_SOURCE_LIGHT_COLOR, "vec3")
 			SHADER_DEFINE_UNIFORM(SHADER_UNIFORM_SOURCE_LIGHT_POSITION, "vec3")

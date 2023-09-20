@@ -13,8 +13,9 @@ namespace engine::render::shaders
 #define SHADER_DEFINE_OUTPUT_FRAGMENT_ATTRIBUTE(name, type, location)	"layout(location=" #location ") out " type " " name ";\n"
 
 #define SHADER_DEFINE_UNIFORM(name, type)							"uniform " type " " name ";\n"
+#define SHADER_DEFINE_UNIFORM_WITH_LAYOUT(name, type, unit)			"layout (binding = " unit ")uniform " type " " name ";\n"
 
-#define SHADER_DEFINE_SAMPLER2D(name)								SHADER_DEFINE_UNIFORM(name, "sampler2D")
+#define SHADER_DEFINE_SAMPLER2D(name, unit)								SHADER_DEFINE_UNIFORM_WITH_LAYOUT(name, "sampler2D", unit)
 
 
 

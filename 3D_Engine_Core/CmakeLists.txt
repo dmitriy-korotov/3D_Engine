@@ -96,6 +96,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/window/glfw/windows_collector.cpp
 		src/engine/window/glfw/windows_manager.cpp
 
+		src/engine/render/shaders/basic_shader.cpp
 		src/engine/render/shaders/default_shader.cpp
 
 		src/engine/render/open_gl/basic_open_gl_buffer.cpp
@@ -108,6 +109,8 @@ set(ENGINE_PRIVATE_SOURCES
 		
 		src/engine/render/open_gl/shader_program.cpp
 		src/engine/render/open_gl/renderer_open_gl.cpp
+
+		src/engine/materials/basic_material.cpp
 
 		src/engine/render/camera.cpp
 
