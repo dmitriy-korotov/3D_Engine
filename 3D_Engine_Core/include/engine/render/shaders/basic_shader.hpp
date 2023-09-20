@@ -14,6 +14,7 @@ namespace engine::render::shaders
 	public:
 
 		basic_shader() = default;
+		virtual ~basic_shader() = default;
 
 		virtual const std::string_view& getVertexShader() const noexcept = 0;
 		virtual const std::string_view& getFragmentShader() const noexcept = 0;
