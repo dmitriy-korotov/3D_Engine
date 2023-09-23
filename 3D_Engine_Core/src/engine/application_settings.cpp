@@ -49,20 +49,20 @@ namespace engine
 
 	void application_settings::setTitle(std::string _title) noexcept
 	{
-		m_title = _title;
+		m_title = std::move(_title);
 	}
 
 
 
 	void application_settings::enableFullScreenMode() noexcept
 	{
-		m_is_full_screen_mode = true;
+		m_open_mode = OpenMode::FullScreen;
 	}
 
 
 
 	void application_settings::disableFullScreenMode() noexcept
 	{
-		m_is_full_screen_mode = false;
+		m_open_mode = OpenMode::InWindow;
 	}
 }

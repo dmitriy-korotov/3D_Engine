@@ -8,6 +8,12 @@
 
 namespace engine
 {
+	enum class OpenMode : uint8_t
+	{
+		FullScreen,
+		InWindow
+	};
+
 	class application_settings : private util::nocopyeble
 	{
 	public:
@@ -38,9 +44,9 @@ namespace engine
 		uint16_t m_height = 720;
 
 #ifdef NDEBUG
-		bool m_is_full_screen_mode = true;
+		OpenMode m_open_mode = OpenMode::FullScreen;
 #else
-		bool m_is_full_screen_mode = false;
+		OpenMode m_open_mode = OpenMode::InWindow;
 #endif // NDEBUG
 
 	};
