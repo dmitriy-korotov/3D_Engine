@@ -23,6 +23,7 @@ namespace engine
 		uint16_t getWidth() const noexcept;
 		uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
+		OpenMode getOpenMode() const noexcept;
 
 		void setWidth(uint16_t _width) noexcept;
 		void setHeight(uint16_t _height) noexcept;

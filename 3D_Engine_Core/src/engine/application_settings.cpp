@@ -33,6 +33,13 @@ namespace engine
 
 
 
+	OpenMode application_settings::getOpenMode() const noexcept
+	{
+		return m_open_mode;
+	}
+
+
+
 	void application_settings::setWidth(uint16_t _width) noexcept
 	{
 		m_width = _width;
