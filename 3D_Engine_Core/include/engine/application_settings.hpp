@@ -34,8 +34,8 @@ namespace engine
 
 		std::string m_title = "Application";
 		
-		uint16_t m_width = 0;
-		uint16_t m_height = 0;
+		uint16_t m_width = 1024;
+		uint16_t m_height = 720;
 
 #ifdef NDEBUG
 		bool m_is_full_screen_mode = true;
