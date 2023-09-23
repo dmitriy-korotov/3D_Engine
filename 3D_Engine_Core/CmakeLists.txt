@@ -6,6 +6,10 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
 
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+
+
+
 set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/application.hpp
@@ -64,6 +68,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/modules/imgui/UIModule.hpp
 
 		include/engine/models/cube.hpp
+
+		include/engine/meshes/basic_mesh.hpp
 )
 
 set(ENGINE_ECS_PRIVATE_HEADERS
@@ -120,6 +126,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/input/mouse.cpp
 
 		src/engine/util/file_reader.cpp
+
+		src/engine/meshes/basic_mesh.cpp
 )
 
 set(ENGINE_ECS_PRIVATE_SOURCES
@@ -198,3 +206,6 @@ target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE stb)
 
 add_subdirectory(../external/assimp ${CMAKE_CURRENT_BINARY_DIR}/assimp)
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE assimp)
+
+add_subdirectory(../external/json ${CMAKE_CURRENT_BINARY_DIR}/json)
+target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

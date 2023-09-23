@@ -15,7 +15,7 @@ namespace engine
 
 
 
-    application::application(std::uint16_t _width, std::uint16_t _height,
+    application::application(uint16_t _width, uint16_t _height,
                              const std::string_view& _application_name,
                              bool _is_full_screen_mode)
             : m_window_ptr(std::make_shared<window::glfw::window>(_application_name))
@@ -26,7 +26,7 @@ namespace engine
             LOG_CRITICAL("[Application ERROR] Can't create window '{0}' with size {1}x{2}.",
                          m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
             throw std::exception("Can't create window.");
-        }; 
+        };
     }
 
 

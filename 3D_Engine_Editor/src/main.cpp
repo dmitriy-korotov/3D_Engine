@@ -4,7 +4,7 @@
 
 
 
-int main(int argc, char** argv)
+int main(int _argc, char** _argv)
 {
 	try
 	{
