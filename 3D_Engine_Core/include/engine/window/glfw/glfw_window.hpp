@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/window/basic_window.hpp>
-#include <engine/window/glfw/events_data.hpp>
+#include <engine/window/events_data.hpp>
 
 #include <filesystem>
 #include <array>

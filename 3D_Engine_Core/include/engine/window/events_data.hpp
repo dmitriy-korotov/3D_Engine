@@ -7,7 +7,7 @@
 
 
 
-namespace engine::window::glfw
+namespace engine::window
 {
 	enum class Events : uint8_t
 	{
@@ -35,12 +35,6 @@ namespace engine::window::glfw
 		double y;
 	};
 
-	struct ErrorEventData
-	{
-		int error_code;
-		const char* description;
-	};
-
 	struct KeyboardInputEventData
 	{
 		input::Key key;
@@ -59,18 +53,16 @@ namespace engine::window::glfw
 
 	using ResizeCallBack = std::function<void(const ResizeEventData&)>;
 	using MouseMoveCallBack = std::function<void(const MouseMoveEventData&)>;
-	using ErrorCallBack = std::function<void(const ErrorEventData&)>;
 	using KeyboardInputCallBack = std::function<void(const KeyboardInputEventData&)>;
 	using MouseInputCallBack = std::function<void(const MouseInputEventData&)>;
 	using CloseCallBack = std::function<void()>;
 
 
 
-	struct CallBackStorage
+	struct call_backs_storage
 	{
 		ResizeCallBack resize_call_back;
 		MouseMoveCallBack mouse_move_call_back;
-		ErrorCallBack error_call_back;
 		CloseCallBack close_call_back;
 		KeyboardInputCallBack keyboard_input_call_back;
 		MouseInputCallBack mouse_input_call_back;
