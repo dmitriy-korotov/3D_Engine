@@ -1,5 +1,7 @@
 #pragma once
 
+#include <engine/error/application_error.hpp>
+
 #include <engine/util/nocopyeble.hpp>
 
 #include <memory>
@@ -23,13 +25,14 @@ namespace engine
 	{
 	public:
 		
+		using app_error = std::optional<error::application_error>;
 		using window_ptr = std::shared_ptr<window::basic_window>;
 
 		static application& instance() noexcept;
 
 		void setConfig(const path& _path_to_config_file) noexcept;
 
-		void start() noexcept;
+		app_error start() noexcept;
 		void close() noexcept;
 
 		bool isClosed() const noexcept;
@@ -39,7 +42,7 @@ namespace engine
 		application() = default;
 		virtual ~application() = default;
 
-		virtual void loadConfig() noexcept;
+		virtual app_error loadConfig() noexcept;
 		virtual void onUpdate() noexcept;
 
 	protected:

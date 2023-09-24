@@ -77,7 +77,7 @@ namespace engine
 
 
 
-    void application::loadConfig() noexcept
+    application::app_error application::loadConfig() noexcept
     {
         WindowImpl window_impl = application_settings::instance().getWindowImpl();
         std::string title = application_settings::instance().getTitle();
@@ -129,20 +129,30 @@ namespace engine
             break;
         }
 
-        m_window_ptr->create(title, width, height, open_mode);
+        if (m_window_ptr->create(title, width, height, open_mode).has_value())
+        {
+            return error::application_error::can_not_create_window;
+        }
+        return std::nullopt;
     }
 
 
 
-	void application::start() noexcept
+	application::app_error application::start() noexcept
 	{
-        loadConfig();
+        auto error = loadConfig();
+        if (error.has_value())
+        {
+            return error;
+        }
+
         m_is_closed = false;
         while (!isClosed())
         {
             m_window_ptr->onUpdate();
             onUpdate();
         }
+        return std::nullopt;
 	}
 
 
