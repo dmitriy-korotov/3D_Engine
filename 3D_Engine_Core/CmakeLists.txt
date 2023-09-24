@@ -8,11 +8,16 @@ set(ENGINE_PROJECT_NAME 3D_Engine_Core)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
+set(ASSIMP_BUILD_TESTS ON)
+set(ASSIMP_INSTALL OFF)
+set(BUILD_SHARED_LIBS OFF)
+
 
 
 set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/application.hpp
+		include/engine/application_settings.hpp
 
 		include/engine/error/application_error.hpp
 		include/engine/logging/log.hpp
@@ -38,12 +43,13 @@ set(ENGINE_PRIVATE_HEADERS
 
 		include/engine/error/window_error.hpp
 
+		include/engine/window/common_types.hpp
+		include/engine/window/events_data.hpp
 		include/engine/window/basic_window.hpp
+		include/engine/window/windows_collector.hpp
+		include/engine/window/windows_manager.hpp
 		
 		include/engine/window/glfw/glfw_window.hpp
-		include/engine/window/glfw/events_data.hpp
-		include/engine/window/glfw/windows_collector.hpp
-		include/engine/window/glfw/windows_manager.hpp
 		
 		include/engine/render/shaders/shader_constructor.hpp
 		include/engine/render/shaders/basic_shader.hpp
@@ -93,14 +99,15 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 set(ENGINE_PRIVATE_SOURCES 
 
 		src/engine/application.cpp
+		src/engine/application_settings.cpp
 
 		src/engine/image.cpp
 
 		src/engine/window/basic_window.cpp
+		src/engine/window/windows_collector.cpp
+		src/engine/window/windows_manager.cpp
 
 		src/engine/window/glfw/glfw_window.cpp
-		src/engine/window/glfw/windows_collector.cpp
-		src/engine/window/glfw/windows_manager.cpp
 
 		src/engine/render/shaders/basic_shader.cpp
 		src/engine/render/shaders/default_shader.cpp
@@ -208,4 +215,4 @@ add_subdirectory(../external/assimp ${CMAKE_CURRENT_BINARY_DIR}/assimp)
 target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE assimp)
 
 add_subdirectory(../external/json ${CMAKE_CURRENT_BINARY_DIR}/json)
-target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
