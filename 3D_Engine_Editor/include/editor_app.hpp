@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <engine/application.hpp>
@@ -31,4 +32,4 @@ namespace editor
 		std::unique_ptr<engine::render::camera> m_camera;
 
 	};
-}
+}*/

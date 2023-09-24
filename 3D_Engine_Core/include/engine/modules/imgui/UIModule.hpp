@@ -8,7 +8,7 @@
 
 namespace engine::window::glfw
 {
-	class window;
+	class glfw_window;
 }
 
 namespace engine::modules::imgui
@@ -17,7 +17,7 @@ namespace engine::modules::imgui
 	{
 	public:
 
-		using window_ptr = std::shared_ptr<window::glfw::window>;
+		using window_ptr = std::shared_ptr<window::glfw::glfw_window>;
 
 		static void onGlfwWindowCreate_OpenGLRenderer(const window_ptr& _window_ptr) noexcept;
 		static void onGLfwWindowShutdown_OpenGLRenderer() noexcept;

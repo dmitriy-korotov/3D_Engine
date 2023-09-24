@@ -1,4 +1,4 @@
-#include <editor_app.hpp>
+/*#include <editor_app.hpp>
 
 #include <engine/logging/log.hpp>
 
@@ -640,3 +640,4 @@ namespace editor
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 }
+*/

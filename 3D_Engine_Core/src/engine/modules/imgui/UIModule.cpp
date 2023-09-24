@@ -1,7 +1,7 @@
 #include <engine/modules/imgui/UIModule.hpp>
 
 #include <engine/window/glfw/glfw_window.hpp>
-#include <engine/window/glfw/windows_manager.hpp>
+#include <engine/window/windows_manager.hpp>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
@@ -29,7 +29,7 @@ namespace engine::modules::imgui
 	{
         setupImGuiConfig();
 		ImGui_ImplOpenGL3_Init();
-		ImGui_ImplGlfw_InitForOpenGL(window::glfw::windows_manager::getRawPtrFromWindow(_window_ptr), true);
+		//ImGui_ImplGlfw_InitForOpenGL(window::glfw::windows_manager::getRawPtrFromWindow(_window_ptr), true);
 	}
 
 
