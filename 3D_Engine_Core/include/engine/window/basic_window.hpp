@@ -1,48 +1,94 @@
 #pragma once
 
 #include <engine/util/nocopyeble.hpp>
-#include <engine/util/nomoveble.hpp>
 
 #include <engine/error/window_error.hpp>
+#include <engine/window/common_types.hpp>
+#include <engine/window/glfw/events_data.hpp>
+
+#include <glm/vec2.hpp>
 
 #include <string>
 #include <optional>
-#include <array>
 
 
 
-namespace engine
+namespace engine::window
 {
-
-	class basic_window: private util::nocopyeble, private util::nomoveble
+	class basic_window: private util::nocopyeble
 	{
 	public:
 
-		using bg_color = std::array<float, 4>;
-
-		basic_window(const std::string_view& _title);
+		using window_err = std::optional<error::window_error>;
+		
+		basic_window() = default;
 		virtual ~basic_window() = default;
+
+		void setWidth(uint16_t _width) noexcept;
+		void setHeight(uint16_t _height) noexcept;
 
 		uint16_t getWidth() const noexcept;
 		uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
-		const bg_color& getBackgroundColor() const noexcept;
+		window_id_t getID() const noexcept;
 
-		void setBackgroundColor(float _red, float _green, float _blue, float _alpha) noexcept;
+		virtual glm::dvec2 getCurrentCursorPosition() const noexcept = 0;
 
-		virtual std::optional<error::window_error> create(uint16_t _width, uint16_t _height, bool _is_full_screen_mode = false) noexcept = 0;
+		const call_backs_storage& getCallBacksStorage() const noexcept;
+
+		virtual window_err create(const std::string_view& _title, uint16_t _width,
+								  uint16_t _height, OpenMode _open_mode = OpenMode::InWindow) noexcept = 0;
+
 		virtual void shutdown() noexcept = 0;
-		virtual void onUpdate() noexcept {}
+		virtual void onUpdate() noexcept;
+
+		template<Events _event_type, typename CallBackFunction>
+		void addEventListener(CallBackFunction _call_back) noexcept;
 
 	protected:
 
-		struct window_data
-		{
-			uint16_t width = 0;
-			uint16_t height = 0;
-			std::string title;
-		} m_window_data_;
+		virtual void setWindowResizeCallBack() const noexcept;
+		virtual void setWindowCloseCallBack() const noexcept;
+		virtual void setKeyboardInputCallBack() const noexcept;
+		virtual void setMouseInputCallBack() const noexcept;
 
-		bg_color m_bg_color_ = { 0.f, 0.f, 0.f, 1.f };
+	protected:
+
+		window_id_t m_id = INVALID_WINDOW_ID;
+
+		uint16_t m_width = 0;
+		uint16_t m_height = 0;
+		std::string m_title;
+
+		call_backs_storage m_window_call_backs;
 	};
+
+
+
+
+
+	template<Events _event_type, typename CallBackFunction>
+	void basic_window::addEventListener(CallBackFunction _call_back) noexcept
+	{
+		if constexpr (_event_type == Events::Resize)
+		{
+			m_window_call_backs.resize_call_back = std::move(_call_back);
+			setWindowResizeCallBack();
+		}
+		if constexpr (_event_type == Events::Close)
+		{
+			m_window_call_backs.close_call_back = std::move(_call_back);
+			setWindowCloseCallBack();
+		}
+		if constexpr (_event_type == Events::KeyboardInput)
+		{
+			m_window_call_backs.keyboard_input_call_back = std::move(_call_back);
+			setKeyboardInputCallBack();
+		}
+		if constexpr (_event_type == Events::MouseInput)
+		{
+			m_window_call_backs.mouse_input_call_back = std::move(_call_back);
+			setMouseInputCallBack();
+		}
+	}
 }
