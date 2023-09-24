@@ -33,6 +33,13 @@ namespace engine
 
 
 
+	WindowImpl application_settings::getWindowImpl() const noexcept
+	{
+		return m_window_impl;
+	}
+
+
+
 	OpenMode application_settings::getOpenMode() const noexcept
 	{
 		return m_open_mode;
@@ -57,6 +64,13 @@ namespace engine
 	void application_settings::setTitle(std::string _title) noexcept
 	{
 		m_title = std::move(_title);
+	}
+
+
+
+	void application_settings::setWindowImpl(WindowImpl _window_impl) noexcept
+	{
+		m_window_impl = _window_impl;
 	}
 
 

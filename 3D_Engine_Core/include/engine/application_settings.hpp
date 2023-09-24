@@ -11,6 +11,7 @@
 namespace engine
 {
 	using window::OpenMode;
+	using window::WindowImpl;
 
 	class application_settings : private util::nocopyeble
 	{
@@ -21,11 +22,13 @@ namespace engine
 		uint16_t getWidth() const noexcept;
 		uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
+		WindowImpl getWindowImpl() const noexcept;
 		OpenMode getOpenMode() const noexcept;
 
 		void setWidth(uint16_t _width) noexcept;
 		void setHeight(uint16_t _height) noexcept;
 		void setTitle(std::string _title) noexcept;
+		void setWindowImpl(WindowImpl _window_impl) noexcept;
 
 		void enableFullScreenMode() noexcept;
 		void disableFullScreenMode() noexcept;
@@ -36,6 +39,8 @@ namespace engine
 		virtual ~application_settings() = default;
 
 	protected:
+
+		WindowImpl m_window_impl = WindowImpl::GLFW;
 
 		std::string m_title = "Application";
 		
