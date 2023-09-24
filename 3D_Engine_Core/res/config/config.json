@@ -1,0 +1,7 @@
+{
+    "window_impl"       : "GLFW",
+    "title"             : "Engine 3D",
+    "width"             : 1024,
+    "height"            : 720,
+    "open_mode"         : "in_window"
+}
