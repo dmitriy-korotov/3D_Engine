@@ -2,17 +2,15 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/window/common_types.hpp>
+
 #include <string>
 
 
 
 namespace engine
 {
-	enum class OpenMode : uint8_t
-	{
-		FullScreen,
-		InWindow
-	};
+	using window::OpenMode;
 
 	class application_settings : private util::nocopyeble
 	{
