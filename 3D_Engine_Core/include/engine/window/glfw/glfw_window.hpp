@@ -33,7 +33,6 @@ namespace engine::window::glfw
 		void setKeyboardInputCallBack() const noexcept override;
 		void setMouseInputCallBack() const noexcept override;
 
-		window_err __glfwInit() const noexcept;
 		window_err __createGlfwWindow(OpenMode _open_mode) noexcept;
 
 	protected:

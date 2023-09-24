@@ -49,6 +49,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/windows_collector.hpp
 		include/engine/window/windows_manager.hpp
 		
+		include/engine/window/glfw/glfw.hpp
 		include/engine/window/glfw/glfw_window.hpp
 		
 		include/engine/render/shaders/shader_constructor.hpp
@@ -107,6 +108,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/window/windows_collector.cpp
 		src/engine/window/windows_manager.cpp
 
+		src/engine/window/glfw/glfw.cpp
 		src/engine/window/glfw/glfw_window.cpp
 
 		src/engine/render/shaders/basic_shader.cpp

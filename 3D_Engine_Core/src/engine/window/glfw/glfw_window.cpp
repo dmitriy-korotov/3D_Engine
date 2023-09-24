@@ -10,6 +10,8 @@
 
 #include <engine/image.hpp>
 
+#include <engine/window/glfw/glfw.hpp>
+
 #include <GLFW/glfw3.h>
 
 
@@ -64,23 +66,6 @@ namespace engine::window::glfw
 
 
 
-	glfw_window::window_err glfw_window::__glfwInit() const noexcept
-	{
-		if (!glfwInit())
-		{
-			LOG_CRITICAL("[Glfw Window ERROR] Can't initializate glfw.");
-			return error::window_error::can_not_init_glfw;
-		}
-		glfwSetErrorCallback(
-			[](int _error_code, const char* _description) -> void
-			{
-				LOG_ERROR("[Glfw Window ERROR] (code: {0}): {1}", _error_code, _description);
-			});
-		return std::nullopt;
-	}
-
-
-
 	glfw_window::window_err glfw_window::__createGlfwWindow(OpenMode _open_mode) noexcept
 	{
 		if (_open_mode == OpenMode::FullScreen)
@@ -114,10 +99,9 @@ namespace engine::window::glfw
 	glfw_window::window_err glfw_window::create(const std::string_view& _title, uint16_t _width,
 									  uint16_t _height, OpenMode _open_mode) noexcept
 	{
-		auto is_glfw_inited_ = __glfwInit();
-		if (is_glfw_inited_.has_value())
+		if (!glfw::instance().isInited())
 		{
-			return is_glfw_inited_;
+			return error::window_error::can_not_init_glfw;
 		}
 
 		m_title = _title;
@@ -259,7 +243,6 @@ namespace engine::window::glfw
 	void glfw_window::shutdown() noexcept
 	{
 		glfwDestroyWindow(m_window_ptr);
-		glfwTerminate();
 	}
 
 
