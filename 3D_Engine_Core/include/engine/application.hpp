@@ -2,46 +2,50 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <string>
-#include <optional>
 #include <memory>
-#include <stdint.h>
+#include <optional>
+#include <filesystem>
+
+
+
+namespace engine::window
+{
+	class basic_window;
+}
 
 
 
 namespace engine
 {
-	namespace window::glfw
-	{
-		class window;
-	}
+	using std::filesystem::path;
 
 	class application: private util::nocopyeble
 	{
 	public:
+		
+		using window_ptr = std::shared_ptr<window::basic_window>;
 
-		using window_ptr = std::shared_ptr<window::glfw::window>;
+		static application& instance() noexcept;
 
-		application(uint16_t _width, uint16_t _height,
-				    const std::string_view& _application_name,
-					bool _is_full_screen_mode = false);
-		virtual ~application() = default;
-
-		application(application&&) noexcept = default;
-		application& operator=(application&&) noexcept = default;
+		void setConfig(const path& _path_to_config_file) noexcept;
 
 		void start() noexcept;
 		void close() noexcept;
 
+		bool isClosed() const noexcept;
+
 	protected:
 
-		void checkIsNotAlreadyCreated();
+		application() = default;
+		virtual ~application() = default;
+
+		virtual void loadConfig() noexcept;
 		virtual void onUpdate() noexcept;
 
 	protected:
 
-		static bool s_is_created;
-		static bool s_is_closed;
+		bool m_is_closed = true;
+		std::optional<path> m_path_to_config;
 		window_ptr m_window_ptr = nullptr;
 
 	};

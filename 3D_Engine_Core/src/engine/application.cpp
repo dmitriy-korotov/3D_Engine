@@ -1,5 +1,7 @@
 #include <engine/application.hpp>
 
+#include <engine/application_settings.hpp>
+
 #include <engine/logging/log.hpp>
 
 #include <engine/window/glfw/glfw_window.hpp>
@@ -8,45 +10,51 @@
 
 namespace engine
 {
-    bool application::s_is_created = false;
-    bool application::s_is_closed = false;
-
-
-
-
-
-    application::application(uint16_t _width, uint16_t _height,
-                             const std::string_view& _application_name,
-                             bool _is_full_screen_mode)
-            : m_window_ptr(std::make_shared<window::glfw::window>(_application_name))
-    { 
-        checkIsNotAlreadyCreated();
-        if (m_window_ptr->create(_width, _height, _is_full_screen_mode).has_value())
-        {
-            LOG_CRITICAL("[Application ERROR] Can't create window '{0}' with size {1}x{2}.",
-                         m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
-            throw std::exception("Can't create window.");
-        };
+    application& application::instance() noexcept
+    {
+        static application instance;
+        return instance;
     }
 
 
 
-    void application::checkIsNotAlreadyCreated()
+    void application::setConfig(const path& _path_to_config_file) noexcept
     {
-        if (s_is_created)
+        if (std::filesystem::exists(_path_to_config_file))
         {
-            LOG_ERROR("[Application ERROR] Application already exists.");
-            throw std::logic_error("Application already exists.");
+            m_path_to_config = _path_to_config_file;
         }
-        s_is_created = true;
+        else
+        {
+            LOG_ERROR("[Application ERROR] Config file is not exists (file: {0}).", _path_to_config_file.generic_string());
+        }
+    }
+
+
+
+    void application::loadConfig() noexcept
+    {
+        if (m_path_to_config.has_value())
+        {
+
+        }
+        else
+        {
+            m_window_ptr = std::make_shared<window::glfw::glfw_window>();
+            m_window_ptr->create(application_settings::instance().getTitle(),
+                                 application_settings::instance().getWidth(),
+                                 application_settings::instance().getHeight(),
+                                 application_settings::instance().getOpenMode());
+        }
     }
 
 
 
 	void application::start() noexcept
 	{
-
-        while (!s_is_closed)
+        loadConfig();
+        m_is_closed = false;
+        while (!isClosed())
         {
             m_window_ptr->onUpdate();
             onUpdate();
@@ -55,9 +63,16 @@ namespace engine
 
 
 
+    bool application::isClosed() const noexcept
+    {
+        return m_is_closed;
+    }
+
+
+
     void application::close() noexcept
     {
-        s_is_closed = true;
+        m_is_closed = true;
     }
 
 
