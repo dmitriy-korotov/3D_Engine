@@ -16,13 +16,16 @@
 
 namespace engine::window::glfw
 {
-	window::window(const std::string_view& _title)
-			: basic_window(_title)
-	{ }
+	static window_id_t generateWindowID(GLFWwindow* _window) noexcept
+	{
+		return std::hash<GLFWwindow*>::_Do_hash(_window);
+	}
 
 
 
-	glm::dvec2 window::getCurrentCursorPosition() const noexcept
+
+
+	glm::dvec2 glfw_window::getCurrentCursorPosition() const noexcept
 	{
 		double x = 0;
 		double y = 0;
@@ -33,7 +36,7 @@ namespace engine::window::glfw
 
 
 
-	void window::setupIcon(const std::filesystem::path& _path_to_icon) const noexcept
+	void glfw_window::setupIcon(const path& _path_to_icon) const noexcept
 	{
 		image icon(_path_to_icon);
 		if (icon.isLoaded())
@@ -41,7 +44,7 @@ namespace engine::window::glfw
 			GLFWimage glfw_icon;
 			glfw_icon.pixels = icon.getData();
 			glfw_icon.height = icon.getHeight();
-			glfw_icon.width = icon.getWidth();
+			glfw_icon.width  = icon.getWidth();
 			glfwSetWindowIcon(m_window_ptr, 1, &glfw_icon);
 		}
 		else
@@ -52,15 +55,16 @@ namespace engine::window::glfw
 
 
 
-	void window::onUpdate() noexcept
+	void glfw_window::onUpdate() noexcept
 	{
 		glfwPollEvents();
+		glfwMakeContextCurrent(m_window_ptr);
 		glfwSwapBuffers(m_window_ptr);
 	}
 
 
 
-	std::optional<error::window_error> window::__glfwInit() const noexcept
+	glfw_window::window_err glfw_window::__glfwInit() const noexcept
 	{
 		if (!glfwInit())
 		{
@@ -77,9 +81,9 @@ namespace engine::window::glfw
 
 
 
-	std::optional<error::window_error> window::__createGlfwWindow(bool _is_full_screen_mode) noexcept
+	glfw_window::window_err glfw_window::__createGlfwWindow(OpenMode _open_mode) noexcept
 	{
-		if (_is_full_screen_mode)
+		if (_open_mode == OpenMode::FullScreen)
 		{
 			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -88,16 +92,17 @@ namespace engine::window::glfw
 			glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
 			glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 			glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-			m_window_ptr = glfwCreateWindow(mode->width, mode->height, m_window_data_.title.c_str(), monitor, nullptr);
+
+			m_window_ptr = glfwCreateWindow(mode->width, mode->height, m_title.c_str(), monitor, nullptr);
 		}
 		else
 		{
-			m_window_ptr = glfwCreateWindow(m_window_data_.width, m_window_data_.height, m_window_data_.title.c_str(), nullptr, nullptr);
+			m_window_ptr = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
 		}
 
 		if (!m_window_ptr)
 		{
-			LOG_CRITICAL("[Glfw Window ERROR] Can't create window '{0}'.", m_window_data_.title);
+			LOG_CRITICAL("[Glfw Window ERROR] Can't create window '{0}'.", m_title);
 			return error::window_error::can_not_create;
 		}
 		glfwMakeContextCurrent(m_window_ptr);
@@ -106,7 +111,8 @@ namespace engine::window::glfw
 
 
 
-	std::optional<error::window_error> window::create(uint16_t _width, uint16_t _height, bool _is_full_screen_mode) noexcept
+	glfw_window::window_err glfw_window::create(const std::string_view& _title, uint16_t _width,
+									  uint16_t _height, OpenMode _open_mode) noexcept
 	{
 		auto is_glfw_inited_ = __glfwInit();
 		if (is_glfw_inited_.has_value())
@@ -114,22 +120,24 @@ namespace engine::window::glfw
 			return is_glfw_inited_;
 		}
 
-		m_window_data_.width = _width;
-		m_window_data_.height = _height;
+		m_title = _title;
+		m_width = _width;
+		m_height = _height;
 
-		auto is_glfw_window_created_ = __createGlfwWindow(_is_full_screen_mode);
+		auto is_glfw_window_created_ = __createGlfwWindow(_open_mode);
 		if (is_glfw_window_created_.has_value())
 		{
 			return is_glfw_window_created_;
 		}
+		m_id = generateWindowID(m_window_ptr);
 
 		try
 		{
-			windows_manager::addNewWindow(shared_from_this());
+			windows_manager::instance().addNewWindow(getID(), shared_from_this());
 		}
 		catch (const std::exception& ex_)
 		{
-			LOG_CRITICAL("[Glfw Window ERROR] Can't add window '{1}' in windows manager: {0}.", std::string(ex_.what()), m_window_data_.title);
+			LOG_CRITICAL("[Glfw Window ERROR] Can't add window '{1}' in windows manager: {0}.", std::string(ex_.what()), m_title);
 			return error::window_error::can_not_add_new_window;
 		}
 
@@ -138,19 +146,20 @@ namespace engine::window::glfw
 
 
 
-	void window::setWindowResizeCallBack() const noexcept
+	void glfw_window::setWindowResizeCallBack() const noexcept
 	{
 		glfwSetWindowSizeCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
 			{
 				try
 				{
-					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
-					window_data.height = _height;
-					window_data.width = _width;
+					auto window = windows_manager::instance().getWindow(generateWindowID(_window_ptr));
+					
+					window->setWidth(_width);
+					window->setHeight(_height);
 
-					ResizeEventData resize_data = { window_data.width, window_data.height };
-					call_backs.resize_call_back(resize_data);
+					ResizeEventData resize_data = { window->getWidth(), window->getHeight() };
+					window->getCallBacksStorage().resize_call_back(resize_data);
 				}
 				catch (const std::exception& ex_)
 				{
@@ -161,15 +170,15 @@ namespace engine::window::glfw
 
 
 
-	void window::setWindowCloseCallBack() const noexcept
+	void glfw_window::setWindowCloseCallBack() const noexcept
 	{
 		glfwSetWindowCloseCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr) -> void
 			{
 				try
 				{
-					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
-					call_backs.close_call_back();
+					auto window = windows_manager::instance().getWindow(generateWindowID(_window_ptr));
+					window->getCallBacksStorage().close_call_back();
 				}
 				catch (const std::exception& ex_)
 				{
@@ -180,14 +189,14 @@ namespace engine::window::glfw
 
 
 
-	void window::setKeyboardInputCallBack() const noexcept
+	void glfw_window::setKeyboardInputCallBack() const noexcept
 	{
 		glfwSetKeyCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr, int _key_code, int _scancode, int _action, int _mode) -> void
 			{
 				try
 				{
-					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
+					auto window = windows_manager::instance().getWindow(generateWindowID(_window_ptr));
 
 					KeyboardInputEventData keyboard_input_data = { static_cast<input::Key>(_key_code),
 																   static_cast<input::Action>(_action) };
@@ -202,7 +211,7 @@ namespace engine::window::glfw
 						input::keyboard::pressKey(static_cast<input::Key>(_key_code));
 						
 					}
-					call_backs.keyboard_input_call_back(keyboard_input_data);
+					window->getCallBacksStorage().keyboard_input_call_back(keyboard_input_data);
 				}
 				catch (const std::exception& ex_)
 				{
@@ -214,14 +223,14 @@ namespace engine::window::glfw
 
 
 
-	void window::setMouseInputCallBack() const noexcept
+	void glfw_window::setMouseInputCallBack() const noexcept
 	{
 		glfwSetMouseButtonCallback(m_window_ptr,
 			[](GLFWwindow* _window_ptr, int _button, int _action, int _mods) -> void
 			{
 				try
 				{
-					auto [window_data, call_backs] = windows_manager::getWindowDataAndCBS(_window_ptr);
+					auto window = windows_manager::instance().getWindow(generateWindowID(_window_ptr));
 
 					MouseInputEventData mouse_input_data = { static_cast<input::MouseButton>(_button),
 															 static_cast<input::Action>(_action) };
@@ -236,7 +245,7 @@ namespace engine::window::glfw
 						input::mouse::pressButton(static_cast<input::MouseButton>(_button));
 
 					}
-					call_backs.mouse_input_call_back(mouse_input_data);
+					window->getCallBacksStorage().mouse_input_call_back(mouse_input_data);
 				}
 				catch (const std::exception& ex_)
 				{
@@ -247,7 +256,7 @@ namespace engine::window::glfw
 
 
 
-	void window::shutdown() noexcept
+	void glfw_window::shutdown() noexcept
 	{
 		glfwDestroyWindow(m_window_ptr);
 		glfwTerminate();
@@ -255,7 +264,7 @@ namespace engine::window::glfw
 
 
 
-	window::~window()
+	glfw_window::~glfw_window()
 	{
 		shutdown();
 	}
