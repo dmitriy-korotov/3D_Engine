@@ -6,7 +6,7 @@
 #include <engine/error/window_error.hpp>
 #include <engine/logging/log.hpp>
 
-#include <engine/window/glfw/windows_manager.hpp>
+#include <engine/window/windows_manager.hpp>
 
 #include <engine/image.hpp>
 
