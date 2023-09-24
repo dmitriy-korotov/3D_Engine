@@ -42,7 +42,7 @@ namespace engine::window::glfw
 		if (icon.isLoaded())
 		{
 			GLFWimage glfw_icon;
-			glfw_icon.pixels = icon.getData();
+			glfw_icon.pixels = reinterpret_cast<unsigned char*>(icon.getData());
 			glfw_icon.height = icon.getHeight();
 			glfw_icon.width  = icon.getWidth();
 			glfwSetWindowIcon(m_window_ptr, 1, &glfw_icon);

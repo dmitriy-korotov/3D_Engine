@@ -9,12 +9,15 @@
 #include <glm/vec2.hpp>
 
 #include <string>
+#include <filesystem>
 #include <optional>
 
 
 
 namespace engine::window
 {
+	using std::filesystem::path;
+
 	class basic_window: private util::nocopyeble
 	{
 	public:
@@ -32,8 +35,6 @@ namespace engine::window
 		const std::string& getTitle() const noexcept;
 		window_id_t getID() const noexcept;
 
-		virtual glm::dvec2 getCurrentCursorPosition() const noexcept = 0;
-
 		const call_backs_storage& getCallBacksStorage() const noexcept;
 
 		virtual window_err create(const std::string_view& _title, uint16_t _width,
@@ -41,6 +42,9 @@ namespace engine::window
 
 		virtual void shutdown() noexcept = 0;
 		virtual void onUpdate() noexcept;
+
+		virtual glm::dvec2 getCurrentCursorPosition() const noexcept = 0;
+		virtual void setupIcon(const path& _path_to_icon) const noexcept;
 
 		template<Events _event_type, typename CallBackFunction>
 		void addEventListener(CallBackFunction _call_back) noexcept;

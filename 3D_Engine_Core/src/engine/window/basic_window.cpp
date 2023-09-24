@@ -60,8 +60,27 @@ namespace engine::window
 
 
 
-	void basic_window::setWindowResizeCallBack() const noexcept {}
-	void basic_window::setWindowCloseCallBack() const noexcept {}
-	void basic_window::setKeyboardInputCallBack() const noexcept {}
-	void basic_window::setMouseInputCallBack() const noexcept {}
+	void basic_window::setupIcon(const path& _path_to_icon) const noexcept
+	{
+		LOG_ERROR("[Basic window ERROR] Method 'setupIcon' is not implemented.");
+	}
+
+
+
+	void basic_window::setWindowResizeCallBack() const noexcept
+	{
+		LOG_ERROR("[Basic window ERROR] Method 'setWindowResizeCallBack' is not implemented.");
+	}
+	void basic_window::setWindowCloseCallBack() const noexcept 
+	{
+		LOG_ERROR("[Basic window ERROR] Method 'setWindowCloseCallBack' is not implemented.");
+	}
+	void basic_window::setKeyboardInputCallBack() const noexcept 
+	{
+		LOG_ERROR("[Basic window ERROR] Method 'setKeyboardInputCallBack' is not implemented.");
+	}
+	void basic_window::setMouseInputCallBack() const noexcept 
+	{
+		LOG_ERROR("[Basic window ERROR] Method 'setMouseInputCallBack' is not implemented.");
+	}
 }

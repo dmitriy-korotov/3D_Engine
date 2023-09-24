@@ -3,17 +3,12 @@
 #include <engine/window/basic_window.hpp>
 #include <engine/window/events_data.hpp>
 
-#include <filesystem>
-#include <array>
-
 
 
 struct GLFWwindow;
 
 namespace engine::window::glfw
 {
-	using std::filesystem::path;
-
 	class glfw_window : public std::enable_shared_from_this<glfw_window>,
 				   public basic_window
 	{
@@ -29,7 +24,7 @@ namespace engine::window::glfw
 
 		glm::dvec2 getCurrentCursorPosition() const noexcept override;
 
-		void setupIcon(const path& _path_to_icon) const noexcept;
+		void setupIcon(const path& _path_to_icon) const noexcept override;
 
 	private:
 

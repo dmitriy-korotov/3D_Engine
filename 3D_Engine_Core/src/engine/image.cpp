@@ -8,7 +8,7 @@ namespace engine
 {
 	image::image(const std::filesystem::path& _path_to_image)
 	{
-		m_data = stbi_load(_path_to_image.generic_string().c_str(), &m_width, &m_height, &m_channels, 0);
+		m_data = reinterpret_cast<std::byte*>(stbi_load(_path_to_image.generic_string().c_str(), &m_width, &m_height, &m_channels, 0));
 		if (m_data != nullptr)
 		{
 			m_is_loaded = true;
@@ -38,14 +38,14 @@ namespace engine
 
 
 
-	const uint8_t* image::getData() const noexcept
+	const std::byte* image::getData() const noexcept
 	{
 		return m_data;
 	}
 
 
 
-	uint8_t* image::getData() noexcept
+	std::byte* image::getData() noexcept
 	{
 		return m_data;
 	}
