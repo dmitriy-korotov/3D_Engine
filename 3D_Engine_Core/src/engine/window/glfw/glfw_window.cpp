@@ -8,7 +8,7 @@
 
 #include <engine/window/windows_manager.hpp>
 
-#include <engine/image.hpp>
+#include <engine/render/image.hpp>
 
 #include <engine/window/glfw/glfw.hpp>
 

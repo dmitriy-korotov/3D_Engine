@@ -1,4 +1,4 @@
-#include <engine/materials/basic_material.hpp>
+#include <engine/render/materials/basic_material.hpp>
 
 #include <engine/render/shaders/basic_shader.hpp>
 

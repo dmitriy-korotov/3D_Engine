@@ -1,4 +1,4 @@
-#include <engine/image.hpp>
+#include <engine/render/image.hpp>
 
 #include <stb/image.h>
 
