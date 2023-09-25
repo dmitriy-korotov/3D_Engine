@@ -1,6 +1,9 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
 #include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 #include <vector>
 
@@ -8,22 +11,28 @@
 
 namespace engine::render::meshes
 {
-	class basic_mesh
+	struct vertex
+	{
+		glm::vec3 position;
+		glm::vec3 normal;
+		glm::vec2 tex_coord;
+	};
+
+	class basic_mesh : private util::nocopyeble
 	{
 	public:
 
-		using vectors_storage = std::vector<glm::vec3>;
+		using vertex_storage = std::vector<vertex>;
 
-		basic_mesh(vectors_storage _vertex_positions, vectors_storage _vertex_normals, vectors_storage _vertex_tex_coords) noexcept;
+		basic_mesh(vertex_storage _vertexes) noexcept;
 		virtual ~basic_mesh() = default;
 
-
+		void setVertexes(vertex_storage _vertexes) noexcept;
+		const vertex_storage& getVertexes() const noexcept;
 
 	protected:
 
-		vectors_storage m_vertex_positions;
-		vectors_storage m_vertex_normals;
-		vectors_storage m_vertex_tex_coords;
+		vertex_storage m_vertexes;
 
 	};
 }
