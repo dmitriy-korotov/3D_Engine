@@ -7,7 +7,7 @@
 namespace engine::render::open_gl
 {
 	vertex_buffer::vertex_buffer(const void* _data, size_t _size, buffer_layout _buffer_layout, Usage _usage_type) noexcept
-			: m_buffer_layout_(std::move(_buffer_layout))
+			: m_buffer_layout(std::move(_buffer_layout))
 	{
 		glGenBuffers(1, &m_id);
 		bind();
@@ -18,7 +18,7 @@ namespace engine::render::open_gl
 
 	vertex_buffer::vertex_buffer(vertex_buffer&& _other) noexcept
 			: basic_open_gl_buffer(_other.m_id)
-			, m_buffer_layout_(std::move(_other.m_buffer_layout_))
+			, m_buffer_layout(std::move(_other.m_buffer_layout))
 	{
 		_other.m_id = 0;
 	}
@@ -28,7 +28,7 @@ namespace engine::render::open_gl
 	vertex_buffer& vertex_buffer::operator=(vertex_buffer&& _right) noexcept
 	{
 		m_id = _right.m_id;
-		m_buffer_layout_ = std::move(_right.m_buffer_layout_);
+		m_buffer_layout = std::move(_right.m_buffer_layout);
 		_right.m_id = 0;
 
 		return *this;
@@ -59,6 +59,6 @@ namespace engine::render::open_gl
 
 	const buffer_layout& vertex_buffer::getBufferLayout() const noexcept
 	{
-		return m_buffer_layout_;
+		return m_buffer_layout;
 	}
 }

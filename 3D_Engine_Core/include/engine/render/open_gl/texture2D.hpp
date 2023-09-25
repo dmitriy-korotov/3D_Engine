@@ -11,7 +11,7 @@
 
 namespace engine::render::open_gl
 {
-	class texture2D : util::nocopyeble
+	class texture2D : private util::nocopyeble
 	{
 	public:
 

@@ -7,7 +7,7 @@
 
 namespace engine::render::open_gl
 {
-	class vertex_buffer final: public basic_open_gl_buffer
+	class vertex_buffer final : public basic_open_gl_buffer
 	{
 	public:
 
@@ -23,7 +23,7 @@ namespace engine::render::open_gl
 
 	private:
 
-		buffer_layout m_buffer_layout_;
+		buffer_layout m_buffer_layout;
 
 	};
 }
