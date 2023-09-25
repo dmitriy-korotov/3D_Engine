@@ -40,7 +40,7 @@ namespace engine::window::glfw
 
 	void glfw_window::setupIcon(const path& _path_to_icon) const noexcept
 	{
-		image icon(_path_to_icon);
+		render::image icon(_path_to_icon);
 		if (icon.isLoaded())
 		{
 			GLFWimage glfw_icon;

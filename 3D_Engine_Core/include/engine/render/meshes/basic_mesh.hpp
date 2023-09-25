@@ -6,7 +6,7 @@
 
 
 
-namespace engine::meshes
+namespace engine::render::meshes
 {
 	class basic_mesh
 	{

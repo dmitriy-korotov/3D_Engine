@@ -4,7 +4,7 @@
 
 
 
-namespace engine
+namespace engine::render
 {
 	image::image(const std::filesystem::path& _path_to_image)
 	{

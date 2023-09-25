@@ -22,7 +22,7 @@ namespace engine::render
 
 
 
-namespace engine::materials
+namespace engine::render::materials
 {
 	class basic_material
 	{

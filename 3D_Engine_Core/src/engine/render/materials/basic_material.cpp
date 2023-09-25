@@ -4,7 +4,7 @@
 
 
 
-namespace engine::materials
+namespace engine::render::materials
 {
 	basic_material::basic_material(shader_ptr _shader) noexcept
 			: m_shader(std::move(_shader))

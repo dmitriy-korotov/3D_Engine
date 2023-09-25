@@ -2,7 +2,7 @@
 
 
 
-namespace engine::meshes
+namespace engine::render::meshes
 {
 
 }
