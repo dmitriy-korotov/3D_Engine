@@ -2,16 +2,15 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/render/open_gl/gl_types.hpp>
-#include <engine/render/texture_parametrs.hpp>
+#include <engine/render/basic_texture2D.hpp>
 
-#include <stdint.h>
+#include <engine/render/open_gl/gl_types.hpp>
 
 
 
 namespace engine::render::open_gl
 {
-	class texture2D : private util::nocopyeble
+	class texture2D : public basic_texture2D
 	{
 	public:
 
@@ -21,20 +20,17 @@ namespace engine::render::open_gl
 		texture2D(texture2D&& _other) noexcept;
 		texture2D& operator=(texture2D&& _right) noexcept;
 
-		uint16_t getWidth() const noexcept;
-		uint16_t getHeight() const noexcept;
+		void setData(const std::byte* _data, uint16_t _width, uint16_t _height,
+				     InternalFormat _internal_format = InternalFormat::RGB_8) noexcept override;
+		void setParametrs(const TextureParamsStorage& _texture_params) noexcept override;
 
-		void setData(const uint8_t* _data, uint16_t _width, uint16_t _height,
-				     InternalFormat _internal_format = InternalFormat::RGB_8) noexcept;
-		void setParametrs(const TextureParamsStorage& _texture_params) noexcept;
 		void bind(uint8_t _unit) const noexcept;
 
 	private:
 
 		GLuint m_id = 0;
 
-		uint16_t m_width = 0;
-		uint16_t m_height = 0;
+
 
 	};
 }

@@ -81,12 +81,9 @@ namespace engine::render::open_gl
 
 
 	texture2D::texture2D(texture2D&& _other) noexcept
-			: m_id(_other.m_id)
-			, m_height(_other.m_height)
-			, m_width(_other.m_width)
+			: basic_texture2D(std::move(_other))
+			, m_id(_other.m_id)
 	{
-		_other.m_height = 0;
-		_other.m_width = 0;
 		_other.m_id = 0;
 	}
 
@@ -111,21 +108,7 @@ namespace engine::render::open_gl
 
 
 
-	uint16_t texture2D::getWidth() const noexcept
-	{
-		return m_width;
-	}
-
-
-
-	uint16_t texture2D::getHeight() const noexcept
-	{
-		return m_height;
-	}
-
-
-
-	void texture2D::setData(const uint8_t* _data, uint16_t _width, uint16_t _height, InternalFormat _internal_format) noexcept
+	void texture2D::setData(const std::byte* _data, uint16_t _width, uint16_t _height, InternalFormat _internal_format) noexcept
 	{
 		m_width = _width;
 		m_height = _height;

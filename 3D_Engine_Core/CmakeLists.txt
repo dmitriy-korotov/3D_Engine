@@ -56,6 +56,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/shaders/basic_shader.hpp
 		include/engine/render/shaders/default_shader.hpp
 
+		include/engine/render/basic_texture2D.hpp
+
 		include/engine/render/open_gl/gl_types.hpp
 
 		include/engine/render/open_gl/basic_open_gl_buffer.hpp
@@ -110,6 +112,8 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/window/glfw/glfw.cpp
 		src/engine/window/glfw/glfw_window.cpp
+
+		src/engine/render/basic_texture2D.cpp
 
 		src/engine/render/shaders/basic_shader.cpp
 		src/engine/render/shaders/default_shader.cpp
