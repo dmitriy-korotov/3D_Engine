@@ -37,6 +37,7 @@ set(ENGINE_PUBLIC_HEADERS
 
 
 		include/engine/interfaces/binded_object.hpp
+		include/engine/interfaces/usage_object.hpp
 
 
 
