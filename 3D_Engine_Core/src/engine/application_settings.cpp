@@ -47,6 +47,13 @@ namespace engine
 
 
 
+	std::optional<path> application_settings::getPathToWindowIcon() const noexcept
+	{
+		return m_path_to_window_icon;
+	}
+
+
+
 	void application_settings::setWidth(uint16_t _width) noexcept
 	{
 		m_width = _width;
@@ -71,6 +78,13 @@ namespace engine
 	void application_settings::setWindowImpl(WindowImpl _window_impl) noexcept
 	{
 		m_window_impl = _window_impl;
+	}
+
+
+
+	void application_settings::setPathToWindowIcon(path _path_to_window_icon) noexcept
+	{
+		m_path_to_window_icon = std::move(_path_to_window_icon);
 	}
 
 

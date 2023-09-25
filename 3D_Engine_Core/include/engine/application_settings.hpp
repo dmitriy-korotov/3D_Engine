@@ -5,11 +5,14 @@
 #include <engine/window/common_types.hpp>
 
 #include <string>
+#include <optional>
+#include <filesystem>
 
 
 
 namespace engine
 {
+	using std::filesystem::path;
 	using window::OpenMode;
 	using window::WindowImpl;
 
@@ -24,11 +27,13 @@ namespace engine
 		const std::string& getTitle() const noexcept;
 		WindowImpl getWindowImpl() const noexcept;
 		OpenMode getOpenMode() const noexcept;
+		std::optional<path> getPathToWindowIcon() const noexcept;
 
 		void setWidth(uint16_t _width) noexcept;
 		void setHeight(uint16_t _height) noexcept;
 		void setTitle(std::string _title) noexcept;
 		void setWindowImpl(WindowImpl _window_impl) noexcept;
+		void setPathToWindowIcon(path _path_to_window_icon) noexcept;
 
 		void enableFullScreenMode() noexcept;
 		void disableFullScreenMode() noexcept;
@@ -43,6 +48,7 @@ namespace engine
 		WindowImpl m_window_impl = WindowImpl::GLFW;
 
 		std::string m_title = "Application";
+		std::optional<path> m_path_to_window_icon;
 		
 		uint16_t m_width = 1024;
 		uint16_t m_height = 720;

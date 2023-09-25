@@ -15,6 +15,7 @@
 static constexpr std::string_view TITLE_SETTING_NAME = "title";
 static constexpr std::string_view WIDTH_SETTING_NAME = "width";
 static constexpr std::string_view HEIGHT_SETTING_NAME = "height";
+static constexpr std::string_view PATH_TO_WINDOW_ICON_NAME = "path_to_window_icon";
 
 static constexpr std::string_view WINDOW_IMPL_SETTING_NAME = "window_impl";
 static constexpr std::string_view GLFW_IMPLE = "GLFW";
@@ -84,6 +85,7 @@ namespace engine
         uint16_t width = application_settings::instance().getWidth();
         uint16_t height = application_settings::instance().getHeight();
         OpenMode open_mode = application_settings::instance().getOpenMode();
+        std::optional<path> path_to_window_icon = application_settings::instance().getPathToWindowIcon();
 
         if (m_path_to_config.has_value())
         {
@@ -111,6 +113,10 @@ namespace engine
                 {
                     open_mode = toOpenMode(settings[OPEN_MODE_SETTING_NAME]);
                 }
+                if (settings.find(PATH_TO_WINDOW_ICON_NAME) != settings.end())
+                {
+                    path_to_window_icon = std::string(settings[PATH_TO_WINDOW_ICON_NAME]);
+                }
             }
             else
             {
@@ -132,6 +138,10 @@ namespace engine
         if (m_window_ptr->create(title, width, height, open_mode).has_value())
         {
             return error::application_error::can_not_create_window;
+        }
+        if (path_to_window_icon.has_value())
+        {
+            m_window_ptr->setupIcon(path_to_window_icon.value());
         }
         return std::nullopt;
     }
