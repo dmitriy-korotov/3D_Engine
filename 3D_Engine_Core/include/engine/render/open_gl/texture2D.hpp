@@ -30,7 +30,5 @@ namespace engine::render::open_gl
 
 		GLuint m_id = 0;
 
-
-
 	};
 }
