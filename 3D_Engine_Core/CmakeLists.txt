@@ -75,6 +75,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/meshes/open_gl/mesh.hpp
 		
 		include/engine/render/materials/basic_material.hpp
+		include/engine/render/materials/open_gl/material.hpp
 
 		include/engine/render/open_gl/gl_types.hpp
 		include/engine/render/open_gl/basic_open_gl_buffer.hpp
@@ -138,7 +139,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/meshes/open_gl/mesh.cpp
 
 		src/engine/render/materials/basic_material.cpp
-
+		src/engine/render/materials/open_gl/material.cpp
+		
 		src/engine/render/shaders/basic_shader.cpp
 		src/engine/render/shaders/default_shader.cpp
 
