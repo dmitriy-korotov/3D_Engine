@@ -21,6 +21,38 @@ namespace engine::render::meshes::open_gl
 
 
 
+	mesh::mesh(mesh&& _other) noexcept
+			: basic_mesh(std::move(_other))
+			, m_indexes(std::move(_other.m_indexes))
+			, m_EBO(std::move(m_EBO))
+			, m_VBO(std::move(m_VBO))
+			, m_VAO(std::move(m_VAO))
+	{
+
+	}
+
+
+
+	mesh& mesh::operator=(mesh&& _right) noexcept
+	{
+		mesh tmp = std::move(_right);
+		swap(tmp);
+		return *this;
+	}
+
+
+
+	void mesh::swap(mesh& _other) noexcept
+	{
+		std::swap(m_vertexes, _other.m_vertexes);
+		std::swap(m_indexes, _other.m_indexes);
+		std::swap(m_VBO, _other.m_VBO);
+		std::swap(m_EBO, _other.m_EBO);
+		std::swap(m_VAO, _other.m_VAO);
+	}
+
+
+
 	const mesh::index_storage& mesh::getIndexes() const noexcept
 	{
 		return m_indexes;

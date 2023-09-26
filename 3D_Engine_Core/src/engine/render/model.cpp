@@ -55,7 +55,7 @@ namespace engine::render
 		for (size_t i = 0; i < _node->mNumMeshes; i++)
 		{
 			aiMesh* _mesh = _scene->mMeshes[_node->mMeshes[i]];
-			m_meshes.push_back(std::move(prossesMesh(_mesh, _scene)));
+			prossesMesh(_mesh, _scene);
 		}
 
 		for (size_t i = 0; i < _node->mNumChildren; i++)
@@ -66,7 +66,7 @@ namespace engine::render
 
 
 
-	mesh model::prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept
+	void model::prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept
 	{
 		std::vector<meshes::vertex> vertexes;
 		std::vector<unsigned int> indexes;
@@ -114,7 +114,7 @@ namespace engine::render
 		aiMaterial* material = _scene->mMaterials[_mesh->mMaterialIndex];
 		prossesMaterial(material, _scene);
 
-		return { std::move(vertexes), std::move(indexes) };
+		m_meshes.emplace_back(std::move(vertexes), std::move(indexes));
 	}
 
 
@@ -123,22 +123,17 @@ namespace engine::render
 	{
 		std::vector<texture2D> textures;
 
-		auto diffuse_maps = loadMaterialTextures(_material, aiTextureType_DIFFUSE);
-		textures.emplace_back(diffuse_maps.begin(), diffuse_maps.end());
-
-		auto specular_maps = loadMaterialTextures(_material, aiTextureType_SPECULAR);
-		textures.emplace_back(specular_maps.begin(), specular_maps.end());
-
-		auto normal_maps = loadMaterialTextures(_material, aiTextureType_HEIGHT);
-		textures.emplace_back(normal_maps.begin(), normal_maps.end());
-
-		auto ambiend_maps = loadMaterialTextures(_material, aiTextureType_AMBIENT);
-		textures.emplace_back(ambiend_maps.begin(), ambiend_maps.end());
+		loadMaterialTextures(_material, aiTextureType_DIFFUSE, textures);
+		loadMaterialTextures(_material, aiTextureType_SPECULAR, textures);
+		loadMaterialTextures(_material, aiTextureType_HEIGHT, textures);
+		loadMaterialTextures(_material, aiTextureType_AMBIENT, textures);
+		
+		m_material = std::make_shared<material>(std::move(textures));
 	}
 
 
 
-	std::vector<texture2D> model::loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type) noexcept
+	void model::loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, std::vector<texture2D>& _textures) noexcept
 	{
 		std::vector<texture2D> textures;
 		for (size_t i = 0; i < _material->GetTextureCount(_texture_type); i++)
@@ -150,8 +145,7 @@ namespace engine::render
 			texture2D texture;
 			texture.setData(img.getData(), img.getWidth(), img.getHeight());
 
-			textures.push_back(std::move(texture));
+			_textures.push_back(std::move(texture));
 		}
-		return textures;
 	}
 }

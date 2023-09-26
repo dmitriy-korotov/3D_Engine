@@ -36,9 +36,9 @@ namespace engine::render
 
 		void loadModel(const path& _path_to_model) noexcept;
 		void processNode(aiNode* _node, const aiScene* _scene) noexcept;
-		mesh prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept;
+		void prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept;
 		void prossesMaterial(aiMaterial* _material, const aiScene* _scene) noexcept;
-		std::vector<texture2D> loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type) noexcept;
+		void loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, std::vector<texture2D>& _textures) noexcept;
 
 	private:
 

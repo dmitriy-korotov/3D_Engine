@@ -25,6 +25,8 @@ namespace engine::render::meshes
 		using vertex_storage = std::vector<vertex>;
 
 		basic_mesh(vertex_storage _vertexes) noexcept;
+		basic_mesh(basic_mesh&& _other) noexcept;
+		basic_mesh& operator=(basic_mesh&& _right) noexcept;
 		virtual ~basic_mesh() = default;
 
 		void setVertexes(vertex_storage _vertexes) noexcept;

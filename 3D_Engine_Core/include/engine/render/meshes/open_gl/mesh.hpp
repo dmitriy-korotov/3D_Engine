@@ -23,11 +23,15 @@ namespace engine::render::meshes::open_gl
 		using index_storage = std::vector<unsigned int>;
 
 		mesh(vertex_storage _vertexes, index_storage _indexes) noexcept;
+		mesh(mesh&& _other) noexcept;
+		mesh& operator=(mesh&& _right) noexcept;
 
 		const index_storage& getIndexes() const noexcept;
 
 		void use() const noexcept override;
 		void unuse() const noexcept override;
+
+		void swap(mesh& _other) noexcept;
 
 	private:
 

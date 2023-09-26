@@ -10,6 +10,20 @@ namespace engine::render::meshes
 
 
 
+	basic_mesh::basic_mesh(basic_mesh&& _other) noexcept
+			: m_vertexes(std::move(_other.m_vertexes))
+	{ }
+
+
+
+	basic_mesh& basic_mesh::operator=(basic_mesh&& _right) noexcept
+	{
+		m_vertexes = std::move(_right.m_vertexes);
+		return *this;
+	}
+
+
+
 	void basic_mesh::setVertexes(vertex_storage _vertexes) noexcept
 	{
 		m_vertexes = std::move(_vertexes);
