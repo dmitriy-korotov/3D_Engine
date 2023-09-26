@@ -63,6 +63,7 @@ set(ENGINE_PRIVATE_HEADERS
 		
 
 
+		include/engine/render/model.hpp
 		include/engine/render/image.hpp
 		include/engine/render/basic_texture2D.hpp
 		include/engine/render/texture_parametrs.hpp
@@ -132,6 +133,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 
+		src/engine/render/model.cpp
 		src/engine/render/image.cpp
 		src/engine/render/basic_texture2D.cpp
 
