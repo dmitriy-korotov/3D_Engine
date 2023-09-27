@@ -641,3 +641,65 @@ namespace editor
 	}
 }
 */
+
+#include <editor_app.hpp>
+
+#include <engine/render/model.hpp>
+#include <engine/render/open_gl/shader_program.hpp>
+#include <engine/util/file_reader.hpp>
+
+#include <engine/render/open_gl/renderer_open_gl.hpp>
+#include <engine/render/camera.hpp>
+
+#include <memory>
+
+
+
+std::shared_ptr<engine::render::model> model;
+std::shared_ptr<engine::render::open_gl::shader_program> shader_program;
+std::shared_ptr<engine::render::camera> camera;
+
+
+
+namespace editor
+{
+	editor_app& editor_app::instance() noexcept
+	{
+		static editor_app instance;
+		return instance;
+	}
+
+
+
+	editor_app::editor_app() noexcept
+	{ }
+
+
+
+	void editor_app::init() noexcept
+	{
+		engine::render::open_gl::renderer::init_with_glfw();
+		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerVS.vs");
+		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerFS.fs");
+		shader_program = std::make_shared<engine::render::open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
+		model = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
+		camera = std::make_shared<engine::render::camera>();
+
+		engine::render::open_gl::renderer::setClearColor(0, 0, 0.7, 1.0);
+	}
+
+
+
+	void editor_app::onUpdate() noexcept
+	{
+		engine::render::open_gl::renderer::clear(engine::render::open_gl::renderer::Mask::ColorBuffer);
+
+		glm::mat4 model_mat(1.f);
+		shader_program->bind();
+		shader_program->setMatrix4f("model_view_matrix", camera->getViewMatrix() * model_mat);
+		shader_program->setMatrix4f("mvp_matrix", camera->getViewProjectionMatrix() * model_mat);
+		model->getMaterial()->use();
+
+		engine::render::open_gl::renderer::draw(model->getMeshes()[0].m_VAO);
+	}
+}

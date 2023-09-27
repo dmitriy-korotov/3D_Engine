@@ -27,9 +27,7 @@ namespace engine::render::meshes::open_gl
 			, m_EBO(std::move(m_EBO))
 			, m_VBO(std::move(m_VBO))
 			, m_VAO(std::move(m_VAO))
-	{
-
-	}
+	{ }
 
 
 

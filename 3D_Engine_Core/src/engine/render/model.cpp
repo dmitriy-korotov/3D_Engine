@@ -105,7 +105,7 @@ namespace engine::render
 		for (size_t i = 0; i < _mesh->mNumFaces; i++)
 		{
 			aiFace face = _mesh->mFaces[i];
-			for (size_t j = 0; j < face.mNumIndices; i++)
+			for (size_t j = 0; j < face.mNumIndices; j++)
 			{
 				indexes.push_back(face.mIndices[j]);
 			}

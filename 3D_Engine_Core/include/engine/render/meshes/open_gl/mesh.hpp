@@ -33,7 +33,7 @@ namespace engine::render::meshes::open_gl
 
 		void swap(mesh& _other) noexcept;
 
-	private:
+	public:
 
 		index_storage m_indexes;
 

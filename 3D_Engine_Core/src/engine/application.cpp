@@ -148,6 +148,11 @@ namespace engine
 
 
 
+    void application::init() noexcept
+    { }
+
+
+
 	application::app_error application::start() noexcept
 	{
         auto error = loadConfig();
@@ -155,6 +160,8 @@ namespace engine
         {
             return error;
         }
+
+        init();
 
         m_is_closed = false;
         while (!isClosed())

@@ -42,6 +42,7 @@ namespace engine
 		application() = default;
 		virtual ~application() = default;
 
+		virtual void init() noexcept;
 		virtual app_error loadConfig() noexcept;
 		virtual void onUpdate() noexcept;
 
