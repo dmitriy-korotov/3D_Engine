@@ -19,9 +19,11 @@ namespace engine::render::open_gl
 	vertex_array::vertex_array(vertex_array&& _other) noexcept
 			: m_id(_other.m_id)
 			, m_amount_buffers(_other.m_amount_buffers)
+			, m_indexes_count(_other.m_indexes_count)
 	{
 		_other.m_id = 0;
 		_other.m_amount_buffers = 0;
+		_other.m_indexes_count = 0;
 	}
 
 
@@ -34,9 +36,11 @@ namespace engine::render::open_gl
 
 			m_id = _right.m_id;
 			m_amount_buffers = _right.m_amount_buffers;
+			m_indexes_count = _right.m_indexes_count;
 
 			_right.m_id = 0;
 			_right.m_amount_buffers = 0;
+			_right.m_indexes_count = 0;
 		}
 		return *this;
 	}

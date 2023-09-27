@@ -71,6 +71,7 @@ namespace engine::render
 		std::vector<meshes::vertex> vertexes;
 		std::vector<unsigned int> indexes;
 
+		float max_abs = 0;
 		for (size_t i = 0; i < _mesh->mNumVertices; i++)
 		{
 			meshes::vertex vertex;
@@ -80,6 +81,19 @@ namespace engine::render
 			vector.y = _mesh->mVertices[i].y;
 			vector.z = _mesh->mVertices[i].z;
 
+			if (std::abs(vector.x) > max_abs)
+			{
+				max_abs = std::abs(vector.x);
+			}
+			if (std::abs(vector.y) > max_abs)
+			{
+				max_abs = std::abs(vector.y);
+			}
+			if (std::abs(vector.z) > max_abs)
+			{
+				max_abs = std::abs(vector.z);
+			}
+			
 			vertex.position = vector;
 
 			if (_mesh->HasNormals())
@@ -100,6 +114,11 @@ namespace engine::render
 			vertex.tex_coord = tex_coords;
 
 			vertexes.push_back(vertex);
+		}
+
+		for (size_t i = 0; i < vertexes.size(); i++)
+		{
+			vertexes[i].position /= max_abs;
 		}
 
 		for (size_t i = 0; i < _mesh->mNumFaces; i++)

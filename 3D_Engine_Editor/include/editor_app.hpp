@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <engine/application.hpp>
@@ -16,9 +15,10 @@ namespace editor
 	{
 	public:
 
-		static editor_app& instance() noexcept;
+		static editor_app& instance_t() noexcept;
 
-		editor_app() noexcept;
+		editor_app() noexcept = default;
+		~editor_app() override;
 
 		void init() noexcept override;
 		void onUpdate() noexcept override;

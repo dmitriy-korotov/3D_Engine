@@ -24,8 +24,11 @@ namespace engine::render::open_gl
 
 		enum class DrawingMode : uint8_t
 		{
+			Point,
 			Triangle,
-			Line
+			TriangleStrip,
+			Line,
+			LineStrip
 		};
 
 		static bool init_with_glfw() noexcept;

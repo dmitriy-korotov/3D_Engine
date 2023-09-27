@@ -27,8 +27,11 @@ namespace engine::render::open_gl
 	{
 		switch (_drawing_mode)
 		{
-		case renderer::DrawingMode::Triangle:	return GL_TRIANGLES;
-		case renderer::DrawingMode::Line:		return GL_LINE;
+		case renderer::DrawingMode::Point:				return GL_POINTS;
+		case renderer::DrawingMode::Triangle:			return GL_TRIANGLES;
+		case renderer::DrawingMode::TriangleStrip:		return GL_TRIANGLE_STRIP;
+		case renderer::DrawingMode::Line:				return GL_LINES;
+		case renderer::DrawingMode::LineStrip:			return GL_LINE_STRIP;
 		}
 		LOG_ERROR("[OpenGL Renderer ERROR] This drawing mode is not found (code: {0})", static_cast<uint8_t>(_drawing_mode));
 		return GL_TRIANGLES;

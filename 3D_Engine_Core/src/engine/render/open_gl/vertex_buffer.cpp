@@ -27,9 +27,12 @@ namespace engine::render::open_gl
 
 	vertex_buffer& vertex_buffer::operator=(vertex_buffer&& _right) noexcept
 	{
-		m_id = _right.m_id;
-		m_buffer_layout = std::move(_right.m_buffer_layout);
-		_right.m_id = 0;
+		if (m_id != _right.m_id)
+		{
+			m_id = _right.m_id;
+			m_buffer_layout = std::move(_right.m_buffer_layout);
+			_right.m_id = 0;
+		}
 
 		return *this;
 	}

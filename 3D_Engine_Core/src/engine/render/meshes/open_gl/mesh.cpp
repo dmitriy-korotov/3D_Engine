@@ -9,11 +9,11 @@ namespace engine::render::meshes::open_gl
 	mesh::mesh(vertex_storage _vertexes, index_storage _indexes) noexcept
 			: basic_mesh(std::move(_vertexes))
 			, m_indexes(std::move(_indexes))
-			, m_VBO(m_vertexes.data(), sizeof(vertex_storage::value_type)* m_vertexes.size(),
+			, m_VBO(m_vertexes.data(), sizeof(vertex_storage::value_type) * m_vertexes.size(),
 					{ ShaderDataType::Float3,
 					  ShaderDataType::Float3,
 					  ShaderDataType::Float2 }, vertex_buffer::Usage::Static)
-			, m_EBO(m_indexes.data(), sizeof(index_storage::value_type) * m_indexes.size(), vertex_buffer::Usage::Static)
+			, m_EBO(m_indexes.data(), m_indexes.size(), index_buffer::Usage::Static)
 	{
 		m_VAO.addVertexBuffer(m_VBO);
 		m_VAO.setIndexBuffer(m_EBO);
@@ -24,9 +24,9 @@ namespace engine::render::meshes::open_gl
 	mesh::mesh(mesh&& _other) noexcept
 			: basic_mesh(std::move(_other))
 			, m_indexes(std::move(_other.m_indexes))
-			, m_EBO(std::move(m_EBO))
-			, m_VBO(std::move(m_VBO))
-			, m_VAO(std::move(m_VAO))
+			, m_EBO(std::move(_other.m_EBO))
+			, m_VBO(std::move(_other.m_VBO))
+			, m_VAO(std::move(_other.m_VAO))
 	{ }
 
 

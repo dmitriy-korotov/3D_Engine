@@ -1,9 +1,9 @@
-/*#include <editor_app.hpp>
+#include <editor_app.hpp>
 
 #include <engine/logging/log.hpp>
 
 #include <engine/window/glfw/glfw_window.hpp>
-#include <engine/window/glfw/events_data.hpp>
+#include <engine/window/events_data.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/render/open_gl/gl_types.hpp>
@@ -38,6 +38,7 @@
 
 #include <engine/models/cube.hpp>
 
+#include <engine/render/model.hpp>
 
 #include <iostream>
 
@@ -103,7 +104,7 @@ float field_of_view = 0.f;
 float near_plane = 0.f;
 float far_plane = 0.f;
 
-static float bg_color[4] = { 1.f, 0.f, 0.f, 1.f };
+static float bg_color[4] = { 0.f, 0.f, 1.f, 1.f };
 
 static double last_mouse_pos[2] = { 0, 0 };
 
@@ -145,6 +146,7 @@ using namespace engine::window::glfw;
 using namespace engine::render::open_gl;
 using namespace engine::render;
 using namespace engine::modules::imgui;
+using namespace engine::window;
 
 //-----------------------------------------------------------------------------------------------------------------//
 
@@ -287,18 +289,26 @@ void generateQuadsTexture(unsigned char* _data, std::uint16_t _width, std::uint1
 }
 
 
-
+std::shared_ptr<engine::render::model> model_;
+std::shared_ptr<engine::render::open_gl::shader_program> shader_program_model;
+std::shared_ptr<engine::render::camera> m_camera;
 
 
 namespace editor
 {
-	editor_app::editor_app(uint16_t _width, uint16_t _height,
-		const std::string_view& _editor_name)
-		: application(_width, _height, _editor_name, false)
-		, m_camera(std::make_unique<engine::render::camera>(glm::vec3(-3.f, 0.f, 0.f)))
+	editor_app& editor_app::instance_t() noexcept
 	{
+		static editor_app instance;
+		return instance;
+	}
 
-		m_window_ptr->setupIcon("C:\\Users\\User\\MyProjects\\3D_Engine\\res\\icon\\pngwing.png");
+
+
+
+
+	void editor_app::init() noexcept
+	{
+		m_camera = std::make_shared<engine::render::camera>();
 
 		m_camera->setViewPortSize(m_window_ptr->getWidth(), m_window_ptr->getHeight());
 		field_of_view = m_camera->getFieldOfView();
@@ -310,7 +320,19 @@ namespace editor
 		{
 			std::cerr << "[Editor ERROR] Can't init OpenGL with Glfw." << std::endl; 
 		}
-		UIModule::onGlfwWindowCreate_OpenGLRenderer(m_window_ptr);
+		//UIModule::onGlfwWindowCreate_OpenGLRenderer(m_window_ptr);
+
+		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerVS.vs");
+		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerFS.fs");
+		shader_program_model = std::make_shared<engine::render::open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
+		shader_program_model->bind();
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
+		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft.blend");
+
+		engine::render::open_gl::renderer::setClearColor(0, 0, 0.f, 1.0);
+
 
 		renderer::enableDepthTest();
 
@@ -338,15 +360,6 @@ namespace editor
 		VAO_1buffer_->addVertexBuffer(*points_colors_vbo_);
 		VAO_1buffer_->setIndexBuffer(*index_buffer_);
 
-
-		m_window_ptr->setBackgroundColor(0.3f, 0.3f, 0.3f, 1.f);
-		const auto& window_bg_color = m_window_ptr->getBackgroundColor();
-		bg_color[0] = window_bg_color[0];
-		bg_color[1] = window_bg_color[1];
-		bg_color[2] = window_bg_color[2];
-		bg_color[3] = window_bg_color[3];
-
-
 		unsigned int width = 500;
 		unsigned int height = 500;
 
@@ -363,7 +376,7 @@ namespace editor
 		tex_params_storage_.texture_min_filter = Filter::LinearMipMapLinear;
 		tex_params_storage_.texture_mag_filter = Filter::Linear;
 
-		textureSmile->setData(data, width, height);
+		textureSmile->setData(reinterpret_cast<const std::byte*>(data), width, height);
 		textureSmile->setParametrs(tex_params_storage_);
 		textureSmile->bind(0);
 		
@@ -373,7 +386,7 @@ namespace editor
 		//textureMandelbrotSet->bind(0);
 
 		generateQuadsTexture(data, width, height);
-		textureQuads->setData(data, width, height);
+		textureQuads->setData(reinterpret_cast<const std::byte*>(data), width, height);
 		textureQuads->setParametrs(tex_params_storage_);
 		textureQuads->bind(1);
 
@@ -504,13 +517,31 @@ namespace editor
 		{
 			rotation_delta.x += 0.1f;
 		}
+
+		//-----------------------------------------------------------------------------------------------------------------//
+		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
+		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
+
+		glm::mat4 model_mat(1.f);
+		shader_program_model->bind();
+		shader_program_model->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * model_mat);
+		shader_program_model->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_mat);
+		model_->getMaterial()->unuse();
+		
+		for (const auto& mesh : model_->getMeshes())
+		{
+			engine::render::open_gl::renderer::draw(mesh.m_VAO, renderer::DrawingMode::LineStrip);
+		}
+		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
+
+		
 		
 		//-----------------------------------------------------------------------------------------------------------------//
 
 		auto current_mouse_pos = m_window_ptr->getCurrentCursorPosition();
 
-		auto io = ImGui::GetIO();
-		if (!io.WantCaptureMouse)
+		//auto io = ImGui::GetIO();
+		//if (!io.WantCaptureMouse)
 		{
 			if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
 			{
@@ -548,14 +579,13 @@ namespace editor
 		camera_rotation[1] = m_camera->getRotation().y;
 		camera_rotation[2] = m_camera->getRotation().z;
 
-		UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
+		//UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
 
-		UIModule::createDockSpace();
+		//UIModule::createDockSpace();
 
 
 
-		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
-		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
+		
 
 		
 		shader_program_->bind();
@@ -588,7 +618,7 @@ namespace editor
 		source_light_shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
 		renderer::draw(*VAO_1buffer_);
 
-		ImGui::Begin("BG Color");
+		/*ImGui::Begin("BG Color");
 		ImGui::ColorEdit4("Background color", bg_color);
 		ImGui::End();
 
@@ -628,7 +658,7 @@ namespace editor
 		ImGui::Separator();
 		ImGui::End();
 
-		UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer();
+		UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer();*/
 	}
 
 
@@ -636,70 +666,7 @@ namespace editor
 	editor_app::~editor_app()
 	{
 		engine::ecs::ECS::terminate();
-		UIModule::onGLfwWindowShutdown_OpenGLRenderer();
+		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
-	}
-}
-*/
-
-#include <editor_app.hpp>
-
-#include <engine/render/model.hpp>
-#include <engine/render/open_gl/shader_program.hpp>
-#include <engine/util/file_reader.hpp>
-
-#include <engine/render/open_gl/renderer_open_gl.hpp>
-#include <engine/render/camera.hpp>
-
-#include <memory>
-
-
-
-std::shared_ptr<engine::render::model> model;
-std::shared_ptr<engine::render::open_gl::shader_program> shader_program;
-std::shared_ptr<engine::render::camera> camera;
-
-
-
-namespace editor
-{
-	editor_app& editor_app::instance() noexcept
-	{
-		static editor_app instance;
-		return instance;
-	}
-
-
-
-	editor_app::editor_app() noexcept
-	{ }
-
-
-
-	void editor_app::init() noexcept
-	{
-		engine::render::open_gl::renderer::init_with_glfw();
-		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerVS.vs");
-		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerFS.fs");
-		shader_program = std::make_shared<engine::render::open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
-		model = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
-		camera = std::make_shared<engine::render::camera>();
-
-		engine::render::open_gl::renderer::setClearColor(0, 0, 0.7, 1.0);
-	}
-
-
-
-	void editor_app::onUpdate() noexcept
-	{
-		engine::render::open_gl::renderer::clear(engine::render::open_gl::renderer::Mask::ColorBuffer);
-
-		glm::mat4 model_mat(1.f);
-		shader_program->bind();
-		shader_program->setMatrix4f("model_view_matrix", camera->getViewMatrix() * model_mat);
-		shader_program->setMatrix4f("mvp_matrix", camera->getViewProjectionMatrix() * model_mat);
-		model->getMaterial()->use();
-
-		engine::render::open_gl::renderer::draw(model->getMeshes()[0].m_VAO);
 	}
 }
