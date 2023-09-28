@@ -17,6 +17,7 @@ set(BUILD_SHARED_LIBS OFF)
 set(ENGINE_PUBLIC_HEADERS
 
 		include/engine/application.hpp
+		include/engine/names_settings.hpp
 		include/engine/application_settings.hpp
 
 
