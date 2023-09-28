@@ -9,10 +9,12 @@ struct GLFWwindow;
 
 namespace engine::window::glfw
 {
-	class glfw_window : public std::enable_shared_from_this<glfw_window>,
-				   public basic_window
+	class glfw_window: public std::enable_shared_from_this<glfw_window>,
+					   public basic_window
 	{
 	public:
+
+		using glfw_window_ptr_t = GLFWwindow*;
 
 		~glfw_window() override;
 
@@ -33,11 +35,11 @@ namespace engine::window::glfw
 		void setKeyboardInputCallBack() const noexcept override;
 		void setMouseInputCallBack() const noexcept override;
 
-		window_err __createGlfwWindow(OpenMode _open_mode) noexcept;
+		window_err createWindow(OpenMode _open_mode) noexcept;
 
 	protected:
 
-		GLFWwindow* m_window_ptr = nullptr;
+		glfw_window_ptr_t m_window_ptr = nullptr;
 
 	};
 }

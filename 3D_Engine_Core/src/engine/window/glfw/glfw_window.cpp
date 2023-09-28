@@ -18,9 +18,9 @@
 
 namespace engine::window::glfw
 {
-	static window_id_t generateWindowID(GLFWwindow* _window) noexcept
+	static window_id_t generateWindowID(glfw_window::glfw_window_ptr_t _window) noexcept
 	{
-		return std::hash<GLFWwindow*>::_Do_hash(_window);
+		return std::hash<glfw_window::glfw_window_ptr_t>::_Do_hash(_window);
 	}
 
 
@@ -31,8 +31,7 @@ namespace engine::window::glfw
 	{
 		double x = 0;
 		double y = 0;
-		glfwGetCursorPos(m_window_ptr, &x, &y);
-		
+		glfw::instance().getCurrentCursorPosition(m_window_ptr, x, y);
 		return { x, y };
 	}
 
@@ -43,11 +42,7 @@ namespace engine::window::glfw
 		render::image icon(_path_to_icon);
 		if (icon.isLoaded())
 		{
-			GLFWimage glfw_icon;
-			glfw_icon.pixels = reinterpret_cast<unsigned char*>(icon.getData());
-			glfw_icon.height = icon.getHeight();
-			glfw_icon.width  = icon.getWidth();
-			glfwSetWindowIcon(m_window_ptr, 1, &glfw_icon);
+			glfw::instance().setWindowIcon(m_window_ptr, icon);
 		}
 		else
 		{
@@ -59,30 +54,25 @@ namespace engine::window::glfw
 
 	void glfw_window::onUpdate() noexcept
 	{
-		glfwPollEvents();
-		glfwMakeContextCurrent(m_window_ptr);
-		glfwSwapBuffers(m_window_ptr);
+		glfw::instance().pollEvents();
+		glfw::instance().makeContextCurrent(m_window_ptr);
+		glfw::instance().swapBuffers(m_window_ptr);
 	}
 
 
 
-	glfw_window::window_err glfw_window::__createGlfwWindow(OpenMode _open_mode) noexcept
+	glfw_window::window_err glfw_window::createWindow(OpenMode _open_mode) noexcept
 	{
 		if (_open_mode == OpenMode::FullScreen)
 		{
-			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+			monitor monitor = glfw::instance().getPrimaryMonitor();
+			video_mode mode = glfw::instance().getVideoMode(monitor);
 
-			glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-			glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-			glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-			glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-
-			m_window_ptr = glfwCreateWindow(mode->width, mode->height, m_title.c_str(), monitor, nullptr);
+			m_window_ptr = glfw::instance().createWindow(m_width, m_height, m_title, monitor);
 		}
 		else
 		{
-			m_window_ptr = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
+			m_window_ptr = glfw::instance().createWindow(m_width, m_height, m_title, nullptr);
 		}
 
 		if (!m_window_ptr)
@@ -90,14 +80,14 @@ namespace engine::window::glfw
 			LOG_CRITICAL("[Glfw Window ERROR] Can't create window '{0}'.", m_title);
 			return error::window_error::can_not_create;
 		}
-		glfwMakeContextCurrent(m_window_ptr);
+		glfw::instance().makeContextCurrent(m_window_ptr);
 		return std::nullopt;
 	}
 
 
 
 	glfw_window::window_err glfw_window::create(const std::string_view& _title, uint16_t _width,
-									  uint16_t _height, OpenMode _open_mode) noexcept
+												uint16_t _height, OpenMode _open_mode) noexcept
 	{
 		if (!glfw::instance().isInited())
 		{
@@ -108,7 +98,7 @@ namespace engine::window::glfw
 		m_width = _width;
 		m_height = _height;
 
-		auto is_glfw_window_created_ = __createGlfwWindow(_open_mode);
+		auto is_glfw_window_created_ = createWindow(_open_mode);
 		if (is_glfw_window_created_.has_value())
 		{
 			return is_glfw_window_created_;
@@ -132,8 +122,8 @@ namespace engine::window::glfw
 
 	void glfw_window::setWindowResizeCallBack() const noexcept
 	{
-		glfwSetWindowSizeCallback(m_window_ptr,
-			[](GLFWwindow* _window_ptr, int _width, int _height) -> void
+		glfw::instance().setWindowResizeCallBack(m_window_ptr,
+			[](glfw_window_ptr_t _window_ptr, int _width, int _height) -> void
 			{
 				try
 				{
@@ -156,8 +146,8 @@ namespace engine::window::glfw
 
 	void glfw_window::setWindowCloseCallBack() const noexcept
 	{
-		glfwSetWindowCloseCallback(m_window_ptr,
-			[](GLFWwindow* _window_ptr) -> void
+		glfw::instance().setWindowCloseCallBack(m_window_ptr,
+			[](glfw_window_ptr_t _window_ptr) -> void
 			{
 				try
 				{
@@ -175,8 +165,8 @@ namespace engine::window::glfw
 
 	void glfw_window::setKeyboardInputCallBack() const noexcept
 	{
-		glfwSetKeyCallback(m_window_ptr,
-			[](GLFWwindow* _window_ptr, int _key_code, int _scancode, int _action, int _mode) -> void
+		glfw::instance().setKeyCallback(m_window_ptr,
+			[](glfw_window_ptr_t _window_ptr, int _key_code, int _scancode, int _action, int _mode) -> void
 			{
 				try
 				{
@@ -209,8 +199,8 @@ namespace engine::window::glfw
 
 	void glfw_window::setMouseInputCallBack() const noexcept
 	{
-		glfwSetMouseButtonCallback(m_window_ptr,
-			[](GLFWwindow* _window_ptr, int _button, int _action, int _mods) -> void
+		glfw::instance().setMouseButtonCallback(m_window_ptr,
+			[](glfw_window_ptr_t _window_ptr, int _button, int _action, int _mods) -> void
 			{
 				try
 				{
@@ -242,7 +232,7 @@ namespace engine::window::glfw
 
 	void glfw_window::shutdown() noexcept
 	{
-		glfwDestroyWindow(m_window_ptr);
+		glfw::instance().destroyWindow(m_window_ptr);
 	}
 
 
