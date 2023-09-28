@@ -8,6 +8,14 @@
 
 namespace engine::window
 {
+	windows_collector& windows_collector::instance() noexcept
+	{
+		static windows_collector instance;
+		return instance;
+	}
+
+
+
 	void windows_collector::addNewWindow(window_id_t _window_id, window_ptr _window_ptr)
 	{
 		m_windows_storage.emplace(_window_id, std::move(_window_ptr));

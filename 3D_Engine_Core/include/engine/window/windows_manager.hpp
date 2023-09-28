@@ -6,7 +6,7 @@
 
 namespace engine::window
 {
-	class windows_manager final : public windows_collector
+	class windows_manager final: public windows_collector
 	{
 	public:
 
