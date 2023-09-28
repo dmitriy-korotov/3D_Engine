@@ -40,11 +40,13 @@ namespace engine
 	protected:
 
 		application() = default;
-		virtual ~application() = default;
+		virtual ~application();
 
-		virtual void init() noexcept;
+		virtual void onStart() noexcept;
 		virtual app_error loadConfig() noexcept;
 		virtual void onUpdate() noexcept;
+		virtual void onDrawUI() noexcept;
+		virtual void onClose() noexcept;
 
 	protected:
 

@@ -33,6 +33,7 @@ namespace engine
     using nlohmann::json;
 
 
+
     static constexpr WindowImpl toWindowImpl(const std::string_view& _str_window_impl) noexcept
     {
         if (_str_window_impl == GLFW_IMPLE)           return WindowImpl::GLFW;
@@ -148,7 +149,7 @@ namespace engine
 
 
 
-    void application::init() noexcept
+    void application::onStart() noexcept
     { }
 
 
@@ -161,14 +162,18 @@ namespace engine
             return error;
         }
 
-        init();
+        onStart();
 
         m_is_closed = false;
         while (!isClosed())
         {
             m_window_ptr->onUpdate();
             onUpdate();
+            onDrawUI();
         }
+
+        onClose();
+
         return std::nullopt;
 	}
 
@@ -190,4 +195,17 @@ namespace engine
 
 	void application::onUpdate() noexcept
 	{ }
+    void application::onDrawUI() noexcept
+    { }
+    void application::onClose() noexcept
+    { }
+    void application::onTerminate() noexcept
+    { }
+
+
+
+    application::~application()
+    {
+        onTerminate();
+    }
 }

@@ -296,7 +296,7 @@ std::shared_ptr<engine::render::camera> m_camera;
 
 namespace editor
 {
-	editor_app& editor_app::instance_t() noexcept
+	editor_app& editor_app::instance() noexcept
 	{
 		static editor_app instance;
 		return instance;
@@ -306,7 +306,7 @@ namespace editor
 
 
 
-	void editor_app::init() noexcept
+	void editor_app::onStart() noexcept
 	{
 		m_camera = std::make_shared<engine::render::camera>();
 
@@ -328,7 +328,7 @@ namespace editor
 		shader_program_model->bind();
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
-		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft.blend");
 
 		engine::render::open_gl::renderer::setClearColor(0, 0, 0.f, 1.0);
@@ -526,11 +526,11 @@ namespace editor
 		shader_program_model->bind();
 		shader_program_model->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * model_mat);
 		shader_program_model->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_mat);
-		model_->getMaterial()->unuse();
+		//model_->getMaterial()->unuse();
 		
-		for (const auto& mesh : model_->getMeshes())
+		//for (const auto& mesh : model_->getMeshes())
 		{
-			engine::render::open_gl::renderer::draw(mesh.m_VAO, renderer::DrawingMode::LineStrip);
+			//engine::render::open_gl::renderer::draw(mesh.m_VAO, renderer::DrawingMode::LineStrip);
 		}
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
 
@@ -562,14 +562,11 @@ namespace editor
 
 
 		engine::ecs::ECS::update(1.f);
-		
-
-		drawUI();
 	}
 
 
 
-	void editor_app::drawUI() noexcept
+	void editor_app::onDrawUI() noexcept
 	{ 
 		camera_position[0] = m_camera->getPosition().x;
 		camera_position[1] = m_camera->getPosition().y;
@@ -663,10 +660,17 @@ namespace editor
 
 
 
-	editor_app::~editor_app()
+	void editor_app::onClose() noexcept
+	{
+		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
+	}
+
+
+
+	editor_app::~editor_app() noexcept
 	{
 		engine::ecs::ECS::terminate();
 		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
-		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
+		LOG_INFO("'{0}' application destroed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 }
