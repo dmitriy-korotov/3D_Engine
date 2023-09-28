@@ -12,8 +12,6 @@
 
 #include <engine/window/glfw/glfw.hpp>
 
-#include <GLFW/glfw3.h>
-
 
 
 namespace engine::window::glfw
