@@ -199,13 +199,4 @@ namespace engine
     { }
     void application::onClose() noexcept
     { }
-    void application::onTerminate() noexcept
-    { }
-
-
-
-    application::~application()
-    {
-        onTerminate();
-    }
 }

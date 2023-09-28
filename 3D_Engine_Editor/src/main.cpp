@@ -10,7 +10,7 @@ int main(int _argc, char** _argv)
 	
 	if (editor::editor_app::instance().start().has_value())
 	{
-		std::cerr << "ERROR: Can't start application";
+		std::cerr << "ERROR: Can't start application" << std::endl;
 	}
 
 	return 0;
