@@ -47,8 +47,8 @@ namespace engine::render::open_gl
 
 
 	shader_program::shader_program(shader_program&& _other) noexcept
-			: m_id(_other.m_id)
-			, m_is_compiled(_other.m_is_compiled)
+			: basic_shader_program(std::move(_other))
+			, m_id(_other.m_id)
 	{
 		_other.m_id = 0;
 		_other.m_is_compiled = false;
@@ -76,13 +76,6 @@ namespace engine::render::open_gl
 	shader_program::~shader_program()
 	{
 		glDeleteProgram(m_id);
-	}
-
-
-
-	bool shader_program::isCompiled() const noexcept
-	{
-		return m_is_compiled;
 	}
 
 
