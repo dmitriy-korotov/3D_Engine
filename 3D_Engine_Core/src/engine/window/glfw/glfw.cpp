@@ -57,18 +57,21 @@ namespace engine::window::glfw
 
 
 
-	glfw::glfw()
+	void glfw::init() noexcept
 	{
-		if (!glfwInit())
+		if (!m_is_inited)
 		{
-			LOG_CRITICAL("[Glfw ERROR] Can't initializate glfw.");
-		}
-		glfwSetErrorCallback(
-			[](int _error_code, const char* _description) -> void
+			if (!glfwInit())
 			{
-				LOG_ERROR("[Glfw ERROR] (code: {0}): {1}", _error_code, _description);
-			});
-		m_is_inited = true;
+				LOG_CRITICAL("[Glfw ERROR] Can't initializate glfw.");
+			}
+			glfwSetErrorCallback(
+				[](int _error_code, const char* _description) -> void
+				{
+					LOG_ERROR("[Glfw ERROR] (code: {0}): {1}", _error_code, _description);
+				});
+			m_is_inited = true;
+		}
 	}
 
 
@@ -183,8 +186,9 @@ namespace engine::window::glfw
 
 
 
-	void glfw::terminate() const noexcept
+	void glfw::terminate() noexcept
 	{
 		glfwTerminate();
+		m_is_inited = false;
 	}
 }

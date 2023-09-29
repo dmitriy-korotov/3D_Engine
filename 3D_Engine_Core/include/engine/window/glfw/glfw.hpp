@@ -73,9 +73,10 @@ namespace engine::window::glfw
 
 		static glfw& instance() noexcept;
 
-		glfw();
+		glfw() = default;
 
-		void terminate() const noexcept;
+		void init() noexcept;
+		void terminate() noexcept;
 		void getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept;
 		void setWindowIcon(GLFWwindow* _window_ptr, render::image& _icon) const noexcept;
 		void pollEvents() const noexcept;
