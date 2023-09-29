@@ -16,17 +16,13 @@ namespace engine::render::meshes::open_gl
 {
 	using namespace render::open_gl;
 
-	class mesh final : public basic_mesh, public interfaces::usage_object  
+	class mesh final: public basic_mesh, public interfaces::usage_object  
 	{
 	public:
-
-		using index_storage = std::vector<unsigned int>;
 
 		mesh(vertex_storage _vertexes, index_storage _indexes) noexcept;
 		mesh(mesh&& _other) noexcept;
 		mesh& operator=(mesh&& _right) noexcept;
-
-		const index_storage& getIndexes() const noexcept;
 
 		void use() const noexcept override;
 		void unuse() const noexcept override;
@@ -34,8 +30,6 @@ namespace engine::render::meshes::open_gl
 		void swap(mesh& _other) noexcept;
 
 	public:
-
-		index_storage m_indexes;
 
 		vertex_buffer m_VBO;
 		index_buffer m_EBO;

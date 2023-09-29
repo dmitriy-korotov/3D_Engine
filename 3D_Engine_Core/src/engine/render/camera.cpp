@@ -51,7 +51,6 @@ namespace engine::render
 
 
 
-
 	void camera::setNearPlane(float _distance_to_near_plane) noexcept
 	{
 		m_near_plane = _distance_to_near_plane;

@@ -18,23 +18,28 @@ namespace engine::render::meshes
 		glm::vec2 tex_coord;
 	};
 
-	class basic_mesh : private util::nocopyeble
+	class basic_mesh: private util::nocopyeble
 	{
 	public:
 
 		using vertex_storage = std::vector<vertex>;
+		using index_storage = std::vector<unsigned int>;
 
-		basic_mesh(vertex_storage _vertexes) noexcept;
+		basic_mesh() = default;
+		basic_mesh(vertex_storage _vertexes, index_storage _indexes) noexcept;
 		basic_mesh(basic_mesh&& _other) noexcept;
 		basic_mesh& operator=(basic_mesh&& _right) noexcept;
 		virtual ~basic_mesh() = default;
 
 		void setVertexes(vertex_storage _vertexes) noexcept;
 		const vertex_storage& getVertexes() const noexcept;
+		void setIndexes(index_storage _indexes) noexcept;
+		const index_storage& getIndexes() const noexcept;
 
 	protected:
 
 		vertex_storage m_vertexes;
+		index_storage m_indexes;
 
 	};
 }

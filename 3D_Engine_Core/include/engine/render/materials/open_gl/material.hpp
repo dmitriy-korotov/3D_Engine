@@ -11,7 +11,7 @@ namespace engine::render::materials::open_gl
 {
 	using render::open_gl::texture2D;
 
-	class material final : public basic_material 
+	class material final: public basic_material 
 	{
 	public:
 

@@ -10,7 +10,7 @@ namespace engine::render
 {
 	using std::filesystem::path;
 
-	class image : util::nocopyeble
+	class image: private util::nocopyeble
 	{
 	public:
 
