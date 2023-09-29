@@ -24,8 +24,6 @@ namespace engine::window::glfw
 {
 	class glfw;
 
-
-
 	struct monitor
 	{
 		friend glfw;
@@ -76,8 +74,8 @@ namespace engine::window::glfw
 		static glfw& instance() noexcept;
 
 		glfw();
-		~glfw();
 
+		void terminate() const noexcept;
 		void getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept;
 		void setWindowIcon(GLFWwindow* _window_ptr, render::image& _icon) const noexcept;
 		void pollEvents() const noexcept;

@@ -183,7 +183,7 @@ namespace engine::window::glfw
 
 
 
-	glfw::~glfw()
+	void glfw::terminate() const noexcept
 	{
 		glfwTerminate();
 	}
