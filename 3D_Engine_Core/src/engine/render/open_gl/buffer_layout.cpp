@@ -96,10 +96,10 @@ namespace engine::render::open_gl
 
 
 	buffer_layout::buffer_layout(std::initializer_list<buffer_element> _buffer_elements) noexcept
-			: m_buffer_elements_(std::move(_buffer_elements))
+			: m_buffer_elements(std::move(_buffer_elements))
 	{
 		size_t offset = 0;
-		for (auto& elem_ : m_buffer_elements_)
+		for (auto& elem_ : m_buffer_elements)
 		{
 			elem_.offset = offset;
 			offset += elem_.size;
@@ -118,6 +118,6 @@ namespace engine::render::open_gl
 
 	const std::vector<buffer_element>& buffer_layout::getElements() const noexcept
 	{
-		return m_buffer_elements_;
+		return m_buffer_elements;
 	}
 }

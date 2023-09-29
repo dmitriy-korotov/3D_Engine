@@ -26,4 +26,11 @@ namespace engine::render::open_gl
 	basic_open_gl_buffer::basic_open_gl_buffer(GLuint _buffer_id) noexcept
 			: m_id(_buffer_id)
 	{ }
+
+
+
+	bool basic_open_gl_buffer::isDataSet() const noexcept
+	{
+		return m_is_data_set;
+	}
 }

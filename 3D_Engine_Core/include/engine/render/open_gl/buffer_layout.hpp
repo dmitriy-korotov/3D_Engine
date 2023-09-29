@@ -45,7 +45,7 @@ namespace engine::render::open_gl
 
 	private:
 
-		std::vector<buffer_element> m_buffer_elements_;
+		std::vector<buffer_element> m_buffer_elements;
 		size_t m_stride = 0;
 
 	};

@@ -10,7 +10,7 @@
 
 namespace engine::render::open_gl
 {
-	class basic_open_gl_buffer : private util::nocopyeble, public interfaces::binded_object
+	class basic_open_gl_buffer: private util::nocopyeble, public interfaces::binded_object
 	{
 	public:
 		
@@ -24,6 +24,8 @@ namespace engine::render::open_gl
 		basic_open_gl_buffer() = default;
 		basic_open_gl_buffer(GLuint _buffer_id) noexcept;
 
+		bool isDataSet() const noexcept;
+		
 	protected:
 
 		GLenum usageToGLenum(Usage _usage_type) noexcept;
@@ -31,6 +33,7 @@ namespace engine::render::open_gl
 	protected:
 
 		GLuint m_id = 0;
+		bool m_is_data_set = false;
 
 	};
 }
