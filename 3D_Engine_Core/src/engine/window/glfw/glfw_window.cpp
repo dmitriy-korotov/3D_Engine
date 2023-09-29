@@ -232,12 +232,16 @@ namespace engine::window::glfw
 	void glfw_window::shutdown() noexcept
 	{
 		glfw::instance().destroyWindow(m_window_ptr);
+		m_window_ptr = nullptr;
 	}
 
 
 
 	glfw_window::~glfw_window()
 	{
-		shutdown();
+		if (m_window_ptr != nullptr)
+		{
+			shutdown();
+		}
 	}
 }

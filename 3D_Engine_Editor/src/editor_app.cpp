@@ -671,6 +671,6 @@ namespace editor
 	{
 		engine::ecs::ECS::terminate();
 		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
-		LOG_INFO("'{0}' application destroed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
+		//LOG_INFO("'{0}' application destroed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 }
