@@ -40,7 +40,7 @@ namespace engine
 	protected:
 
 		application() = default;
-		virtual ~application() = default;
+		virtual ~application();
 
 		virtual void onStart() noexcept;
 		virtual app_error loadConfig() noexcept;

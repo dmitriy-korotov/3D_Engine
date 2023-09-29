@@ -184,4 +184,11 @@ namespace engine
     { }
     void application::onClose() noexcept
     { }
+
+
+
+    application::~application()
+    {
+
+    }
 }

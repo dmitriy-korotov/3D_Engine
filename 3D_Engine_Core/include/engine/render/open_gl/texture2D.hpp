@@ -10,7 +10,7 @@
 
 namespace engine::render::open_gl
 {
-	class texture2D : public basic_texture2D
+	class texture2D: public basic_texture2D
 	{
 	public:
 

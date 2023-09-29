@@ -5,7 +5,7 @@
 #include <engine/logging/log.hpp>
 
 #include <GLFW/glfw3.h>
-
+#include <iostream>
 
 
 namespace engine::window::glfw
