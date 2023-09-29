@@ -23,6 +23,7 @@ namespace engine::window
 	{
 	public:
 
+		basic_window_context() = default;
 		virtual ~basic_window_context() = default;
 
 		[[nodiscard]] virtual std::shared_ptr<basic_window> createWindow(const std::string_view& _title,
