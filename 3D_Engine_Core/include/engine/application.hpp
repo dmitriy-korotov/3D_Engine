@@ -13,6 +13,7 @@
 namespace engine::window
 {
 	class basic_window;
+	class basic_window_context;
 }
 
 
@@ -27,6 +28,7 @@ namespace engine
 		
 		using app_error = std::optional<error::application_error>;
 		using window_ptr = std::shared_ptr<window::basic_window>;
+		using window_context_ptr = std::unique_ptr<window::basic_window_context>;
 
 		static application& instance() noexcept;
 
@@ -52,6 +54,8 @@ namespace engine
 
 		bool m_is_closed = true;
 		std::optional<path> m_path_to_config;
+
+		window_context_ptr m_window_context = nullptr;
 		window_ptr m_window_ptr = nullptr;
 
 	};

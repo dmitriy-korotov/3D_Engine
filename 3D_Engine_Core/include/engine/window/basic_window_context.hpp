@@ -26,9 +26,7 @@ namespace engine::window
 		basic_window_context() = default;
 		virtual ~basic_window_context() = default;
 
-		[[nodiscard]] virtual std::shared_ptr<basic_window> createWindow(const std::string_view& _title,
-																		 uint16_t _width, uint16_t _height,
-																		 OpenMode _open_mode = OpenMode::InWindow) const noexcept = 0;
+		[[nodiscard]] virtual std::shared_ptr<basic_window> createWindow() const noexcept = 0;
 
 		virtual void init() const noexcept = 0;
 		virtual void terminate() const noexcept = 0;

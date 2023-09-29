@@ -5,7 +5,8 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/window/glfw/glfw_window.hpp>
+#include <engine/window/basic_window.hpp>
+#include <engine/window/glfw/glfw_window_context.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -113,7 +114,8 @@ namespace engine
         switch (window_impl)
         {
         case engine::window::WindowImpl::GLFW:
-            m_window_ptr = std::make_shared<window::glfw::glfw_window>();
+            m_window_context = std::make_unique<window::glfw::glfw_window_context>();
+            m_window_ptr = m_window_context->createWindow();
             break;
         case engine::window::WindowImpl::SDL:
             break;
@@ -158,6 +160,7 @@ namespace engine
         }
 
         onClose();
+        m_window_context->terminate();
 
         return std::nullopt;
 	}
