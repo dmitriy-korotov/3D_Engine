@@ -231,17 +231,17 @@ namespace engine::window::glfw
 
 	void glfw_window::shutdown() noexcept
 	{
-		glfw::instance().destroyWindow(m_window_ptr);
-		m_window_ptr = nullptr;
+		if (m_window_ptr != nullptr)
+		{
+			glfw::instance().destroyWindow(m_window_ptr);
+			m_window_ptr = nullptr;
+		}
 	}
 
 
 
 	glfw_window::~glfw_window()
 	{
-		if (m_window_ptr != nullptr)
-		{
-			shutdown();
-		}
+		shutdown();
 	}
 }

@@ -163,6 +163,7 @@ namespace engine
         }
 
         onClose();
+        m_window_ptr->shutdown();
         m_window_context->terminate();
 
         return std::nullopt;
