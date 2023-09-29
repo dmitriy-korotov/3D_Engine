@@ -38,6 +38,7 @@ namespace engine::render::open_gl
 	{
 	public:
 
+		buffer_layout() = default;
 		buffer_layout(std::initializer_list<buffer_element> _buffer_elements) noexcept;
 
 		const std::vector<buffer_element>& getElements() const noexcept;

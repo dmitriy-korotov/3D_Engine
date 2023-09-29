@@ -6,12 +6,17 @@
 
 namespace engine::render::open_gl
 {
-	vertex_buffer::vertex_buffer(const void* _data, size_t _size, buffer_layout _buffer_layout, Usage _usage_type) noexcept
-			: m_buffer_layout(std::move(_buffer_layout))
+	vertex_buffer::vertex_buffer() noexcept
 	{
 		glGenBuffers(1, &m_id);
-		bind();
-		glBufferData(GL_ARRAY_BUFFER, _size, _data, usageToGLenum(_usage_type));
+	}
+
+
+
+	vertex_buffer::vertex_buffer(const void* _data, size_t _size, buffer_layout _buffer_layout, Usage _usage_type) noexcept
+	{
+		glGenBuffers(1, &m_id);
+		setData(_data, _size, _buffer_layout, _usage_type);
 	}
 
 
@@ -33,7 +38,6 @@ namespace engine::render::open_gl
 			m_buffer_layout = std::move(_right.m_buffer_layout);
 			_right.m_id = 0;
 		}
-
 		return *this;
 	}
 
@@ -42,6 +46,19 @@ namespace engine::render::open_gl
 	vertex_buffer::~vertex_buffer()
 	{
 		glDeleteBuffers(1, &m_id);
+	}
+
+
+
+	void vertex_buffer::setData(const void* _data, size_t _size, const buffer_layout& _buffer_layout, Usage _usage_type) noexcept
+	{
+		if (!m_is_data_set)
+		{
+			m_buffer_layout = _buffer_layout;
+			bind();
+			glBufferData(GL_ARRAY_BUFFER, _size, _data, usageToGLenum(_usage_type));
+			m_is_data_set = true;
+		}
 	}
 
 
