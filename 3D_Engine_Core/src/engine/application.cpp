@@ -67,12 +67,14 @@ namespace engine
 
     application::app_error application::loadConfig() noexcept
     {
-        WindowImpl window_impl = application_settings::instance().getWindowImpl();
-        std::string title = application_settings::instance().getTitle();
-        uint16_t width = application_settings::instance().getWidth();
-        uint16_t height = application_settings::instance().getHeight();
-        OpenMode open_mode = application_settings::instance().getOpenMode();
-        std::optional<path> path_to_window_icon = application_settings::instance().getPathToWindowIcon();
+        WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
+        std::string title =                         application_settings::instance().getTitle();
+        uint16_t width =                            application_settings::instance().getWidth();
+        uint16_t height =                           application_settings::instance().getHeight();
+        OpenMode open_mode =                        application_settings::instance().getOpenMode();
+        std::optional<path> path_to_window_icon =   application_settings::instance().getPathToWindowIcon();
+
+
 
         if (m_path_to_config.has_value())
         {
@@ -110,11 +112,11 @@ namespace engine
                 LOG_ERROR("[Application ERROR] Can't open config file: {0}", m_path_to_config->generic_string());
             }
         }
-
+        
         switch (window_impl)
         {
         case engine::window::WindowImpl::GLFW:
-            m_window_context = std::make_unique<window::glfw::glfw_window_context>();
+            m_window_context = std::make_shared<window::glfw::glfw_window_context>();
             m_window_ptr = m_window_context->createWindow();
             break;
         case engine::window::WindowImpl::SDL:
@@ -149,6 +151,7 @@ namespace engine
             return error;
         }
 
+        m_window_context->init();
         onStart();
 
         m_is_closed = false;
@@ -187,11 +190,4 @@ namespace engine
     { }
     void application::onClose() noexcept
     { }
-
-
-
-    application::~application()
-    {
-
-    }
 }

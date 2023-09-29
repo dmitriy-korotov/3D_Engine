@@ -28,7 +28,7 @@ namespace engine
 		
 		using app_error = std::optional<error::application_error>;
 		using window_ptr = std::shared_ptr<window::basic_window>;
-		using window_context_ptr = std::unique_ptr<window::basic_window_context>;
+		using window_context_ptr = std::shared_ptr<window::basic_window_context>;
 
 		static application& instance() noexcept;
 
@@ -42,7 +42,7 @@ namespace engine
 	protected:
 
 		application() = default;
-		virtual ~application();
+		virtual ~application() = default;
 
 		virtual void onStart() noexcept;
 		virtual app_error loadConfig() noexcept;

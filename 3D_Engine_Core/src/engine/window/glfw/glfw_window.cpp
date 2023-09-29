@@ -87,6 +87,7 @@ namespace engine::window::glfw
 	glfw_window::window_err glfw_window::create(const std::string_view& _title, uint16_t _width,
 												uint16_t _height, OpenMode _open_mode) noexcept
 	{
+		glfw::instance().init();
 		if (!glfw::instance().isInited())
 		{
 			return error::window_error::can_not_init_glfw;
