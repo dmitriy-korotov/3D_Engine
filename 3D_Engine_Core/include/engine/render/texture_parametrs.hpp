@@ -34,9 +34,9 @@ namespace engine::render
 
 	struct TextureParamsStorage
 	{
-		Wrap texture_wrap_s;
-		Wrap texture_wrap_t;
-		Filter texture_min_filter;
-		Filter texture_mag_filter;
+		Wrap texture_wrap_s = Wrap::Repeat;
+		Wrap texture_wrap_t = Wrap::Repeat;
+		Filter texture_min_filter = Filter::Linear;
+		Filter texture_mag_filter = Filter::Linear;
 	};
 }

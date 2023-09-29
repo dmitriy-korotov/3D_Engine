@@ -98,6 +98,8 @@ namespace engine::render::open_gl
 			m_id = _right.m_id;
 			m_width = _right.m_width;
 			m_height = _right.m_height;
+			m_texture_parametrs = _right.m_texture_parametrs;
+			m_internal_format = _right.m_internal_format;
 
 			_right.m_height = 0;
 			_right.m_width = 0;
@@ -112,9 +114,10 @@ namespace engine::render::open_gl
 	{
 		m_width = _width;
 		m_height = _height;
+		m_internal_format = _internal_format;
 
 		GLsizei mip_map_levels = static_cast<GLsizei>(std::log2(std::max(_width, _height))) + 1;
-		glTextureStorage2D(m_id, mip_map_levels, internal_format_to_GLenum(_internal_format), m_width, m_height);
+		glTextureStorage2D(m_id, mip_map_levels, internal_format_to_GLenum(m_internal_format), m_width, m_height);
 		glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
 		glGenerateTextureMipmap(m_id);
 	}
@@ -123,10 +126,12 @@ namespace engine::render::open_gl
 
 	void texture2D::setParametrs(const TextureParamsStorage& _texture_params) noexcept
 	{
-		glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, wrap_type_to_GLenum(_texture_params.texture_wrap_s));
-		glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, wrap_type_to_GLenum(_texture_params.texture_wrap_t));
-		glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, filter_type_to_GLenum(_texture_params.texture_min_filter));
-		glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, filter_type_to_GLenum(_texture_params.texture_mag_filter));
+		m_texture_parametrs = _texture_params;
+
+		glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, wrap_type_to_GLenum(m_texture_parametrs.texture_wrap_s));
+		glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, wrap_type_to_GLenum(m_texture_parametrs.texture_wrap_t));
+		glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, filter_type_to_GLenum(m_texture_parametrs.texture_min_filter));
+		glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, filter_type_to_GLenum(m_texture_parametrs.texture_mag_filter));
 	}
 
 
