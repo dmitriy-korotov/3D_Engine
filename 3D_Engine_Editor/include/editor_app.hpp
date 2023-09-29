@@ -13,7 +13,6 @@ namespace editor
 		static editor_app& instance() noexcept;
 
 		editor_app() noexcept = default;
-		~editor_app() override;
 
 	private:
 

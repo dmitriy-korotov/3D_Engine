@@ -663,14 +663,7 @@ namespace editor
 	void editor_app::onClose() noexcept
 	{
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
-	}
-
-
-
-	editor_app::~editor_app() noexcept
-	{
 		engine::ecs::ECS::terminate();
 		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
-		//LOG_INFO("'{0}' application destroed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
 }
