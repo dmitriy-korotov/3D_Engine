@@ -2,9 +2,7 @@
 
 #include <engine/util/noconstructible.hpp>
 
-#include <string>
-#include <vector>
-#include <stdint.h>
+#include <engine/render/basic_renderer.hpp>
 
 
 
@@ -12,42 +10,30 @@ namespace engine::render::open_gl
 {
 	class vertex_array;
 
-	class renderer: private util::noconstructible
+	class renderer: public basic_renderer
 	{
 	public:
 
-		enum class Mask : uint8_t
-		{
-			ColorBuffer,
-			DepthBuffer
-		};
+		static renderer& instance() noexcept;
 
-		enum class DrawingMode : uint8_t
-		{
-			Point,
-			Triangle,
-			TriangleStrip,
-			Line,
-			LineStrip
-		};
+		bool init(window::WindowImpl _window_impl) noexcept override;
+		void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
+				  const basic_material& _material, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept override;
+		void enableDepthTest() noexcept override;
+		void disableDepthTest() noexcept override;
+		void clear(Mask _mask_type) noexcept override;
+		void clear(std::vector<Mask> _mask_types) noexcept override;
+		void setClearColor(float _red, float _green, float _blue, float _alpha) noexcept override;
+		void setViewport(uint16_t _width, uint16_t _height,
+								uint16_t _left_offset = 0, uint16_t _bottom_offset = 0) noexcept override;
 
-		static bool init_with_glfw() noexcept;
-		static void draw(const vertex_array& _vertex_array_buffer, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
-		static void enableDepthTest() noexcept;
-		static void disableDepthTest() noexcept;
-		static void clear(Mask _mask_type) noexcept;
-		static void clear(std::vector<Mask> _mask_types) noexcept;
-		static void setClearColor(float _red, float _green, float _blue, float _alpha) noexcept;
-		static void setViewport(uint16_t _width, uint16_t _height,
-								uint16_t _left_offset = 0, uint16_t _bottom_offset = 0) noexcept;
-
-		static std::string getVendor() noexcept;
-		static std::string getRenderer() noexcept;
-		static std::string getVersion() noexcept;
+		std::string getVendor() noexcept;
+		std::string getRenderer() noexcept;
+		std::string getVersion() noexcept;
 
 	private:
 
-		static void setupDebugContext() noexcept;
+		void setupDebugContext() noexcept;
 
 	};
 }

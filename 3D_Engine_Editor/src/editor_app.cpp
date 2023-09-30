@@ -316,7 +316,7 @@ namespace editor
 		far_plane = m_camera->getFarPlane();
 
 		setEventListeners();
-		if (!renderer::init_with_glfw())
+		if (!renderer::instance().init(WindowImpl::GLFW))
 		{
 			std::cerr << "[Editor ERROR] Can't init OpenGL with Glfw." << std::endl; 
 		}
@@ -328,13 +328,13 @@ namespace editor
 		shader_program_model->bind();
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
-		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
+		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft.blend");
 
-		engine::render::open_gl::renderer::setClearColor(0, 0, 0.f, 1.0);
+		engine::render::open_gl::renderer::instance().setClearColor(0, 0, 0.f, 1.0);
 
 
-		renderer::enableDepthTest();
+		renderer::instance().enableDepthTest();
 
 		engine::util::file_reader vertex_shader_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\VertexShader.glsl");
 		std::string& vertex_shader_surces = vertex_shader_reader.getData();
@@ -409,7 +409,7 @@ namespace editor
 		m_window_ptr->addEventListener<Events::Resize>(
 			[this](const ResizeEventData& _size) -> void
 			{
-				renderer::setViewport(_size.width, _size.height);
+				renderer::instance().setViewport(_size.width, _size.height);
 				m_camera->setViewPortSize(_size.width, _size.height);
 			});
 
@@ -519,18 +519,17 @@ namespace editor
 		}
 
 		//-----------------------------------------------------------------------------------------------------------------//
-		renderer::setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
-		renderer::clear({ renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer });
+		renderer::instance().setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
+		renderer::instance().clear({renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer});
 
 		glm::mat4 model_mat(1.f);
 		shader_program_model->bind();
 		shader_program_model->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * model_mat);
 		shader_program_model->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_mat);
-		//model_->getMaterial()->unuse();
 		
-		//for (const auto& mesh : model_->getMeshes())
+		for (const auto& mesh : model_->getMeshes())
 		{
-			//engine::render::open_gl::renderer::draw(mesh.m_VAO, renderer::DrawingMode::LineStrip);
+			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(), renderer::DrawingMode::LineStrip);
 		}
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
 
@@ -604,7 +603,7 @@ namespace editor
 			shader_program_->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * translate_matrix);
 			shader_program_->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * translate_matrix);
 			shader_program_->setMatrix3f("normal_matrix", glm::mat3(glm::transpose(glm::inverse(translate_matrix))));
-			renderer::draw(*VAO_1buffer_);
+			//renderer::instance().draw(*VAO_1buffer_);
 		}
 
 		glm::mat4 model_matrix_2(1);
@@ -613,7 +612,7 @@ namespace editor
 		source_light_shader_program_->bind();
 		source_light_shader_program_->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_matrix_2);
 		source_light_shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
-		renderer::draw(*VAO_1buffer_);
+		//renderer::instance().draw(*VAO_1buffer_);
 
 		/*ImGui::Begin("BG Color");
 		ImGui::ColorEdit4("Background color", bg_color);

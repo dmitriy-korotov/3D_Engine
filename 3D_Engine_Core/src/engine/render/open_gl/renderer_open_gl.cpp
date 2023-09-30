@@ -1,7 +1,10 @@
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 
-#include <engine/render/open_gl/vertex_array.hpp>
 #include <engine/logging/log.hpp>
+
+#include <engine/render/basic_shader_program.hpp>
+#include <engine/render/meshes/basic_mesh.hpp>
+#include <engine/render/materials/basic_material.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -88,16 +91,37 @@ namespace engine::render::open_gl
 
 
 
-	bool renderer::init_with_glfw() noexcept
+	renderer& renderer::instance() noexcept
 	{
-		if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+		static renderer instance;
+		return instance;
+	}
+
+
+
+	bool renderer::init(window::WindowImpl _window_impl) noexcept
+	{
+		switch (_window_impl)
 		{
-			LOG_CRITICAL("[OpenGL Renderer ERROR] Can't load glad.");
-			return false;
+		case engine::window::WindowImpl::GLFW:
+			if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+			{
+				LOG_CRITICAL("[OpenGL Renderer ERROR] Can't load glad with Glfw.");
+				return false;
+			}
+			break;
+		case engine::window::WindowImpl::SDL:
+			break;
+		case engine::window::WindowImpl::SFML:
+			break;
 		}
+
 #ifndef NDEBUG
 		setupDebugContext();
 #endif
+
+		m_is_inited = true;
+
 		return true;
 	}
 
@@ -145,10 +169,13 @@ namespace engine::render::open_gl
 
 
 
-	void renderer::draw(const vertex_array& _vertex_array_buffer, DrawingMode _drawing_mode) noexcept
+	void renderer::draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
+						const basic_material& _material, DrawingMode _drawing_mode) noexcept
 	{
-		_vertex_array_buffer.bind();
-		glDrawElements(drawing_mode_to_GLenum(_drawing_mode), _vertex_array_buffer.getIndexesCount(), GL_UNSIGNED_INT, nullptr);
+		_shader_program.bind();
+		_material.use();
+		
+		//glDrawElements(drawing_mode_to_GLenum(_drawing_mode), _vertex_array_buffer.getIndexesCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
 
