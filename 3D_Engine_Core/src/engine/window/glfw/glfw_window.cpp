@@ -35,6 +35,13 @@ namespace engine::window::glfw
 
 
 
+	glfw_window::glfw_window_ptr_t const glfw_window::getRawGlfwPtr() noexcept
+	{
+		return m_window_ptr;
+	}
+
+
+
 	void glfw_window::setupIcon(const path& _path_to_icon) const noexcept
 	{
 		render::image icon(_path_to_icon);
@@ -90,7 +97,7 @@ namespace engine::window::glfw
 		glfw::instance().init();
 		if (!glfw::instance().isInited())
 		{
-			return error::window_error::can_not_init_glfw;
+			return error::window_error::can_not_init_GLFW;
 		}
 
 		m_title = _title;

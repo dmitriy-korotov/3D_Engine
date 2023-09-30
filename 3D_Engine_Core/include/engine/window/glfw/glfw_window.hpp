@@ -28,6 +28,8 @@ namespace engine::window::glfw
 
 		void setupIcon(const path& _path_to_icon) const noexcept override;
 
+		glfw_window_ptr_t const getRawGlfwPtr() noexcept;
+
 	private:
 
 		void setWindowResizeCallBack() const noexcept override;
