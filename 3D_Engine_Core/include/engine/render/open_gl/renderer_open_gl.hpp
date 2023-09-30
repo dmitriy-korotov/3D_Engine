@@ -12,7 +12,7 @@ namespace engine::render::open_gl
 {
 	class vertex_array;
 
-	class renderer : private util::noconstructible
+	class renderer: private util::noconstructible
 	{
 	public:
 

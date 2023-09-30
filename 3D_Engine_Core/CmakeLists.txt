@@ -71,6 +71,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/basic_texture2D.hpp
 		include/engine/render/texture_parametrs.hpp
 		include/engine/render/basic_shader_program.hpp
+		include/engine/render/basic_renderer.hpp
 
 		include/engine/render/shaders/shader_constructor.hpp
 		include/engine/render/shaders/basic_shader.hpp
@@ -143,6 +144,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/image.cpp
 		src/engine/render/basic_texture2D.cpp
 		src/engine/render/basic_shader_program.cpp
+		src/engine/render/basic_renderer.cpp
 
 		src/engine/render/meshes/basic_mesh.cpp
 		src/engine/render/meshes/open_gl/mesh.cpp
