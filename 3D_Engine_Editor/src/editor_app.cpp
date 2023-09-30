@@ -329,8 +329,8 @@ namespace editor
 
 		UIModule::instance().onWindowCreate(m_window_ptr);
 
-		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerVS.vs");
-		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerFS.fs");
+		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultVS.vs");
+		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
 		shader_program_model = std::make_shared<engine::render::open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
 		shader_program_model->bind();
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
