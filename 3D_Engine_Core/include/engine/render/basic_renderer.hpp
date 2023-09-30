@@ -3,7 +3,7 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/window/common_types.hpp>
-#include <engine/render/render_common_types.hpp>
+#include <engine/render/common_types.hpp>
 
 #include <string>
 #include <vector>
