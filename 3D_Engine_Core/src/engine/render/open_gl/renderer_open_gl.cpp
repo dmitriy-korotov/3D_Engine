@@ -13,12 +13,12 @@
 
 namespace engine::render::open_gl
 {
-	GLbitfield mask_enum_to_GLbitfield(renderer::Mask _mask_type) noexcept
+	GLbitfield mask_enum_to_GLbitfield(Mask _mask_type) noexcept
 	{
 		switch (_mask_type)
 		{
-		case renderer::Mask::ColorBuffer:			return GL_COLOR_BUFFER_BIT;
-		case renderer::Mask::DepthBuffer:			return GL_DEPTH_BUFFER_BIT;
+		case Mask::ColorBuffer:			return GL_COLOR_BUFFER_BIT;
+		case Mask::DepthBuffer:			return GL_DEPTH_BUFFER_BIT;
 		}
 		LOG_ERROR("[OpenGL Renderer ERROR] This mask is not found (code: {0})", static_cast<uint8_t>(_mask_type));
 		return GL_COLOR_BUFFER_BIT;
@@ -26,15 +26,15 @@ namespace engine::render::open_gl
 
 
 
-	GLenum drawing_mode_to_GLenum(renderer::DrawingMode _drawing_mode) noexcept
+	GLenum drawing_mode_to_GLenum(DrawingMode _drawing_mode) noexcept
 	{
 		switch (_drawing_mode)
 		{
-		case renderer::DrawingMode::Point:				return GL_POINTS;
-		case renderer::DrawingMode::Triangle:			return GL_TRIANGLES;
-		case renderer::DrawingMode::TriangleStrip:		return GL_TRIANGLE_STRIP;
-		case renderer::DrawingMode::Line:				return GL_LINES;
-		case renderer::DrawingMode::LineStrip:			return GL_LINE_STRIP;
+		case DrawingMode::Point:				return GL_POINTS;
+		case DrawingMode::Triangle:				return GL_TRIANGLES;
+		case DrawingMode::TriangleStrip:		return GL_TRIANGLE_STRIP;
+		case DrawingMode::Line:					return GL_LINES;
+		case DrawingMode::LineStrip:			return GL_LINE_STRIP;
 		}
 		LOG_ERROR("[OpenGL Renderer ERROR] This drawing mode is not found (code: {0})", static_cast<uint8_t>(_drawing_mode));
 		return GL_TRIANGLES;
