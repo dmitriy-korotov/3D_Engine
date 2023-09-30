@@ -20,7 +20,7 @@ namespace engine::render
 	using materials::open_gl::material;
 	using render::open_gl::texture2D;
 
-	class model : private util::nocopyeble
+	class model: private util::nocopyeble
 	{
 	public:
 

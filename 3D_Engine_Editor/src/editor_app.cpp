@@ -320,7 +320,10 @@ namespace editor
 		{
 			std::cerr << "[Editor ERROR] Can't init OpenGL with Glfw." << std::endl; 
 		}
-		//UIModule::onGlfwWindowCreate_OpenGLRenderer(m_window_ptr);
+		UIModule::instance().setRendererImpl(engine::modules::RendererImpl::OpenGL);
+		UIModule::instance().setWindowImpl(engine::modules::WindowImpl::GLFW);
+
+		UIModule::instance().onWindowCreate(m_window_ptr);
 
 		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerVS.vs");
 		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DeerFS.fs");
@@ -328,8 +331,12 @@ namespace editor
 		shader_program_model->bind();
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
-		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft.blend");
+		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\CubeForTrash\\trash_container.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Steve\\Model\\Steve\\Steve.obj");
+
 
 		engine::render::open_gl::renderer::instance().setClearColor(0, 0, 0.f, 1.0);
 
@@ -529,7 +536,7 @@ namespace editor
 		
 		for (const auto& mesh : model_->getMeshes())
 		{
-			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(), DrawingMode::LineStrip);
+			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(), DrawingMode::Triangle);
 		}
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
 
@@ -539,8 +546,8 @@ namespace editor
 
 		auto current_mouse_pos = m_window_ptr->getCurrentCursorPosition();
 
-		//auto io = ImGui::GetIO();
-		//if (!io.WantCaptureMouse)
+		auto io = ImGui::GetIO();
+		if (!io.WantCaptureMouse)
 		{
 			if (engine::input::mouse::isButtonPressed(engine::input::MouseButton::MOUSE_BUTTON_LEFT))
 			{
@@ -575,9 +582,9 @@ namespace editor
 		camera_rotation[1] = m_camera->getRotation().y;
 		camera_rotation[2] = m_camera->getRotation().z;
 
-		//UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer();
+		UIModule::instance().onUIDrawBegin();
 
-		//UIModule::createDockSpace();
+		UIModule::instance().createDockSpace();
 
 
 
@@ -614,7 +621,7 @@ namespace editor
 		source_light_shader_program_->setVector3f("source_light_color", glm::vec3(source_light_color[0], source_light_color[1], source_light_color[2]));
 		//renderer::instance().draw(*VAO_1buffer_);
 
-		/*ImGui::Begin("BG Color");
+		ImGui::Begin("BG Color");
 		ImGui::ColorEdit4("Background color", bg_color);
 		ImGui::End();
 
@@ -654,7 +661,7 @@ namespace editor
 		ImGui::Separator();
 		ImGui::End();
 
-		UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer();*/
+		UIModule::instance().onUIDrawEnd();
 	}
 
 
@@ -663,6 +670,6 @@ namespace editor
 	{
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 		engine::ecs::ECS::terminate();
-		//UIModule::onGLfwWindowShutdown_OpenGLRenderer();
+		UIModule::instance().onWindowShutdown();
 	}
 }

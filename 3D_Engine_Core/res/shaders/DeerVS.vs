@@ -7,6 +7,9 @@ layout(location = 2) in vec2 tex_coord;
 uniform mat4 model_view_matrix;
 uniform mat4 mvp_matrix;
 
+out vec2 fTexCoord;
+
 void main() {
+	fTexCoord = tex_coord;
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
 }

@@ -1,0 +1,22 @@
+REMEMBER BLENDER USERS ONLY
+
+How To Make A Custom Blury Skin.
+1.Click on on import.
+2.Then click WaveFront(obj)
+3.Ok now click on Object Mode and make it Edit Mode.
+4.Once you have done that press A then it selects everything.
+5.Now just drag your skin to your model.
+6.YAAAAAAAAAAAAAAAAAY A JOB WELL DONE
+
+How To Make A Custom Skin Without Being Blury.
+1.Right click on your skin then click on edit or open it in paint or photo shop.
+2.You must resize you skin and make it a big picture.
+3.Now start blender.
+4.Click on on import.
+5.Then click WaveFront(obj)
+6.Ok now click on Object Mode and make it Edit Mode.
+7.Once you have done that press A then it selects everything.
+8.Now just drag your big skin to your model.
+9.YAAAAAAAAAAAAAAAAAY A JOB WELL DONE
+
+Thanks For Reading.
