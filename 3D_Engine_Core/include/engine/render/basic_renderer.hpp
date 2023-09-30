@@ -3,6 +3,7 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/window/common_types.hpp>
+#include <engine/render/render_common_types.hpp>
 
 #include <string>
 #include <vector>
@@ -30,21 +31,6 @@ namespace engine::render
 	class basic_renderer: private util::nocopyeble
 	{
 	public:
-
-		enum class Mask : uint8_t
-		{
-			ColorBuffer,
-			DepthBuffer
-		};
-
-		enum class DrawingMode : uint8_t
-		{
-			Point,
-			Triangle,
-			TriangleStrip,
-			Line,
-			LineStrip
-		};
 
 		basic_renderer() = default;
 		virtual ~basic_renderer() = default;
