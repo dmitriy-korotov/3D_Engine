@@ -520,7 +520,7 @@ namespace editor
 
 		//-----------------------------------------------------------------------------------------------------------------//
 		renderer::instance().setClearColor(bg_color[0], bg_color[1], bg_color[2], bg_color[3]);
-		renderer::instance().clear({renderer::Mask::ColorBuffer, renderer::Mask::DepthBuffer});
+		renderer::instance().clear({Mask::ColorBuffer, Mask::DepthBuffer});
 
 		glm::mat4 model_mat(1.f);
 		shader_program_model->bind();
@@ -529,7 +529,7 @@ namespace editor
 		
 		for (const auto& mesh : model_->getMeshes())
 		{
-			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(), renderer::DrawingMode::LineStrip);
+			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(), DrawingMode::LineStrip);
 		}
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
 

@@ -1,36 +1,27 @@
 #pragma once
 
-#include <engine/util/noconstructible.hpp>
-
-#include <memory>
+#include <engine/modules/basic_UIModule.hpp>
 
 
-
-namespace engine::window
-{
-	class glfw_window;
-}
 
 namespace engine::modules::imgui
 {
-	class UIModule: private util::noconstructible
+	class UIModule: public basic_UIModule
 	{
 	public:
 
-		using window_ptr = std::shared_ptr<window::basic_window>;
-
 		static UIModule& instance() noexcept;
 
-		static void onGlfwWindowCreate_OpenGLRenderer(const window_ptr& _window_ptr) noexcept;
-		static void onGLfwWindowShutdown_OpenGLRenderer() noexcept;
-		static void onUIDrawBegin_GlfwWindow_OpenGLRenderer() noexcept;
-		static void onUIDrawEnd_GlfwWindow_OpenGLRenderer() noexcept;
+		void onWindowCreate(const window_ptr& _window_ptr) const noexcept override;
+		void onWindowShutdown() const noexcept override;
+		void onUIDrawBegin() const noexcept override;
+		void onUIDrawEnd() const noexcept override;
 
-		static void createDockSpace();
+		void createDockSpace() const noexcept override;
 
 	private:
 
-		static void setupImGuiConfig() noexcept;
+		void setupImGuiConfig() const noexcept;
 
 	};
 }

@@ -1,7 +1,8 @@
 #include <engine/modules/imgui/UIModule.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/window/glfw/glfw_window.hpp>
-#include <engine/window/windows_manager.hpp>
 
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
@@ -13,7 +14,15 @@
 
 namespace engine::modules::imgui
 {
-    void UIModule::setupImGuiConfig() noexcept
+    UIModule& UIModule::instance() noexcept
+    {
+        static UIModule instance;
+        return instance;
+    }
+
+
+
+    void UIModule::setupImGuiConfig() const noexcept
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -25,49 +34,130 @@ namespace engine::modules::imgui
 
 
 
-	void UIModule::onGlfwWindowCreate_OpenGLRenderer(const window_ptr& _window_ptr) noexcept
+	void UIModule::onWindowCreate(const window_ptr& _window_ptr) const noexcept
 	{
         setupImGuiConfig();
-		ImGui_ImplOpenGL3_Init();
-		//ImGui_ImplGlfw_InitForOpenGL(window::glfw::windows_manager::getRawPtrFromWindow(_window_ptr), true);
+
+        switch (m_render_impl)
+        {
+        case engine::render::RendererImpl::OpenGL:
+            ImGui_ImplOpenGL3_Init();
+            break;
+        case engine::render::RendererImpl::Vulkan:
+            break;
+        case engine::render::RendererImpl::DirectX:
+            break;
+        case engine::render::RendererImpl::Direct3D:
+            break;
+        }
+
+        switch (m_window_impl)
+        {
+        case engine::window::WindowImpl::GLFW:
+            if (m_render_impl == RendererImpl::OpenGL)
+            {
+                window::glfw::glfw_window* glfw_window = dynamic_cast<window::glfw::glfw_window*>(_window_ptr.get());
+                if (glfw_window != nullptr)
+                {
+                    ImGui_ImplGlfw_InitForOpenGL(glfw_window->getRawGlfwPtr(), true);
+                }
+                else
+                {
+                    LOG_ERROR("[ImGui UIModule ERROR] Can't cast basic_window to glfw window.");
+                }
+            }
+            break;
+        case engine::window::WindowImpl::SDL:
+            break;
+        case engine::window::WindowImpl::SFML:
+            break;
+        }
 	}
 
 
 
-	void UIModule::onGLfwWindowShutdown_OpenGLRenderer() noexcept
+	void UIModule::onWindowShutdown() const noexcept
 	{
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
+        switch (m_render_impl)
+        {
+        case engine::render::RendererImpl::OpenGL:
+            ImGui_ImplOpenGL3_Shutdown();
+            break;
+        case engine::render::RendererImpl::Vulkan:
+            break;
+        case engine::render::RendererImpl::DirectX:
+            break;
+        case engine::render::RendererImpl::Direct3D:
+            break;
+        }
+
+        switch (m_window_impl)
+        {
+        case engine::window::WindowImpl::GLFW:
+            ImGui_ImplGlfw_Shutdown();
+            break;
+        case engine::window::WindowImpl::SDL:
+            break;
+        case engine::window::WindowImpl::SFML:
+            break;
+        }
+
 		ImGui::DestroyContext();
 	}
 
 
 
-	void UIModule::onUIDrawBegin_GlfwWindow_OpenGLRenderer() noexcept
+	void UIModule::onUIDrawBegin() const noexcept
 	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+        switch (m_render_impl)
+        {
+        case engine::render::RendererImpl::OpenGL:
+            ImGui_ImplOpenGL3_NewFrame();
+            break;
+        case engine::render::RendererImpl::Vulkan:
+            break;
+        case engine::render::RendererImpl::DirectX:
+            break;
+        case engine::render::RendererImpl::Direct3D:
+            break;
+        }
+
+        switch (m_window_impl)
+        {
+        case engine::window::WindowImpl::GLFW:
+            ImGui_ImplGlfw_NewFrame();
+            break;
+        case engine::window::WindowImpl::SDL:
+            break;
+        case engine::window::WindowImpl::SFML:
+            break;
+        }
+		
+        ImGui::NewFrame();
 	}
 
 
 
-	void UIModule::onUIDrawEnd_GlfwWindow_OpenGLRenderer() noexcept
+	void UIModule::onUIDrawEnd() const noexcept
 	{
 		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-			GLFWwindow* backup_current_context = glfwGetCurrentContext();
-			ImGui::UpdatePlatformWindows();
-			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(backup_current_context);
-		}
+		
+        if (m_render_impl == RendererImpl::OpenGL && m_window_impl == WindowImpl::GLFW)
+        {
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                GLFWwindow* backup_current_context = glfwGetCurrentContext();
+                ImGui::UpdatePlatformWindows();
+                ImGui::RenderPlatformWindowsDefault();
+                glfwMakeContextCurrent(backup_current_context);
+            }
+        }
 	}
 
 
 
-    void UIModule::createDockSpace()
+    void UIModule::createDockSpace() const noexcept
     {
         static bool is_open = false;
         static bool opt_fullscreen = true;

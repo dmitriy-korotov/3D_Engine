@@ -5,6 +5,8 @@
 #include <engine/window/common_types.hpp>
 #include <engine/render/common_types.hpp>
 
+#include <memory>
+
 
 
 namespace engine::window
@@ -19,6 +21,8 @@ namespace engine::modules
 
 	class basic_UIModule: private util::nocopyeble
 	{
+	public:
+
 		using window_ptr = std::shared_ptr<window::basic_window>;
 
 		basic_UIModule() = default;
@@ -32,8 +36,8 @@ namespace engine::modules
 
 		virtual void onWindowCreate(const window_ptr& _window_ptr) const noexcept = 0;
 		virtual void onWindowShutdown() const noexcept = 0;
-		virtual void onUIDrawBegin() noexcept = 0;
-		virtual void onUIDrawEnd() noexcept = 0;
+		virtual void onUIDrawBegin() const noexcept = 0;
+		virtual void onUIDrawEnd() const noexcept = 0;
 
 		virtual void createDockSpace() const noexcept;
 
