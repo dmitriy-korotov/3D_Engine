@@ -50,12 +50,15 @@ namespace engine
 		virtual void onDrawUI() noexcept;
 		virtual void onClose() noexcept;
 
+	private:
+
+		window_context_ptr m_window_context = nullptr;
+
 	protected:
 
 		bool m_is_closed = true;
 		std::optional<path> m_path_to_config;
 
-		window_context_ptr m_window_context = nullptr;
 		window_ptr m_window_ptr = nullptr;
 
 	};
