@@ -1,6 +1,7 @@
 #pragma once
 
 #include <engine/util/nocopyeble.hpp>
+#include <engine/interfaces/usage_object.hpp>
 
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
@@ -18,7 +19,7 @@ namespace engine::render::meshes
 		glm::vec2 tex_coord;
 	};
 
-	class basic_mesh: private util::nocopyeble
+	class basic_mesh : private util::nocopyeble, public interfaces::usage_object
 	{
 	public:
 
@@ -35,6 +36,9 @@ namespace engine::render::meshes
 		const vertex_storage& getVertexes() const noexcept;
 		void setIndexes(index_storage _indexes) noexcept;
 		const index_storage& getIndexes() const noexcept;
+
+		size_t getIndexesCount() const noexcept;
+		size_t getVetexesCount() const noexcept;
 
 	protected:
 

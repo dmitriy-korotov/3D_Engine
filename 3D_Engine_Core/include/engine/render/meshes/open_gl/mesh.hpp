@@ -16,7 +16,7 @@ namespace engine::render::meshes::open_gl
 {
 	using namespace render::open_gl;
 
-	class mesh final: public basic_mesh, public interfaces::usage_object  
+	class mesh final: public basic_mesh 
 	{
 	public:
 

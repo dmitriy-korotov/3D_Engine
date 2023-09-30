@@ -174,7 +174,6 @@ namespace engine::render::open_gl
 	{
 		_shader_program.bind();
 		_material.use();
-		
 		//glDrawElements(drawing_mode_to_GLenum(_drawing_mode), _vertex_array_buffer.getIndexesCount(), GL_UNSIGNED_INT, nullptr);
 	}
 

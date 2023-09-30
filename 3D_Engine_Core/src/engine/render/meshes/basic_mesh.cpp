@@ -52,4 +52,18 @@ namespace engine::render::meshes
 	{
 		return m_indexes;
 	}
+
+
+
+	size_t basic_mesh::getIndexesCount() const noexcept
+	{
+		return m_indexes.size();
+	}
+
+
+
+	size_t basic_mesh::getVetexesCount() const noexcept
+	{
+		return m_vertexes.size();
+	}
 }
