@@ -104,7 +104,7 @@ float field_of_view = 0.f;
 float near_plane = 0.f;
 float far_plane = 0.f;
 
-static float bg_color[4] = { 0.f, 0.f, 1.f, 1.f };
+static float bg_color[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 
 static double last_mouse_pos[2] = { 0, 0 };
 
@@ -115,6 +115,10 @@ float diffuse_factor = 1.f;
 float specular_factor = 0.5f;
 float shiniess = 32.f;
 float source_light_color[] = { 1.f, 1.f, 1.f, 1.f };
+
+//-----------------------------------------------------------------------------------------------------------------//
+
+bool is_triangle_rendering = true;
 
 //-----------------------------------------------------------------------------------------------------------------//
 
@@ -336,10 +340,8 @@ namespace editor
 		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\CubeForTrash\\trash_container.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Steve\\Model\\Steve\\Steve.obj");
-
-
-		engine::render::open_gl::renderer::instance().setClearColor(0, 0, 0.f, 1.0);
-
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Tree\\tree.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj");
 
 		renderer::instance().enableDepthTest();
 
@@ -536,7 +538,8 @@ namespace editor
 		
 		for (const auto& mesh : model_->getMeshes())
 		{
-			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(), DrawingMode::Triangle);
+			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(),
+																is_triangle_rendering ? DrawingMode::Triangle : DrawingMode::LineStrip);
 		}
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
 
@@ -658,6 +661,8 @@ namespace editor
 		ImGui::Separator();
 		ImGui::SliderFloat3("Source light position", translate, -10.f, 10.f);
 		ImGui::SliderFloat3("Source light scale", scale, 0.f, 10.f);
+		ImGui::Separator();
+		ImGui::Checkbox("Triangle rendering", &is_triangle_rendering);
 		ImGui::Separator();
 		ImGui::End();
 

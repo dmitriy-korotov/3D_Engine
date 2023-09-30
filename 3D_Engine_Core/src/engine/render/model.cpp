@@ -118,7 +118,7 @@ namespace engine::render
 
 		for (size_t i = 0; i < vertexes.size(); i++)
 		{
-			vertexes[i].position /= max_abs;
+			//vertexes[i].position /= max_abs;
 		}
 
 		for (size_t i = 0; i < _mesh->mNumFaces; i++)

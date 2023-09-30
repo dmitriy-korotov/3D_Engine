@@ -10,8 +10,8 @@ namespace engine::render
 			, m_texture_parametrs(_other.m_texture_parametrs)
 			, m_internal_format(_other.m_internal_format)
 	{ 
-		m_height = 0;
-		m_width = 0;
+		_other.m_height = 0;
+		_other.m_width = 0;
 	}
 
 
