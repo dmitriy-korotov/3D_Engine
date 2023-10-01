@@ -85,26 +85,32 @@ namespace engine
                 if (settings.find(WINDOW_IMPL_SETTING_NAME) != settings.end())
                 {
                     window_impl = toWindowImpl(settings[WINDOW_IMPL_SETTING_NAME]);
+                    application_settings::instance().setWindowImpl(window_impl);
                 }
                 if (settings.find(TITLE_SETTING_NAME) != settings.end())
                 {
                     title = settings[TITLE_SETTING_NAME];
+                    application_settings::instance().setTitle(title);
                 }
                 if (settings.find(WIDTH_SETTING_NAME) != settings.end())
                 {
                     width = settings[WIDTH_SETTING_NAME];
+                    application_settings::instance().setWidth(width);
                 }
                 if (settings.find(HEIGHT_SETTING_NAME) != settings.end())
                 {
                     height = settings[HEIGHT_SETTING_NAME];
+                    application_settings::instance().setHeight(height);
                 }
                 if (settings.find(OPEN_MODE_SETTING_NAME) != settings.end())
                 {
                     open_mode = toOpenMode(settings[OPEN_MODE_SETTING_NAME]);
+                    application_settings::instance().setOpenMode(open_mode);
                 }
                 if (settings.find(PATH_TO_WINDOW_ICON_NAME) != settings.end())
                 {
                     path_to_window_icon = std::string(settings[PATH_TO_WINDOW_ICON_NAME]);
+                    application_settings::instance().setPathToWindowIcon(path_to_window_icon.value());
                 }
             }
             else
@@ -112,6 +118,8 @@ namespace engine
                 LOG_ERROR("[Application ERROR] Can't open config file: {0}", m_path_to_config->generic_string());
             }
         }
+
+
         
         switch (window_impl)
         {

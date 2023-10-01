@@ -82,6 +82,13 @@ namespace engine
 
 
 
+	void application_settings::setOpenMode(OpenMode _open_mode) noexcept
+	{
+		m_open_mode = _open_mode;
+	}
+
+
+
 	void application_settings::setPathToWindowIcon(path _path_to_window_icon) noexcept
 	{
 		m_path_to_window_icon = std::move(_path_to_window_icon);

@@ -33,6 +33,7 @@ namespace engine
 		void setHeight(uint16_t _height) noexcept;
 		void setTitle(std::string _title) noexcept;
 		void setWindowImpl(WindowImpl _window_impl) noexcept;
+		void setOpenMode(OpenMode _open_mode) noexcept;
 		void setPathToWindowIcon(path _path_to_window_icon) noexcept;
 
 		void enableFullScreenMode() noexcept;

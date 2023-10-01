@@ -19,8 +19,8 @@ namespace engine::ecs::systems
 		auto components_range = ECS::instance().getComponentsManager()->getComponents<components::render_component>();
 		if (components_range.has_value())
 		{
-			auto& begin = (*components_range).first;
-			auto& end = (*components_range).second;
+			auto& begin = components_range->first;
+			auto& end = components_range->second;
 			for (;begin != end; begin++)
 			{
 				auto& component = *begin;

@@ -42,6 +42,8 @@
 
 #include <engine/render/model.hpp>
 
+#include <engine/application_settings.hpp>
+
 #include <iostream>
 
 #include <complex>
@@ -427,6 +429,8 @@ namespace editor
 		m_window_ptr->addEventListener<Events::Resize>(
 			[this](const ResizeEventData& _size) -> void
 			{
+				engine::application_settings::instance().setWidth(_size.width);
+				engine::application_settings::instance().setHeight(_size.height);
 				renderer::instance().setViewport(_size.width, _size.height);
 				m_camera->setViewPortSize(_size.width, _size.height);
 			});
