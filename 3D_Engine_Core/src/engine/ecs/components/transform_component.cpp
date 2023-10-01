@@ -1,5 +1,7 @@
 #include <engine/ecs/components/transform_component.hpp>
 
+#include <glm/ext/matrix_transform.hpp>
+
 
 
 namespace engine::ecs::components
@@ -19,6 +21,18 @@ namespace engine::ecs::components
 		m_scale = std::move(_scale);
 	}
 
+
+
+	glm::mat4 transform_component::getModelMatrix() const noexcept
+	{
+		glm::mat4 model_matrix(1.f);
+		model_matrix = glm::scale(model_matrix, m_scale);
+		model_matrix = glm::rotate(model_matrix, m_rotation.x, glm::vec3(1.f, 0.f, 0.f));
+		model_matrix = glm::rotate(model_matrix, m_rotation.y, glm::vec3(0.f, 1.f, 0.f));
+		model_matrix = glm::rotate(model_matrix, m_rotation.z, glm::vec3(0.f, 0.f, 1.f));
+		model_matrix = glm::translate(model_matrix, m_position);
+		return model_matrix;
+	}
 
 
 

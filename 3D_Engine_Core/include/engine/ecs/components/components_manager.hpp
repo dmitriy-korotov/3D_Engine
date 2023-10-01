@@ -64,7 +64,6 @@ namespace engine::ecs::components
 	void components_manager::addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-		//static_assert(ComponentType::component_name != INVALID_COMPONENT_TYPE_ID, "Component name has invalid name.");
 
 		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
 		component->setOwner(_entity_id);
