@@ -104,7 +104,7 @@ namespace engine::ecs::components
 	template <typename ComponentType>
 	const ComponentType* const component_iterator<ComponentType>::operator->() const noexcept
 	{
-		return m_map_iterator->second->;
+		return m_map_iterator->second.get();
 	}
 
 
@@ -112,6 +112,6 @@ namespace engine::ecs::components
 	template <typename ComponentType>
 	ComponentType* const component_iterator<ComponentType>::operator->() noexcept
 	{
-		return m_map_iterator->second->;
+		return m_map_iterator->second.get();
 	}
 }

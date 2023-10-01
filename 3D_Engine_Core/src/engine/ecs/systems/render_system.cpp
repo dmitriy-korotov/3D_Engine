@@ -14,7 +14,7 @@
 
 namespace engine::ecs::systems
 {
-	void render_system::update([[maybe_unused]] float _delta_time) noexcept
+	void render_system::update([[maybe_unused]] float _delta_time) const noexcept
 	{
 		auto components_range = ECS::instance().getComponentsManager()->getComponents<components::render_component>();
 		if (components_range.has_value())

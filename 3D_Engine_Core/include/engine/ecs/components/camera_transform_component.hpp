@@ -9,7 +9,7 @@
 
 namespace engine::ecs::components
 {
-	class camera_transform_component
+	class camera_transform_component: basic_component
 	{
 	public:
 

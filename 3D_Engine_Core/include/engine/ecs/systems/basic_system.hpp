@@ -19,7 +19,7 @@ namespace engine::ecs::systems
 		basic_system() = default;
 		virtual ~basic_system() = default;
 
-		virtual void update(float _delta_time) = 0;
+		virtual void update(float _delta_time) const noexcept = 0;
 
 		static system_type_id getSystemTypeID() noexcept;
 

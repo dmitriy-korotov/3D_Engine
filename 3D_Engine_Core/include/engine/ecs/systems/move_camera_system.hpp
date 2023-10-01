@@ -6,7 +6,7 @@
 
 namespace engine::ecs::systems
 {
-	class render_system final : public basic_system
+	class move_camera_system : public basic_system
 	{
 	public:
 
