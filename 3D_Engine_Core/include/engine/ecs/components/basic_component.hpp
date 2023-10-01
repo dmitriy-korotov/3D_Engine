@@ -10,13 +10,14 @@ namespace engine::ecs::components
 {
 	class components_manager;
 
-	class basic_component : private util::nocopyeble
+	class basic_component: private util::nocopyeble
 	{
 	public:
 
 		friend components_manager;
 
 		basic_component() noexcept;
+		~basic_component() = default;
 
 		bool isActive() const noexcept;
 		void enable() noexcept;
