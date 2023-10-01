@@ -119,6 +119,10 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/entities/basic_entity.hpp
 		include/engine/ecs/entities/entities_manager.hpp
 
+
+
+		include/engine/ecs/components/active_camera_component.hpp
+
 		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/basic_component.hpp
 		include/engine/ecs/components/transform_component.hpp
