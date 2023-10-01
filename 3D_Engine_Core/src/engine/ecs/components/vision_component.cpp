@@ -1,6 +1,5 @@
 #include <engine/ecs/components/vision_component.hpp>
 
-#include <glm/trigonometric.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 

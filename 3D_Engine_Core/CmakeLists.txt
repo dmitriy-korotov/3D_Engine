@@ -66,6 +66,10 @@ set(ENGINE_PRIVATE_HEADERS
 		
 
 
+		include/engine/scene/world_data.hpp
+
+
+
 		include/engine/render/common_types.hpp
 		include/engine/render/frustum.hpp
 		include/engine/render/model.hpp
@@ -118,6 +122,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/basic_component.hpp
 		include/engine/ecs/components/transform_component.hpp
+		include/engine/ecs/components/camera_transform_component.hpp
 		include/engine/ecs/components/light_component.hpp
 		include/engine/ecs/components/vision_component.hpp
 		include/engine/ecs/components/mesh_component.hpp
@@ -198,6 +203,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/components/basic_component.cpp
 		src/engine/ecs/components/transform_component.cpp
+		src/engine/ecs/components/camera_transform_component.cpp
 		src/engine/ecs/components/light_component.cpp
 		src/engine/ecs/components/vision_component.cpp
 		src/engine/ecs/components/mesh_component.cpp
