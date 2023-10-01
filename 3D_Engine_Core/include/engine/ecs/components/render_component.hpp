@@ -1,34 +1,35 @@
 #pragma once
 
 #include <engine/ecs/components/basic_component.hpp>
-#include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/render/common_types.hpp>
 
 #include <memory>
 
 
 
-namespace engine::render::open_gl
+namespace engine::render
 {
-	class shader_program;
+	class basic_shader_program;
 }
 
 
 
 namespace engine::ecs::components
 {
-	using render::open_gl::renderer;
 	using namespace render;
 
-	class render_component : public basic_component
+	class render_component: public basic_component
 	{
 	public:
 
-		using shader_program_ptr = std::unique_ptr<render::open_gl::shader_program>;
+		using shader_program_ptr = std::unique_ptr<basic_shader_program>;
 
 		render_component(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
 
-	public:
+		const shader_program_ptr& getShaderProgram() const noexcept;
+		DrawingMode getDrawingMode() const noexcept;
+
+	private:
 
 		shader_program_ptr m_shader_program = nullptr;
 		DrawingMode m_drawing_mode = DrawingMode::Triangle;

@@ -18,7 +18,7 @@ namespace engine::ecs::components
 {
 	class basic_component;
 
-	class components_manager : private util::nocopyeble
+	class components_manager: private util::nocopyeble
 	{
 	public:
 

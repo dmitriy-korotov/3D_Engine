@@ -18,4 +18,26 @@ namespace engine::ecs::components
 		m_rotation = std::move(_rotation);
 		m_scale = std::move(_scale);
 	}
+
+
+
+
+	const glm::vec3 transform_component::getPosition() const noexcept
+	{
+		return m_position;
+	}
+
+
+
+	const glm::vec3 transform_component::getRotation() const noexcept
+	{
+		return m_rotation;
+	}
+
+
+
+	const glm::vec3 transform_component::getScale() const noexcept
+	{
+		return m_scale;
+	}
 }

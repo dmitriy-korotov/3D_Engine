@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class transform_component : public basic_component
+	class transform_component: public basic_component
 	{
 	public:
 
@@ -18,7 +18,11 @@ namespace engine::ecs::components
 
 		void setTransform(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale) noexcept;
 
-	public:
+		const glm::vec3 getPosition() const noexcept;
+		const glm::vec3 getRotation() const noexcept;
+		const glm::vec3 getScale() const noexcept;
+
+	private:
 
 		glm::vec3 m_position;
 		glm::vec3 m_rotation;
