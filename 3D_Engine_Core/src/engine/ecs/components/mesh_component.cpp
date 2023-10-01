@@ -1,5 +1,7 @@
 #include <engine/ecs/components/mesh_component.hpp>
 
+#include <engine/render/meshes/basic_mesh.hpp>
+
 
 
 namespace engine::ecs::components
