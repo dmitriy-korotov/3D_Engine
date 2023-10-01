@@ -4,6 +4,8 @@
 
 #include <engine/render/image.hpp>
 
+#include <engine/render/meshes/open_gl/mesh.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
@@ -133,7 +135,7 @@ namespace engine::render
 		aiMaterial* material = _scene->mMaterials[_mesh->mMaterialIndex];
 		prossesMaterial(material, _scene);
 
-		m_meshes.emplace_back(std::move(vertexes), std::move(indexes));
+		m_meshes.emplace_back(std::make_shared<meshes::open_gl::mesh>(std::move(vertexes), std::move(indexes)));
 	}
 
 

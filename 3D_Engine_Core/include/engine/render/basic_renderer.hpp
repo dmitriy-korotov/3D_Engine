@@ -38,6 +38,8 @@ namespace engine::render
 		virtual bool init(window::WindowImpl _window_impl) noexcept = 0;
 		virtual void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
 						  const basic_material& _material, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept = 0;
+		virtual void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
+						  DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept = 0;
 		virtual void enableDepthTest() noexcept = 0;
 		virtual void disableDepthTest() noexcept = 0;
 		virtual void clear(Mask _mask_type) noexcept = 0;

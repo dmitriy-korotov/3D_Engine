@@ -3,6 +3,7 @@
 #include <engine/ecs/components/basic_component.hpp>
 
 #include <vector>
+#include <memory>
 
 
 
@@ -21,7 +22,8 @@ namespace engine::ecs::components
 	{
 	public:
 
-		using mesh_storage = std::vector<basic_mesh>;
+		using mesh_ptr = std::shared_ptr<basic_mesh>;
+		using mesh_storage = std::vector<mesh_ptr>;
 
 		mesh_component(mesh_storage _meshes) noexcept;
 

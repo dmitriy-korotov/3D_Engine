@@ -35,6 +35,8 @@
 #include <engine/ecs/components/transform_component.hpp>
 #include <engine/ecs/systems/systems_manager.hpp>
 #include <engine/ecs/systems/render_system.hpp>
+#include <engine/ecs/components/mesh_component.hpp>
+#include <engine/ecs/components/render_component.hpp>
 
 #include <engine/models/cube.hpp>
 
@@ -331,7 +333,7 @@ namespace editor
 
 		engine::util::file_reader vs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultVS.vs");
 		engine::util::file_reader fs_reader("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
-		shader_program_model = std::make_shared<engine::render::open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
+		shader_program_model = std::make_shared<engine::render::open_gl::shader_program>(vs_reader.getData(), fs_reader.getData());
 		shader_program_model->bind();
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
@@ -404,8 +406,15 @@ namespace editor
 
 		engine::ecs::ECS::instance().initialize();
 
-		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::models::cube>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
+
+		engine::util::file_reader vs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultVS.vs");
+		engine::util::file_reader fs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
+
+		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID, glm::vec3(2.f, 2.f, 2.f));
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh_component>(ID, model_->getMeshes());
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::render_component>(ID,
+									std::make_unique<open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData())));
 		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>(1);
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
@@ -538,7 +547,7 @@ namespace editor
 		
 		for (const auto& mesh : model_->getMeshes())
 		{
-			engine::render::open_gl::renderer::instance().draw(*shader_program_model, mesh, *model_->getMaterial(),
+			engine::render::open_gl::renderer::instance().draw(*shader_program_model, *mesh, *model_->getMaterial(),
 																is_triangle_rendering ? DrawingMode::Triangle : DrawingMode::LineStrip);
 		}
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);

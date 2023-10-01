@@ -180,6 +180,15 @@ namespace engine::render::open_gl
 
 
 
+	void renderer::draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh, DrawingMode _drawing_mode) noexcept
+	{
+		_shader_program.bind();
+		_mesh.use();
+		glDrawElements(drawing_mode_to_GLenum(_drawing_mode), _mesh.getIndexesCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
+
+
 	void renderer::enableDepthTest() noexcept
 	{
 		glEnable(GL_DEPTH_TEST);

@@ -4,9 +4,10 @@
 
 #include <engine/ecs/components/components_manager.hpp>
 #include <engine/ecs/components/render_component.hpp>
+#include <engine/ecs/components/mesh_component.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
-#include <engine/render/open_gl/shader_program.hpp>
+#include <engine/render/basic_shader_program.hpp>
 
 
 
@@ -23,9 +24,16 @@ namespace engine::ecs::systems
 			{
 				auto& component = *begin;
 				auto owner = ECS::instance().getEntitiesManager()->getEntity(component.second->getOwner());
-				owner->getComponent<components::render_component>();
-				//component->m_shader_program->bind();
-				//render::open_gl::renderer::draw();
+				auto mesh_component = owner->getComponent<components::mesh_component>();
+				if (mesh_component.has_value())
+				{
+					auto& ptr = mesh_component.value().lock();
+					for (const auto& mesh : ptr->getMeshes())
+					{
+						render::open_gl::renderer::instance().draw(*component.second->getShaderProgram(), *mesh);
+					}
+				}
+
 			}
 		}
 	}

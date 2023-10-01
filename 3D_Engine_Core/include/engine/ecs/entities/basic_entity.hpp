@@ -21,7 +21,8 @@ namespace engine::ecs::components
 
 namespace engine::ecs::entities
 {
-	using component_ptr = std::weak_ptr<components::basic_component>;
+	template <typename ComponentType>
+	using component_ptr = std::weak_ptr<ComponentType>;
 
 	class entities_manager;
 
@@ -41,7 +42,7 @@ namespace engine::ecs::entities
 		static entity_type_id getEntityTypeID() noexcept;
 
 		template <typename ComponentType>
-		std::optional<component_ptr> getComponent() const noexcept;
+		std::optional<component_ptr<ComponentType>> getComponent() const noexcept;
 
 		template <typename ComponentType, typename ...Args>
 		void addComponent(Args&&... _args) noexcept;
@@ -61,7 +62,7 @@ namespace engine::ecs::entities
 	private:
 
 		entity_id m_id = INVALID_ENTITY_ID;
-		std::unordered_map<components::component_type_id, component_ptr> m_components;
+		std::unordered_map<components::component_type_id, component_ptr<components::basic_component>> m_components;
 
 	};
 
@@ -88,14 +89,14 @@ namespace engine::ecs::entities
 
 
 	template <typename ComponentType>
-	std::optional<component_ptr> basic_entity::getComponent() const noexcept
+	std::optional<component_ptr<ComponentType>> basic_entity::getComponent() const noexcept
 	{
 		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
 		auto component = m_components.find(ComponentType::getComponentTypeID());
 		if (component != m_components.end())
 		{
-			return (*component).second;
+			return *reinterpret_cast<const component_ptr<ComponentType>*>(&(*component).second);
 		}
 		else
 		{

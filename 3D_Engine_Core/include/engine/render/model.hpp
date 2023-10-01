@@ -2,7 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/render/meshes/open_gl/mesh.hpp>
+#include <engine/render/meshes/basic_mesh.hpp>
 #include <engine/render/materials/open_gl/material.hpp>
 
 #include <assimp/scene.h>
@@ -16,7 +16,7 @@
 namespace engine::render
 {
 	using std::filesystem::path;
-	using meshes::open_gl::mesh;
+	using meshes::basic_mesh;
 	using materials::open_gl::material;
 	using render::open_gl::texture2D;
 
@@ -25,7 +25,7 @@ namespace engine::render
 	public:
 
 		using material_ptr = std::shared_ptr<material>;
-		using mesh_storage = std::vector<mesh>;
+		using mesh_storage = std::vector<std::shared_ptr<basic_mesh>>;
 
 		model(const path& _path_to_model) noexcept;
 
