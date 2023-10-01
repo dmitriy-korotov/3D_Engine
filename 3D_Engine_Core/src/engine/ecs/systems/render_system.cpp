@@ -26,14 +26,15 @@ namespace engine::ecs::systems
 				auto& component = *begin;
 				
 				
-				const auto& shader_program = component.second->getShaderProgram();
+				const auto& shader_program = component->getShaderProgram();
 
 
-				auto owner = ECS::instance().getEntitiesManager()->getEntity(component.second->getOwner());
+				auto owner = ECS::instance().getEntitiesManager()->getEntity(component->getOwner());
 				
 				
 				auto transform_component = owner->getComponent<components::transform_component>()->lock();
 				shader_program->setMatrix4f("model_view_matrix", transform_component->getModelMatrix());
+				shader_program->setMatrix4f("mvp_matrix", transform_component->getModelMatrix());
 
 
 

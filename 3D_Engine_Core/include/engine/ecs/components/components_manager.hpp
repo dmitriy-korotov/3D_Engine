@@ -4,6 +4,8 @@
 #include <engine/ecs/entities/entities_manager.hpp>
 #include <engine/ecs/entities/basic_entity.hpp>
 
+#include <engine/ecs/components/component_iterator.hpp>
+
 #include <engine/util/nocopyeble.hpp>
 
 #include <unordered_map>
@@ -26,12 +28,12 @@ namespace engine::ecs::components
 		using component_ptr = std::shared_ptr<T>;
 
 		template <typename T>
-		using component_iterator = typename std::unordered_map<entities::entity_id, component_ptr<T>>::iterator;
-
-		template <typename T>
 		using components_range = std::pair<component_iterator<T>, component_iterator<T>>;
 		
-		using general_type_components_map = std::unordered_map<entities::entity_id, component_ptr<basic_component>>;
+		template <typename T>
+		using components_map = std::unordered_map<entities::entity_id, component_ptr<T>>;
+
+		using general_type_components_map = components_map<basic_component>;
 		using components_storage = std::unordered_map<std::string_view, general_type_components_map>;
 
 	public:
@@ -110,8 +112,8 @@ namespace engine::ecs::components
 		{
 			auto range_begin = components_range->second.begin();
 			auto range_end = components_range->second.end();
-			return std::make_pair(*reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&range_begin),
-								  *reinterpret_cast<components_manager::component_iterator<ComponentType>*>(&range_end));
+			return std::make_pair(component_iterator<ComponentType>(*reinterpret_cast<components_map<ComponentType>::iterator*>(&range_begin)),
+								  component_iterator<ComponentType>(*reinterpret_cast<components_map<ComponentType>::iterator*>(&range_end)));
 		}
 		else
 		{
