@@ -78,7 +78,7 @@ namespace engine::ecs::components
 											 m_orthographic_frustum.near_plane, m_orthographic_frustum.far_plane);
 			break;
 		case engine::render::Projection::Perspective:
-			m_projection_matrix = glm::perspective(m_perspective_frustum.field_of_view, aspect,
+			m_projection_matrix = glm::perspective(glm::radians(m_perspective_frustum.field_of_view), aspect,
 												   m_perspective_frustum.near_plane, m_perspective_frustum.far_plane);
 			break;
 		}

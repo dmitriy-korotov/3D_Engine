@@ -50,37 +50,39 @@ namespace engine::ecs::systems
 
 				glm::vec3 movement_delta(0.f);
 
+				glm::vec3 velocity = move_component->getVelocity();
+
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_LEFT_SHIFT))
 				{
-					move_component->setVelocity(move_component->getVelocity() * 5.f);
+					velocity *= 5.f;
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_LEFT_CONTROL))
 				{
-					move_component->setVelocity(move_component->getVelocity() / 5.f);
+					velocity /= 5.f;
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_W))
 				{
-					transform_component->moveForward(move_component->getVelocity().x * _delta_time);
+					transform_component->moveForward(velocity.x * _delta_time);
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_S))
 				{
-					transform_component->moveForward(-move_component->getVelocity().x * _delta_time);
+					transform_component->moveForward(-velocity.x * _delta_time);
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_D))
 				{
-					transform_component->moveRight(move_component->getVelocity().y * _delta_time);
+					transform_component->moveRight(velocity.y * _delta_time);
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_A))
 				{
-					transform_component->moveRight(-move_component->getVelocity().y * _delta_time);
+					transform_component->moveRight(-velocity.y * _delta_time);
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_E))
 				{
-					transform_component->moveUp(move_component->getVelocity().z * _delta_time);
+					transform_component->moveUp(velocity.z * _delta_time);
 				}
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_Q))
 				{
-					transform_component->moveUp(-move_component->getVelocity().z * _delta_time);
+					transform_component->moveUp(-velocity.z * _delta_time);
 				}
 
 				glm::vec3 rotation_delta(0.f);

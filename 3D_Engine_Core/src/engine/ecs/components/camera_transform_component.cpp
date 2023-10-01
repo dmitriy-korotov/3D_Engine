@@ -64,7 +64,7 @@ namespace engine::ecs::components
 	}
 	void camera_transform_component::moveRight(float _delta) noexcept
 	{
-		m_position += m_right * _delta;
+		m_position -= m_right * _delta;
 		m_is_need_update_view_matrix = true;
 	}
 	void camera_transform_component::moveForward(float _delta) noexcept
@@ -110,12 +110,13 @@ namespace engine::ecs::components
 		float pitch_in_radians = glm::radians(m_rotation.y);
 		float yaw_in_radians = glm::radians(m_rotation.z);
 
-		m_view_matrix = glm::rotate(m_view_matrix, roll_in_radians, glm::vec3(1.f, 0.f, 0.f));
-		m_view_matrix = glm::rotate(m_view_matrix, pitch_in_radians, glm::vec3(0.f, 1.f, 0.f));
-		m_view_matrix = glm::rotate(m_view_matrix, yaw_in_radians, glm::vec3(0.f, 0.f, 1.f));
+		glm::mat4 euler_rotate_matrix(1.f);
+		euler_rotate_matrix = glm::rotate(euler_rotate_matrix, -roll_in_radians, glm::vec3(1.f, 0.f, 0.f));
+		euler_rotate_matrix = glm::rotate(euler_rotate_matrix, -pitch_in_radians, glm::vec3(0.f, 1.f, 0.f));
+		euler_rotate_matrix = glm::rotate(euler_rotate_matrix, -yaw_in_radians, glm::vec3(0.f, 0.f, 1.f));
 
-		m_forward = glm::normalize(glm::mat3(m_view_matrix) * scene::g_world_forward_direction);
-		m_right = glm::normalize(glm::mat3(m_view_matrix) * scene::g_world_right_direction);
+		m_forward = glm::normalize(glm::mat3(euler_rotate_matrix) * scene::g_world_forward_direction);
+		m_right = glm::normalize(glm::mat3(euler_rotate_matrix) * scene::g_world_right_direction);
 		m_up = glm::normalize(glm::cross(m_forward, m_right));
 
 		m_view_matrix = glm::lookAt(m_position, m_position + m_forward, m_up);
