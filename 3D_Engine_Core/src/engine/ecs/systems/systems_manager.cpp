@@ -13,4 +13,18 @@ namespace engine::ecs::systems
 			system.second->update(_delta_time);
 		}
 	}
+
+
+
+	void systems_manager::removeAllSystems() noexcept
+	{
+		m_systems.clear();
+	}
+
+
+
+	systems_manager::~systems_manager()
+	{
+		removeAllSystems();
+	}
 }

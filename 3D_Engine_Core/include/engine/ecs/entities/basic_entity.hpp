@@ -27,7 +27,7 @@ namespace engine::ecs::entities
 
 
 
-	class basic_entity : private util::nocopyeble
+	class basic_entity: private util::nocopyeble
 	{
 	public:
 
@@ -72,7 +72,7 @@ namespace engine::ecs::entities
 	template <typename ComponentType, typename ...Args>
 	void basic_entity::addComponent(Args&&... _args) noexcept
 	{
-		ECS::getComponentsManager()->addComponent<ComponentType>(m_id);
+		ECS::getComponentsManager()->addComponent<ComponentType>(m_id, _args...);
 		component_ptr component = ECS::getComponentsManager()->getComponent<ComponentType>(m_id);
 		m_components.insert(ComponentType::getComponentTypeID(), std::move(component));
 	}

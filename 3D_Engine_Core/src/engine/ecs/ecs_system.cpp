@@ -38,6 +38,7 @@ namespace engine::ecs
 	{
 		m_components_manager->removeAllComponents();
 		m_entities_manager->destroyAllEntities();
+		m_systems_manager->removeAllSystems();
 	}
 
 

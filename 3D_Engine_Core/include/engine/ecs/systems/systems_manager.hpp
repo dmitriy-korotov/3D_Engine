@@ -17,6 +17,7 @@ namespace engine::ecs::systems
 	public:
 
 		systems_manager() = default;
+		~systems_manager();
 
 		using system_ptr = std::shared_ptr<basic_system>;
 		using systems_storage = std::set<std::pair<size_t, system_ptr>>;
@@ -25,6 +26,8 @@ namespace engine::ecs::systems
 
 		template <typename SystemType, typename ...Args>
 		void addSystem(size_t _priority, Args&&... _args) noexcept;
+
+		void removeAllSystems() noexcept;
 
 	private:
 
