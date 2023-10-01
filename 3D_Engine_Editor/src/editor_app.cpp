@@ -406,7 +406,7 @@ namespace editor
 
 		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::models::cube>();
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
-		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>();
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>(1);
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}

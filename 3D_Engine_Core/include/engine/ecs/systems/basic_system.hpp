@@ -10,14 +10,14 @@ namespace engine::ecs::systems
 {
 	class systems_manager;
 
-	class basic_system : private util::nocopyeble
+	class basic_system: private util::nocopyeble
 	{
 	public:
 
 		friend systems_manager;
 
 		basic_system() = default;
-		virtual ~basic_system() {}
+		virtual ~basic_system() = default;
 
 		virtual void update(float _delta_time) = 0;
 

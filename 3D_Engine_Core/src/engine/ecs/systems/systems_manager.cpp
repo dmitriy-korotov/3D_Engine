@@ -8,9 +8,9 @@ namespace engine::ecs::systems
 {
 	void systems_manager::update(float _delta_time)
 	{
-		for (auto& system : m_systems)
+		for (const auto& system : m_systems)
 		{
-			system->update(_delta_time);
+			system.second->update(_delta_time);
 		}
 	}
 }
