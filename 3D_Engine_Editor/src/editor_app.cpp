@@ -402,11 +402,11 @@ namespace editor
 		delete[] data;
 
 
-		engine::ecs::ECS::initialize();
+		engine::ecs::ECS::instance().initialize();
 
-		engine::ecs::entities::entity_id ID = engine::ecs::ECS::getEntitiesManager()->createEntity<engine::models::cube>();
-		engine::ecs::ECS::getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
-		engine::ecs::ECS::getSystemsManager()->addSystem<engine::ecs::systems::render_system>();
+		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::models::cube>();
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID);
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>();
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
@@ -570,7 +570,7 @@ namespace editor
 		m_camera->moveAndRotate(movement_delta, rotation_delta);
 
 
-		engine::ecs::ECS::update(1.f);
+		engine::ecs::ECS::instance().update(1.f);
 	}
 
 
@@ -674,7 +674,7 @@ namespace editor
 	void editor_app::onClose() noexcept
 	{
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
-		engine::ecs::ECS::terminate();
+		engine::ecs::ECS::instance().terminate();
 		UIModule::instance().onWindowShutdown();
 	}
 }

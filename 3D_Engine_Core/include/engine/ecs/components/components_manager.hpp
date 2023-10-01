@@ -71,13 +71,13 @@ namespace engine::ecs::components
 		{
 			ComponentType::setComponentTypeID(typeid(ComponentType).hash_code());
 			general_type_components_map this_type_components_storage;
-			ECS::getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
+			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
 			this_type_components_storage.emplace(_entity_id, std::move(component));
 			m_components.emplace(ComponentType::getComponentTypeID(), std::move(this_type_components_storage));
 		}
 		else
 		{
-			ECS::getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
+			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
 			m_components.find(ComponentType::getComponentTypeID())->second.emplace(_entity_id, std::move(component));
 		}
 	}

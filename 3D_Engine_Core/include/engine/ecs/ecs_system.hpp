@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/util/noconstructible.hpp>
+#include <engine/util/nocopyeble.hpp>
 
 #include <memory>
 
@@ -23,7 +23,7 @@ namespace engine::ecs
 		class systems_manager;
 	}
 
-	class ECS : private util::noconstructible
+	class ECS: private util::nocopyeble
 	{
 	public:
 
@@ -31,20 +31,26 @@ namespace engine::ecs
 		using components_manager_ptr = std::unique_ptr<components::components_manager>;
 		using systems_manager_ptr = std::unique_ptr<systems::systems_manager>;
 
-		static bool initialize() noexcept;
-		static void terminate() noexcept;
+		static ECS& instance() noexcept;
 
-		static const entities_manager_ptr& getEntitiesManager() noexcept;
-		static const components_manager_ptr& getComponentsManager() noexcept;
-		static const systems_manager_ptr& getSystemsManager() noexcept;
+		bool initialize() noexcept;
+		void terminate() noexcept;
 
-		static void update(float _delta_time) noexcept;
+		const entities_manager_ptr& getEntitiesManager() const noexcept;
+		const components_manager_ptr& getComponentsManager() const noexcept;
+		const systems_manager_ptr& getSystemsManager() const noexcept;
+
+		void update(float _delta_time) noexcept;
 
 	private:
 
-		static entities_manager_ptr m_entities_manager;
-		static components_manager_ptr m_components_manager;
-		static systems_manager_ptr m_systems_manager;
+		ECS() noexcept;
+
+	private:
+
+		entities_manager_ptr m_entities_manager;
+		components_manager_ptr m_components_manager;
+		systems_manager_ptr m_systems_manager;
 
 	};
 }

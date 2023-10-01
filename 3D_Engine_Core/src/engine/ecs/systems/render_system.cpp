@@ -14,7 +14,7 @@ namespace engine::ecs::systems
 {
 	void render_system::update([[maybe_unused]] float _delta_time) noexcept
 	{
-		auto components_range = ECS::getComponentsManager()->getComponents<components::render_component>();
+		auto components_range = ECS::instance().getComponentsManager()->getComponents<components::render_component>();
 		if (components_range.has_value())
 		{
 			auto& begin = (*components_range).first;
@@ -22,7 +22,7 @@ namespace engine::ecs::systems
 			for (;begin != end; begin++)
 			{
 				auto& component = *begin;
-				auto owner = ECS::getEntitiesManager()->getEntity(component.second->getOwner());
+				auto owner = ECS::instance().getEntitiesManager()->getEntity(component.second->getOwner());
 				owner->getComponent<components::render_component>();
 				//component->m_shader_program->bind();
 				//render::open_gl::renderer::draw();
