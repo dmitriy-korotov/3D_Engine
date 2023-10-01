@@ -21,6 +21,10 @@ namespace engine::ecs::components
 	{
 	public:
 
+		static constexpr std::string_view component_name = "material_component";
+
+
+
 		using material_ptr = std::shared_ptr<basic_material>;
 
 		material_component(material_ptr _material) noexcept;

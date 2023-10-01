@@ -62,7 +62,7 @@ namespace engine::ecs::entities
 	private:
 
 		entity_id m_id = INVALID_ENTITY_ID;
-		std::unordered_map<components::component_type_id, component_ptr<components::basic_component>> m_components;
+		std::unordered_map<std::string_view, component_ptr<components::basic_component>> m_components;
 
 	};
 
@@ -74,8 +74,6 @@ namespace engine::ecs::entities
 	void basic_entity::addComponent(Args&&... _args) noexcept
 	{
 		ECS::getComponentsManager()->addComponent<ComponentType>(m_id, _args...);
-		component_ptr component = ECS::getComponentsManager()->getComponent<ComponentType>(m_id);
-		m_components.insert(ComponentType::getComponentTypeID(), std::move(component));
 	}
 
 
@@ -83,7 +81,7 @@ namespace engine::ecs::entities
 	template <typename ComponentType>
 	void basic_entity::addComponent(std::weak_ptr<ComponentType> _component) noexcept
 	{
-		m_components.emplace(ComponentType::getComponentTypeID(), std::move(_component));
+		m_components.emplace(ComponentType::component_name, std::move(_component));
 	}
 
 
@@ -93,14 +91,15 @@ namespace engine::ecs::entities
 	{
 		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
-		auto component = m_components.find(ComponentType::getComponentTypeID());
+		auto component = m_components.find(ComponentType::component_name);
 		if (component != m_components.end())
 		{
-			return *reinterpret_cast<const component_ptr<ComponentType>*>(&(*component).second);
+			std::shared_ptr<ComponentType> component_ptr = std::dynamic_pointer_cast<ComponentType>(component->second.lock());
+			if (component_ptr != nullptr)
+			{
+				return component_ptr;
+			}
 		}
-		else
-		{
-			return std::nullopt;
-		}
+		return std::nullopt;
 	}
 }

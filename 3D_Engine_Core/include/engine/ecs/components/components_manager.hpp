@@ -32,7 +32,7 @@ namespace engine::ecs::components
 		using components_range = std::pair<component_iterator<T>, component_iterator<T>>;
 		
 		using general_type_components_map = std::unordered_map<entities::entity_id, component_ptr<basic_component>>;
-		using components_storage = std::unordered_map<component_type_id, general_type_components_map>;
+		using components_storage = std::unordered_map<std::string_view, general_type_components_map>;
 
 	public:
 
@@ -64,21 +64,23 @@ namespace engine::ecs::components
 	void components_manager::addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+		//static_assert(ComponentType::component_name != INVALID_COMPONENT_TYPE_ID, "Component name has invalid name.");
 
 		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
 		component->setOwner(_entity_id);
-		if (ComponentType::getComponentTypeID() == INVALID_COMPONENT_TYPE_ID)
+		
+		auto current_type_components = m_components.find(ComponentType::component_name);
+		if (current_type_components == m_components.end())
 		{
-			ComponentType::setComponentTypeID(typeid(ComponentType).hash_code());
-			general_type_components_map this_type_components_storage;
+			general_type_components_map current_type_components_storage;
 			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
-			this_type_components_storage.emplace(_entity_id, std::move(component));
-			m_components.emplace(ComponentType::getComponentTypeID(), std::move(this_type_components_storage));
+			current_type_components_storage.emplace(_entity_id, std::move(component));
+			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
 		}
 		else
 		{
 			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
-			m_components.find(ComponentType::getComponentTypeID())->second.emplace(_entity_id, std::move(component));
+			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, std::move(component));
 		}
 	}
 
@@ -89,7 +91,7 @@ namespace engine::ecs::components
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
-		auto components_range = m_components.find(ComponentType::getComponentTypeID());
+		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
 		{
 			components_range->erase(_entity_id);
@@ -104,7 +106,7 @@ namespace engine::ecs::components
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
-		auto components_range = m_components.find(ComponentType::getComponentTypeID());
+		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
 		{
 			auto range_begin = components_range->second.begin();
@@ -126,7 +128,7 @@ namespace engine::ecs::components
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
-		auto components_range = m_components.find(ComponentType::getComponentTypeID());
+		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
 		{
 			auto component_iter = components_range->find(_entity_id);

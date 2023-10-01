@@ -22,6 +22,10 @@ namespace engine::ecs::components
 	{
 	public:
 
+		static constexpr std::string_view component_name = "mesh_component";
+
+
+
 		using mesh_ptr = std::shared_ptr<basic_mesh>;
 		using mesh_storage = std::vector<mesh_ptr>;
 

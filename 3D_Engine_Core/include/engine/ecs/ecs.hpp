@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 
 
 namespace engine::ecs
@@ -22,6 +24,7 @@ namespace engine::ecs
 
 		constexpr component_type_id INVALID_COMPONENT_TYPE_ID = 0;
 		constexpr component_id INVALID_COMPONENT_ID = 0;
+		constexpr std::string_view INVALID_COMPONENT_NAME = "";
 	}
 
 

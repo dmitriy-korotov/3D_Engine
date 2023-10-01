@@ -12,6 +12,10 @@ namespace engine::ecs::components
 	{
 	public:
 
+		static constexpr std::string_view component_name = "transform_component";
+
+
+
 		transform_component(glm::vec3 _position = glm::vec3(0.f),
 							glm::vec3 _rotation = glm::vec3(0.f),
 							glm::vec3 _scale = glm::vec3(1.f)) noexcept;

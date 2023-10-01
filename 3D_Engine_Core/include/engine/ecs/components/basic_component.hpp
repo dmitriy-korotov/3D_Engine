@@ -4,6 +4,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <string>
+
 
 
 namespace engine::ecs::components
@@ -17,7 +19,7 @@ namespace engine::ecs::components
 		friend components_manager;
 
 		basic_component() noexcept;
-		~basic_component() = default;
+		virtual ~basic_component() = default;
 
 		bool isActive() const noexcept;
 		void enable() noexcept;
@@ -26,19 +28,15 @@ namespace engine::ecs::components
 		entities::entity_id getOwner() const noexcept;
 		component_id getID() const noexcept;
 
-		static component_type_id getComponentTypeID() noexcept;
-
 	private:
 
 		void setOwner(entities::entity_id _entity_id) noexcept;
-
-		static void setComponentTypeID(component_type_id _component_type_id) noexcept;
+		
 		static component_id generateComponentID() noexcept;
 
 	private:
 
 		static size_t m_next_component_id;
-		static component_type_id m_component_type_id;
 
 	private:
 

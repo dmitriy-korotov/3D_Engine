@@ -12,6 +12,10 @@ namespace engine::ecs::components
 	{
 	public:
 
+		static constexpr std::string_view component_name = "light_component";
+
+
+
 		light_component(const glm::vec3& _ambient = glm::vec3(1.f),
 						const glm::vec3& _diffuse = glm::vec3(1.f),
 						const glm::vec3& _specular = glm::vec3(1.f)) noexcept;

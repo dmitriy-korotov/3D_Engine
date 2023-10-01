@@ -22,6 +22,10 @@ namespace engine::ecs::components
 	{
 	public:
 
+		static constexpr std::string_view component_name = "render_component";
+
+
+
 		using shader_program_ptr = std::unique_ptr<basic_shader_program>;
 
 		render_component(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;

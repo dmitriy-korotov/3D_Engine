@@ -4,8 +4,6 @@
 
 namespace engine::ecs::components
 {
-	component_type_id basic_component::m_component_type_id = INVALID_COMPONENT_TYPE_ID;
-
 	size_t basic_component::m_next_component_id = INVALID_COMPONENT_ID;
 
 
@@ -56,20 +54,6 @@ namespace engine::ecs::components
 	void basic_component::setOwner(entities::entity_id _entity_id) noexcept
 	{
 		m_owner = _entity_id;
-	}
-
-
-
-	void basic_component::setComponentTypeID(component_type_id _component_type_id) noexcept
-	{
-		m_component_type_id = _component_type_id;
-	}
-
-
-
-	component_type_id basic_component::getComponentTypeID() noexcept
-	{
-		return m_component_type_id;
 	}
 
 
