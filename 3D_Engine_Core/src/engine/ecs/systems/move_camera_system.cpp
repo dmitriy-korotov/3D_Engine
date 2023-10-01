@@ -8,8 +8,11 @@
 #include <engine/ecs/components/active_camera_component.hpp>
 #include <engine/ecs/components/camera_transform_component.hpp>
 #include <engine/ecs/components/move_camera_component.hpp>
+#include <engine/ecs/components/vision_component.hpp>
 
 #include <engine/input/keyboard.hpp>
+
+#include <engine/application_settings.hpp>
 
 
 
@@ -34,14 +37,16 @@ namespace engine::ecs::systems
 
 				auto& opt_transform_component = owner->getComponent<camera_transform_component>();
 				auto& opt_move_component = owner->getComponent<move_camera_component>();
+				auto& opt_vision_component = owner->getComponent<vision_component>();
 
-				if (!opt_transform_component.has_value() || !opt_transform_component.has_value())
+				if (!opt_transform_component.has_value() || !opt_move_component.has_value() || !opt_vision_component.has_value())
 				{
 					continue;
 				}
 
 				auto& transform_component = opt_transform_component.value().lock();
 				auto& move_component = opt_move_component.value().lock();
+				auto& vision_component = opt_vision_component.value().lock();
 
 				glm::vec3 movement_delta(0.f);
 
@@ -106,6 +111,8 @@ namespace engine::ecs::systems
 				}
 
 				transform_component->setRotation(transform_component->getRotation() + rotation_delta);
+
+				vision_component->setViewPortSize(application_settings::instance().getWidth(), application_settings::instance().getHeight());
 			}
 		}
 	}
