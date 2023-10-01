@@ -22,7 +22,7 @@ namespace engine::ecs::components
 		static constexpr std::string_view component_name = "vision_component";
 
 		vision_component() = default;
-		vision_component(Projection _projection_mode) noexcept;
+		vision_component(Projection _projection_mode = Projection::Perspective) noexcept;
 
 		void setProjectionMode(Projection _projection_mode) noexcept;
 		void setOrthographicFrustum(float _right_plane, float _top_plane, float _near_plane, float _far_plane, float scale) noexcept;

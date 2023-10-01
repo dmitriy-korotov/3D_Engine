@@ -37,6 +37,12 @@
 #include <engine/ecs/systems/render_system.hpp>
 #include <engine/ecs/components/mesh_component.hpp>
 #include <engine/ecs/components/render_component.hpp>
+#include <engine/ecs/components/vision_component.hpp>
+#include <engine/ecs/components/camera_transform_component.hpp>
+#include <engine/ecs/components/move_camera_component.hpp>
+#include <engine/ecs/components/active_camera_component.hpp>
+
+#include <engine/ecs/systems/move_camera_system.hpp>
 
 #include <engine/models/cube.hpp>
 
@@ -413,11 +419,21 @@ namespace editor
 		engine::util::file_reader fs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
 
 		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID, glm::vec3(2.f, 2.f, 2.f));
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID, glm::vec3(0.f, 0.f, 0.f));
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh_component>(ID, model_->getMeshes());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::render_component>(ID,
 									std::make_unique<open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData())));
-		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>(1);
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>(10);
+
+
+
+		engine::ecs::entities::entity_id camera = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::active_camera_component>(camera);
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::camera_transform_component>(camera);
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::move_camera_component>(camera);
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::vision_component>(camera, Projection::Perspective);
+
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::move_camera_system>(1);
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}
@@ -546,14 +562,14 @@ namespace editor
 
 		glm::mat4 model_mat(1.f);
 		shader_program_model->bind();
-		shader_program_model->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * model_mat);
-		shader_program_model->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_mat);
+		//shader_program_model->setMatrix4f("model_view_matrix", m_camera->getViewMatrix() * model_mat);
+		//shader_program_model->setMatrix4f("mvp_matrix", m_camera->getViewProjectionMatrix() * model_mat);
 		
-		for (const auto& mesh : model_->getMeshes())
+		/*for (const auto& mesh : model_->getMeshes())
 		{
 			engine::render::open_gl::renderer::instance().draw(*shader_program_model, *mesh, *model_->getMaterial(),
 																is_triangle_rendering ? DrawingMode::Triangle : DrawingMode::LineStrip);
-		}
+		}*/
 		//engine::render::open_gl::renderer::draw(*VAO_1buffer_, renderer::DrawingMode::LineStrip);
 
 		

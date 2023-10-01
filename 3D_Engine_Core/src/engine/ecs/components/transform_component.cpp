@@ -10,7 +10,9 @@ namespace engine::ecs::components
 			: m_position(std::move(_position))
 			, m_rotation(std::move(_rotation))
 			, m_scale(_scale)
-	{ }
+	{
+		updateModelMatrix();
+	}
 
 
 
@@ -19,19 +21,56 @@ namespace engine::ecs::components
 		m_position = std::move(_position);
 		m_rotation = std::move(_rotation);
 		m_scale = std::move(_scale);
+		m_is_need_update_model_matrix = true;
 	}
 
 
 
-	glm::mat4 transform_component::getModelMatrix() const noexcept
+	void transform_component::setPosition(glm::vec3 _position) noexcept
 	{
-		glm::mat4 model_matrix(1.f);
-		model_matrix = glm::scale(model_matrix, m_scale);
-		model_matrix = glm::rotate(model_matrix, m_rotation.x, glm::vec3(1.f, 0.f, 0.f));
-		model_matrix = glm::rotate(model_matrix, m_rotation.y, glm::vec3(0.f, 1.f, 0.f));
-		model_matrix = glm::rotate(model_matrix, m_rotation.z, glm::vec3(0.f, 0.f, 1.f));
-		model_matrix = glm::translate(model_matrix, m_position);
-		return model_matrix;
+		m_position = std::move(_position);
+		m_is_need_update_model_matrix = true;
+	}
+
+
+
+	void transform_component::setRotation(glm::vec3 _rotation) noexcept
+	{
+		m_rotation = std::move(_rotation);
+		m_is_need_update_model_matrix = true;
+	}
+
+
+
+	void transform_component::setScale(glm::vec3 _scale) noexcept
+	{
+		m_scale = std::move(_scale);
+		m_is_need_update_model_matrix = true;
+	}
+
+
+
+	const glm::mat4& transform_component::getModelMatrix() noexcept
+	{
+		if (m_is_need_update_model_matrix)
+		{
+			updateModelMatrix();
+		}
+		return m_model_matrix;
+	}
+
+
+
+	void transform_component::updateModelMatrix() noexcept
+	{
+		m_model_matrix = glm::mat4(1.f);
+		m_model_matrix = glm::scale(m_model_matrix, m_scale);
+		m_model_matrix = glm::rotate(m_model_matrix, m_rotation.x, glm::vec3(1.f, 0.f, 0.f));
+		m_model_matrix = glm::rotate(m_model_matrix, m_rotation.y, glm::vec3(0.f, 1.f, 0.f));
+		m_model_matrix = glm::rotate(m_model_matrix, m_rotation.z, glm::vec3(0.f, 0.f, 1.f));
+		m_model_matrix = glm::translate(m_model_matrix, m_position);
+
+		m_is_need_update_model_matrix = false;
 	}
 
 

@@ -69,15 +69,15 @@ namespace engine::ecs::components
 
 	void vision_component::updateProjectionMatrix() noexcept
 	{
-		float aspect = m_view_port_size.x / m_view_port_size.y;
+		const float aspect = m_view_port_size.x / m_view_port_size.y;
 		switch (m_projection_mode)
 		{
-		case engine::render::Projection::Perspective:
+		case engine::render::Projection::Orthographic:
 			m_projection_matrix = glm::ortho(-m_orthographic_frustum.scale, m_orthographic_frustum.scale,
 											 -m_orthographic_frustum.scale * aspect, m_orthographic_frustum.scale * aspect,
 											 m_orthographic_frustum.near_plane, m_orthographic_frustum.far_plane);
 			break;
-		case engine::render::Projection::Orthographic:
+		case engine::render::Projection::Perspective:
 			m_projection_matrix = glm::perspective(m_perspective_frustum.field_of_view, aspect,
 												   m_perspective_frustum.near_plane, m_perspective_frustum.far_plane);
 			break;
