@@ -67,7 +67,7 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 		include/engine/render/common_types.hpp
-		include/engine/render/phrustum.hpp
+		include/engine/render/frustum.hpp
 		include/engine/render/model.hpp
 		include/engine/render/image.hpp
 		include/engine/render/basic_texture2D.hpp
