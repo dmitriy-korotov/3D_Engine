@@ -116,6 +116,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		include/engine/ecs/components/basic_component.hpp
 		include/engine/ecs/components/transform_component.hpp
+		include/engine/ecs/components/light_component.hpp
 		include/engine/ecs/components/render_component.hpp
 		include/engine/ecs/components/components_manager.hpp
 
@@ -192,6 +193,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/components/basic_component.cpp
 		src/engine/ecs/components/transform_component.cpp
+		src/engine/ecs/components/light_component.cpp
 		src/engine/ecs/components/render_component.cpp
 		src/engine/ecs/components/components_manager.cpp
 
