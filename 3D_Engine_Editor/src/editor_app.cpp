@@ -42,6 +42,7 @@
 #include <engine/ecs/components/move_camera_component.hpp>
 #include <engine/ecs/components/active_camera_component.hpp>
 #include <engine/ecs/components/direction_light_component.hpp>
+#include <engine/ecs/components/material_component.hpp>
 
 #include <engine/ecs/systems/move_camera_system.hpp>
 
@@ -422,6 +423,7 @@ namespace editor
 		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID, glm::vec3(0.f, 0.f, 0.f));
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh_component>(ID, model_->getMeshes());
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::material_component>(ID, model_->getMaterial());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::render_component>(ID,
 									std::make_unique<open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData())));
 		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>(10);
@@ -429,7 +431,7 @@ namespace editor
 
 
 		engine::ecs::entities::entity_id light = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::light_component>(ID, glm::vec3(0.f, 0.5f, -1.f));
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light_component>(ID, glm::vec3(0.f, 0.5f, -1.f));
 
 
 		engine::ecs::entities::entity_id camera = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();

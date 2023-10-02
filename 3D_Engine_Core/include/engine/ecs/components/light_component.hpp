@@ -16,9 +16,9 @@ namespace engine::ecs::components
 
 
 
-		light_component(const glm::vec3& _ambient = glm::vec3(1.f),
+		light_component(const glm::vec3& _ambient = glm::vec3(0.1f),
 						const glm::vec3& _diffuse = glm::vec3(1.f),
-						const glm::vec3& _specular = glm::vec3(1.f)) noexcept;
+						const glm::vec3& _specular = glm::vec3(0.5f)) noexcept;
 
 		void setFactors(const glm::vec3& _ambient, const glm::vec3& _diffuse, const glm::vec3& _specular) noexcept;
 
