@@ -49,9 +49,12 @@ namespace engine::ecs::components
 
 	void vision_component::setViewPortSize(float _width, float _height) noexcept
 	{
-		m_view_port_size.x = _width;
-		m_view_port_size.y = _height;
-		m_is_need_update_projection_matrix = true;
+		if (m_view_port_size.x != _width || m_view_port_size.y != _height)
+		{
+			m_view_port_size.x = _width;
+			m_view_port_size.y = _height;
+			m_is_need_update_projection_matrix = true;
+		}
 	}
 
 

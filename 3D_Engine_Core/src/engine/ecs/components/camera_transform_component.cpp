@@ -20,13 +20,19 @@ namespace engine::ecs::components
 
 	void camera_transform_component::setPosition(const glm::vec3& _position) noexcept
 	{
-		m_position = _position;
-		m_is_need_update_view_matrix = true;
+		if (m_position != _position)
+		{
+			m_position = _position;
+			m_is_need_update_view_matrix = true;
+		}
 	}
 	void camera_transform_component::setRotation(const glm::vec3& _rotation) noexcept
 	{
-		m_rotation = _rotation;
-		m_is_need_update_view_matrix = true;
+		if (m_rotation != _rotation)
+		{
+			m_rotation = _rotation;
+			m_is_need_update_view_matrix = true;
+		}
 	}
 
 

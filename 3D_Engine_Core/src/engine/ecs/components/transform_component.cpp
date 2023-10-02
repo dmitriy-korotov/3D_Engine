@@ -18,34 +18,46 @@ namespace engine::ecs::components
 
 	void transform_component::setTransform(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale) noexcept
 	{
-		m_position = std::move(_position);
-		m_rotation = std::move(_rotation);
-		m_scale = std::move(_scale);
-		m_is_need_update_model_matrix = true;
+		if (m_position != _position || m_rotation != _rotation || m_scale != _scale)
+		{
+			m_position = std::move(_position);
+			m_rotation = std::move(_rotation);
+			m_scale = std::move(_scale);
+			m_is_need_update_model_matrix = true;
+		}
 	}
 
 
 
 	void transform_component::setPosition(glm::vec3 _position) noexcept
 	{
-		m_position = std::move(_position);
-		m_is_need_update_model_matrix = true;
+		if (m_position != _position)
+		{
+			m_position = std::move(_position);
+			m_is_need_update_model_matrix = true;
+		}
 	}
 
 
 
 	void transform_component::setRotation(glm::vec3 _rotation) noexcept
 	{
-		m_rotation = std::move(_rotation);
-		m_is_need_update_model_matrix = true;
+		if (m_rotation != _rotation)
+		{
+			m_rotation = std::move(_rotation);
+			m_is_need_update_model_matrix = true;
+		}
 	}
 
 
 
 	void transform_component::setScale(glm::vec3 _scale) noexcept
 	{
-		m_scale = std::move(_scale);
-		m_is_need_update_model_matrix = true;
+		if (m_scale != _scale)
+		{
+			m_scale = std::move(_scale);
+			m_is_need_update_model_matrix = true;
+		}
 	}
 
 

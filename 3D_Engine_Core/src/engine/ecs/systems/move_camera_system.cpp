@@ -48,6 +48,8 @@ namespace engine::ecs::systems
 				auto& move_component = opt_move_component.value().lock();
 				auto& vision_component = opt_vision_component.value().lock();
 
+
+
 				glm::vec3 movement_delta(0.f);
 
 				glm::vec3 velocity = move_component->getVelocity();
@@ -85,6 +87,8 @@ namespace engine::ecs::systems
 					transform_component->moveUp(-velocity.z * _delta_time);
 				}
 
+
+
 				glm::vec3 rotation_delta(0.f);
 
 				if (keyboard::isKeyPressed(engine::input::Key::KEY_UP))
@@ -111,6 +115,8 @@ namespace engine::ecs::systems
 				{
 					rotation_delta.x += 0.1f;
 				}
+
+
 
 				transform_component->setRotation(transform_component->getRotation() + rotation_delta);
 
