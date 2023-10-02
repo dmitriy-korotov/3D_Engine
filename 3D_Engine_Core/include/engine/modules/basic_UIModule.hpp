@@ -39,6 +39,8 @@ namespace engine::modules
 		virtual void onUIDrawBegin() const noexcept = 0;
 		virtual void onUIDrawEnd() const noexcept = 0;
 
+		virtual bool isMouseOnUI() const noexcept = 0;
+
 		virtual void createDockSpace() const noexcept;
 
 	protected:

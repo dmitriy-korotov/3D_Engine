@@ -157,6 +157,13 @@ namespace engine::modules::imgui
 
 
 
+    bool UIModule::isMouseOnUI() const noexcept
+    {
+        return ImGui::GetIO().WantCaptureMouse;
+    }
+
+
+
     void UIModule::createDockSpace() const noexcept
     {
         static bool is_open = false;

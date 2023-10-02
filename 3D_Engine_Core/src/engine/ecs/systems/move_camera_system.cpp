@@ -14,6 +14,7 @@
 
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>
+#include <engine/modules/imgui/UIModule.hpp>
 
 #include <engine/application_settings.hpp>
 
@@ -137,15 +138,18 @@ namespace engine::ecs::systems
 
 		auto current_mouse_position = glm::dvec2(mouse::getCursorPositionX(), mouse::getCursorPositionY());
 
-		if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
+		if (!modules::imgui::UIModule::instance().isMouseOnUI())
 		{
-			rotation_delta.z -= (current_mouse_position.x - m_last_cursor_position.x) / 10;
-			rotation_delta.y += (current_mouse_position.y - m_last_cursor_position.y) / 10;
-		}
-		if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_RIGHT))
-		{
-			_transform_component.moveRight((current_mouse_position.x - m_last_cursor_position.x) / 100);
-			_transform_component.moveWorldUp((current_mouse_position.y - m_last_cursor_position.y) / 100);
+			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
+			{
+				rotation_delta.z -= (current_mouse_position.x - m_last_cursor_position.x) / 10;
+				rotation_delta.y += (current_mouse_position.y - m_last_cursor_position.y) / 10;
+			}
+			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_RIGHT))
+			{
+				_transform_component.moveRight((current_mouse_position.x - m_last_cursor_position.x) / 100);
+				_transform_component.moveWorldUp((current_mouse_position.y - m_last_cursor_position.y) / 100);
+			}
 		}
 		
 		m_last_cursor_position = current_mouse_position;

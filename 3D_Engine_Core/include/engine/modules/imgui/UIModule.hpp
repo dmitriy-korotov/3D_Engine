@@ -17,6 +17,8 @@ namespace engine::modules::imgui
 		void onUIDrawBegin() const noexcept override;
 		void onUIDrawEnd() const noexcept override;
 
+		bool isMouseOnUI() const noexcept override;
+
 		void createDockSpace() const noexcept override;
 
 	private:
