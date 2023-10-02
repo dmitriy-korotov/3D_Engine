@@ -7,7 +7,7 @@
 #include <engine/ecs/components/mesh_component.hpp>
 #include <engine/ecs/components/transform_component.hpp>
 #include <engine/ecs/components/active_camera_component.hpp>
-#include <engine/ecs/components/camera_transform_component.hpp>
+#include <engine/ecs/components/transform_camera_component.hpp>
 #include <engine/ecs/components/vision_component.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
@@ -32,7 +32,7 @@ namespace engine::ecs::systems
 				const auto& shader_program = component->getShaderProgram();
 				const auto& active_camera = ECS::instance().getEntitiesManager()->getEntity(
 					ECS::instance().getComponentsManager()->getComponents<components::active_camera_component>()->first->getOwner());
-				auto& camera_transform_component = active_camera->getComponent<components::camera_transform_component>()->lock();
+				auto& camera_transform_component = active_camera->getComponent<components::transform_camera_component>()->lock();
 				auto& vision_component = active_camera->getComponent<components::vision_component>()->lock();
 
 				auto& owner = ECS::instance().getEntitiesManager()->getEntity(component->getOwner());

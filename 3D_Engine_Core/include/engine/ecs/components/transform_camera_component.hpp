@@ -9,13 +9,13 @@
 
 namespace engine::ecs::components
 {
-	class camera_transform_component: public basic_component
+	class transform_camera_component: public basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "camera_transform_component";
+		static constexpr std::string_view component_name = "transform_camera_component";
 
-		camera_transform_component(const glm::vec3& _position = glm::vec3(0.f), const glm::vec3& _rotation = glm::vec3(0.f)) noexcept;
+		transform_camera_component(const glm::vec3& _position = glm::vec3(0.f), const glm::vec3& _rotation = glm::vec3(0.f)) noexcept;
 
 		void setPosition(const glm::vec3& _position) noexcept;
 		void setRotation(const glm::vec3& _rotation) noexcept;

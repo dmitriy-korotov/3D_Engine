@@ -1,4 +1,4 @@
-#include <engine/ecs/components/camera_transform_component.hpp>
+#include <engine/ecs/components/transform_camera_component.hpp>
 
 #include <engine/scene/world_data.hpp>
 
@@ -9,7 +9,7 @@
 
 namespace engine::ecs::components
 {
-	camera_transform_component::camera_transform_component(const glm::vec3& _position, const glm::vec3& _rotation) noexcept
+	transform_camera_component::transform_camera_component(const glm::vec3& _position, const glm::vec3& _rotation) noexcept
 			: m_position(_position)
 			, m_rotation(_rotation)
 	{ 
@@ -18,7 +18,7 @@ namespace engine::ecs::components
 
 
 
-	void camera_transform_component::setPosition(const glm::vec3& _position) noexcept
+	void transform_camera_component::setPosition(const glm::vec3& _position) noexcept
 	{
 		if (m_position != _position)
 		{
@@ -26,7 +26,7 @@ namespace engine::ecs::components
 			m_is_need_update_view_matrix = true;
 		}
 	}
-	void camera_transform_component::setRotation(const glm::vec3& _rotation) noexcept
+	void transform_camera_component::setRotation(const glm::vec3& _rotation) noexcept
 	{
 		if (m_rotation != _rotation)
 		{
@@ -37,43 +37,43 @@ namespace engine::ecs::components
 
 
 
-	const glm::vec3& camera_transform_component::getPosition() const noexcept
+	const glm::vec3& transform_camera_component::getPosition() const noexcept
 	{
 		return m_position;
 	}
-	const glm::vec3& camera_transform_component::getRotation() const noexcept
+	const glm::vec3& transform_camera_component::getRotation() const noexcept
 	{
 		return m_rotation;
 	}
 
 
 
-	const glm::vec3& camera_transform_component::getForwardDirection() const noexcept
+	const glm::vec3& transform_camera_component::getForwardDirection() const noexcept
 	{
 		return m_forward;
 	}
-	const glm::vec3& camera_transform_component::getRightDirection() const noexcept
+	const glm::vec3& transform_camera_component::getRightDirection() const noexcept
 	{
 		return m_right;
 	}
-	const glm::vec3& camera_transform_component::getUpDirection() const noexcept
+	const glm::vec3& transform_camera_component::getUpDirection() const noexcept
 	{
 		return m_up;
 	}
 
 
 
-	void camera_transform_component::moveUp(float _delta) noexcept
+	void transform_camera_component::moveUp(float _delta) noexcept
 	{
 		m_position += m_up * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void camera_transform_component::moveRight(float _delta) noexcept
+	void transform_camera_component::moveRight(float _delta) noexcept
 	{
 		m_position -= m_right * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void camera_transform_component::moveForward(float _delta) noexcept
+	void transform_camera_component::moveForward(float _delta) noexcept
 	{
 		m_position += m_forward * _delta;
 		m_is_need_update_view_matrix = true;
@@ -81,17 +81,17 @@ namespace engine::ecs::components
 
 
 
-	void camera_transform_component::moveWorldUp(float _delta) noexcept
+	void transform_camera_component::moveWorldUp(float _delta) noexcept
 	{
 		m_position += scene::g_world_up_direction * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void camera_transform_component::moveWorldRight(float _delta) noexcept
+	void transform_camera_component::moveWorldRight(float _delta) noexcept
 	{
 		m_position += scene::g_world_right_direction * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void camera_transform_component::moveWorldForward(float _delta) noexcept
+	void transform_camera_component::moveWorldForward(float _delta) noexcept
 	{
 		m_position += scene::g_world_forward_direction * _delta;
 		m_is_need_update_view_matrix = true;
@@ -99,7 +99,7 @@ namespace engine::ecs::components
 
 
 
-	const glm::mat4& camera_transform_component::getViewMatrix() noexcept
+	const glm::mat4& transform_camera_component::getViewMatrix() noexcept
 	{
 		if (m_is_need_update_view_matrix)
 		{
@@ -110,7 +110,7 @@ namespace engine::ecs::components
 
 
 
-	void camera_transform_component::updateViewMatrix() noexcept
+	void transform_camera_component::updateViewMatrix() noexcept
 	{
 		float roll_in_radians = glm::radians(m_rotation.x);
 		float pitch_in_radians = glm::radians(m_rotation.y);

@@ -6,7 +6,7 @@
 #include <engine/ecs/entities/entities_manager.hpp>
 
 #include <engine/ecs/components/active_camera_component.hpp>
-#include <engine/ecs/components/camera_transform_component.hpp>
+#include <engine/ecs/components/transform_camera_component.hpp>
 #include <engine/ecs/components/move_camera_component.hpp>
 #include <engine/ecs/components/vision_component.hpp>
 
@@ -35,7 +35,7 @@ namespace engine::ecs::systems
 			{
 				const auto& owner = ECS::instance().getEntitiesManager()->getEntity(begin->getOwner());
 
-				auto& opt_transform_component = owner->getComponent<camera_transform_component>();
+				auto& opt_transform_component = owner->getComponent<transform_camera_component>();
 				auto& opt_move_component = owner->getComponent<move_camera_component>();
 				auto& opt_vision_component = owner->getComponent<vision_component>();
 

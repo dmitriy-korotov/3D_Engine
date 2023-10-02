@@ -38,7 +38,7 @@
 #include <engine/ecs/components/mesh_component.hpp>
 #include <engine/ecs/components/render_component.hpp>
 #include <engine/ecs/components/vision_component.hpp>
-#include <engine/ecs/components/camera_transform_component.hpp>
+#include <engine/ecs/components/transform_camera_component.hpp>
 #include <engine/ecs/components/move_camera_component.hpp>
 #include <engine/ecs/components/active_camera_component.hpp>
 
@@ -429,7 +429,7 @@ namespace editor
 
 		engine::ecs::entities::entity_id camera = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::active_camera_component>(camera);
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::camera_transform_component>(camera);
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_camera_component>(camera);
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::move_camera_component>(camera);
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::vision_component>(camera, Projection::Perspective);
 
