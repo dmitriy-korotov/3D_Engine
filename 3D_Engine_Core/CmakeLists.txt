@@ -129,6 +129,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/transform_camera_component.hpp
 		include/engine/ecs/components/move_camera_component.hpp
 		include/engine/ecs/components/light_component.hpp
+		include/engine/ecs/components/direction_light_component.hpp
 		include/engine/ecs/components/vision_component.hpp
 		include/engine/ecs/components/mesh_component.hpp
 		include/engine/ecs/components/material_component.hpp
@@ -214,6 +215,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/transform_camera_component.cpp
 		src/engine/ecs/components/move_camera_component.cpp
 		src/engine/ecs/components/light_component.cpp
+		src/engine/ecs/components/direction_light_component.cpp
 		src/engine/ecs/components/vision_component.cpp
 		src/engine/ecs/components/mesh_component.cpp
 		src/engine/ecs/components/material_component.cpp
