@@ -112,17 +112,26 @@ namespace engine::ecs::components
 
 	void transform_camera_component::updateViewMatrix() noexcept
 	{
-		float roll_in_radians = glm::radians(m_rotation.x);
-		float pitch_in_radians = glm::radians(m_rotation.y);
-		float yaw_in_radians = glm::radians(m_rotation.z);
+		float roll_in_radians =		-glm::radians(m_rotation.x);
+		float pitch_in_radians =	-glm::radians(m_rotation.y);
+		float yaw_in_radians =		-glm::radians(m_rotation.z);
 
-		glm::mat4 euler_rotate_matrix(1.f);
-		euler_rotate_matrix = glm::rotate(euler_rotate_matrix, -roll_in_radians, glm::vec3(1.f, 0.f, 0.f));
-		euler_rotate_matrix = glm::rotate(euler_rotate_matrix, -pitch_in_radians, glm::vec3(0.f, 1.f, 0.f));
-		euler_rotate_matrix = glm::rotate(euler_rotate_matrix, -yaw_in_radians, glm::vec3(0.f, 0.f, 1.f));
+		glm::mat3 rotate_matrix_x(1.f, 0.f, 0.f,
+								  0.f, cos(roll_in_radians), sin(roll_in_radians),
+								  0.f, -sin(roll_in_radians), cos(roll_in_radians));
 
-		m_forward = glm::normalize(glm::mat3(euler_rotate_matrix) * scene::g_world_forward_direction);
-		m_right = glm::normalize(glm::mat3(euler_rotate_matrix) * scene::g_world_right_direction);
+		glm::mat3 rotate_matrix_y(cos(pitch_in_radians), 0.f, -sin(pitch_in_radians),
+								  0.f, 1.f, 0.f,
+								  sin(pitch_in_radians), 0.f, cos(pitch_in_radians));
+
+		glm::mat3 rotate_matrix_z(glm::cos(yaw_in_radians), glm::sin(yaw_in_radians), 0.f,
+								  -glm::sin(yaw_in_radians), glm::cos(yaw_in_radians), 0.f,
+								  0.f, 0.f, 1.f);
+		
+		glm::mat3 euler_rotate_matrix = rotate_matrix_z * rotate_matrix_y * rotate_matrix_x;
+
+		m_forward = glm::normalize(euler_rotate_matrix * scene::g_world_forward_direction);
+		m_right = glm::normalize(euler_rotate_matrix * scene::g_world_right_direction);
 		m_up = glm::normalize(glm::cross(m_forward, m_right));
 
 		m_view_matrix = glm::lookAt(m_position, m_position + m_forward, m_up);

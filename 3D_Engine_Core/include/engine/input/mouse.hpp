@@ -17,9 +17,14 @@ namespace engine::input
 		static bool isButtonPressed(MouseButton _mouse_button) noexcept;
 		static void pressButton(MouseButton _mouse_button) noexcept;
 		static void releaseButton(MouseButton _mouse_button) noexcept;
+		static void setCursorPosition(double _x, double _y) noexcept;
+		static double getCursorPositionX() noexcept;
+		static double getCursorPositionY() noexcept;
 
 	private:
 
+		static double m_cursor_position_x;
+		static double m_cursor_position_y;
 		static keys_storage m_mouse_button_keys;
 
 	};

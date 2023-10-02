@@ -8,6 +8,8 @@
 #include <engine/window/basic_window.hpp>
 #include <engine/window/glfw/glfw_window_context.hpp>
 
+#include <engine/input/mouse.hpp>
+
 #include <nlohmann/json.hpp>
 
 #include <fstream>
@@ -165,6 +167,9 @@ namespace engine
         m_is_closed = false;
         while (!isClosed())
         {
+            auto cursor_position = m_window_ptr->getCurrentCursorPosition();
+            input::mouse::setCursorPosition(cursor_position.x, cursor_position.y);
+
             m_window_ptr->onUpdate();
             onUpdate();
             onDrawUI();
