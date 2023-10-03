@@ -45,6 +45,7 @@ namespace engine::ecs::systems
 				shader_program->bind();
 				shader_program->setMatrix4f("model_view_matrix", camera_transform_component->getViewMatrix() * transform_component->getModelMatrix());
 				shader_program->setMatrix4f("mvp_matrix", vision_component->getProjectionMatrix() * camera_transform_component->getViewMatrix() * transform_component->getModelMatrix());
+				shader_program->setMatrix3f("normal_matrix", transform_component->getNormalMatrix());
 
 
 

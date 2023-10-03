@@ -73,6 +73,17 @@ namespace engine::ecs::components
 
 
 
+	glm::mat3 transform_component::getNormalMatrix() noexcept
+	{
+		if (m_is_need_update_model_matrix)
+		{
+			updateModelMatrix();
+		}
+		return glm::mat3(glm::transpose(glm::inverse(m_model_matrix)));
+	}
+
+
+
 	void transform_component::updateModelMatrix() noexcept
 	{
 		m_model_matrix = glm::mat4(1.f);

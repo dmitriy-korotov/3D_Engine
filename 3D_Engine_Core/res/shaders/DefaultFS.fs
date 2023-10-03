@@ -1,7 +1,7 @@
 #version 460
 
 in vec2 fTexCoord;
-in vec3 fNormal;
+in vec3 fNormal_eye;
 
 layout (binding = 0) uniform sampler2D inTexture;
 
@@ -28,7 +28,7 @@ out vec4 frag_color;
 
 void main() {
 
-	vec3 normal = normalize(fNormal);
+	vec3 normal = normalize(fNormal_eye);
 
 	
 	

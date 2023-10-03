@@ -27,6 +27,7 @@ namespace engine::ecs::components
 		void setScale(glm::vec3 _scale) noexcept;
 
 		const glm::mat4& getModelMatrix() noexcept;
+		glm::mat3 getNormalMatrix() noexcept;
 
 		const glm::vec3 getPosition() const noexcept;
 		const glm::vec3 getRotation() const noexcept;
