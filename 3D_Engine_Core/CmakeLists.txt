@@ -129,6 +129,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		include/engine/ecs/components/physic/position.hpp
 		include/engine/ecs/components/physic/rotation.hpp
+		include/engine/ecs/components/physic/scale.hpp
 		include/engine/ecs/components/physic/transform_component.hpp
 		include/engine/ecs/components/physic/move_camera_component.hpp
 
@@ -222,6 +223,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/components/physic/position.cpp
 		src/engine/ecs/components/physic/rotation.cpp
+		src/engine/ecs/components/physic/scale.cpp
 		src/engine/ecs/components/physic/transform_component.cpp
 		src/engine/ecs/components/physic/move_camera_component.cpp
 
