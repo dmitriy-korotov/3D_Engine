@@ -15,7 +15,11 @@ namespace engine::render
 	public:
 
 		image(const path& _path_to_image);
+		image(image&& _other) noexcept;
+		image& operator=(image&& _right) noexcept;
 		~image();
+
+		void swap(image& _other) noexcept;
 
 		int getWidth() const noexcept;
 		int getHeight() const noexcept;

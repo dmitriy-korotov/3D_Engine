@@ -17,6 +17,42 @@ namespace engine::render
 
 
 
+	image::image(image&& _other) noexcept
+			: m_channels(_other.m_channels)
+			, m_data(_other.m_data)
+			, m_width(_other.m_width)
+			, m_height(_other.m_height)
+			, m_is_loaded(_other.m_is_loaded)
+	{
+		_other.m_channels = 0;
+		_other.m_width = 0;
+		_other.m_height = 0;
+		_other.m_data = nullptr;
+		_other.m_is_loaded = false;
+	}
+
+
+
+	image& image::operator=(image&& _right) noexcept
+	{
+		image tmp = std::move(_right);
+		swap(tmp);
+		return *this;
+	}
+
+
+
+	void image::swap(image& _other) noexcept
+	{
+		std::swap(m_width, _other.m_width);
+		std::swap(m_height, _other.m_height);
+		std::swap(m_data, _other.m_data);
+		std::swap(m_channels, _other.m_channels);
+		std::swap(m_is_loaded, _other.m_is_loaded);
+	}
+
+
+
 	int image::getWidth() const noexcept
 	{
 		return m_width;
@@ -61,6 +97,9 @@ namespace engine::render
 
 	image::~image()
 	{
-		stbi_image_free(m_data);
+		if (m_data != nullptr)
+		{
+			stbi_image_free(m_data);
+		}
 	}
 }
