@@ -19,7 +19,7 @@ namespace engine::ecs::components
 		void setPosition(const glm::vec3& _position) noexcept;
 		const glm::vec3& getPosition() const noexcept;
 
-	private:
+	protected:
 
 		glm::vec3 m_position;
 
