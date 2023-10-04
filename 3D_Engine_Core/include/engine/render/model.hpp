@@ -3,11 +3,13 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/render/meshes/basic_mesh.hpp>
+#include <engine/render/image.hpp>
 #include <engine/render/materials/open_gl/material.hpp>
 
 #include <assimp/scene.h>
 
 #include <vector>
+#include <unordered_map>
 #include <memory>
 #include <filesystem>
 
@@ -42,10 +44,11 @@ namespace engine::render
 
 	private:
 
+		path m_model_directory;
+		std::unordered_map<std::string, image> m_loaded_textures;
+
 		mesh_storage m_meshes;
 		material_ptr m_material;
-
-		path m_model_directory;
 
 	};
 }

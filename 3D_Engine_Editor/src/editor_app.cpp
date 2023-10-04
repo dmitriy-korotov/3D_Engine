@@ -349,11 +349,11 @@ namespace editor
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft.blend");
-		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\CubeForTrash\\trash_container.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Steve\\Model\\Steve\\Steve.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Tree\\tree.obj");
-		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj");
+		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj");
 
 		renderer::instance().enableDepthTest();
 

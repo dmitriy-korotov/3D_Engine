@@ -1,7 +1,5 @@
 #pragma once
 
-#include <engine/util/nocopyeble.hpp>
-
 #include <engine/render/basic_texture2D.hpp>
 
 #include <engine/render/open_gl/gl_types.hpp>

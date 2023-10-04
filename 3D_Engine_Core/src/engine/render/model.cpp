@@ -162,10 +162,20 @@ namespace engine::render
 			aiString path_to_texture;
 			_material->GetTexture(_texture_type, i, &path_to_texture);
 
+			auto finded_texture = m_loaded_textures.find(path_to_texture.C_Str());
+			if (finded_texture != m_loaded_textures.end())
+			{
+				texture2D texture;
+				texture.setData(finded_texture->second.getData(), finded_texture->second.getWidth(), finded_texture->second.getHeight());
+				_textures.push_back(std::move(texture));
+				continue;
+			}
+
 			image img(m_model_directory / path_to_texture.C_Str());
 			texture2D texture;
 			texture.setData(img.getData(), img.getWidth(), img.getHeight());
 
+			m_loaded_textures.emplace(path_to_texture.C_Str(), std::move(img));
 			_textures.push_back(std::move(texture));
 		}
 	}
