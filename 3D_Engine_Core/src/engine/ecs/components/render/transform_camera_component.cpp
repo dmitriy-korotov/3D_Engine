@@ -1,4 +1,4 @@
-#include <engine/ecs/components/transform_camera_component.hpp>
+#include <engine/ecs/components/render/transform_camera_component.hpp>
 
 #include <engine/scene/world_data.hpp>
 

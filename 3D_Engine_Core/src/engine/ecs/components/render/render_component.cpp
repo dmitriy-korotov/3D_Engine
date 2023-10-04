@@ -1,4 +1,4 @@
-#include <engine/ecs/components/render_component.hpp>
+#include <engine/ecs/components/render/render_component.hpp>
 
 #include <engine/render/basic_shader_program.hpp>
 

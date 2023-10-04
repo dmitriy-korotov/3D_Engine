@@ -1,4 +1,4 @@
-#include <engine/ecs/components/transform_component.hpp>
+#include <engine/ecs/components/physic/transform_component.hpp>
 
 #include <glm/ext/matrix_transform.hpp>
 

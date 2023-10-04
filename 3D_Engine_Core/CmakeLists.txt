@@ -121,20 +121,23 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 
 
-		include/engine/ecs/components/active_camera_component.hpp
-
-		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/basic_component.hpp
-		include/engine/ecs/components/transform_component.hpp
-		include/engine/ecs/components/transform_camera_component.hpp
-		include/engine/ecs/components/move_camera_component.hpp
-		include/engine/ecs/components/light_component.hpp
-		include/engine/ecs/components/direction_light_component.hpp
-		include/engine/ecs/components/vision_component.hpp
-		include/engine/ecs/components/mesh_component.hpp
-		include/engine/ecs/components/material_component.hpp
-		include/engine/ecs/components/render_component.hpp
+		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/components_manager.hpp
+
+		include/engine/ecs/components/markers/active_camera_component.hpp
+
+		include/engine/ecs/components/physic/transform_component.hpp
+		include/engine/ecs/components/physic/move_camera_component.hpp
+
+		include/engine/ecs/components/render/transform_camera_component.hpp
+		include/engine/ecs/components/render/vision_component.hpp
+		include/engine/ecs/components/render/mesh_component.hpp
+		include/engine/ecs/components/render/material_component.hpp
+		include/engine/ecs/components/render/render_component.hpp	
+	
+		include/engine/ecs/components/render/light/light_component.hpp
+		include/engine/ecs/components/render/light/direction_light_component.hpp
 
 
 
@@ -210,17 +213,22 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/entities/basic_entity.cpp
 		src/engine/ecs/entities/entities_manager.cpp
 
+
+
 		src/engine/ecs/components/basic_component.cpp
-		src/engine/ecs/components/transform_component.cpp
-		src/engine/ecs/components/transform_camera_component.cpp
-		src/engine/ecs/components/move_camera_component.cpp
-		src/engine/ecs/components/light_component.cpp
-		src/engine/ecs/components/direction_light_component.cpp
-		src/engine/ecs/components/vision_component.cpp
-		src/engine/ecs/components/mesh_component.cpp
-		src/engine/ecs/components/material_component.cpp
-		src/engine/ecs/components/render_component.cpp
 		src/engine/ecs/components/components_manager.cpp
+
+		src/engine/ecs/components/physic/transform_component.cpp
+		src/engine/ecs/components/physic/move_camera_component.cpp
+
+		src/engine/ecs/components/render/transform_camera_component.cpp
+		src/engine/ecs/components/render/vision_component.cpp
+		src/engine/ecs/components/render/mesh_component.cpp
+		src/engine/ecs/components/render/material_component.cpp
+		src/engine/ecs/components/render/render_component.cpp
+		
+		src/engine/ecs/components/render/light/light_component.cpp
+		src/engine/ecs/components/render/light/direction_light_component.cpp
 
 
 

@@ -1,4 +1,4 @@
-#include <engine/ecs/components/move_camera_component.hpp>
+#include <engine/ecs/components/physic/move_camera_component.hpp>
 
 
 

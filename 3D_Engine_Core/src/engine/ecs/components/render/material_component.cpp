@@ -1,4 +1,4 @@
-#include <engine/ecs/components/material_component.hpp>
+#include <engine/ecs/components/render/material_component.hpp>
 
 #include <engine/render/materials/basic_material.hpp>
 

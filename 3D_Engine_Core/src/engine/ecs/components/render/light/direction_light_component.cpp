@@ -1,4 +1,4 @@
-#include <engine/ecs/components/direction_light_component.hpp>
+#include <engine/ecs/components/render/light/direction_light_component.hpp>
 
 
 

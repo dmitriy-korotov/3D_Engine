@@ -7,10 +7,10 @@
 #include <engine/ecs/components/components_manager.hpp>
 #include <engine/ecs/entities/entities_manager.hpp>
 
-#include <engine/ecs/components/active_camera_component.hpp>
-#include <engine/ecs/components/transform_camera_component.hpp>
-#include <engine/ecs/components/move_camera_component.hpp>
-#include <engine/ecs/components/vision_component.hpp>
+#include <engine/ecs/components/markers/active_camera_component.hpp>
+#include <engine/ecs/components/render/transform_camera_component.hpp>
+#include <engine/ecs/components/physic/move_camera_component.hpp>
+#include <engine/ecs/components/render/vision_component.hpp>
 
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>

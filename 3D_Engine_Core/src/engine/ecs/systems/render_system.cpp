@@ -3,14 +3,14 @@
 #include <engine/ecs/ecs_system.hpp>
 
 #include <engine/ecs/components/components_manager.hpp>
-#include <engine/ecs/components/render_component.hpp>
-#include <engine/ecs/components/mesh_component.hpp>
-#include <engine/ecs/components/material_component.hpp>
-#include <engine/ecs/components/transform_component.hpp>
-#include <engine/ecs/components/active_camera_component.hpp>
-#include <engine/ecs/components/transform_camera_component.hpp>
-#include <engine/ecs/components/vision_component.hpp>
-#include <engine/ecs/components/direction_light_component.hpp>
+#include <engine/ecs/components/render/render_component.hpp>
+#include <engine/ecs/components/render/mesh_component.hpp>
+#include <engine/ecs/components/render/material_component.hpp>
+#include <engine/ecs/components/physic/transform_component.hpp>
+#include <engine/ecs/components/markers/active_camera_component.hpp>
+#include <engine/ecs/components/render/transform_camera_component.hpp>
+#include <engine/ecs/components/render/vision_component.hpp>
+#include <engine/ecs/components/render/light/direction_light_component.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/render/basic_shader_program.hpp>

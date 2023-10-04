@@ -1,4 +1,4 @@
-#include <engine/ecs/components/vision_component.hpp>
+#include <engine/ecs/components/render/vision_component.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 

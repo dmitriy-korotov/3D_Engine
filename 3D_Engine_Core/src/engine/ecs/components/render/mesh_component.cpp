@@ -1,4 +1,4 @@
-#include <engine/ecs/components/mesh_component.hpp>
+#include <engine/ecs/components/render/mesh_component.hpp>
 
 #include <engine/render/meshes/basic_mesh.hpp>
 
