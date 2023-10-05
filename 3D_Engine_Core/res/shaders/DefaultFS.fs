@@ -38,7 +38,7 @@ void main() {
 	
 	vec3 LightDir = normalize(-light.direction);
 	float diff = max(dot(LightDir, normal), 0);
-	vec3 diffuse = light.diffuse * texture(inTexture, fTexCoord).rgb;
+	vec3 diffuse = light.diffuse * diff * texture(inTexture, fTexCoord).rgb;
 
 
 

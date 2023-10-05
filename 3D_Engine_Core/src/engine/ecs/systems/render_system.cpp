@@ -52,7 +52,7 @@ namespace engine::ecs::systems
 				auto& direction_light_component = *ECS::instance().getComponentsManager()->getComponents<components::direction_light_component>()->first;
 
 				shader_program->setVector3f("light.direction", direction_light_component->getDirection());
-				shader_program->setVector3f("light.ambient", direction_light_component->getAmbient());
+				//shader_program->setVector3f("light.ambient", direction_light_component->getAmbient());
 				shader_program->setVector3f("light.diffuse", direction_light_component->getDiffuse());
 				shader_program->setVector3f("light.specular", direction_light_component->getSpecular());
 
