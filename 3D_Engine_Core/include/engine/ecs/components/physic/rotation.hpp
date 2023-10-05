@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class rotation:	public basic_component
+	class rotation:	public virtual basic_component
 	{
 	public:
 

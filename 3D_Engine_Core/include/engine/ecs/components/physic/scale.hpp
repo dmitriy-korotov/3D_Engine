@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class scale: public basic_component
+	class scale: public virtual basic_component
 	{
 	public:
 

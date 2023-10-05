@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class position: public basic_component
+	class position: public virtual basic_component
 	{
 	public:
 
