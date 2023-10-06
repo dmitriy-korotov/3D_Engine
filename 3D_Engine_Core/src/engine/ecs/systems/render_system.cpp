@@ -10,7 +10,7 @@
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/physic/camera_transform.hpp>
 #include <engine/ecs/components/physic/vision.hpp>
-#include <engine/ecs/components/render/light/direction_light_component.hpp>
+#include <engine/ecs/components/render/light/direction_light.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/render/basic_shader_program.hpp>
@@ -49,7 +49,7 @@ namespace engine::ecs::systems
 
 
 
-				auto& direction_light_component = *ECS::instance().getComponentsManager()->getComponents<components::direction_light_component>()->first;
+				auto& direction_light_component = *ECS::instance().getComponentsManager()->getComponents<components::direction_light>()->first;
 
 				shader_program->setVector3f("light.direction", direction_light_component->getDirection());
 				//shader_program->setVector3f("light.ambient", direction_light_component->getAmbient());

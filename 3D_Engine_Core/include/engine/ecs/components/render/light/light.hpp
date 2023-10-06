@@ -8,17 +8,17 @@
 
 namespace engine::ecs::components
 {
-	class light_component: public basic_component
+	class light: public virtual basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "light_component";
+		static constexpr std::string_view component_name = "light";
 
 
 
-		light_component(const glm::vec3& _ambient = glm::vec3(0.1f),
-						const glm::vec3& _diffuse = glm::vec3(1.f),
-						const glm::vec3& _specular = glm::vec3(0.5f)) noexcept;
+		light(const glm::vec3& _ambient = glm::vec3(0.1f),
+			  const glm::vec3& _diffuse = glm::vec3(1.f),
+			  const glm::vec3& _specular = glm::vec3(0.5f)) noexcept;
 
 		void setFactors(const glm::vec3& _ambient, const glm::vec3& _diffuse, const glm::vec3& _specular) noexcept;
 

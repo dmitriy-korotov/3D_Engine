@@ -41,7 +41,7 @@
 #include <engine/ecs/components/physic/vision.hpp>
 #include <engine/ecs/components/physic/camera_transform.hpp>
 #include <engine/ecs/components/markers/active_camera.hpp>
-#include <engine/ecs/components/render/light/direction_light_component.hpp>
+#include <engine/ecs/components/render/light/direction_light.hpp>
 #include <engine/ecs/components/render/material.hpp>
 
 #include <engine/ecs/systems/move_camera_system.hpp>
@@ -431,7 +431,7 @@ namespace editor
 
 
 		engine::ecs::entities::entity_id light = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light_component>(ID, glm::vec3(0.f, 0.5f, -1.f));
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light>(ID, glm::vec3(0.f, 0.5f, -1.f));
 
 
 		engine::ecs::entities::entity_id camera = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();

@@ -141,8 +141,8 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/render/material.hpp
 		include/engine/ecs/components/render/renderable.hpp	
 	
-		include/engine/ecs/components/render/light/light_component.hpp
-		include/engine/ecs/components/render/light/direction_light_component.hpp
+		include/engine/ecs/components/render/light/light.hpp
+		include/engine/ecs/components/render/light/direction_light.hpp
 
 
 
@@ -236,8 +236,8 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/render/material.cpp
 		src/engine/ecs/components/render/renderable.cpp
 		
-		src/engine/ecs/components/render/light/light_component.cpp
-		src/engine/ecs/components/render/light/direction_light_component.cpp
+		src/engine/ecs/components/render/light/light.cpp
+		src/engine/ecs/components/render/light/direction_light.cpp
 
 
 
