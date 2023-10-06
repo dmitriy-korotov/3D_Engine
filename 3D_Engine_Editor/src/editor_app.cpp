@@ -36,7 +36,7 @@
 #include <engine/ecs/components/physic/velocity.hpp>
 #include <engine/ecs/systems/systems_manager.hpp>
 #include <engine/ecs/systems/render_system.hpp>
-#include <engine/ecs/components/render/mesh_component.hpp>
+#include <engine/ecs/components/render/mesh.hpp>
 #include <engine/ecs/components/render/renderable.hpp>
 #include <engine/ecs/components/physic/vision.hpp>
 #include <engine/ecs/components/physic/camera_transform.hpp>
@@ -422,7 +422,7 @@ namespace editor
 
 		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform>(ID, glm::vec3(0.f, 0.f, 0.f));
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh_component>(ID, model_->getMeshes());
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh>(ID, model_->getMeshes());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::material_component>(ID, model_->getMaterial());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::renderable>(ID,
 									std::make_unique<open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData())));

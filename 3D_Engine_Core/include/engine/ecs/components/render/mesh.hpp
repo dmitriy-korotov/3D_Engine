@@ -18,18 +18,18 @@ namespace engine::ecs::components
 {
 	using render::meshes::basic_mesh;
 
-	class mesh_component : public basic_component
+	class mesh: public virtual basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "mesh_component";
+		static constexpr std::string_view component_name = "mesh";
 
 
 
 		using mesh_ptr = std::shared_ptr<basic_mesh>;
 		using mesh_storage = std::vector<mesh_ptr>;
 
-		mesh_component(mesh_storage _meshes) noexcept;
+		mesh(mesh_storage _meshes) noexcept;
 
 		const mesh_storage& getMeshes() const noexcept;
 
