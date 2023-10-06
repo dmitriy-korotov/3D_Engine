@@ -23,6 +23,7 @@ namespace engine::render::open_gl
 		void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept override;
 		void setMatrix3f(const std::string_view& _varieble_name, const glm::mat3& _matrix) const noexcept override;
 		void setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept override;
+		void setVector4f(const std::string_view& _varieble_name, const glm::vec4& _vector) const noexcept override;
 		void setInt(const std::string_view& _varieble_name, int _value) const noexcept override;
 		void setFloat(const std::string_view& _varieble_name, float _value) const noexcept override;
 

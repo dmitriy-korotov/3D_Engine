@@ -31,6 +31,7 @@ namespace engine::render
 		virtual void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept = 0;
 		virtual void setMatrix3f(const std::string_view& _varieble_name, const glm::mat3& _matrix) const noexcept = 0;
 		virtual void setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept = 0;
+		virtual void setVector4f(const std::string_view& _varieble_name, const glm::vec4& _vector) const noexcept = 0;
 		virtual void setInt(const std::string_view& _varieble_name, int _value) const noexcept = 0;
 		virtual void setFloat(const std::string_view& _varieble_name, float _value) const noexcept = 0;
 

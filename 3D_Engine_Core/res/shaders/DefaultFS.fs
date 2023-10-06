@@ -13,7 +13,7 @@ struct Material
 
 struct Light
 {
-	vec4 color;
+	vec3 color;
 	vec3 direction;
 	
 	vec3 ambient;
