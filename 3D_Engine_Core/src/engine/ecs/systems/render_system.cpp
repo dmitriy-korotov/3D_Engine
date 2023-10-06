@@ -7,7 +7,7 @@
 #include <engine/ecs/components/render/mesh_component.hpp>
 #include <engine/ecs/components/render/material_component.hpp>
 #include <engine/ecs/components/physic/transform_component.hpp>
-#include <engine/ecs/components/markers/active_camera_component.hpp>
+#include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
 #include <engine/ecs/components/render/vision_component.hpp>
 #include <engine/ecs/components/render/light/direction_light_component.hpp>
@@ -33,7 +33,7 @@ namespace engine::ecs::systems
 				
 				const auto& shader_program = component->getShaderProgram();
 				const auto& active_camera = ECS::instance().getEntitiesManager()->getEntity(
-					ECS::instance().getComponentsManager()->getComponents<components::active_camera_component>()->first->getOwner());
+					ECS::instance().getComponentsManager()->getComponents<components::active_camera>()->first->getOwner());
 				auto& camera_transform_component = active_camera->getComponent<components::transform_camera_component>()->lock();
 				auto& vision_component = active_camera->getComponent<components::vision_component>()->lock();
 

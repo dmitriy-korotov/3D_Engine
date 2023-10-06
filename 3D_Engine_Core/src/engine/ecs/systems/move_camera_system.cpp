@@ -7,7 +7,7 @@
 #include <engine/ecs/components/components_manager.hpp>
 #include <engine/ecs/entities/entities_manager.hpp>
 
-#include <engine/ecs/components/markers/active_camera_component.hpp>
+#include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
 #include <engine/ecs/components/physic/move_camera_component.hpp>
 #include <engine/ecs/components/render/vision_component.hpp>
@@ -29,7 +29,7 @@ namespace engine::ecs::systems
 {
 	void move_camera_system::update(float _delta_time) const noexcept
 	{
-		auto active_camera_components = ECS::instance().getComponentsManager()->getComponents<active_camera_component>();
+		auto active_camera_components = ECS::instance().getComponentsManager()->getComponents<active_camera>();
 		if (active_camera_components.has_value())
 		{
 			auto& begin = active_camera_components->first;

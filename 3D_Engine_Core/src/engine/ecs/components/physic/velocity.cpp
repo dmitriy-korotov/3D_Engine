@@ -4,7 +4,7 @@
 
 namespace engine::ecs::components
 {
-	velocity::velocity(const glm::vec3& _velocity = glm::vec3(0.005f)) noexcept
+	velocity::velocity(const glm::vec3& _velocity) noexcept
 			: m_velocity(_velocity)
 	{ }
 

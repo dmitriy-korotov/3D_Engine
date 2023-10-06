@@ -125,7 +125,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/components_manager.hpp
 
-		include/engine/ecs/components/markers/active_camera_component.hpp
+		include/engine/ecs/components/markers/active_camera.hpp
 
 		include/engine/ecs/components/physic/position.hpp
 		include/engine/ecs/components/physic/rotation.hpp
