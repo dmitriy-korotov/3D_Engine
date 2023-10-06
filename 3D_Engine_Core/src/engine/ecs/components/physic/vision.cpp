@@ -1,4 +1,4 @@
-#include <engine/ecs/components/render/vision_component.hpp>
+#include <engine/ecs/components/physic/vision.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -6,13 +6,13 @@
 
 namespace engine::ecs::components
 {
-	vision_component::vision_component(Projection _projection_mode) noexcept
+	vision::vision(Projection _projection_mode) noexcept
 			: m_projection_mode(_projection_mode)
 	{ }
 
 
 
-	void vision_component::setProjectionMode(Projection _projection_mode) noexcept
+	void vision::setProjectionMode(Projection _projection_mode) noexcept
 	{
 		if (m_projection_mode != _projection_mode)
 		{
@@ -23,7 +23,7 @@ namespace engine::ecs::components
 
 
 
-	void vision_component::setOrthographicFrustum(float _right_plane, float _top_plane, float _near_plane, float _far_plane, float _scale) noexcept
+	void vision::setOrthographicFrustum(float _right_plane, float _top_plane, float _near_plane, float _far_plane, float _scale) noexcept
 	{
 		m_orthographic_frustum.right_plane = _right_plane;
 		m_orthographic_frustum.top_plane = _top_plane;
@@ -36,7 +36,7 @@ namespace engine::ecs::components
 
 
 
-	void vision_component::setPrespectiveFrustum(float _fov, float _near_plane, float _far_plane) noexcept
+	void vision::setPrespectiveFrustum(float _fov, float _near_plane, float _far_plane) noexcept
 	{
 		m_perspective_frustum.field_of_view = _fov;
 		m_perspective_frustum.near_plane = _near_plane;
@@ -47,7 +47,7 @@ namespace engine::ecs::components
 
 
 
-	void vision_component::setViewPortSize(float _width, float _height) noexcept
+	void vision::setViewPortSize(float _width, float _height) noexcept
 	{
 		if (m_view_port_size.x != _width || m_view_port_size.y != _height)
 		{
@@ -59,7 +59,7 @@ namespace engine::ecs::components
 
 
 
-	const glm::mat4& vision_component::getProjectionMatrix() noexcept
+	const glm::mat4& vision::getProjectionMatrix() noexcept
 	{
 		if (m_is_need_update_projection_matrix)
 		{
@@ -70,7 +70,7 @@ namespace engine::ecs::components
 
 
 
-	void vision_component::updateProjectionMatrix() noexcept
+	void vision::updateProjectionMatrix() noexcept
 	{
 		const float aspect = m_view_port_size.x / m_view_port_size.y;
 		switch (m_projection_mode)

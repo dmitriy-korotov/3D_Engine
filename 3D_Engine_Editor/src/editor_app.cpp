@@ -38,7 +38,7 @@
 #include <engine/ecs/systems/render_system.hpp>
 #include <engine/ecs/components/render/mesh_component.hpp>
 #include <engine/ecs/components/render/render_component.hpp>
-#include <engine/ecs/components/render/vision_component.hpp>
+#include <engine/ecs/components/physic/vision.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/light/direction_light_component.hpp>
@@ -438,7 +438,7 @@ namespace editor
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::active_camera>(camera);
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_camera_component>(camera);
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::velocity>(camera, glm::vec3(0.05f));
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::vision_component>(camera, Projection::Perspective);
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::vision>(camera, Projection::Perspective);
 
 		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::move_camera_system>(1);
 

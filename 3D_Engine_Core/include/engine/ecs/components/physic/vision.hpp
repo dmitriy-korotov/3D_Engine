@@ -15,14 +15,13 @@ namespace engine::ecs::components
 	using render::orthographic_frustum;
 	using render::perspective_frustum;
 
-	class vision_component: public basic_component
+	class vision: public virtual basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "vision_component";
+		static constexpr std::string_view component_name = "vision";
 
-		vision_component() = default;
-		vision_component(Projection _projection_mode = Projection::Perspective) noexcept;
+		vision(Projection _projection_mode = Projection::Perspective) noexcept;
 
 		void setProjectionMode(Projection _projection_mode) noexcept;
 		void setOrthographicFrustum(float _right_plane, float _top_plane, float _near_plane, float _far_plane, float scale) noexcept;

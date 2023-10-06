@@ -9,7 +9,7 @@
 
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
-#include <engine/ecs/components/render/vision_component.hpp>
+#include <engine/ecs/components/physic/vision.hpp>
 #include <engine/ecs/components/physic/velocity.hpp>
 
 #include <engine/input/keyboard.hpp>
@@ -38,7 +38,7 @@ namespace engine::ecs::systems
 
 			auto& opt_transform_component = owner->getComponent<transform_camera_component>();
 			auto& opt_move_component = owner->getComponent<velocity>();
-			auto& opt_vision_component = owner->getComponent<vision_component>();
+			auto& opt_vision_component = owner->getComponent<vision>();
 
 			if (!opt_transform_component.has_value() || !opt_move_component.has_value() || !opt_vision_component.has_value())
 			{

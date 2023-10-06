@@ -9,7 +9,7 @@
 #include <engine/ecs/components/physic/transform.hpp>
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
-#include <engine/ecs/components/render/vision_component.hpp>
+#include <engine/ecs/components/physic/vision.hpp>
 #include <engine/ecs/components/render/light/direction_light_component.hpp>
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
@@ -35,7 +35,7 @@ namespace engine::ecs::systems
 				const auto& active_camera = ECS::instance().getEntitiesManager()->getEntity(
 					ECS::instance().getComponentsManager()->getComponents<components::active_camera>()->first->getOwner());
 				auto& camera_transform_component = active_camera->getComponent<components::transform_camera_component>()->lock();
-				auto& vision_component = active_camera->getComponent<components::vision_component>()->lock();
+				auto& vision_component = active_camera->getComponent<components::vision>()->lock();
 
 				auto& owner = ECS::instance().getEntitiesManager()->getEntity(component->getOwner());
 				

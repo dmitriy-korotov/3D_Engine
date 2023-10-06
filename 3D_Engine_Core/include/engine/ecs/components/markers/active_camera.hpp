@@ -6,7 +6,7 @@
 
 namespace engine::ecs::components
 {
-	class active_camera: public basic_component
+	class active_camera: public virtual basic_component
 	{
 	public:
 
