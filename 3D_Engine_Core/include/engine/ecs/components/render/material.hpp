@@ -17,17 +17,17 @@ namespace engine::ecs::components
 {
 	using render::materials::basic_material;
 
-	class material_component: public basic_component
+	class material: public virtual basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "material_component";
+		static constexpr std::string_view component_name = "material";
 
 
 
 		using material_ptr = std::shared_ptr<basic_material>;
 
-		material_component(material_ptr _material) noexcept;
+		material(material_ptr _material) noexcept;
 
 		const material_ptr& getMaterial() const noexcept;
 

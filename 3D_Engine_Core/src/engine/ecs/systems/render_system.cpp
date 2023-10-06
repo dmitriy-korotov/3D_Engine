@@ -5,7 +5,7 @@
 #include <engine/ecs/components/components_manager.hpp>
 #include <engine/ecs/components/render/renderable.hpp>
 #include <engine/ecs/components/render/mesh.hpp>
-#include <engine/ecs/components/render/material_component.hpp>
+#include <engine/ecs/components/render/material.hpp>
 #include <engine/ecs/components/physic/transform.hpp>
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/physic/camera_transform.hpp>
@@ -57,7 +57,7 @@ namespace engine::ecs::systems
 				shader_program->setVector3f("light.specular", direction_light_component->getSpecular());
 
 				auto mesh_component = owner->getComponent<components::mesh>();
-				auto material_component = owner->getComponent<components::material_component>().value().lock();
+				auto material_component = owner->getComponent<components::material>().value().lock();
 				if (mesh_component.has_value())
 				{
 					auto& ptr = mesh_component.value().lock();

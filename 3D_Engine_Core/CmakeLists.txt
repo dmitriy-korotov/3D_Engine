@@ -138,7 +138,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		
 		include/engine/ecs/components/render/mesh.hpp
-		include/engine/ecs/components/render/material_component.hpp
+		include/engine/ecs/components/render/material.hpp
 		include/engine/ecs/components/render/renderable.hpp	
 	
 		include/engine/ecs/components/render/light/light_component.hpp
@@ -233,7 +233,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/physic/vision.cpp
 
 		src/engine/ecs/components/render/mesh.cpp
-		src/engine/ecs/components/render/material_component.cpp
+		src/engine/ecs/components/render/material.cpp
 		src/engine/ecs/components/render/renderable.cpp
 		
 		src/engine/ecs/components/render/light/light_component.cpp
