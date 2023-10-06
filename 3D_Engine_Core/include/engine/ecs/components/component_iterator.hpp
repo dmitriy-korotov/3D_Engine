@@ -9,6 +9,8 @@
 
 namespace engine::ecs::components
 {
+	class basic_component;
+
 	template <typename ComponentType>
 	class component_iterator
 	{
@@ -18,13 +20,13 @@ namespace engine::ecs::components
 		using component_ptr = std::shared_ptr<T>;
 
 		template <typename T>
-		using map_component_iterator = typename std::unordered_map<entities::entity_id, component_ptr<T>>::iterator;
+		using map_component_iterator = typename std::unordered_map<entities::entity_id, component_ptr<T>>::const_iterator;
 
 
-		component_iterator(map_component_iterator<ComponentType> _map_iterator) noexcept;
+		component_iterator(map_component_iterator<basic_component> _map_iterator) noexcept;
 
-		const component_ptr<const ComponentType>& operator*() const noexcept;
-		const component_ptr<ComponentType>& operator*() noexcept;
+		component_ptr<const ComponentType> operator*() const noexcept;
+		component_ptr<ComponentType> operator*() noexcept;
 
 		component_iterator& operator++() noexcept;
 		component_iterator operator++(int) noexcept;
@@ -37,33 +39,33 @@ namespace engine::ecs::components
 
 	private:
 
-		map_component_iterator<ComponentType> m_map_iterator;
+		map_component_iterator<basic_component> m_map_iterator;
 
 	};
 
 
 	
 	template <typename ComponentType>
-	component_iterator<ComponentType>::component_iterator(map_component_iterator<ComponentType> _map_iterator) noexcept
+	component_iterator<ComponentType>::component_iterator(map_component_iterator<basic_component> _map_iterator) noexcept
 			: m_map_iterator(std::move(_map_iterator))
 	{ }
 
 
 
 	template <typename ComponentType>
-	const typename component_iterator<ComponentType>::component_ptr<const ComponentType>& 
+	typename component_iterator<ComponentType>::component_ptr<const ComponentType>
 	component_iterator<ComponentType>::operator*() const noexcept
 	{
-		return m_map_iterator->second;
+		return std::dynamic_pointer_cast<const ComponentType>(m_map_iterator->second);
 	}
 
 
 
 	template <typename ComponentType>
-	const typename component_iterator<ComponentType>::component_ptr<ComponentType>&
+	typename component_iterator<ComponentType>::component_ptr<ComponentType>
 		component_iterator<ComponentType>::operator*() noexcept
 	{
-		return m_map_iterator->second;
+		return std::dynamic_pointer_cast<ComponentType>(m_map_iterator->second);
 	}
 
 
@@ -104,7 +106,7 @@ namespace engine::ecs::components
 	template <typename ComponentType>
 	const ComponentType* const component_iterator<ComponentType>::operator->() const noexcept
 	{
-		return m_map_iterator->second.get();
+		return dynamic_cast<ComponentType* const>(m_map_iterator->second.get());
 	}
 
 
@@ -112,6 +114,6 @@ namespace engine::ecs::components
 	template <typename ComponentType>
 	ComponentType* const component_iterator<ComponentType>::operator->() noexcept
 	{
-		return m_map_iterator->second.get();
+		return dynamic_cast<ComponentType* const>(m_map_iterator->second.get());
 	}
 }

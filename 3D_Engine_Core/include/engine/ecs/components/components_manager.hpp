@@ -112,8 +112,8 @@ namespace engine::ecs::components
 		{
 			auto range_begin = components_range->second.begin();
 			auto range_end = components_range->second.end();
-			return std::make_pair(component_iterator<ComponentType>(*reinterpret_cast<components_map<ComponentType>::iterator*>(&range_begin)),
-								  component_iterator<ComponentType>(*reinterpret_cast<components_map<ComponentType>::iterator*>(&range_end)));
+
+			return std::make_pair(component_iterator<ComponentType>(std::move(range_begin)), component_iterator<ComponentType>(std::move(range_end)));
 		}
 		else
 		{
