@@ -3,7 +3,7 @@
 #include <engine/ecs/ecs_system.hpp>
 
 #include <engine/ecs/components/components_manager.hpp>
-#include <engine/ecs/components/render/render_component.hpp>
+#include <engine/ecs/components/render/renderable.hpp>
 #include <engine/ecs/components/render/mesh_component.hpp>
 #include <engine/ecs/components/render/material_component.hpp>
 #include <engine/ecs/components/physic/transform.hpp>
@@ -21,7 +21,7 @@ namespace engine::ecs::systems
 {
 	void render_system::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		auto components_range = ECS::instance().getComponentsManager()->getComponents<components::render_component>();
+		auto components_range = ECS::instance().getComponentsManager()->getComponents<components::renderable>();
 		if (components_range.has_value())
 		{
 			auto& begin = components_range->first;

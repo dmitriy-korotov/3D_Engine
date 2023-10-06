@@ -18,17 +18,17 @@ namespace engine::ecs::components
 {
 	using namespace render;
 
-	class render_component: public basic_component
+	class renderable: public virtual basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "render_component";
+		static constexpr std::string_view component_name = "renderable";
 
 
 
 		using shader_program_ptr = std::unique_ptr<basic_shader_program>;
 
-		render_component(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
+		renderable(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
 
 		const shader_program_ptr& getShaderProgram() const noexcept;
 		DrawingMode getDrawingMode() const noexcept;
