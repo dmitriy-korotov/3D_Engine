@@ -9,8 +9,8 @@
 
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
-#include <engine/ecs/components/physic/move_camera_component.hpp>
 #include <engine/ecs/components/render/vision_component.hpp>
+#include <engine/ecs/components/physic/velocity.hpp>
 
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>
@@ -37,7 +37,7 @@ namespace engine::ecs::systems
 			const auto& owner = ECS::instance().getEntitiesManager()->getEntity(begin->getOwner());
 
 			auto& opt_transform_component = owner->getComponent<transform_camera_component>();
-			auto& opt_move_component = owner->getComponent<move_camera_component>();
+			auto& opt_move_component = owner->getComponent<velocity>();
 			auto& opt_vision_component = owner->getComponent<vision_component>();
 
 			if (!opt_transform_component.has_value() || !opt_move_component.has_value() || !opt_vision_component.has_value())
@@ -64,7 +64,7 @@ namespace engine::ecs::systems
 
 
 	void move_camera_system::translateCamera(transform_camera_component& _transform_component,
-											 move_camera_component& _move_component, float _delta_time) const noexcept
+											 velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 movement_delta(0.f);
 
@@ -107,7 +107,7 @@ namespace engine::ecs::systems
 
 
 	void move_camera_system::rotateCamera(transform_camera_component& _transform_component,
-										  move_camera_component& _move_component, float _delta_time) const noexcept
+										  velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 rotation_delta(0.f);
 

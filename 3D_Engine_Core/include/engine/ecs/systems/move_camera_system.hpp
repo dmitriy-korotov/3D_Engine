@@ -9,7 +9,7 @@
 namespace engine::ecs::components
 {
 	class transform_camera_component;
-	class move_camera_component;
+	class velocity;
 }
 
 
@@ -17,7 +17,7 @@ namespace engine::ecs::components
 namespace engine::ecs::systems
 {
 	using components::transform_camera_component;
-	using components::move_camera_component;
+	using components::velocity;
 
 	class move_camera_system : public basic_system
 	{
@@ -28,9 +28,9 @@ namespace engine::ecs::systems
 	private:
 
 		void translateCamera(transform_camera_component& _transform_component, 
-							 move_camera_component& _move_component, float _delta_time) const noexcept;
+							 velocity& _move_component, float _delta_time) const noexcept;
 		void rotateCamera(transform_camera_component& _transform_component,
-						  move_camera_component& _move_component, float _delta_time) const noexcept;
+						  velocity& _move_component, float _delta_time) const noexcept;
 
 	private:
 
