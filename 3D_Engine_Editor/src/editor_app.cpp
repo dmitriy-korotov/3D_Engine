@@ -44,7 +44,7 @@
 #include <engine/ecs/components/render/light/direction_light.hpp>
 #include <engine/ecs/components/render/material.hpp>
 
-#include <engine/ecs/systems/move_camera_system.hpp>
+#include <engine/ecs/systems/physic/camera_update.hpp>
 
 #include <engine/models/cube.hpp>
 
@@ -440,7 +440,7 @@ namespace editor
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::velocity>(camera, glm::vec3(0.05f));
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::vision>(camera, Projection::Perspective);
 
-		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::move_camera_system>(1);
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::camera_update>(1);
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}

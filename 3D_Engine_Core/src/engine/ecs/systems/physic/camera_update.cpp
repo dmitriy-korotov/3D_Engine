@@ -1,4 +1,4 @@
-#include <engine/ecs/systems/move_camera_system.hpp>
+#include <engine/ecs/systems/physic/camera_update.hpp>
 
 #include <engine/logging/log.hpp>
 
@@ -27,7 +27,7 @@ using namespace engine::input;
 
 namespace engine::ecs::systems
 {
-	void move_camera_system::update(float _delta_time) const noexcept
+	void camera_update::update(float _delta_time) const noexcept
 	{
 		auto active_camera_components = ECS::instance().getComponentsManager()->getComponents<active_camera>();
 		if (active_camera_components.has_value())
@@ -63,7 +63,7 @@ namespace engine::ecs::systems
 
 
 
-	void move_camera_system::translateCamera(camera_transform& _transform_component,
+	void camera_update::translateCamera(camera_transform& _transform_component,
 											 velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 movement_delta(0.f);
@@ -106,7 +106,7 @@ namespace engine::ecs::systems
 
 
 
-	void move_camera_system::rotateCamera(camera_transform& _transform_component,
+	void camera_update::rotateCamera(camera_transform& _transform_component,
 										  velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 rotation_delta(0.f);

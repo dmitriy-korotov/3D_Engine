@@ -19,7 +19,7 @@ namespace engine::ecs::systems
 	using components::camera_transform;
 	using components::velocity;
 
-	class move_camera_system : public basic_system
+	class camera_update: public basic_system
 	{
 	public:
 
