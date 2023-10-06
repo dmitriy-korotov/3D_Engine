@@ -20,10 +20,10 @@ namespace engine::ecs::systems
 {
 	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		auto components = ECS::instance().getComponentsManager()->getComponents<components::renderable>();
-		if (components.has_value())
+		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<components::renderable>();
+		if (renderable_components.has_value())
 		{
-			auto& [begin, end] = components.value();
+			auto& [begin, end] = renderable_components.value();
 
 			for (;begin != end; begin++)
 			{

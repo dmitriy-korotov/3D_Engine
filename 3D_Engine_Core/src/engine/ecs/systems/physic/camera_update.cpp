@@ -3,14 +3,8 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
-
-#include <engine/ecs/components/components_manager.hpp>
-#include <engine/ecs/entities/entities_manager.hpp>
-
-#include <engine/ecs/components/markers/active_camera.hpp>
-#include <engine/ecs/components/physic/camera_transform.hpp>
-#include <engine/ecs/components/physic/vision.hpp>
-#include <engine/ecs/components/physic/velocity.hpp>
+#include <engine/ecs/components/markers.hpp>
+#include <engine/ecs/components/physic.hpp>
 
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>
@@ -32,32 +26,32 @@ namespace engine::ecs::systems
 		auto active_camera_components = ECS::instance().getComponentsManager()->getComponents<active_camera>();
 		if (active_camera_components.has_value())
 		{
-			auto& begin = active_camera_components->first;
+			const auto& active_camera_comp = active_camera_components->first;
 
-			const auto& owner = ECS::instance().getEntitiesManager()->getEntity(begin->getOwner());
+			const auto& active_camera_ent = ECS::instance().getEntitiesManager()->getEntity(active_camera_comp->getOwner());
 
-			auto& opt_transform_component = owner->getComponent<camera_transform>();
-			auto& opt_move_component = owner->getComponent<velocity>();
-			auto& opt_vision_component = owner->getComponent<vision>();
+			auto& opt_transform_comp = active_camera_ent->getComponent<camera_transform>();
+			auto& opt_move_comp = active_camera_ent->getComponent<velocity>();
+			auto& opt_vision_comp = active_camera_ent->getComponent<vision>();
 
-			if (!opt_transform_component.has_value() || !opt_move_component.has_value() || !opt_vision_component.has_value())
+			if (!opt_transform_comp.has_value() || !opt_move_comp.has_value() || !opt_vision_comp.has_value())
 			{
 				LOG_ERROR("[Move camera system ERROR] Active camera is not have heeded components");
 				return;
 			}
 
-			auto& transform_component = opt_transform_component.value().lock();
-			auto& move_component = opt_move_component.value().lock();
-			auto& vision_component = opt_vision_component.value().lock();
+			auto& transform_comp = opt_transform_comp.value().lock();
+			auto& move_comp = opt_move_comp.value().lock();
+			auto& vision_comp = opt_vision_comp.value().lock();
 
 
 
-			translateCamera(*transform_component, *move_component, _delta_time);
-			rotateCamera(*transform_component, *move_component, _delta_time);
+			translateCamera(*transform_comp, *move_comp, _delta_time);
+			rotateCamera(*transform_comp, *move_comp, _delta_time);
 
 
 
-			vision_component->setViewPortSize(application_settings::instance().getWidth(), application_settings::instance().getHeight());
+			vision_comp->setViewPortSize(application_settings::instance().getWidth(), application_settings::instance().getHeight());
 		}
 	}
 
@@ -70,35 +64,35 @@ namespace engine::ecs::systems
 
 		glm::vec3 velocity = _move_component.getVelocity();
 
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_LEFT_SHIFT))
+		if (keyboard::isKeyPressed(Key::KEY_LEFT_SHIFT))
 		{
 			velocity *= 5.f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_LEFT_CONTROL))
+		if (keyboard::isKeyPressed(Key::KEY_LEFT_CONTROL))
 		{
 			velocity /= 5.f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_W))
+		if (keyboard::isKeyPressed(Key::KEY_W))
 		{
 			_transform_component.moveForward(velocity.x * _delta_time);
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_S))
+		if (keyboard::isKeyPressed(Key::KEY_S))
 		{
 			_transform_component.moveForward(-velocity.x * _delta_time);
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_D))
+		if (keyboard::isKeyPressed(Key::KEY_D))
 		{
 			_transform_component.moveRight(velocity.y * _delta_time);
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_A))
+		if (keyboard::isKeyPressed(Key::KEY_A))
 		{
 			_transform_component.moveRight(-velocity.y * _delta_time);
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_E))
+		if (keyboard::isKeyPressed(Key::KEY_E))
 		{
 			_transform_component.moveUp(velocity.z * _delta_time);
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_Q))
+		if (keyboard::isKeyPressed(Key::KEY_Q))
 		{
 			_transform_component.moveUp(-velocity.z * _delta_time);
 		}
@@ -111,27 +105,27 @@ namespace engine::ecs::systems
 	{
 		glm::vec3 rotation_delta(0.f);
 
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_UP))
+		if (keyboard::isKeyPressed(Key::KEY_UP))
 		{
 			rotation_delta.y -= 0.1f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_DOWN))
+		if (keyboard::isKeyPressed(Key::KEY_DOWN))
 		{
 			rotation_delta.y += 0.1f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_RIGHT))
+		if (keyboard::isKeyPressed(Key::KEY_RIGHT))
 		{
 			rotation_delta.z -= 0.1f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_LEFT))
+		if (keyboard::isKeyPressed(Key::KEY_LEFT))
 		{
 			rotation_delta.z += 0.1f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_KP_6))
+		if (keyboard::isKeyPressed(Key::KEY_KP_6))
 		{
 			rotation_delta.x -= 0.1f;
 		}
-		if (keyboard::isKeyPressed(engine::input::Key::KEY_KP_4))
+		if (keyboard::isKeyPressed(Key::KEY_KP_4))
 		{
 			rotation_delta.x += 0.1f;
 		}
