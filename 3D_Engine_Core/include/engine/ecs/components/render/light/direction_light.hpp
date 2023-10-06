@@ -12,7 +12,8 @@ namespace engine::ecs::components
 
 		static constexpr std::string_view component_name = "direction_light";
 
-		direction_light(const glm::vec3& _direction,
+		direction_light(const glm::vec4& _color = glm::vec4(1.f),
+						const glm::vec3& _direction = glm::vec3(0.f, 0.f, -1.f),
 						const glm::vec3& _ambient = glm::vec3(0.1f),
 						const glm::vec3& _diffuse = glm::vec3(1.f),
 						const glm::vec3& _specular = glm::vec3(5.f)) noexcept;

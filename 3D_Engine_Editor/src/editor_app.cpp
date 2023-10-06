@@ -431,7 +431,7 @@ namespace editor
 
 
 		engine::ecs::entities::entity_id light = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light>(ID, glm::vec3(0.f, 0.5f, -1.f));
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light>(ID);
 
 
 		engine::ecs::entities::entity_id camera = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();

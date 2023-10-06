@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/ecs/components/basic_component.hpp>
+#include <engine/ecs/components/render/color.hpp>
 
 #include <glm/vec3.hpp>
 
@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class light: public virtual basic_component
+	class light: public color
 	{
 	public:
 
@@ -16,7 +16,8 @@ namespace engine::ecs::components
 
 
 
-		light(const glm::vec3& _ambient = glm::vec3(0.1f),
+		light(const glm::vec4& _color = glm::vec4(1.f),
+			  const glm::vec3& _ambient = glm::vec3(0.1f),
 			  const glm::vec3& _diffuse = glm::vec3(1.f),
 			  const glm::vec3& _specular = glm::vec3(0.5f)) noexcept;
 

@@ -13,6 +13,7 @@ struct Material
 
 struct Light
 {
+	vec4 color;
 	vec3 direction;
 	
 	vec3 ambient;
@@ -32,13 +33,13 @@ void main() {
 
 	
 	
-	vec3 ambient = light.ambient * texture(inTexture, fTexCoord).rgb;
+	vec3 ambient = light.ambient * light.color * texture(inTexture, fTexCoord).rgb;
 	
 	
 	
 	vec3 LightDir = normalize(-light.direction);
 	float diff = max(dot(LightDir, normal), 0);
-	vec3 diffuse = light.diffuse * diff * texture(inTexture, fTexCoord).rgb;
+	vec3 diffuse = light.diffuse * light.color * diff * texture(inTexture, fTexCoord).rgb;
 
 
 
