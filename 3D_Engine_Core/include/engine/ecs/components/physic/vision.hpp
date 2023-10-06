@@ -28,11 +28,11 @@ namespace engine::ecs::components
 		void setPrespectiveFrustum(float _fov, float _near_plane, float _far_plane) noexcept;
 		void setViewPortSize(float _width, float _height) noexcept;
 
-		const glm::mat4& getProjectionMatrix() noexcept;
+		const glm::mat4& getProjectionMatrix() const noexcept;
 
 	private:
 
-		void updateProjectionMatrix() noexcept;
+		void updateProjectionMatrix() const noexcept;
 
 	protected:
 
@@ -45,8 +45,8 @@ namespace engine::ecs::components
 
 	private:
 
-		glm::mat4 m_projection_matrix = glm::mat4(1.f);
-		bool m_is_need_update_projection_matrix = true;
+		mutable glm::mat4 m_projection_matrix = glm::mat4(1.f);
+		mutable bool m_is_need_update_projection_matrix = true;
 
 	};
 }

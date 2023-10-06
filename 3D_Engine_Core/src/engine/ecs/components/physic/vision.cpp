@@ -59,7 +59,7 @@ namespace engine::ecs::components
 
 
 
-	const glm::mat4& vision::getProjectionMatrix() noexcept
+	const glm::mat4& vision::getProjectionMatrix() const noexcept
 	{
 		if (m_is_need_update_projection_matrix)
 		{
@@ -70,7 +70,7 @@ namespace engine::ecs::components
 
 
 
-	void vision::updateProjectionMatrix() noexcept
+	void vision::updateProjectionMatrix() const noexcept
 	{
 		const float aspect = m_view_port_size.x / m_view_port_size.y;
 		switch (m_projection_mode)

@@ -62,7 +62,7 @@ namespace engine::ecs::components
 
 
 
-	const glm::mat4& transform::getModelMatrix() noexcept
+	const glm::mat4& transform::getModelMatrix() const noexcept
 	{
 		if (m_is_need_update_model_matrix)
 		{
@@ -73,7 +73,7 @@ namespace engine::ecs::components
 
 
 
-	glm::mat3 transform::getNormalMatrix() noexcept
+	glm::mat3 transform::getNormalMatrix() const noexcept
 	{
 		if (m_is_need_update_model_matrix)
 		{
@@ -84,7 +84,7 @@ namespace engine::ecs::components
 
 
 
-	void transform::updateModelMatrix() noexcept
+	void transform::updateModelMatrix() const noexcept
 	{
 		m_model_matrix = glm::mat4(1.f);
 		m_model_matrix = glm::scale(m_model_matrix, m_scale);

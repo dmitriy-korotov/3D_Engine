@@ -29,8 +29,8 @@ namespace engine::ecs::components
 		void setRotation(const glm::vec3& _rotation) noexcept;
 		void setScale(const glm::vec3& _scale) noexcept;
 
-		const glm::mat4& getModelMatrix() noexcept;
-		glm::mat3 getNormalMatrix() noexcept;
+		const glm::mat4& getModelMatrix() const noexcept;
+		glm::mat3 getNormalMatrix() const noexcept;
 
 		const glm::vec3& getPosition() const noexcept;
 		const glm::vec3& getRotation() const noexcept;
@@ -38,12 +38,12 @@ namespace engine::ecs::components
 
 	private:
 
-		void updateModelMatrix() noexcept;
+		void updateModelMatrix() const noexcept;
 
 	private:
 
-		glm::mat4 m_model_matrix = glm::mat4(1.f);
-		bool m_is_need_update_model_matrix = true;
+		mutable glm::mat4 m_model_matrix = glm::mat4(1.f);
+		mutable bool m_is_need_update_model_matrix = true;
 
 	};
 }
