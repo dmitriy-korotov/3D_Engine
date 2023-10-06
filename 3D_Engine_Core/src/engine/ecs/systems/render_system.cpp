@@ -6,7 +6,7 @@
 #include <engine/ecs/components/render/render_component.hpp>
 #include <engine/ecs/components/render/mesh_component.hpp>
 #include <engine/ecs/components/render/material_component.hpp>
-#include <engine/ecs/components/physic/transform_component.hpp>
+#include <engine/ecs/components/physic/transform.hpp>
 #include <engine/ecs/components/markers/active_camera.hpp>
 #include <engine/ecs/components/render/transform_camera_component.hpp>
 #include <engine/ecs/components/render/vision_component.hpp>
@@ -40,7 +40,7 @@ namespace engine::ecs::systems
 				auto& owner = ECS::instance().getEntitiesManager()->getEntity(component->getOwner());
 				
 				
-				auto& transform_component = owner->getComponent<components::transform_component>()->lock();
+				auto& transform_component = owner->getComponent<components::transform>()->lock();
 
 				shader_program->bind();
 				shader_program->setMatrix4f("model_view_matrix", camera_transform_component->getViewMatrix() * transform_component->getModelMatrix());

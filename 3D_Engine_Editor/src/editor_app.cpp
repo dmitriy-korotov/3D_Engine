@@ -32,7 +32,7 @@
 #include <engine/ecs/ecs_system.hpp>
 #include <engine/ecs/entities/entities_manager.hpp>
 #include <engine/ecs/components/components_manager.hpp>
-#include <engine/ecs/components/physic/transform_component.hpp>
+#include <engine/ecs/components/physic/transform.hpp>
 #include <engine/ecs/systems/systems_manager.hpp>
 #include <engine/ecs/systems/render_system.hpp>
 #include <engine/ecs/components/render/mesh_component.hpp>
@@ -421,7 +421,7 @@ namespace editor
 		engine::util::file_reader fs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
 
 		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform_component>(ID, glm::vec3(0.f, 0.f, 0.f));
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform>(ID, glm::vec3(0.f, 0.f, 0.f));
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh_component>(ID, model_->getMeshes());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::material_component>(ID, model_->getMaterial());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::render_component>(ID,

@@ -10,9 +10,9 @@
 
 namespace engine::ecs::components
 {
-	class transform_component: public position,
-							   public rotation,
-							   public scale
+	class transform: public position,
+				     public rotation,
+					 public scale
 	{
 	public:
 
@@ -20,9 +20,9 @@ namespace engine::ecs::components
 
 
 
-		transform_component(const glm::vec3& _position = glm::vec3(0.f),
-							const glm::vec3& _rotation = glm::vec3(0.f),
-							const glm::vec3& _scale = glm::vec3(1.f)) noexcept;
+		transform(const glm::vec3& _position = glm::vec3(0.f),
+				  const glm::vec3& _rotation = glm::vec3(0.f),
+				  const glm::vec3& _scale = glm::vec3(1.f)) noexcept;
 
 		void setTransform(const glm::vec3& _position, const glm::vec3& _rotation, const glm::vec3& _scale) noexcept;
 		void setPosition(const glm::vec3& _position) noexcept;
