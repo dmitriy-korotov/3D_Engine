@@ -1,4 +1,4 @@
-#include <engine/ecs/systems/render_system.hpp>
+#include <engine/ecs/systems/render/render.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
 
@@ -17,9 +17,13 @@
 
 
 
+using namespace engine::render::open_gl;
+
+
+
 namespace engine::ecs::systems
 {
-	void render_system::update([[maybe_unused]] float _delta_time) const noexcept
+	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
 		auto components_range = ECS::instance().getComponentsManager()->getComponents<components::renderable>();
 		if (components_range.has_value())
@@ -63,7 +67,7 @@ namespace engine::ecs::systems
 					auto& ptr = mesh_component.value().lock();
 					for (const auto& mesh : ptr->getMeshes())
 					{
-						render::open_gl::renderer::instance().draw(*shader_program, *mesh, *material_component->getMaterial());
+						renderer::instance().draw(*shader_program, *mesh, *material_component->getMaterial());
 					}
 				}
 			}

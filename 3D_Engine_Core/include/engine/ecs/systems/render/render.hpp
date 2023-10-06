@@ -6,7 +6,7 @@
 
 namespace engine::ecs::systems
 {
-	class render_system final : public basic_system
+	class render final: public basic_system
 	{
 	public:
 

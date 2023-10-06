@@ -35,7 +35,7 @@
 #include <engine/ecs/components/physic/transform.hpp>
 #include <engine/ecs/components/physic/velocity.hpp>
 #include <engine/ecs/systems/systems_manager.hpp>
-#include <engine/ecs/systems/render_system.hpp>
+#include <engine/ecs/systems/render/render.hpp>
 #include <engine/ecs/components/render/mesh.hpp>
 #include <engine/ecs/components/render/renderable.hpp>
 #include <engine/ecs/components/physic/vision.hpp>
@@ -426,7 +426,7 @@ namespace editor
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::material>(ID, model_->getMaterial());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::renderable>(ID,
 									std::make_unique<open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData())));
-		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render_system>(10);
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render>(10);
 
 
 
