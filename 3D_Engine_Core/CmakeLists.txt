@@ -129,12 +129,14 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		include/engine/ecs/components/physic/position.hpp
 		include/engine/ecs/components/physic/rotation.hpp
+		include/engine/ecs/components/physic/direction.hpp
 		include/engine/ecs/components/physic/scale.hpp
 		include/engine/ecs/components/physic/velocity.hpp
 		include/engine/ecs/components/physic/transform.hpp
+		include/engine/ecs/components/physic/camera_transform.hpp
 		include/engine/ecs/components/physic/vision.hpp
 
-		include/engine/ecs/components/render/transform_camera_component.hpp
+		
 		include/engine/ecs/components/render/mesh_component.hpp
 		include/engine/ecs/components/render/material_component.hpp
 		include/engine/ecs/components/render/render_component.hpp	
@@ -223,12 +225,13 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/components/physic/position.cpp
 		src/engine/ecs/components/physic/rotation.cpp
+		src/engine/ecs/components/physic/direction.cpp
 		src/engine/ecs/components/physic/scale.cpp
 		src/engine/ecs/components/physic/velocity.cpp
 		src/engine/ecs/components/physic/transform.cpp
+		src/engine/ecs/components/physic/camera_transform.cpp
 		src/engine/ecs/components/physic/vision.cpp
 
-		src/engine/ecs/components/render/transform_camera_component.cpp
 		src/engine/ecs/components/render/mesh_component.cpp
 		src/engine/ecs/components/render/material_component.cpp
 		src/engine/ecs/components/render/render_component.cpp

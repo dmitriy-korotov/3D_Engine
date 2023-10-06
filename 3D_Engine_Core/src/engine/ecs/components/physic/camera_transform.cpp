@@ -1,4 +1,4 @@
-#include <engine/ecs/components/render/transform_camera_component.hpp>
+#include <engine/ecs/components/physic/camera_transform.hpp>
 
 #include <engine/scene/world_data.hpp>
 
@@ -9,71 +9,45 @@
 
 namespace engine::ecs::components
 {
-	transform_camera_component::transform_camera_component(const glm::vec3& _position, const glm::vec3& _rotation) noexcept
-			: m_position(_position)
-			, m_rotation(_rotation)
+	camera_transform::camera_transform(const glm::vec3& _position, const glm::vec3& _rotation) noexcept
+			: position(_position)
+			, rotation(_rotation)
 	{ 
 		updateViewMatrix();
 	}
 
 
 
-	void transform_camera_component::setPosition(const glm::vec3& _position) noexcept
+	void camera_transform::setPosition(const glm::vec3& _position) noexcept
 	{
 		if (m_position != _position)
 		{
-			m_position = _position;
+			position::setPosition(_position);
 			m_is_need_update_view_matrix = true;
 		}
 	}
-	void transform_camera_component::setRotation(const glm::vec3& _rotation) noexcept
+	void camera_transform::setRotation(const glm::vec3& _rotation) noexcept
 	{
 		if (m_rotation != _rotation)
 		{
-			m_rotation = _rotation;
+			rotation::setRotation(_rotation);
 			m_is_need_update_view_matrix = true;
 		}
 	}
 
 
 
-	const glm::vec3& transform_camera_component::getPosition() const noexcept
-	{
-		return m_position;
-	}
-	const glm::vec3& transform_camera_component::getRotation() const noexcept
-	{
-		return m_rotation;
-	}
-
-
-
-	const glm::vec3& transform_camera_component::getForwardDirection() const noexcept
-	{
-		return m_forward;
-	}
-	const glm::vec3& transform_camera_component::getRightDirection() const noexcept
-	{
-		return m_right;
-	}
-	const glm::vec3& transform_camera_component::getUpDirection() const noexcept
-	{
-		return m_up;
-	}
-
-
-
-	void transform_camera_component::moveUp(float _delta) noexcept
+	void camera_transform::moveUp(float _delta) noexcept
 	{
 		m_position += m_up * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void transform_camera_component::moveRight(float _delta) noexcept
+	void camera_transform::moveRight(float _delta) noexcept
 	{
 		m_position -= m_right * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void transform_camera_component::moveForward(float _delta) noexcept
+	void camera_transform::moveForward(float _delta) noexcept
 	{
 		m_position += m_forward * _delta;
 		m_is_need_update_view_matrix = true;
@@ -81,17 +55,17 @@ namespace engine::ecs::components
 
 
 
-	void transform_camera_component::moveWorldUp(float _delta) noexcept
+	void camera_transform::moveWorldUp(float _delta) noexcept
 	{
 		m_position += scene::g_world_up_direction * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void transform_camera_component::moveWorldRight(float _delta) noexcept
+	void camera_transform::moveWorldRight(float _delta) noexcept
 	{
 		m_position += scene::g_world_right_direction * _delta;
 		m_is_need_update_view_matrix = true;
 	}
-	void transform_camera_component::moveWorldForward(float _delta) noexcept
+	void camera_transform::moveWorldForward(float _delta) noexcept
 	{
 		m_position += scene::g_world_forward_direction * _delta;
 		m_is_need_update_view_matrix = true;
@@ -99,7 +73,7 @@ namespace engine::ecs::components
 
 
 
-	const glm::mat4& transform_camera_component::getViewMatrix() noexcept
+	const glm::mat4& camera_transform::getViewMatrix() noexcept
 	{
 		if (m_is_need_update_view_matrix)
 		{
@@ -110,7 +84,7 @@ namespace engine::ecs::components
 
 
 
-	void transform_camera_component::updateViewMatrix() noexcept
+	void camera_transform::updateViewMatrix() noexcept
 	{
 		float roll_in_radians =		-glm::radians(m_rotation.x);
 		float pitch_in_radians =	-glm::radians(m_rotation.y);

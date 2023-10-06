@@ -19,7 +19,7 @@ namespace engine::ecs::components
 		void setVelocity(const glm::vec3& _velocity) noexcept;
 		const glm::vec3& getVelocity() const noexcept;
 
-	private:
+	protected:
 
 		glm::vec3 m_velocity;
 

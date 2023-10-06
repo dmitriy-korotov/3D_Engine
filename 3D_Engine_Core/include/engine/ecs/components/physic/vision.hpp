@@ -34,7 +34,7 @@ namespace engine::ecs::components
 
 		void updateProjectionMatrix() noexcept;
 
-	private:
+	protected:
 
 		Projection m_projection_mode = Projection::Perspective;
 
@@ -42,6 +42,8 @@ namespace engine::ecs::components
 		perspective_frustum m_perspective_frustum;
 
 		glm::vec2 m_view_port_size = glm::vec2(0.f);
+
+	private:
 
 		glm::mat4 m_projection_matrix = glm::mat4(1.f);
 		bool m_is_need_update_projection_matrix = true;

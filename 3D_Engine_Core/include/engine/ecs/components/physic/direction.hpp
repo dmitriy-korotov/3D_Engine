@@ -8,7 +8,7 @@
 
 namespace engine::ecs::components
 {
-	class direction: public basic_component
+	class direction: public virtual basic_component
 	{
 	public:
 

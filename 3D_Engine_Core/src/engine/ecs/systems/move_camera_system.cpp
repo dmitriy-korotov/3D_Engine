@@ -8,7 +8,7 @@
 #include <engine/ecs/entities/entities_manager.hpp>
 
 #include <engine/ecs/components/markers/active_camera.hpp>
-#include <engine/ecs/components/render/transform_camera_component.hpp>
+#include <engine/ecs/components/physic/camera_transform.hpp>
 #include <engine/ecs/components/physic/vision.hpp>
 #include <engine/ecs/components/physic/velocity.hpp>
 
@@ -36,7 +36,7 @@ namespace engine::ecs::systems
 
 			const auto& owner = ECS::instance().getEntitiesManager()->getEntity(begin->getOwner());
 
-			auto& opt_transform_component = owner->getComponent<transform_camera_component>();
+			auto& opt_transform_component = owner->getComponent<camera_transform>();
 			auto& opt_move_component = owner->getComponent<velocity>();
 			auto& opt_vision_component = owner->getComponent<vision>();
 
@@ -63,7 +63,7 @@ namespace engine::ecs::systems
 
 
 
-	void move_camera_system::translateCamera(transform_camera_component& _transform_component,
+	void move_camera_system::translateCamera(camera_transform& _transform_component,
 											 velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 movement_delta(0.f);
@@ -106,7 +106,7 @@ namespace engine::ecs::systems
 
 
 
-	void move_camera_system::rotateCamera(transform_camera_component& _transform_component,
+	void move_camera_system::rotateCamera(camera_transform& _transform_component,
 										  velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 rotation_delta(0.f);
