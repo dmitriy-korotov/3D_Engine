@@ -132,7 +132,7 @@ namespace engine::ecs::systems
 
 		auto current_mouse_position = glm::dvec2(mouse::getCursorPositionX(), mouse::getCursorPositionY());
 
-		if (!modules::imgui::UIModule::instance().isMouseOnUI())
+		//if (!modules::imgui::UIModule::instance().isMouseOnUI())
 		{
 			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
 			{
