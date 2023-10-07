@@ -6,6 +6,8 @@
 
 #include <engine/ecs/components/component_iterator.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/util/nocopyeble.hpp>
 
 #include <unordered_map>
@@ -74,7 +76,16 @@ namespace engine::ecs::components
 		if (current_type_components == m_components.end())
 		{
 			general_type_components_map current_type_components_storage;
-			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
+			auto& entity = ECS::instance().getEntitiesManager()->getEntity(_entity_id);
+			if (entity != nullptr)
+			{
+				entity->addComponent<ComponentType>(std::weak_ptr(component));
+			}
+			else
+			{
+				LOG_ERROR("[Components manager ERROR] Can't find entity (entity_id: {0})", _entity_id);
+				return;
+			}
 			current_type_components_storage.emplace(_entity_id, std::move(component));
 			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
 		}

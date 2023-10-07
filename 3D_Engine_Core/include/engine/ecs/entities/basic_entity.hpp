@@ -39,7 +39,6 @@ namespace engine::ecs::entities
 		virtual ~basic_entity();
 
 		entity_id getID() const noexcept;
-		static entity_type_id getEntityTypeID() noexcept;
 
 		template <typename ComponentType>
 		std::optional<component_ptr<ComponentType>> getComponent() const noexcept;
@@ -54,10 +53,8 @@ namespace engine::ecs::entities
 
 	private:
 
-		static void setEntityTypeID(entity_type_id _entity_type_id) noexcept;
 		static entity_id generateEntityId() noexcept;
 		static entity_id m_next_entity_id;
-		static entity_type_id m_entity_type_id;
 
 	private:
 

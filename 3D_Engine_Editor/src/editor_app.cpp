@@ -21,6 +21,10 @@
 
 #include <engine/ecs/entities/basic_entity.hpp>
 
+#include <engine/render/open_gl/shader_program.hpp>
+#include <engine/render/open_gl/renderer_open_gl.hpp>
+#include <engine/scene/renderable_scene_object.hpp>
+
 
 
 using namespace engine::render;
@@ -41,11 +45,14 @@ namespace editor
 
 
 
-
-
 	void editor_app::onStart() noexcept
 	{
 		setEventListeners();
+
+		if (!open_gl::renderer::instance().init(engine::WindowImpl::GLFW))
+		{
+			LOG_CRITICAL("[Editor ERROR] Can't initialized OpenGL");
+		}
 
 		ECS::instance().initialize();
 
@@ -68,7 +75,11 @@ namespace editor
 
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
 
+		auto shader_program = std::make_shared<open_gl::shader_program>(std::move(vs_reader_2.getData()), std::move(fs_reader_2.getData()));
 
+		std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
+
+		ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path, shader_program);
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 	}

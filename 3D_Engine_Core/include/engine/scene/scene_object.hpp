@@ -6,7 +6,7 @@
 
 namespace engine::scene
 {
-	class scene_object : public virtual ecs::entities::basic_entity
+	class scene_object: public virtual ecs::entities::basic_entity
 	{
 	public:
 
