@@ -340,7 +340,7 @@ namespace editor
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MickeyMouse.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft.blend");
-		model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj");
+		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\CubeForTrash\\trash_container.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Steve\\Model\\Steve\\Steve.obj");
 		//model_ = std::make_shared<engine::render::model>("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Tree\\tree.obj");
@@ -411,18 +411,18 @@ namespace editor
 		engine::util::file_reader vs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultVS.vs");
 		engine::util::file_reader fs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
 
-		engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
+		/*engine::ecs::entities::entity_id ID = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::transform>(ID, glm::vec3(0.f, 0.f, 0.f));
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::mesh>(ID, model_->getMeshes());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::material>(ID, model_->getMaterial());
 		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::renderable>(ID,
 									std::make_shared<open_gl::shader_program>(std::move(vs_reader.getData()), std::move(fs_reader.getData())));
-		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render>(10);
+		engine::ecs::ECS::instance().getSystemsManager()->addSystem<engine::ecs::systems::render>(10);*/
 
 
 
 		engine::ecs::entities::entity_id light = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();
-		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light>(ID);
+		engine::ecs::ECS::instance().getComponentsManager()->addComponent<engine::ecs::components::direction_light>(light);
 
 
 		engine::ecs::entities::entity_id camera = engine::ecs::ECS::instance().getEntitiesManager()->createEntity<engine::ecs::entities::basic_entity>();

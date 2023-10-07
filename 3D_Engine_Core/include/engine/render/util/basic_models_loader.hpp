@@ -21,7 +21,7 @@ namespace engine::render::materials
 
 namespace engine::render
 {
-	class basic_texure2D;
+	class basic_texture2D;
 }
 
 namespace engine::render::utility
@@ -34,7 +34,7 @@ namespace engine::render::utility
 
 		using mesh_ptr = std::shared_ptr<render::meshes::basic_mesh>;
 		using material_ptr = std::shared_ptr<render::materials::basic_material>;
-		using texture_ptr = std::shared_ptr<basic_texure2D>;
+		using texture_ptr = std::shared_ptr<basic_texture2D>;
 		using mesh_storage = std::vector<mesh_ptr>;
 		using texture_storage = std::vector<texture_ptr>;
 

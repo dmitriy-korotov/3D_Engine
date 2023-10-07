@@ -16,7 +16,7 @@ namespace engine::render::utility
 	{
 	public:
 
-		using texture_cache = std::unordered_map<std::string, std::shared_ptr<basic_texure2D>>;
+		using texture_cache = std::unordered_map<std::string, std::shared_ptr<basic_texture2D>>;
 
 		void load(const path& _path_to_model) noexcept override;
 
