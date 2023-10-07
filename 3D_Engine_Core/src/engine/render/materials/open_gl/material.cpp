@@ -1,5 +1,7 @@
 #include <engine/render/materials/open_gl/material.hpp>
 
+#include <engine/render/basic_texture2D.hpp>
+
 
 
 namespace engine::render::materials::open_gl
@@ -15,7 +17,7 @@ namespace engine::render::materials::open_gl
 		size_t unit = 0;
 		for (const auto& texture : m_textures)
 		{
-			texture.bind(unit++);
+			texture->bind(unit++);
 		}
 	}
 

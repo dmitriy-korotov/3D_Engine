@@ -1,21 +1,24 @@
 #pragma once
 
 #include <engine/render/materials/basic_material.hpp>
-#include <engine/render/open_gl/texture2D.hpp>
 
 #include <vector>
+#include <memory>
 
 
+
+namespace engine::render
+{
+	class basic_texture2D;
+}
 
 namespace engine::render::materials::open_gl
 {
-	using render::open_gl::texture2D;
-
 	class material final: public basic_material 
 	{
 	public:
 
-		using texture_storage = std::vector<texture2D>;
+		using texture_storage = std::vector<std::shared_ptr<basic_texture2D>>;
 
 		material(texture_storage _textures) noexcept;
 
