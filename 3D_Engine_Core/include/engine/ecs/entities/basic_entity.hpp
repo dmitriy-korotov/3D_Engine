@@ -73,7 +73,7 @@ namespace engine::ecs::entities
 	template <typename ComponentType, typename ...Args>
 	void basic_entity::addComponent(Args&&... _args) noexcept
 	{
-		ECS::getComponentsManager()->addComponent<ComponentType>(m_id, _args...);
+		ECS::instance().getComponentsManager()->addComponent<ComponentType>(m_id, _args...);
 	}
 
 

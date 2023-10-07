@@ -67,6 +67,7 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 		include/engine/scene/world_data.hpp
+		include/engine/scene/scene_object.hpp
 
 
 
@@ -170,6 +171,10 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/window/glfw/glfw.cpp
 		src/engine/window/glfw/glfw_window_context.cpp
 		src/engine/window/glfw/glfw_window.cpp
+
+
+
+		src/engine/scene/scene_object.cpp
 
 
 
