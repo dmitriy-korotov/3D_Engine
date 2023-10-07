@@ -20,7 +20,7 @@ namespace engine::ecs::systems
 {
 	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<components::renderable>();
+		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<renderable>();
 		if (renderable_components.has_value())
 		{
 			auto& [begin, end] = renderable_components.value();

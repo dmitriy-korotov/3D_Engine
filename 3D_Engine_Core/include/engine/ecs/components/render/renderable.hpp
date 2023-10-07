@@ -12,8 +12,6 @@ namespace engine::render
 	class basic_shader_program;
 }
 
-
-
 namespace engine::ecs::components
 {
 	using namespace render;
@@ -26,7 +24,7 @@ namespace engine::ecs::components
 
 
 
-		using shader_program_ptr = std::unique_ptr<basic_shader_program>;
+		using shader_program_ptr = std::shared_ptr<basic_shader_program>;
 
 		renderable(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
 
