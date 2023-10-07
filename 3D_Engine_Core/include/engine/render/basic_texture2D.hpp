@@ -25,6 +25,7 @@ namespace engine::render
 		virtual void setData(const std::byte* _data, uint16_t _width, uint16_t _height,
 							 InternalFormat _internal_format = InternalFormat::RGB_8) noexcept = 0;
 		virtual void setParametrs(const TextureParamsStorage& _texture_params) noexcept = 0;
+		virtual void bind(uint8_t _unit) const noexcept = 0;
 
 		InternalFormat getInternalFormat() const noexcept;
 		Wrap getWrapT() const noexcept;

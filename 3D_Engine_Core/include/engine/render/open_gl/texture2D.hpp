@@ -22,7 +22,7 @@ namespace engine::render::open_gl
 				     InternalFormat _internal_format = InternalFormat::RGB_8) noexcept override;
 		void setParametrs(const TextureParamsStorage& _texture_params) noexcept override;
 
-		void bind(uint8_t _unit) const noexcept;
+		void bind(uint8_t _unit) const noexcept override;
 
 	private:
 
