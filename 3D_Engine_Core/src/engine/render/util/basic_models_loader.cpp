@@ -2,7 +2,7 @@
 
 
 
-namespace engine::render::util
+namespace engine::render::utility
 {
 	basic_models_loader::mesh_storage& basic_models_loader::getMeshes() noexcept
 	{

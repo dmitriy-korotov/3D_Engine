@@ -24,17 +24,19 @@ namespace engine::render
 	class basic_texure2D;
 }
 
-namespace engine::render::util
+namespace engine::render::utility
 {
 	using std::filesystem::path;
 
-	class basic_models_loader: private engine::util::nocopyeble
+	class basic_models_loader: private util::nocopyeble
 	{
 	public:
 
 		using mesh_ptr = std::shared_ptr<render::meshes::basic_mesh>;
 		using material_ptr = std::shared_ptr<render::materials::basic_material>;
+		using texture_ptr = std::shared_ptr<basic_texure2D>;
 		using mesh_storage = std::vector<mesh_ptr>;
+		using texture_storage = std::vector<texture_ptr>;
 
 
 
