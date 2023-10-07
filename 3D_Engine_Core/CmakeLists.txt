@@ -85,6 +85,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/shaders/basic_shader.hpp
 		include/engine/render/shaders/default_shader.hpp
 		
+		include/engine/render/util/basic_models_loader.hpp
 		include/engine/render/util/models_loader.hpp
 
 		include/engine/render/meshes/basic_mesh.hpp
@@ -188,6 +189,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/basic_shader_program.cpp
 		src/engine/render/basic_renderer.cpp
 
+		src/engine/render/util/basic_models_loader.cpp
 		src/engine/render/util/models_loader.cpp
 
 		src/engine/render/meshes/basic_mesh.cpp

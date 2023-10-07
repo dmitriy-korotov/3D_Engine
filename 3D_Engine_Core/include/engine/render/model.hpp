@@ -5,6 +5,7 @@
 #include <engine/render/meshes/basic_mesh.hpp>
 #include <engine/render/image.hpp>
 #include <engine/render/materials/open_gl/material.hpp>
+#include <engine/render/open_gl/texture2D.hpp>
 
 #include <assimp/scene.h>
 
