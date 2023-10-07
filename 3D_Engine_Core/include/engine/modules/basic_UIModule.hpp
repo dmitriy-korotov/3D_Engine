@@ -30,12 +30,13 @@ namespace engine::modules
 
 		void setWindowImpl(WindowImpl _window_impl) noexcept;
 		void setRendererImpl(RendererImpl _render_impl) noexcept;
+		bool isInitialized() const noexcept;
 		
 		WindowImpl getWindowImpl() const noexcept;
 		RendererImpl getRendererImpl() const noexcept;
 
-		virtual void onWindowCreate(const window_ptr& _window_ptr) const noexcept = 0;
-		virtual void onWindowShutdown() const noexcept = 0;
+		virtual void initialize(const window_ptr& _window_ptr) noexcept = 0;
+		virtual void terminate() noexcept = 0;
 		virtual void onUIDrawBegin() const noexcept = 0;
 		virtual void onUIDrawEnd() const noexcept = 0;
 
@@ -44,6 +45,8 @@ namespace engine::modules
 		virtual void createDockSpace() const noexcept;
 
 	protected:
+
+		bool m_is_inited = false;
 
 		WindowImpl m_window_impl = WindowImpl::GLFW;
 		RendererImpl m_render_impl = RendererImpl::OpenGL;

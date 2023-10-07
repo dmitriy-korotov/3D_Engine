@@ -34,7 +34,7 @@ namespace engine::modules::imgui
 
 
 
-	void UIModule::onWindowCreate(const window_ptr& _window_ptr) const noexcept
+	void UIModule::initialize(const window_ptr& _window_ptr) noexcept
 	{
         setupImGuiConfig();
 
@@ -72,11 +72,13 @@ namespace engine::modules::imgui
         case engine::window::WindowImpl::SFML:
             break;
         }
+
+        m_is_inited = true;
 	}
 
 
 
-	void UIModule::onWindowShutdown() const noexcept
+	void UIModule::terminate() noexcept
 	{
         switch (m_render_impl)
         {
@@ -103,6 +105,8 @@ namespace engine::modules::imgui
         }
 
 		ImGui::DestroyContext();
+
+        m_is_inited = false;
 	}
 
 

@@ -16,8 +16,7 @@
 
 using namespace engine::ecs::components;
 using namespace engine::input;
-
-
+using namespace engine::modules::imgui;
 
 namespace engine::ecs::systems
 {
@@ -132,7 +131,7 @@ namespace engine::ecs::systems
 
 		auto current_mouse_position = glm::dvec2(mouse::getCursorPositionX(), mouse::getCursorPositionY());
 
-		//if (!modules::imgui::UIModule::instance().isMouseOnUI())
+		if (UIModule::instance().isInitialized() && !UIModule::instance().isMouseOnUI())
 		{
 			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
 			{

@@ -20,6 +20,13 @@ namespace engine::modules
 
 
 
+	bool basic_UIModule::isInitialized() const noexcept
+	{
+		return m_is_inited;
+	}
+
+
+
 	WindowImpl basic_UIModule::getWindowImpl() const noexcept
 	{
 		return m_window_impl;

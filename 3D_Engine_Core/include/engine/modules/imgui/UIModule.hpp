@@ -12,8 +12,8 @@ namespace engine::modules::imgui
 
 		static UIModule& instance() noexcept;
 
-		void onWindowCreate(const window_ptr& _window_ptr) const noexcept override;
-		void onWindowShutdown() const noexcept override;
+		void initialize(const window_ptr& _window_ptr) noexcept override;
+		void terminate() noexcept override;
 		void onUIDrawBegin() const noexcept override;
 		void onUIDrawEnd() const noexcept override;
 
