@@ -57,7 +57,7 @@ namespace engine::ecs::systems
 
 
 	void camera_update::translateCamera(camera_transform& _transform_component,
-											 velocity& _move_component, float _delta_time) const noexcept
+										velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 movement_delta(0.f);
 
@@ -100,7 +100,7 @@ namespace engine::ecs::systems
 
 
 	void camera_update::rotateCamera(camera_transform& _transform_component,
-										  velocity& _move_component, float _delta_time) const noexcept
+									 velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 rotation_delta(0.f);
 
@@ -131,7 +131,7 @@ namespace engine::ecs::systems
 
 		auto current_mouse_position = glm::dvec2(mouse::getCursorPositionX(), mouse::getCursorPositionY());
 
-		if (UIModule::instance().isInitialized() && !UIModule::instance().isMouseOnUI())
+		if (!UIModule::instance().isInitialized() || (UIModule::instance().isInitialized() && !UIModule::instance().isMouseOnUI()))
 		{
 			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
 			{

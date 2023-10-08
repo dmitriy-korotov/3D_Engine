@@ -53,6 +53,7 @@ namespace editor
 		{
 			LOG_CRITICAL("[Editor ERROR] Can't initialized OpenGL");
 		}
+		open_gl::renderer::instance().enableDepthTest();
 
 		ECS::instance().initialize();
 

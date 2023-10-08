@@ -9,6 +9,8 @@
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/render/basic_shader_program.hpp>
 
+#include <engine/application_settings.hpp>
+
 
 
 using namespace engine::render::open_gl;
@@ -20,6 +22,7 @@ namespace engine::ecs::systems
 {
 	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
+		renderer::instance().setViewport(engine::application_settings::instance().getWidth(), engine::application_settings::instance().getHeight());
 		renderer::instance().clear(engine::render::Mask::ColorBuffer);
 
 		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<renderable>();
