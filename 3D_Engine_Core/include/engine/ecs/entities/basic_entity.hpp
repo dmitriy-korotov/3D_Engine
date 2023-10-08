@@ -49,7 +49,7 @@ namespace engine::ecs::entities
 	private:
 
 		template <typename ComponentType>
-		void addComponent(std::weak_ptr<ComponentType> _component) noexcept;
+		void addComponent(component_ptr<ComponentType> _component) noexcept;
 
 	private:
 
@@ -70,13 +70,15 @@ namespace engine::ecs::entities
 	template <typename ComponentType, typename ...Args>
 	void basic_entity::addComponent(Args&&... _args) noexcept
 	{
-		ECS::instance().getComponentsManager()->addComponent<ComponentType>(m_id, _args...);
+		auto& components_manager = ECS::instance().getComponentsManager();
+		component_ptr<ComponentType> component = components_manager->addComponentNotConstructedEntity<ComponentType>(m_id, std::forward<Args>(_args)...);
+		addComponent(std::move(component));
 	}
 
 
 
 	template <typename ComponentType>
-	void basic_entity::addComponent(std::weak_ptr<ComponentType> _component) noexcept
+	void basic_entity::addComponent(component_ptr<ComponentType> _component) noexcept
 	{
 		m_components.emplace(ComponentType::component_name, std::move(_component));
 	}
@@ -91,7 +93,7 @@ namespace engine::ecs::entities
 		auto component = m_components.find(ComponentType::component_name);
 		if (component != m_components.end())
 		{
-			std::shared_ptr<ComponentType> component_ptr = std::dynamic_pointer_cast<ComponentType>(component->second.lock());
+			auto component_ptr = std::dynamic_pointer_cast<ComponentType>(component->second.lock());
 			if (component_ptr != nullptr)
 			{
 				return component_ptr;

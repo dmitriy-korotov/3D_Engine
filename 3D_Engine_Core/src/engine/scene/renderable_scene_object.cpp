@@ -3,8 +3,7 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/ecs/components/render.hpp>
-#include <engine/ecs/components/physic/rotation.hpp>
-#include <engine/ecs/components/physic/scale.hpp>
+#include <engine/ecs/components/physic/transform.hpp>
 
 #include <engine/render/util/models_loader.hpp>
 
@@ -17,8 +16,7 @@ namespace engine::scene
 {
 	renderable_scene_object::renderable_scene_object(const std::string_view& _path_to_model, shader_program_ptr _shader_program) noexcept
 	{
-		addComponent<rotation>();
-		addComponent<scale>();
+		addComponent<transform>();
 		
 		models_loader loader;
 		loader.load(_path_to_model);

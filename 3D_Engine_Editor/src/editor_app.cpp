@@ -74,6 +74,7 @@ namespace editor
 		ECS::instance().getComponentsManager()->addComponent<vision>(camera, Projection::Perspective);
 
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
+		ECS::instance().getSystemsManager()->addSystem<render>(2);
 
 		auto shader_program = std::make_shared<open_gl::shader_program>(std::move(vs_reader_2.getData()), std::move(fs_reader_2.getData()));
 

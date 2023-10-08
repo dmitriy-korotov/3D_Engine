@@ -26,6 +26,8 @@ namespace engine::ecs::components
 	{
 	public:
 
+		friend entities::basic_entity;
+
 		template <typename T>
 		using component_ptr = std::shared_ptr<T>;
 
@@ -53,6 +55,11 @@ namespace engine::ecs::components
 		void removeComponent(entities::entity_id _entity_id) noexcept;
 
 		void removeAllComponents() noexcept;
+
+	private:
+
+		template <typename ComponentType, typename ...Args>
+		component_ptr<ComponentType> addComponentNotConstructedEntity(entities::entity_id _entity_id, Args&&... _args) noexcept;
 
 	private:
 
@@ -94,6 +101,31 @@ namespace engine::ecs::components
 			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
 			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, std::move(component));
 		}
+	}
+
+
+
+	template <typename ComponentType, typename ...Args>
+	components_manager::component_ptr<ComponentType>
+	components_manager::addComponentNotConstructedEntity(entities::entity_id _entity_id, Args&&... _args) noexcept
+	{
+		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
+		component->setOwner(_entity_id);
+
+		auto current_type_components = m_components.find(ComponentType::component_name);
+		if (current_type_components == m_components.end())
+		{
+			general_type_components_map current_type_components_storage;
+			current_type_components_storage.emplace(_entity_id, component);
+			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
+		}
+		else
+		{
+			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, component);
+		}
+		return component;
 	}
 
 

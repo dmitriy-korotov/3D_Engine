@@ -20,6 +20,8 @@ namespace engine::ecs::systems
 {
 	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
+		renderer::instance().clear(engine::render::Mask::ColorBuffer);
+
 		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<renderable>();
 		if (renderable_components.has_value())
 		{
@@ -74,7 +76,6 @@ namespace engine::ecs::systems
 				auto material_comp = current_ent->getComponent<material>().value().lock();
 				if (mesh_comp.has_value())
 				{
-
 					for (const auto& mesh : mesh_comp->lock()->getMeshes())
 					{
 						renderer::instance().draw(*shader_program, *mesh, *material_comp->getMaterial());
