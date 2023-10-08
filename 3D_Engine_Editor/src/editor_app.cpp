@@ -16,6 +16,7 @@
 #include <engine/ecs/components/render.hpp>
 
 #include <engine/ecs/systems/physic/camera_update.hpp>
+#include <engine/ecs/systems/UI/UI_scene.hpp>
 #include <engine/ecs/systems/render/render.hpp>
 #include <engine/render/common_types.hpp>
 
@@ -24,6 +25,8 @@
 #include <engine/render/open_gl/shader_program.hpp>
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
+
+#include <engine/modules/imgui/UIModule.hpp>
 
 
 
@@ -34,6 +37,7 @@ using namespace engine::ecs::systems;
 using namespace engine::ecs;
 using namespace engine::window;
 using namespace engine::util;
+using namespace engine::modules::imgui;
 
 namespace editor
 {
@@ -53,7 +57,9 @@ namespace editor
 		{
 			LOG_CRITICAL("[Editor ERROR] Can't initialized OpenGL");
 		}
-		open_gl::renderer::instance().enableDepthTest();
+		//open_gl::renderer::instance().enableDepthTest();
+
+		UIModule::instance().initialize(m_window_ptr);
 
 		ECS::instance().initialize();
 
@@ -76,6 +82,7 @@ namespace editor
 
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
 		ECS::instance().getSystemsManager()->addSystem<render>(2);
+		ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
 
 		auto shader_program = std::make_shared<open_gl::shader_program>(std::move(vs_reader_2.getData()), std::move(fs_reader_2.getData()));
 
@@ -213,6 +220,6 @@ namespace editor
 	{
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
 		ECS::instance().terminate();
-		//UIModule::instance().onWindowShutdown();
+		UIModule::instance().terminate();
 	}
 }

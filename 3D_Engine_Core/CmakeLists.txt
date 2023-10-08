@@ -155,9 +155,13 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 
 		include/engine/ecs/systems/basic_system.hpp
-		include/engine/ecs/systems/render/render.hpp
-		include/engine/ecs/systems/physic/camera_update.hpp
 		include/engine/ecs/systems/systems_manager.hpp
+
+		include/engine/ecs/systems/render/render.hpp
+		
+		include/engine/ecs/systems/physic/camera_update.hpp
+		
+		include/engine/ecs/systems/UI/UI_scene.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -259,9 +263,13 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 
 		src/engine/ecs/systems/basic_system.cpp
-		src/engine/ecs/systems/render/render.cpp
-		src/engine/ecs/systems/physic/camera_update.cpp
 		src/engine/ecs/systems/systems_manager.cpp
+
+		src/engine/ecs/systems/render/render.cpp
+
+		src/engine/ecs/systems/physic/camera_update.cpp
+
+		src/engine/ecs/systems/UI/UI_scene.cpp
 )
 
 set(ENGINE_SHADER_SORCES
