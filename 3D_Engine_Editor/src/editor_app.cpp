@@ -127,8 +127,8 @@ namespace editor
 
 
 	void editor_app::onUpdate() noexcept
-	{ 
-		ECS::instance().update(1.f);
+	{	
+		ECS::instance().update(0.33f);
 	}
 
 

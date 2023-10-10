@@ -53,6 +53,7 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 
+		include/engine/window/window_fwd.hpp
 		include/engine/window/common_types.hpp
 		include/engine/window/events_data.hpp
 		include/engine/window/basic_window_context.hpp
