@@ -55,6 +55,7 @@ namespace engine::window
 		virtual void setWindowCloseCallBack() const noexcept;
 		virtual void setKeyboardInputCallBack() const noexcept;
 		virtual void setMouseInputCallBack() const noexcept;
+		virtual void setMouseMoveCallBack() const noexcept;
 
 	protected:
 
@@ -93,6 +94,11 @@ namespace engine::window
 		{
 			m_window_call_backs.mouse_input_call_back = std::move(_call_back);
 			setMouseInputCallBack();
+		}
+		if constexpr (_event_type == Events::MouseMove)
+		{
+			m_window_call_backs.mouse_move_call_back = std::move(_call_back);
+			setMouseMoveCallBack();
 		}
 	}
 }

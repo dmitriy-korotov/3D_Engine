@@ -16,7 +16,6 @@ namespace editor
 
 	private:
 
-		void setEventListeners() noexcept;
 		void onStart() noexcept override;
 		void onUpdate() noexcept override;
 		void onDrawUI() noexcept override;

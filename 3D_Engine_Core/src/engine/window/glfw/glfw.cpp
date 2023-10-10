@@ -172,6 +172,13 @@ namespace engine::window::glfw
 
 
 
+	void glfw::setCursorPosCallback(GLFWwindow* _window_ptr, GLFWcursorposfun _call_back) const noexcept
+	{
+		glfwSetCursorPosCallback(_window_ptr, _call_back);
+	}
+
+
+
 	void glfw::destroyWindow(GLFWwindow* _window_ptr) const noexcept
 	{
 		glfwDestroyWindow(_window_ptr);

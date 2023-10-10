@@ -8,6 +8,7 @@ namespace engine::error
 	{
 		can_not_create,
 		can_not_create_window,
-		application_already_exists
+		application_already_exists,
+		can_not_load_config
 	};
 }

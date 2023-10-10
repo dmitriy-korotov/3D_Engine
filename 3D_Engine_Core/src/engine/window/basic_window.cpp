@@ -83,4 +83,8 @@ namespace engine::window
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setMouseInputCallBack' is not implemented.");
 	}
+	void basic_window::setMouseMoveCallBack() const noexcept
+	{
+		LOG_ERROR("[Basic window ERROR] Method 'setMouseMoveCallBack' is not implemented.");
+	}
 }

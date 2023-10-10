@@ -51,15 +51,13 @@ namespace editor
 
 	void editor_app::onStart() noexcept
 	{
-		setEventListeners();
-
 		if (!open_gl::renderer::instance().init(engine::WindowImpl::GLFW))
 		{
 			LOG_CRITICAL("[Editor ERROR] Can't initialized OpenGL");
 		}
 		//open_gl::renderer::instance().enableDepthTest();
 
-		UIModule::instance().initialize(m_window_ptr);
+		//UIModule::instance().initialize(m_window_ptr);
 
 		ECS::instance().initialize();
 
@@ -90,38 +88,9 @@ namespace editor
 
 		ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path, shader_program);
 
-		LOG_INFO("'{0}' application started, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
-	}
-
-
-
-	void editor_app::setEventListeners() noexcept
-	{
-		m_window_ptr->addEventListener<Events::Resize>(
-			[this](const ResizeEventData& _size) -> void
-			{
-				engine::application_settings::instance().setWidth(_size.width);
-				engine::application_settings::instance().setHeight(_size.height);
-			});
-
-		m_window_ptr->addEventListener<Events::Close>(
-			[this]() -> void
-			{
-				close();
-			});
-		m_window_ptr->addEventListener<Events::KeyboardInput>(
-			[this](const KeyboardInputEventData& _keyboard_intput_data) -> void
-			{
-				if (engine::input::keyboard::isKeyPressed(engine::input::Key::KEY_ESCAPE))
-				{
-					close();
-				}
-			});
-		m_window_ptr->addEventListener<Events::MouseInput>(
-			[this](const MouseInputEventData& _mouse_input_data) -> void
-			{
-
-			});
+		LOG_INFO("'{0}' application started, size: {1}x{2}", engine::application_settings::instance().getTitle(),
+															 engine::application_settings::instance().getWidth(),
+															 engine::application_settings::instance().getHeight());
 	}
 
 
@@ -218,7 +187,9 @@ namespace editor
 
 	void editor_app::onClose() noexcept
 	{
-		LOG_INFO("'{0}' application closed, size: {1}x{2}", m_window_ptr->getTitle(), m_window_ptr->getWidth(), m_window_ptr->getHeight());
+		LOG_INFO("'{0}' application closed, size: {1}x{2}", engine::application_settings::instance().getTitle(),
+															engine::application_settings::instance().getWidth(),
+															engine::application_settings::instance().getHeight());
 		ECS::instance().terminate();
 		UIModule::instance().terminate();
 	}

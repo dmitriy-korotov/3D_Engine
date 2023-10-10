@@ -168,6 +168,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 set(ENGINE_PRIVATE_SOURCES 
 
 		src/engine/application.cpp
+		src/engine/names_settings.cpp
 		src/engine/application_settings.cpp
 
 

@@ -46,13 +46,9 @@ namespace engine::window::glfw
 	{
 		render::image icon(_path_to_icon);
 		if (icon.isLoaded())
-		{
 			glfw::instance().setWindowIcon(m_window_ptr, icon);
-		}
 		else
-		{
 			LOG_ERROR("[Window Glfw ERROR] Can't load icon: {0}.", _path_to_icon.generic_string());
-		}
 	}
 
 
@@ -106,9 +102,8 @@ namespace engine::window::glfw
 
 		auto is_glfw_window_created_ = createWindow(_open_mode);
 		if (is_glfw_window_created_.has_value())
-		{
 			return is_glfw_window_created_;
-		}
+
 		m_id = generateWindowID(m_window_ptr);
 
 		try
@@ -181,16 +176,6 @@ namespace engine::window::glfw
 					KeyboardInputEventData keyboard_input_data = { static_cast<input::Key>(_key_code),
 																   static_cast<input::Action>(_action) };
 
-					if (keyboard_input_data.action == input::Action::Released)
-					{
-						input::keyboard::releaseKey(static_cast<input::Key>(_key_code));
-						
-					}
-					else if (keyboard_input_data.action == input::Action::Pressed)
-					{
-						input::keyboard::pressKey(static_cast<input::Key>(_key_code));
-						
-					}
 					window->getCallBacksStorage().keyboard_input_call_back(keyboard_input_data);
 				}
 				catch (const std::exception& ex_)
@@ -215,21 +200,33 @@ namespace engine::window::glfw
 					MouseInputEventData mouse_input_data = { static_cast<input::MouseButton>(_button),
 															 static_cast<input::Action>(_action) };
 
-					if (mouse_input_data.action == input::Action::Released)
-					{
-						input::mouse::releaseButton(static_cast<input::MouseButton>(_button));
-
-					}
-					else if (mouse_input_data.action == input::Action::Pressed)
-					{
-						input::mouse::pressButton(static_cast<input::MouseButton>(_button));
-
-					}
 					window->getCallBacksStorage().mouse_input_call_back(mouse_input_data);
 				}
 				catch (const std::exception& ex_)
 				{
 					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'mouse input' event: {0}.", std::string(ex_.what()));
+				}
+			});
+	}
+
+
+
+	void glfw_window::setMouseMoveCallBack() const noexcept
+	{
+		glfw::instance().setCursorPosCallback(m_window_ptr,
+			[](glfw_window_ptr_t _window_ptr, double _xpos, double _ypos) -> void
+			{
+				try
+				{
+					auto window = windows_manager::instance().getWindow(generateWindowID(_window_ptr));
+
+					MouseMoveEventData mouse_move_data = { _xpos, _ypos };
+
+					window->getCallBacksStorage().mouse_move_call_back(mouse_move_data);
+				}
+				catch (const std::exception& ex_)
+				{
+					LOG_ERROR("[Glfw Window ERROR] Window catched exception when handeled 'mouse move' event: {0}.", std::string(ex_.what()));
 				}
 			});
 	}

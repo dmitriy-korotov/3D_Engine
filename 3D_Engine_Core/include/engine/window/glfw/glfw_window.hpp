@@ -36,6 +36,7 @@ namespace engine::window::glfw
 		void setWindowCloseCallBack() const noexcept override;
 		void setKeyboardInputCallBack() const noexcept override;
 		void setMouseInputCallBack() const noexcept override;
+		void setMouseMoveCallBack() const noexcept override;
 
 		window_err createWindow(OpenMode _open_mode) noexcept;
 

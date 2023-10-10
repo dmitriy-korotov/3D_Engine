@@ -4,17 +4,11 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/window/window_fwd.hpp>
+
 #include <memory>
 #include <optional>
 #include <filesystem>
-
-
-
-namespace engine::window
-{
-	class basic_window;
-	class basic_window_context;
-}
 
 
 
@@ -27,12 +21,11 @@ namespace engine
 	public:
 		
 		using app_error = std::optional<error::application_error>;
-		using window_ptr = std::shared_ptr<window::basic_window>;
-		using window_context_ptr = std::shared_ptr<window::basic_window_context>;
 
 		static application& instance() noexcept;
 
 		void setConfig(const path& _path_to_config_file) noexcept;
+		const std::optional<path>& getPathToConfig() const noexcept;
 
 		app_error start() noexcept;
 		void close() noexcept;
@@ -50,16 +43,29 @@ namespace engine
 		virtual void onDrawUI() noexcept;
 		virtual void onClose() noexcept;
 
+		virtual void onWindowResize() noexcept;
+		virtual void onWindowClose() noexcept;
+		virtual void onWindowMove() noexcept;
+		virtual void onMouseMove() noexcept;
+		virtual void onMouseInput() noexcept;
+		virtual void onKeyboardInput() noexcept;
+
 	private:
 
-		window_context_ptr m_window_context = nullptr;
+		using window_ptr = std::shared_ptr<window::basic_window>;
+		using window_context_ptr = std::shared_ptr<window::basic_window_context>;
 
-	protected:
+		app_error createWindow() noexcept;
+		void setWindowEventHandlers() noexcept;
+
+	private:
 
 		bool m_is_closed = true;
-		std::optional<path> m_path_to_config;
 
+		window_context_ptr m_window_context = nullptr;
 		window_ptr m_window_ptr = nullptr;
+
+		std::optional<path> m_path_to_config;
 
 	};
 }

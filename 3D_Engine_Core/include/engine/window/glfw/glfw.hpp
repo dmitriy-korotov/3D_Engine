@@ -19,6 +19,7 @@ typedef void (*GLFWwindowsizefun)(GLFWwindow* window, int width, int height);
 typedef void (*GLFWwindowclosefun)(GLFWwindow* window);
 typedef void (*GLFWkeyfun)(GLFWwindow* window, int key, int scancode, int action, int mods);
 typedef void (*GLFWmousebuttonfun)(GLFWwindow* window, int button, int action, int mods);
+typedef void (*GLFWcursorposfun)(GLFWwindow* window, double xpos, double ypos);
 
 namespace engine::window::glfw
 {
@@ -92,6 +93,7 @@ namespace engine::window::glfw
 		void setWindowCloseCallBack(GLFWwindow* _window_ptr, GLFWwindowclosefun _call_back) const noexcept;
 		void setKeyCallback(GLFWwindow* _window_ptr, GLFWkeyfun _call_back) const noexcept;
 		void setMouseButtonCallback(GLFWwindow* _window_ptr, GLFWmousebuttonfun _call_back) const noexcept;
+		void setCursorPosCallback(GLFWwindow* _window_ptr, GLFWcursorposfun _call_back) const noexcept;
 
 		void destroyWindow(GLFWwindow* _window_ptr) const noexcept;
 

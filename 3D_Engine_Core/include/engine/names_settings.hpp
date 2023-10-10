@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <engine/window/common_types.hpp>
+
 #include <string>
 
 
@@ -19,4 +21,9 @@ namespace engine
 	static constexpr std::string_view OPEN_MODE_SETTING_NAME = "open_mode";
 	static constexpr std::string_view FULL_SCREEN_OPEN_MODE = "full_srceen";
 	static constexpr std::string_view IN_WINDOW_OPEN_MODE = "in_window";
+
+
+
+	window::WindowImpl toWindowImpl(const std::string_view& _str_window_impl) noexcept;
+	window::OpenMode toOpenMode(const std::string_view& _str_open_mode) noexcept;
 }

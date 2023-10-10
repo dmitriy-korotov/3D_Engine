@@ -1,14 +1,16 @@
 #include <engine/application.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/names_settings.hpp>
 #include <engine/application_settings.hpp>
 
-#include <engine/logging/log.hpp>
-
 #include <engine/window/basic_window.hpp>
+#include <engine/window/events_data.hpp>
 #include <engine/window/glfw/glfw_window_context.hpp>
 
 #include <engine/input/mouse.hpp>
+#include <engine/input/keyboard.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -16,30 +18,11 @@
 
 
 
+using namespace engine::window;
+
 namespace engine
 {
     using nlohmann::json;
-
-
-
-    static constexpr WindowImpl toWindowImpl(const std::string_view& _str_window_impl) noexcept
-    {
-        if (_str_window_impl == GLFW_IMPLE)           return WindowImpl::GLFW;
-        if (_str_window_impl == SDL_IMPL)             return WindowImpl::SDL;
-        if (_str_window_impl == SFML_IMPL)            return WindowImpl::SFML;
-
-        return WindowImpl::GLFW;
-    }
-
-
-
-    static constexpr OpenMode toOpenMode(const std::string_view& _str_open_mode) noexcept
-    {
-        if (_str_open_mode == FULL_SCREEN_OPEN_MODE)        return OpenMode::FullScreen;
-        if (_str_open_mode == IN_WINDOW_OPEN_MODE)          return OpenMode::InWindow;
-
-        return OpenMode::FullScreen;
-    }
 
 
 
@@ -56,13 +39,16 @@ namespace engine
     void application::setConfig(const path& _path_to_config_file) noexcept
     {
         if (std::filesystem::exists(_path_to_config_file))
-        {
             m_path_to_config = _path_to_config_file;
-        }
         else
-        {
             LOG_ERROR("[Application ERROR] Config file is not exists (file: {0}).", _path_to_config_file.generic_string());
-        }
+    }
+
+
+
+    const std::optional<path>& application::getPathToConfig() const noexcept
+    {
+        return m_path_to_config;
     }
 
 
@@ -84,6 +70,7 @@ namespace engine
             if (file_with_settings.is_open())
             {
                 json settings = json::parse(file_with_settings);
+
                 if (settings.find(WINDOW_IMPL_SETTING_NAME) != settings.end())
                 {
                     window_impl = toWindowImpl(settings[WINDOW_IMPL_SETTING_NAME]);
@@ -118,58 +105,117 @@ namespace engine
             else
             {
                 LOG_ERROR("[Application ERROR] Can't open config file: {0}", m_path_to_config->generic_string());
+                return error::application_error::can_not_load_config;
             }
-        }
-
-
-        
-        switch (window_impl)
-        {
-        case engine::window::WindowImpl::GLFW:
-            m_window_context = std::make_shared<window::glfw::glfw_window_context>();
-            m_window_ptr = m_window_context->createWindow();
-            break;
-        case engine::window::WindowImpl::SDL:
-            break;
-        case engine::window::WindowImpl::SFML:
-            break;
-        }
-
-        if (m_window_ptr->create(title, width, height, open_mode).has_value())
-        {
-            return error::application_error::can_not_create_window;
-        }
-        if (path_to_window_icon.has_value())
-        {
-            m_window_ptr->setupIcon(path_to_window_icon.value());
         }
         return std::nullopt;
     }
 
 
 
-    void application::onStart() noexcept
-    { }
+    application::app_error application::createWindow() noexcept
+    {
+        WindowImpl window_impl = application_settings::instance().getWindowImpl();
+        std::string title = application_settings::instance().getTitle();
+        uint16_t width = application_settings::instance().getWidth();
+        uint16_t height = application_settings::instance().getHeight();
+        OpenMode open_mode = application_settings::instance().getOpenMode();
+        std::optional<path> path_to_window_icon = application_settings::instance().getPathToWindowIcon();
+
+
+
+        switch (window_impl)
+        {
+        case WindowImpl::GLFW:
+            m_window_context = std::make_shared<glfw::glfw_window_context>();
+            m_window_context->init();
+            m_window_ptr = m_window_context->createWindow();
+            break;
+        case WindowImpl::SDL:
+            break;
+        case WindowImpl::SFML:
+            break;
+        }
+
+
+
+        if (m_window_ptr->create(title, width, height, open_mode).has_value())
+            return error::application_error::can_not_create_window;
+
+        if (path_to_window_icon.has_value())
+            m_window_ptr->setupIcon(path_to_window_icon.value());
+
+        return std::nullopt;
+    }
+
+
+
+    void application::setWindowEventHandlers() noexcept
+    {
+        m_window_ptr->addEventListener<Events::Resize>(
+            [this](const ResizeEventData& _size) -> void
+            {
+                application_settings::instance().setWidth(_size.width);
+                application_settings::instance().setHeight(_size.height);
+
+                onWindowResize();
+            });
+
+        m_window_ptr->addEventListener<Events::Close>(
+            [this]() -> void
+            {
+                close();
+                onWindowClose();
+            });
+
+        m_window_ptr->addEventListener<Events::KeyboardInput>(
+            [this](const KeyboardInputEventData& _keyboard_input_data) -> void
+            {
+                if (_keyboard_input_data.action == input::Action::Released)
+                    input::keyboard::releaseKey(_keyboard_input_data.key);
+                else if (_keyboard_input_data.action == input::Action::Pressed)
+                    input::keyboard::pressKey(_keyboard_input_data.key);
+
+                onKeyboardInput();
+            });
+
+        m_window_ptr->addEventListener<Events::MouseInput>(
+            [this](const MouseInputEventData& _mouse_input_data) -> void
+            {
+                if (_mouse_input_data.action == input::Action::Released)
+                    input::mouse::releaseButton(_mouse_input_data.key);
+                else if (_mouse_input_data.action == input::Action::Pressed)
+                    input::mouse::pressButton(_mouse_input_data.key);
+
+                onMouseInput();
+            });
+
+        m_window_ptr->addEventListener<Events::MouseMove>(
+            [this](const MouseMoveEventData _mouse_move_data) -> void
+            {
+                input::mouse::setCursorPosition(_mouse_move_data.x, _mouse_move_data.y);
+            });
+    }
 
 
 
 	application::app_error application::start() noexcept
 	{
-        auto error = loadConfig();
-        if (error.has_value())
-        {
-            return error;
-        }
+        auto cfg_error = loadConfig();
+        if (cfg_error.has_value())
+            return cfg_error;
 
-        m_window_context->init();
+        auto wind_error = createWindow();
+        if (wind_error.has_value())
+            return wind_error;
+
+        setWindowEventHandlers();
+
         onStart();
 
         m_is_closed = false;
         while (!isClosed())
         {
-            auto cursor_position = m_window_ptr->getCurrentCursorPosition();
-            input::mouse::setCursorPosition(cursor_position.x, cursor_position.y);
-
             m_window_ptr->onUpdate();
             onUpdate();
             onDrawUI();
@@ -202,6 +248,23 @@ namespace engine
 	{ }
     void application::onDrawUI() noexcept
     { }
+    void application::onStart() noexcept
+    { }
     void application::onClose() noexcept
+    { }
+
+
+
+    void application::onWindowResize() noexcept
+    { }
+    void application::onWindowClose() noexcept
+    { }
+    void application::onWindowMove() noexcept
+    { }
+    void application::onMouseMove() noexcept
+    { }
+    void application::onMouseInput() noexcept
+    { }
+    void application::onKeyboardInput() noexcept
     { }
 }
