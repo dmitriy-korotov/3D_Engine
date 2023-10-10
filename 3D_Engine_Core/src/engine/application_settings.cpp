@@ -40,6 +40,13 @@ namespace engine
 
 
 
+	RendererImpl application_settings::getRendererImpl() const noexcept
+	{
+		return m_renderer_impl;
+	}
+
+
+
 	OpenMode application_settings::getOpenMode() const noexcept
 	{
 		return m_open_mode;
@@ -78,6 +85,13 @@ namespace engine
 	void application_settings::setWindowImpl(WindowImpl _window_impl) noexcept
 	{
 		m_window_impl = _window_impl;
+	}
+
+
+
+	void application_settings::setRendererImpl(RendererImpl _renderer_impl) noexcept
+	{
+		m_renderer_impl = _renderer_impl;
 	}
 
 

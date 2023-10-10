@@ -3,6 +3,7 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/window/common_types.hpp>
+#include <engine/render/common_types.hpp>
 
 #include <string>
 #include <optional>
@@ -15,6 +16,7 @@ namespace engine
 	using std::filesystem::path;
 	using window::OpenMode;
 	using window::WindowImpl;
+	using render::RendererImpl;
 
 	class application_settings : private util::nocopyeble
 	{
@@ -26,6 +28,7 @@ namespace engine
 		uint16_t getHeight() const noexcept;
 		const std::string& getTitle() const noexcept;
 		WindowImpl getWindowImpl() const noexcept;
+		RendererImpl getRendererImpl() const noexcept;
 		OpenMode getOpenMode() const noexcept;
 		std::optional<path> getPathToWindowIcon() const noexcept;
 
@@ -33,6 +36,7 @@ namespace engine
 		void setHeight(uint16_t _height) noexcept;
 		void setTitle(std::string _title) noexcept;
 		void setWindowImpl(WindowImpl _window_impl) noexcept;
+		void setRendererImpl(RendererImpl _renderer_impl) noexcept;
 		void setOpenMode(OpenMode _open_mode) noexcept;
 		void setPathToWindowIcon(path _path_to_window_icon) noexcept;
 
@@ -47,6 +51,7 @@ namespace engine
 	protected:
 
 		WindowImpl m_window_impl = WindowImpl::GLFW;
+		RendererImpl m_renderer_impl = RendererImpl::OpenGL;
 
 		std::string m_title = "Application";
 		std::optional<path> m_path_to_window_icon;

@@ -55,6 +55,7 @@ namespace engine
 
     application::app_error application::loadConfig() noexcept
     {
+        RendererImpl renderer_impl =                application_settings::instance().getRendererImpl();
         WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
         std::string title =                         application_settings::instance().getTitle();
         uint16_t width =                            application_settings::instance().getWidth();
@@ -71,6 +72,9 @@ namespace engine
             {
                 json settings = json::parse(file_with_settings);
 
+
+
+                // setup window settings
                 if (settings.find(WINDOW_IMPL_SETTING_NAME) != settings.end())
                 {
                     window_impl = toWindowImpl(settings[WINDOW_IMPL_SETTING_NAME]);
@@ -101,6 +105,15 @@ namespace engine
                     path_to_window_icon = std::string(settings[PATH_TO_WINDOW_ICON_NAME]);
                     application_settings::instance().setPathToWindowIcon(path_to_window_icon.value());
                 }
+
+
+
+                // setup renderer settings
+                if (settings.find(RENDERER_IMPL_SETTING_NAME) != settings.end())
+                {
+                    renderer_impl = toRendererImpl(settings[RENDERER_IMPL_SETTING_NAME]);
+                    application_settings::instance().setRendererImpl(renderer_impl);
+                }
             }
             else
             {
@@ -115,12 +128,12 @@ namespace engine
 
     application::app_error application::createWindow() noexcept
     {
-        WindowImpl window_impl = application_settings::instance().getWindowImpl();
-        std::string title = application_settings::instance().getTitle();
-        uint16_t width = application_settings::instance().getWidth();
-        uint16_t height = application_settings::instance().getHeight();
-        OpenMode open_mode = application_settings::instance().getOpenMode();
-        std::optional<path> path_to_window_icon = application_settings::instance().getPathToWindowIcon();
+        WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
+        std::string title =                         application_settings::instance().getTitle();
+        uint16_t width =                            application_settings::instance().getWidth();
+        uint16_t height =                           application_settings::instance().getHeight();
+        OpenMode open_mode =                        application_settings::instance().getOpenMode();
+        std::optional<path> path_to_window_icon =   application_settings::instance().getPathToWindowIcon();
 
 
 

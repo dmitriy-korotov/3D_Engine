@@ -1,4 +1,6 @@
 {
+    "renderer_impl"             : "OpenGL",
+    
     "window_impl"               : "GLFW",
     "title"                     : "Engine 3D",
     "width"                     : 1024,
