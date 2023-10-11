@@ -8,7 +8,8 @@
 
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>
-#include <engine/modules/imgui/UIModule.hpp>
+
+#include <engine/modules/application_UIModule.hpp>
 
 #include <engine/application_settings.hpp>
 
@@ -16,7 +17,7 @@
 
 using namespace engine::ecs::components;
 using namespace engine::input;
-using namespace engine::modules::imgui;
+using namespace engine::modules;
 
 namespace engine::ecs::systems
 {
@@ -131,7 +132,8 @@ namespace engine::ecs::systems
 
 		auto current_mouse_position = glm::dvec2(mouse::getCursorPositionX(), mouse::getCursorPositionY());
 
-		if (!UIModule::instance().isInitialized() || (UIModule::instance().isInitialized() && !UIModule::instance().isMouseOnUI()))
+		auto& UI_module = application_UIModule::instance().getUIModule();
+		if (!UI_module->isInitialized() || (UI_module->isInitialized() && !UI_module->isMouseOnUI()))
 		{
 			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))
 			{

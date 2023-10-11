@@ -57,6 +57,7 @@ namespace engine
 
 		app_error createWindow() noexcept;
 		app_error setupRenderer() noexcept;
+		app_error setupUIModule() noexcept;
 		void setWindowEventHandlers() noexcept;
 
 	private:

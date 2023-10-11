@@ -26,7 +26,7 @@
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
 
-#include <engine/modules/imgui/UIModule.hpp>
+#include <engine/modules/application_UIModule.hpp>
 
 
 
@@ -37,7 +37,7 @@ using namespace engine::ecs::systems;
 using namespace engine::ecs;
 using namespace engine::window;
 using namespace engine::util;
-using namespace engine::modules::imgui;
+using namespace engine::modules;
 
 namespace editor
 {
@@ -51,8 +51,6 @@ namespace editor
 
 	void editor_app::onStart() noexcept
 	{
-		//UIModule::instance().initialize(m_window_ptr);
-
 		ECS::instance().initialize();
 
 
@@ -74,7 +72,7 @@ namespace editor
 
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
 		ECS::instance().getSystemsManager()->addSystem<render>(2);
-		//ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
+		ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
 
 		auto shader_program = std::make_shared<open_gl::shader_program>(std::move(vs_reader_2.getData()), std::move(fs_reader_2.getData()));
 
@@ -185,6 +183,5 @@ namespace editor
 															engine::application_settings::instance().getWidth(),
 															engine::application_settings::instance().getHeight());
 		ECS::instance().terminate();
-		//UIModule::instance().terminate();
 	}
 }

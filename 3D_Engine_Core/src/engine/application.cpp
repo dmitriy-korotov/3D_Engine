@@ -12,6 +12,9 @@
 #include <engine/render/application_renderer.hpp>
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 
+#include <engine/modules/application_UIModule.hpp>
+#include <engine/modules/imgui/UIModule.hpp>
+
 #include <engine/input/mouse.hpp>
 #include <engine/input/keyboard.hpp>
 
@@ -23,6 +26,7 @@
 
 using namespace engine::window;
 using namespace engine::render;
+using namespace engine::modules;
 
 namespace engine
 {
@@ -179,7 +183,7 @@ namespace engine
 
     application::app_error application::setupRenderer() noexcept
     {
-        std::shared_ptr<basic_renderer> renderer;
+        std::shared_ptr<basic_renderer> renderer = nullptr;
 
         switch (application_settings::instance().getRendererImpl())
         {
@@ -202,6 +206,44 @@ namespace engine
         //renderer->enableDepthTest();
 
         application_renderer::instance().setupRenderer(std::move(renderer));
+
+        return std::nullopt;
+    }
+
+
+
+    application::app_error application::setupUIModule() noexcept
+    {
+        UIModuleImpl UI_module_impl = application_settings::instance().getUIModuleImpl();
+        RendererImpl renderer_impl = application_settings::instance().getRendererImpl();
+        WindowImpl window_impl = application_settings::instance().getWindowImpl();
+
+
+
+        std::shared_ptr<basic_UIModule> UI_module = nullptr;
+
+        switch (UI_module_impl)
+        {
+        case engine::modules::UIModuleImpl::ImGui:
+            UI_module = std::shared_ptr<imgui::UIModule>(&imgui::UIModule::instance(),
+                                                         [](imgui::UIModule* _UI_module) -> void
+                                                         { });
+            break;
+        case engine::modules::UIModuleImpl::Qt:
+            break;
+        case engine::modules::UIModuleImpl::Juce:
+            break;
+        case engine::modules::UIModuleImpl::GTK_Plus:
+            break;
+        }
+
+        UI_module->setWindowImpl(window_impl);
+        UI_module->setRendererImpl(renderer_impl);
+        UI_module->initialize(m_window_ptr);
+        if (!UI_module->isInitialized())
+            return error::application_error::can_not_setup_UIModule;
+
+        application_UIModule::instance().setUIModule(std::move(UI_module));
 
         return std::nullopt;
     }
@@ -271,6 +313,11 @@ namespace engine
         if (render_error.has_value())
             return render_error;
 
+
+        auto UIModule_error = setupUIModule();
+        if (UIModule_error.has_value())
+            return UIModule_error;
+
         setWindowEventHandlers();
 
         onStart();
@@ -284,6 +331,7 @@ namespace engine
         }
 
         onClose();
+        application_UIModule::instance().getUIModule()->terminate();
         m_window_ptr->shutdown();
         m_window_context->terminate();
 

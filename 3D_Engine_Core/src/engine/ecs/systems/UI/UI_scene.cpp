@@ -4,7 +4,8 @@
 
 #include <engine/render/open_gl/renderer_open_gl.hpp>
 
-#include <engine/modules/imgui/UIModule.hpp>
+#include <engine/modules/application_UIModule.hpp>
+#include <engine/modules/basic_UIModule.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
 
@@ -14,7 +15,7 @@
 
 
 
-using namespace engine::modules::imgui;
+using namespace engine::modules;
 
 namespace engine::ecs::systems
 {
@@ -29,9 +30,11 @@ namespace engine::ecs::systems
 			m_light_direction[2] = direction.z;
 		}
 
-		UIModule::instance().onUIDrawBegin();
+		auto& UI_module = application_UIModule::instance().getUIModule();
 
-		UIModule::instance().createDockSpace();
+		UI_module->onUIDrawBegin();
+
+		UI_module->createDockSpace();
 
 		ImGui::Begin("Scene");
 
@@ -42,7 +45,7 @@ namespace engine::ecs::systems
 		ImGui::End();
 		
 
-		UIModule::instance().onUIDrawEnd();
+		UI_module->onUIDrawEnd();
 
 		if (components.has_value())
 		{
