@@ -4,6 +4,7 @@
 
 using namespace engine::window;
 using namespace engine::render;
+using namespace engine::modules;
 
 namespace engine
 {
@@ -36,5 +37,17 @@ namespace engine
         if (_str_renderer_impl == VULCAN_IMPL)              return RendererImpl::Vulkan;
 
         return RendererImpl::OpenGL;
+    }
+
+
+
+    UIModuleImpl toUIModuleImpl(const std::string_view& _str_UI_module_impl) noexcept
+    {
+        if (_str_UI_module_impl == IMGUI_IMPL)             return UIModuleImpl::ImGui;
+        if (_str_UI_module_impl == QT_IMPL)                return UIModuleImpl::Qt;
+        if (_str_UI_module_impl == JUCE_IMPL)              return UIModuleImpl::Juce;
+        if (_str_UI_module_impl == GTK_PLUS_IMPL)          return UIModuleImpl::GTK_Plus;
+
+        return UIModuleImpl::ImGui;
     }
 }

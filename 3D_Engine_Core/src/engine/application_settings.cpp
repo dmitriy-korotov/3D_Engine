@@ -47,6 +47,13 @@ namespace engine
 
 
 
+	UIModuleImpl application_settings::getUIModuleImpl() const noexcept
+	{
+		return m_UI_modele_impl;
+	}
+
+
+
 	OpenMode application_settings::getOpenMode() const noexcept
 	{
 		return m_open_mode;
@@ -92,6 +99,13 @@ namespace engine
 	void application_settings::setRendererImpl(RendererImpl _renderer_impl) noexcept
 	{
 		m_renderer_impl = _renderer_impl;
+	}
+
+
+
+	void application_settings::setUIModuleImpl(UIModuleImpl _UI_module_impl) noexcept
+	{
+		m_UI_modele_impl = _UI_module_impl;
 	}
 
 

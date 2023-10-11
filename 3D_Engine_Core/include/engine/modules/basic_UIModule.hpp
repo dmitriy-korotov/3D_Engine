@@ -16,6 +16,16 @@ namespace engine::window
 
 namespace engine::modules
 {
+	enum class UIModuleImpl : uint8_t
+	{
+		ImGui,
+		Qt,
+		Juce,
+		GTK_Plus
+	};
+
+
+
 	using window::WindowImpl;
 	using render::RendererImpl;
 

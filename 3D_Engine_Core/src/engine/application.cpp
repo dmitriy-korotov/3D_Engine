@@ -60,6 +60,7 @@ namespace engine
     application::app_error application::loadConfig() noexcept
     {
         RendererImpl renderer_impl =                application_settings::instance().getRendererImpl();
+        UIModuleImpl UI_module_impl =               application_settings::instance().getUIModuleImpl();
         WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
         std::string title =                         application_settings::instance().getTitle();
         uint16_t width =                            application_settings::instance().getWidth();
@@ -117,6 +118,15 @@ namespace engine
                 {
                     renderer_impl = toRendererImpl(settings[RENDERER_IMPL_SETTING_NAME]);
                     application_settings::instance().setRendererImpl(renderer_impl);
+                }
+
+
+
+                // setup UIModule settings
+                if (settings.find(UI_MODULE_IMPL_SETTING_NAME) != settings.end())
+                {
+                    UI_module_impl = toUIModuleImpl(settings[UI_MODULE_IMPL_SETTING_NAME]);
+                    application_settings::instance().setUIModuleImpl(UI_module_impl);
                 }
             }
             else

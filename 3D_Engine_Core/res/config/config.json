@@ -1,10 +1,12 @@
 {
-    "renderer_impl"             : "OpenGL",
-    
     "window_impl"               : "GLFW",
     "title"                     : "Engine 3D",
     "width"                     : 1024,
     "height"                    : 720,
     "open_mode"                 : "in_window",
-    "path_to_window_icon"       : "C:/Users/User/MyProjects/3D_Engine/res/icon/pngwing.png"
+    "path_to_window_icon"       : "C:/Users/User/MyProjects/3D_Engine/res/icon/pngwing.png",
+
+    "renderer_impl"             : "OpenGL",
+
+    "UI_module_impl"            : "ImGui"
 }
