@@ -99,6 +99,11 @@ namespace engine::render::open_gl
 
 
 
+	renderer::renderer() noexcept
+	{ }
+
+
+
 	bool renderer::init(window::WindowImpl _window_impl) noexcept
 	{
 		switch (_window_impl)

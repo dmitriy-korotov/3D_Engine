@@ -9,6 +9,9 @@
 #include <engine/window/events_data.hpp>
 #include <engine/window/glfw/glfw_window_context.hpp>
 
+#include <engine/render/application_renderer.hpp>
+#include <engine/render/open_gl/renderer_open_gl.hpp>
+
 #include <engine/input/mouse.hpp>
 #include <engine/input/keyboard.hpp>
 
@@ -19,6 +22,7 @@
 
 
 using namespace engine::window;
+using namespace engine::render;
 
 namespace engine
 {
@@ -163,6 +167,37 @@ namespace engine
 
 
 
+    application::app_error application::setupRenderer() noexcept
+    {
+        std::shared_ptr<basic_renderer> renderer;
+
+        switch (application_settings::instance().getRendererImpl())
+        {
+        case RendererImpl::OpenGL:
+            renderer = std::shared_ptr<open_gl::renderer>(&open_gl::renderer::instance(),
+                                                          [](open_gl::renderer* _renderer) -> void
+                                                          { });
+            break;
+        case RendererImpl::Direct3D:
+            break;
+        case RendererImpl::DirectX:
+            break;
+        case RendererImpl::Vulkan:
+            break;
+        }
+
+        if (!renderer->init(application_settings::instance().getWindowImpl()))
+            return error::application_error::can_not_setup_renderer;
+
+        //renderer->enableDepthTest();
+
+        application_renderer::instance().setupRenderer(std::move(renderer));
+
+        return std::nullopt;
+    }
+
+
+
     void application::setWindowEventHandlers() noexcept
     {
         m_window_ptr->addEventListener<Events::Resize>(
@@ -221,6 +256,10 @@ namespace engine
         auto wind_error = createWindow();
         if (wind_error.has_value())
             return wind_error;
+
+        auto render_error = setupRenderer();
+        if (render_error.has_value())
+            return render_error;
 
         setWindowEventHandlers();
 

@@ -10,7 +10,7 @@ namespace engine::render::open_gl
 {
 	class vertex_array;
 
-	class renderer: public basic_renderer
+	class renderer final: public basic_renderer
 	{
 	public:
 
@@ -32,6 +32,10 @@ namespace engine::render::open_gl
 		std::string getVendor() noexcept;
 		std::string getRenderer() noexcept;
 		std::string getVersion() noexcept;
+	
+	private:
+
+		renderer() noexcept;
 
 	private:
 

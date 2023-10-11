@@ -56,6 +56,7 @@ namespace engine
 		using window_context_ptr = std::shared_ptr<window::basic_window_context>;
 
 		app_error createWindow() noexcept;
+		app_error setupRenderer() noexcept;
 		void setWindowEventHandlers() noexcept;
 
 	private:

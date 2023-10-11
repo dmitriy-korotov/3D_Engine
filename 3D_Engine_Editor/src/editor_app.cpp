@@ -51,12 +51,6 @@ namespace editor
 
 	void editor_app::onStart() noexcept
 	{
-		if (!open_gl::renderer::instance().init(engine::WindowImpl::GLFW))
-		{
-			LOG_CRITICAL("[Editor ERROR] Can't initialized OpenGL");
-		}
-		//open_gl::renderer::instance().enableDepthTest();
-
 		//UIModule::instance().initialize(m_window_ptr);
 
 		ECS::instance().initialize();
@@ -80,7 +74,7 @@ namespace editor
 
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
 		ECS::instance().getSystemsManager()->addSystem<render>(2);
-		ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
+		//ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
 
 		auto shader_program = std::make_shared<open_gl::shader_program>(std::move(vs_reader_2.getData()), std::move(fs_reader_2.getData()));
 
@@ -191,6 +185,6 @@ namespace editor
 															engine::application_settings::instance().getWidth(),
 															engine::application_settings::instance().getHeight());
 		ECS::instance().terminate();
-		UIModule::instance().terminate();
+		//UIModule::instance().terminate();
 	}
 }
