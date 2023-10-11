@@ -16,6 +16,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 set(ENGINE_PUBLIC_HEADERS
 
+		include/engine/Engine.hpp
 		include/engine/application.hpp
 		include/engine/names_settings.hpp
 		include/engine/application_settings.hpp
@@ -169,6 +170,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 set(ENGINE_PRIVATE_SOURCES 
 
+		src/engine/Engine.cpp
 		src/engine/application.cpp
 		src/engine/names_settings.cpp
 		src/engine/application_settings.cpp
