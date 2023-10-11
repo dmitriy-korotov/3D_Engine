@@ -58,13 +58,9 @@ namespace engine::modules::imgui
             {
                 window::glfw::glfw_window* glfw_window = dynamic_cast<window::glfw::glfw_window*>(_window_ptr.get());
                 if (glfw_window != nullptr)
-                {
                     ImGui_ImplGlfw_InitForOpenGL(glfw_window->getRawGlfwPtr(), true);
-                }
                 else
-                {
                     LOG_ERROR("[ImGui UIModule ERROR] Can't cast basic_window to glfw window.");
-                }
             }
             break;
         case engine::window::WindowImpl::SDL:

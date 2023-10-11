@@ -309,6 +309,8 @@ namespace engine
         if (wind_error.has_value())
             return wind_error;
 
+        setWindowEventHandlers();
+
         auto render_error = setupRenderer();
         if (render_error.has_value())
             return render_error;
@@ -317,8 +319,6 @@ namespace engine
         auto UIModule_error = setupUIModule();
         if (UIModule_error.has_value())
             return UIModule_error;
-
-        setWindowEventHandlers();
 
         onStart();
 
