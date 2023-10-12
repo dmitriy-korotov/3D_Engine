@@ -6,7 +6,7 @@
 #include <engine/application_settings.hpp>
 
 #include <engine/window/basic_window.hpp>
-#include <engine/window/events_data.hpp>
+#include <engine/window/events.hpp>
 #include <engine/window/glfw/glfw_window_context.hpp>
 
 #include <engine/render/application_renderer.hpp>

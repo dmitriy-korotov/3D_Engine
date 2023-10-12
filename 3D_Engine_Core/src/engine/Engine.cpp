@@ -27,6 +27,6 @@ namespace engine
 
 	const Engine::UIModule_ptr& Engine::getApplicationUIModule() noexcept
 	{
-		modules::application_UIModule::instance().getUIModule();
+		return modules::application_UIModule::instance().getUIModule();
 	}
 }

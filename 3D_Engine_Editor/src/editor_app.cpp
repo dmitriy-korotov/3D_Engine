@@ -4,8 +4,6 @@
 
 #include <engine/application_settings.hpp>
 
-#include <engine/window/glfw/glfw_window.hpp>
-#include <engine/window/events_data.hpp>
 #include <engine/input/keyboard.hpp>
 
 #include <engine/util/file_reader.hpp>
@@ -23,10 +21,9 @@
 #include <engine/ecs/entities/basic_entity.hpp>
 
 #include <engine/render/open_gl/shader_program.hpp>
-#include <engine/render/open_gl/renderer_open_gl.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
 
-#include <engine/modules/application_UIModule.hpp>
+
 
 
 

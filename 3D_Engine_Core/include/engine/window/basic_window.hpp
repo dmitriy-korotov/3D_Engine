@@ -3,8 +3,8 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/error/window_error.hpp>
-#include <engine/window/common_types.hpp>
-#include <engine/window/events_data.hpp>
+#include <engine/window/window.hpp>
+#include <engine/window/events.hpp>
 
 #include <glm/vec2.hpp>
 

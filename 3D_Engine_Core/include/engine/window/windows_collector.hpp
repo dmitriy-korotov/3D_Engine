@@ -2,7 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/window/common_types.hpp>
+#include <engine/window/window.hpp>
 
 #include <unordered_map>
 #include <memory>

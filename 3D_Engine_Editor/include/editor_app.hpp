@@ -12,6 +12,8 @@ namespace editor
 
 		static editor_app& instance() noexcept;
 
+	private:
+
 		editor_app() noexcept = default;
 
 	private:

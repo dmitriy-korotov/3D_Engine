@@ -2,7 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/window/common_types.hpp>
+#include <engine/window/window.hpp>
 #include <engine/render/common_types.hpp>
 
 #include <memory>
