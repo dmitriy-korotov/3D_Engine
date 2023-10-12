@@ -1,6 +1,6 @@
 #pragma once
 
-namespace engine::render
+namespace engine::util
 {
 	class image;
 }

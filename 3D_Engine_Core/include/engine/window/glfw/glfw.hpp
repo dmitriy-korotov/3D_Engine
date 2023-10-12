@@ -6,7 +6,7 @@
 
 
 
-namespace engine::render
+namespace engine::util
 {
 	class image;
 }
@@ -79,7 +79,7 @@ namespace engine::window::glfw
 		void init() noexcept;
 		void terminate() noexcept;
 		void getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept;
-		void setWindowIcon(GLFWwindow* _window_ptr, render::image& _icon) const noexcept;
+		void setWindowIcon(GLFWwindow* _window_ptr, util::image& _icon) const noexcept;
 		void pollEvents() const noexcept;
 		void makeContextCurrent(GLFWwindow* _window_ptr) const noexcept;
 		void swapBuffers(GLFWwindow* _window_ptr) const noexcept;

@@ -35,11 +35,13 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/util/fwd/noconstructible.hpp
 		include/engine/util/fwd/nomoveble.hpp
 		include/engine/util/fwd/file_reader.hpp
+		include/engine/util/fwd/image.hpp
 
 		include/engine/util/nocopyeble.hpp
 		include/engine/util/noconstructible.hpp
 		include/engine/util/nomoveble.hpp
 		include/engine/util/file_reader.hpp
+		include/engine/util/image.hpp
 
 
 
@@ -97,7 +99,6 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/fwd.hpp
 		include/engine/render/fwd/application_renderer.hpp
 		include/engine/render/fwd/frustum.hpp
-		include/engine/render/fwd/image.hpp
 		include/engine/render/fwd/basic_texture2D.hpp
 		include/engine/render/fwd/texture_parametrs.hpp
 		include/engine/render/fwd/basic_shader_program.hpp
@@ -107,7 +108,6 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/render.hpp
 		include/engine/render/frustum.hpp
 		include/engine/render/model.hpp
-		include/engine/render/image.hpp
 		include/engine/render/basic_texture2D.hpp
 		include/engine/render/texture_parametrs.hpp
 		include/engine/render/basic_shader_program.hpp
@@ -222,7 +222,6 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/render/application_renderer.cpp
 		src/engine/render/model.cpp
-		src/engine/render/image.cpp
 		src/engine/render/basic_texture2D.cpp
 		src/engine/render/basic_shader_program.cpp
 		src/engine/render/basic_renderer.cpp
@@ -262,6 +261,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 		src/engine/util/file_reader.cpp
+		src/engine/util/image.cpp
 )
 
 set(ENGINE_ECS_PRIVATE_SOURCES

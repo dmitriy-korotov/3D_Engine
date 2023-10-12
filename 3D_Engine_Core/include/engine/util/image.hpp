@@ -6,7 +6,7 @@
 
 
 
-namespace engine::render
+namespace engine::util
 {
 	using std::filesystem::path;
 

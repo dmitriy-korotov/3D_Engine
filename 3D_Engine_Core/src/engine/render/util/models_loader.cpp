@@ -2,7 +2,7 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/render/image.hpp>
+#include <engine/util/image.hpp>
 #include <engine/render/meshes/open_gl/mesh.hpp>
 #include <engine/render/materials/open_gl/material.hpp>
 #include <engine/render/open_gl/texture2D.hpp>
@@ -155,7 +155,7 @@ namespace engine::render::utility
 				continue;
 			}
 
-			image img(m_model_directory / path_to_texture.C_Str());
+			util::image img(m_model_directory / path_to_texture.C_Str());
 			auto texture = std::make_shared<open_gl::texture2D>();
 			texture->setData(img.getData(), img.getWidth(), img.getHeight());
 

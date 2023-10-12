@@ -1,11 +1,12 @@
 #include <engine/window/glfw/glfw.hpp>
 
-#include <engine/render/image.hpp>
+#include <engine/util/image.hpp>
 
 #include <engine/logging/log.hpp>
 
 #include <GLFW/glfw3.h>
 #include <iostream>
+
 
 
 namespace engine::window::glfw
@@ -82,7 +83,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw::setWindowIcon(GLFWwindow* _window_ptr, render::image& _icon) const noexcept
+	void glfw::setWindowIcon(GLFWwindow* _window_ptr, util::image& _icon) const noexcept
 	{
 		GLFWimage glfw_icon;
 		glfw_icon.pixels = reinterpret_cast<unsigned char*>(_icon.getData());

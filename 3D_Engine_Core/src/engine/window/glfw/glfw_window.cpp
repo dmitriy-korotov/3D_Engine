@@ -8,7 +8,7 @@
 
 #include <engine/window/windows_manager.hpp>
 
-#include <engine/render/image.hpp>
+#include <engine/util/image.hpp>
 
 #include <engine/window/glfw/glfw.hpp>
 
@@ -44,7 +44,7 @@ namespace engine::window::glfw
 
 	void glfw_window::setupIcon(const path& _path_to_icon) const noexcept
 	{
-		render::image icon(_path_to_icon);
+		util::image icon(_path_to_icon);
 		if (icon.isLoaded())
 			glfw::instance().setWindowIcon(m_window_ptr, icon);
 		else

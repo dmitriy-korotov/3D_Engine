@@ -1,10 +1,10 @@
-#include <engine/render/image.hpp>
+#include <engine/util/image.hpp>
 
 #include <stb/image.h>
 
 
 
-namespace engine::render
+namespace engine::util
 {
 	image::image(const std::filesystem::path& _path_to_image)
 	{
