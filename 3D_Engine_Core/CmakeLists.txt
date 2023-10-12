@@ -30,7 +30,12 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/logging/log.hpp
 		
 		
-		
+		include/engine/util/fwd.hpp
+		include/engine/util/fwd/nocopyeble.hpp
+		include/engine/util/fwd/noconstructible.hpp
+		include/engine/util/fwd/nomoveble.hpp
+		include/engine/util/fwd/file_reader.hpp
+
 		include/engine/util/nocopyeble.hpp
 		include/engine/util/noconstructible.hpp
 		include/engine/util/nomoveble.hpp
