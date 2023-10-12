@@ -136,8 +136,6 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/shader_program.hpp
 		include/engine/render/open_gl/renderer_open_gl.hpp
 
-		include/engine/render/camera.hpp
-
 
 
 		include/engine/modules/application_UIModule.hpp
@@ -249,8 +247,6 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/texture2D.cpp
 		src/engine/render/open_gl/shader_program.cpp
 		src/engine/render/open_gl/renderer_open_gl.cpp
-
-		src/engine/render/camera.cpp
 
 
 
