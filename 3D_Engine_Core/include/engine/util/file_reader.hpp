@@ -10,7 +10,7 @@ namespace engine::util
 {
 	using namespace std::filesystem;
 
-	class file_reader : util::nocopyeble
+	class file_reader: util::nocopyeble
 	{
 	public:
 

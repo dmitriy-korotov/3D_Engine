@@ -84,6 +84,10 @@ set(ENGINE_PRIVATE_HEADERS
 		
 
 
+		include/engine/scene/fwd.hpp
+		include/engine/scene/fwd/scene_object.hpp
+		include/engine/scene/fwd/renderable_scene_object.hpp
+
 		include/engine/scene/world_data.hpp
 		include/engine/scene/scene_object.hpp
 		include/engine/scene/renderable_scene_object.hpp
