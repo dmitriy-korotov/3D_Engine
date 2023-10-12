@@ -6,15 +6,15 @@
 
 namespace editor
 {
-	class editor_app final: public engine::application
+	class Editor final: public engine::application
 	{
 	public:
 
-		static editor_app& instance() noexcept;
+		static Editor& instance() noexcept;
 
 	private:
 
-		editor_app() noexcept = default;
+		Editor() noexcept = default;
 
 	private:
 

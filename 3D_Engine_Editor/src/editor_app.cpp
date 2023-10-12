@@ -38,15 +38,15 @@ using namespace engine::modules;
 
 namespace editor
 {
-	editor_app& editor_app::instance() noexcept
+	Editor& Editor::instance() noexcept
 	{
-		static editor_app instance;
+		static Editor instance;
 		return instance;
 	}
 
 
 
-	void editor_app::onStart() noexcept
+	void Editor::onStart() noexcept
 	{
 		ECS::instance().initialize();
 
@@ -84,14 +84,14 @@ namespace editor
 
 
 
-	void editor_app::onUpdate() noexcept
+	void Editor::onUpdate() noexcept
 	{	
 		ECS::instance().update(0.33f);
 	}
 
 
 
-	void editor_app::onDrawUI() noexcept
+	void Editor::onDrawUI() noexcept
 	{ 
 		//UIModule::instance().onUIDrawBegin();
 
@@ -174,7 +174,7 @@ namespace editor
 
 
 
-	void editor_app::onClose() noexcept
+	void Editor::onClose() noexcept
 	{
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", engine::application_settings::instance().getTitle(),
 															engine::application_settings::instance().getWidth(),
