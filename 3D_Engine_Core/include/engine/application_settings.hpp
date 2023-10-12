@@ -20,19 +20,24 @@ namespace engine
 	using render::RendererImpl;
 	using modules::UIModuleImpl;
 
-	class application_settings : private util::nocopyeble
+	class application_settings: private util::nocopyeble
 	{
 	public:
 
 		static application_settings& instance() noexcept;
 
+
+
 		uint16_t getWidth() const noexcept;
 		uint16_t getHeight() const noexcept;
+
 		const std::string& getTitle() const noexcept;
+
 		WindowImpl getWindowImpl() const noexcept;
 		RendererImpl getRendererImpl() const noexcept;
 		UIModuleImpl getUIModuleImpl() const noexcept;
 		OpenMode getOpenMode() const noexcept;
+
 		std::optional<path> getPathToWindowIcon() const noexcept;
 
 		void setWidth(uint16_t _width) noexcept;
@@ -54,8 +59,8 @@ namespace engine
 
 	protected:
 
-		WindowImpl m_window_impl = WindowImpl::GLFW;
-		RendererImpl m_renderer_impl = RendererImpl::OpenGL;
+		WindowImpl m_window_impl =		WindowImpl::GLFW;
+		RendererImpl m_renderer_impl =	RendererImpl::OpenGL;
 		UIModuleImpl m_UI_modele_impl = UIModuleImpl::ImGui;
 
 		std::string m_title = "Application";

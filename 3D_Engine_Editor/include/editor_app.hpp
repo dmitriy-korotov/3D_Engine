@@ -23,5 +23,7 @@ namespace editor
 		void onDrawUI() noexcept override;
 		void onClose() noexcept override;
 
+		void onKeyboardInput() noexcept override;
+
 	};
 }

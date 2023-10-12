@@ -35,6 +35,7 @@ using namespace engine::ecs;
 using namespace engine::window;
 using namespace engine::util;
 using namespace engine::modules;
+using namespace engine::input;
 
 namespace editor
 {
@@ -80,6 +81,14 @@ namespace editor
 		LOG_INFO("'{0}' application started, size: {1}x{2}", engine::application_settings::instance().getTitle(),
 															 engine::application_settings::instance().getWidth(),
 															 engine::application_settings::instance().getHeight());
+	}
+
+
+
+	void Editor::onKeyboardInput() noexcept
+	{
+		if (keyboard::isKeyPressed(Key::KEY_ESCAPE))
+			close();
 	}
 
 

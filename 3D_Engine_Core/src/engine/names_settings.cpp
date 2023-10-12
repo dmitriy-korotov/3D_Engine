@@ -29,7 +29,7 @@ namespace engine
 
 
 
-    render::RendererImpl toRendererImpl(const std::string_view& _str_renderer_impl) noexcept
+    RendererImpl toRendererImpl(const std::string_view& _str_renderer_impl) noexcept
     {
         if (_str_renderer_impl == OPEN_GL_IMPL)             return RendererImpl::OpenGL;
         if (_str_renderer_impl == DIRECT_X_IMPL)            return RendererImpl::DirectX;

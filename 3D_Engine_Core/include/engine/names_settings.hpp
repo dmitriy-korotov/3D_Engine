@@ -33,9 +33,9 @@ namespace engine
 
 	static constexpr std::string_view UI_MODULE_IMPL_SETTING_NAME =		"UI_module_impl";
 
-	static constexpr std::string_view IMGUI_IMPL =					"ImGui";
-	static constexpr std::string_view QT_IMPL =						"Qt";
-	static constexpr std::string_view JUCE_IMPL =					"Juce";
+	static constexpr std::string_view IMGUI_IMPL =						"ImGui";
+	static constexpr std::string_view QT_IMPL =							"Qt";
+	static constexpr std::string_view JUCE_IMPL =						"Juce";
 	static constexpr std::string_view GTK_PLUS_IMPL =					"GTK+";
 
 

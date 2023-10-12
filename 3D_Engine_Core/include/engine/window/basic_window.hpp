@@ -24,6 +24,8 @@ namespace engine::window
 
 		using window_err = std::optional<error::window_error>;
 		
+
+
 		basic_window() = default;
 		virtual ~basic_window() = default;
 

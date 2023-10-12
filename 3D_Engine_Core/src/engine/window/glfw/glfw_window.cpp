@@ -92,9 +92,7 @@ namespace engine::window::glfw
 	{
 		glfw::instance().init();
 		if (!glfw::instance().isInited())
-		{
 			return error::window_error::can_not_init_GLFW;
-		}
 
 		m_title = _title;
 		m_width = _width;

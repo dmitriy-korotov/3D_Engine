@@ -4,7 +4,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/window/fwd.hpp>
+#include <engine/window/fwd/basic_window.hpp>
+#include <engine/window/fwd/basic_window_context.hpp>
 
 #include <memory>
 #include <optional>
@@ -22,7 +23,11 @@ namespace engine
 		
 		using app_error = std::optional<error::application_error>;
 
+
+
 		static application& instance() noexcept;
+
+
 
 		void setConfig(const path& _path_to_config_file) noexcept;
 		const std::optional<path>& getPathToConfig() const noexcept;
@@ -37,8 +42,9 @@ namespace engine
 		application() = default;
 		virtual ~application() = default;
 
-		virtual void onStart() noexcept;
 		virtual app_error loadConfig() noexcept;
+
+		virtual void onStart() noexcept;
 		virtual void onUpdate() noexcept;
 		virtual void onDrawUI() noexcept;
 		virtual void onClose() noexcept;

@@ -14,5 +14,9 @@ namespace engine::window
 
 		[[nodiscard]] window_ptr getWindow(window_id_t _window_id) const noexcept;
 
+	private:
+
+		windows_manager() = default;
+
 	};
 }

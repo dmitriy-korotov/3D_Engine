@@ -3,6 +3,7 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/window/window.hpp>
+#include <engine/window/fwd/basic_window.hpp>
 
 #include <unordered_map>
 #include <memory>
@@ -11,8 +12,6 @@
 
 namespace engine::window
 {
-	class basic_window;
-
 	class windows_collector: private util::nocopyeble
 	{
 	public:

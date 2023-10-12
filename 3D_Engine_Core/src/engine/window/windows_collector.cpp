@@ -26,9 +26,7 @@ namespace engine::window
 	void windows_collector::removeWindow(window_id_t _window_id) noexcept
 	{
 		if (!m_windows_storage.empty())
-		{
 			m_windows_storage.erase(_window_id);
-		}
 	}
 
 

@@ -1,7 +1,9 @@
 #pragma once
 
 #include <engine/util/nocopyeble.hpp>
+
 #include <engine/window/window.hpp>
+#include <engine/window/fwd/basic_window.hpp>
 
 #include <memory>
 #include <string>
@@ -16,8 +18,6 @@ namespace engine::window
 		Inited,
 		Destroyed
 	};
-
-	class basic_window;
 
 	class basic_window_context: private util::nocopyeble
 	{

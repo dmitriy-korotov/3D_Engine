@@ -62,9 +62,8 @@ namespace engine::window::glfw
 		if (!m_is_inited)
 		{
 			if (!glfwInit())
-			{
 				LOG_CRITICAL("[Glfw ERROR] Can't initializate glfw.");
-			}
+			
 			glfwSetErrorCallback(
 				[](int _error_code, const char* _description) -> void
 				{
