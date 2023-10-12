@@ -94,8 +94,17 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 
+		include/engine/render/fwd.hpp
+		include/engine/render/fwd/application_renderer.hpp
+		include/engine/render/fwd/frustum.hpp
+		include/engine/render/fwd/image.hpp
+		include/engine/render/fwd/basic_texture2D.hpp
+		include/engine/render/fwd/texture_parametrs.hpp
+		include/engine/render/fwd/basic_shader_program.hpp
+		include/engine/render/fwd/basic_renderer.hpp
+
 		include/engine/render/application_renderer.hpp
-		include/engine/render/common_types.hpp
+		include/engine/render/render.hpp
 		include/engine/render/frustum.hpp
 		include/engine/render/model.hpp
 		include/engine/render/image.hpp

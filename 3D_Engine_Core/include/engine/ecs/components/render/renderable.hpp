@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/ecs/components/basic_component.hpp>
-#include <engine/render/common_types.hpp>
+#include <engine/render/render.hpp>
 
 #include <memory>
 

@@ -16,7 +16,7 @@
 #include <engine/ecs/systems/physic/camera_update.hpp>
 #include <engine/ecs/systems/UI/UI_scene.hpp>
 #include <engine/ecs/systems/render/render.hpp>
-#include <engine/render/common_types.hpp>
+#include <engine/render/render.hpp>
 
 #include <engine/ecs/entities/basic_entity.hpp>
 
