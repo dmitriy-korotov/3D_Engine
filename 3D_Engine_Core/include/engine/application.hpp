@@ -1,8 +1,8 @@
 #pragma once
 
-#include <engine/error/application_error.hpp>
-
 #include <engine/util/nocopyeble.hpp>
+
+#include <engine/error/application_error.hpp>
 
 #include <engine/window/fwd/basic_window.hpp>
 #include <engine/window/fwd/basic_window_context.hpp>

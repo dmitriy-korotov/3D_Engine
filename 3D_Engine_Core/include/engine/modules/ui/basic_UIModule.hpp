@@ -4,6 +4,7 @@
 
 #include <engine/window/window.hpp>
 #include <engine/render/render.hpp>
+#include <engine/modules/ui/ui.hpp>
 
 #include <memory>
 
@@ -16,16 +17,6 @@ namespace engine::window
 
 namespace engine::modules::ui
 {
-	enum class UIModuleImpl : uint8_t
-	{
-		ImGui,
-		Qt,
-		Juce,
-		GTK_Plus
-	};
-
-
-
 	using window::WindowImpl;
 	using render::RendererImpl;
 

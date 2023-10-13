@@ -176,6 +176,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/modules/ui/fwd/application_UIModule.hpp
 		include/engine/modules/ui/fwd/basic_UIModule.hpp
 
+		include/engine/modules/ui/ui.hpp
 		include/engine/modules/ui/application_UIModule.hpp
 		include/engine/modules/ui/basic_UIModule.hpp
 		

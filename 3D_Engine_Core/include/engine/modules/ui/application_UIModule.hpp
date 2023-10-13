@@ -2,14 +2,14 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/modules/ui/basic_UIModule.hpp>
+
 #include <memory>
 
 
 
 namespace engine::modules::ui
 {
-	class basic_UIModule;
-
 	class application_UIModule: private util::nocopyeble
 	{
 	public:

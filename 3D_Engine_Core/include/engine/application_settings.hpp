@@ -4,7 +4,7 @@
 
 #include <engine/window/window.hpp>
 #include <engine/render/render.hpp>
-#include <engine/modules/ui/basic_UIModule.hpp>
+#include <engine/modules/ui/ui.hpp>
 
 #include <string>
 #include <optional>
@@ -33,10 +33,10 @@ namespace engine
 
 		const std::string& getTitle() const noexcept;
 
-		WindowImpl getWindowImpl() const noexcept;
-		RendererImpl getRendererImpl() const noexcept;
-		UIModuleImpl getUIModuleImpl() const noexcept;
-		OpenMode getOpenMode() const noexcept;
+		WindowImpl		getWindowImpl() const noexcept;
+		RendererImpl	getRendererImpl() const noexcept;
+		UIModuleImpl	getUIModuleImpl() const noexcept;
+		OpenMode		getOpenMode() const noexcept;
 
 		std::optional<path> getPathToWindowIcon() const noexcept;
 
