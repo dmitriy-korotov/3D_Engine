@@ -2,15 +2,10 @@
 
 #include <engine/ecs/systems/basic_system.hpp>
 
+#include <engine/ecs/components/physic/fwd/velocity.hpp>
+#include <engine/ecs/components/physic/fwd/camera_transform.hpp>
+
 #include <glm/vec2.hpp>
-
-
-
-namespace engine::ecs::components
-{
-	class camera_transform;
-	class velocity;
-}
 
 
 

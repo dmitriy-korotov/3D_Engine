@@ -14,6 +14,7 @@ namespace engine::modules::ui::imgui
 
 		void initialize(const window_ptr& _window_ptr) noexcept override;
 		void terminate() noexcept override;
+
 		void onUIDrawBegin() const noexcept override;
 		void onUIDrawEnd() const noexcept override;
 

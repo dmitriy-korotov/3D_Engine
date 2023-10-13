@@ -2,15 +2,12 @@
 
 #include <engine/scene/scene_object.hpp>
 
+#include <engine/render/fwd/basic_shader_program.hpp>
+
 #include <string>
 #include <memory>
 
 
-
-namespace engine::render
-{
-	class basic_shader_program;
-}
 
 namespace engine::scene
 {

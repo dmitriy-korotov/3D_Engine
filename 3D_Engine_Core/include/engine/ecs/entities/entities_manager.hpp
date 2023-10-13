@@ -2,16 +2,15 @@
 
 #include <engine/ecs/ecs.hpp>
 
+#include <engine/ecs/entities/fwd/basic_entity.hpp>
+
 #include <unordered_map>
 #include <memory>
-#include <typeinfo>
 
 
 
 namespace engine::ecs::entities
 {
-	class basic_entity;
-
 	class entities_manager
 	{
 	public:

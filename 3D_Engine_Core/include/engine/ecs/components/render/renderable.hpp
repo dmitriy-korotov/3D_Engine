@@ -1,16 +1,13 @@
 #pragma once
 
 #include <engine/ecs/components/basic_component.hpp>
+
 #include <engine/render/render.hpp>
+#include <engine/render/fwd/basic_shader_program.hpp>
 
 #include <memory>
 
 
-
-namespace engine::render
-{
-	class basic_shader_program;
-}
 
 namespace engine::ecs::components
 {
@@ -28,7 +25,10 @@ namespace engine::ecs::components
 
 		renderable(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
 
+		void setShaderProgram(shader_program_ptr _shader_program) noexcept;
 		const shader_program_ptr& getShaderProgram() const noexcept;
+		
+		void setDrawingMode(DrawingMode _drawing_mode) noexcept;
 		DrawingMode getDrawingMode() const noexcept;
 
 	private:

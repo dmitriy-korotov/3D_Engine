@@ -3,8 +3,9 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/util/image.hpp>
-#include <engine/render/open_gl/mesh.hpp>
+
 #include <engine/render/material.hpp>
+#include <engine/render/open_gl/mesh.hpp>
 #include <engine/render/open_gl/texture2D.hpp>
 
 #include <assimp/Importer.hpp>
@@ -44,9 +45,7 @@ namespace engine::render::utility
 		}
 
 		for (size_t i = 0; i < _node->mNumChildren; i++)
-		{
 			processNode(_node->mChildren[i], _scene);
-		}
 	}
 
 
@@ -71,17 +70,13 @@ namespace engine::render::utility
 			vector.z = _mesh->mVertices[i].z;
 
 			if (std::abs(vector.x) > max_abs)
-			{
 				max_abs = std::abs(vector.x);
-			}
+
 			if (std::abs(vector.y) > max_abs)
-			{
 				max_abs = std::abs(vector.y);
-			}
+
 			if (std::abs(vector.z) > max_abs)
-			{
 				max_abs = std::abs(vector.z);
-			}
 
 			vertex.position = vector;
 
@@ -106,17 +101,13 @@ namespace engine::render::utility
 		}
 
 		for (size_t i = 0; i < vertexes.size(); i++)
-		{
 			//vertexes[i].position /= max_abs;
-		}
 
 		for (size_t i = 0; i < _mesh->mNumFaces; i++)
 		{
 			aiFace& face = _mesh->mFaces[i];
 			for (size_t j = 0; j < face.mNumIndices; j++)
-			{
 				indexes.push_back(face.mIndices[j]);
-			}
 		}
 
 		aiMaterial* material = _scene->mMaterials[_mesh->mMaterialIndex];

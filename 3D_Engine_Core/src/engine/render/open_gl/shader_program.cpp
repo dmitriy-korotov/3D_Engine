@@ -39,9 +39,7 @@ namespace engine::render::open_gl
 		glDeleteShader(*fragment_shader_);
 		
 		if (isProgramLinked())
-		{
 			m_is_compiled = true;
-		}
 	}
 
 

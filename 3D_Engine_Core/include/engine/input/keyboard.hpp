@@ -15,6 +15,7 @@ namespace engine::input
 		using keys_storage = std::array<bool, static_cast<size_t>(Key::KEY_LAST)>;
 
 		static bool isKeyPressed(Key _key_code) noexcept;
+		
 		static void pressKey(Key _key_code) noexcept;
 		static void releaseKey(Key _key_code) noexcept;
 

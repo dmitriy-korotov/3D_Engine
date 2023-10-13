@@ -2,12 +2,7 @@
 
 #include <engine/ecs/ecs_system.hpp>
 
-#include <engine/render/open_gl/renderer.hpp>
-
-#include <engine/modules/ui/application_UIModule.hpp>
-#include <engine/modules/ui/basic_UIModule.hpp>
-
-#include <engine/ecs/ecs_system.hpp>
+#include <engine/Engine.hpp>
 
 #include <engine/ecs/components/render/light/direction_light.hpp>
 
@@ -15,11 +10,9 @@
 
 
 
-using namespace engine::modules::ui;
-
 namespace engine::ecs::systems
 {
-	void UI_scene::update(float _delta_time) const noexcept
+	void UI_scene::update([[maybe_unused]] float _delta_time) const noexcept
 	{
 		auto components = ECS::instance().getComponentsManager()->getComponents<components::direction_light>();
 		if (components.has_value())
@@ -30,7 +23,7 @@ namespace engine::ecs::systems
 			m_light_direction[2] = direction.z;
 		}
 
-		auto& UI_module = application_UIModule::instance().getUIModule();
+		auto& UI_module = Engine::getApplicationUIModule();
 
 		UI_module->onUIDrawBegin();
 
@@ -52,7 +45,12 @@ namespace engine::ecs::systems
 			glm::vec3 direction = glm::vec3(m_light_direction[0], m_light_direction[1], m_light_direction[2]);
 			components->first->setDirection(direction);
 		}
+	}
 
-		render::open_gl::renderer::instance().setClearColor(m_bacgroud_color[0], m_bacgroud_color[1], m_bacgroud_color[2], m_bacgroud_color[3]);
+
+
+	void UI_scene::postUpdate([[maybe_unused]] float _delta_time) const noexcept
+	{
+		Engine::getApplicationRenderer()->setClearColor(m_bacgroud_color[0], m_bacgroud_color[1], m_bacgroud_color[2], m_bacgroud_color[3]);
 	}
 }

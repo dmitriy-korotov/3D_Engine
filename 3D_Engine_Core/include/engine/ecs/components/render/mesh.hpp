@@ -2,22 +2,15 @@
 
 #include <engine/ecs/components/basic_component.hpp>
 
+#include <engine/render/fwd/basic_mesh.hpp>
+
 #include <vector>
 #include <memory>
 
 
 
-namespace engine::render
-{
-	class basic_mesh;
-}
-
-
-
 namespace engine::ecs::components
 {
-	using render::basic_mesh;
-
 	class mesh: public virtual basic_component
 	{
 	public:
@@ -26,7 +19,7 @@ namespace engine::ecs::components
 
 
 
-		using mesh_ptr = std::shared_ptr<basic_mesh>;
+		using mesh_ptr = std::shared_ptr<render::basic_mesh>;
 		using mesh_storage = std::vector<mesh_ptr>;
 
 		mesh(mesh_storage _meshes) noexcept;

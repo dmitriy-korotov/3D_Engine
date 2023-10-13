@@ -1,18 +1,20 @@
 #pragma once
 
-#include <engine/interfaces/binded_object.hpp>
-#include <engine/render/open_gl/open_gl.hpp>
 #include <engine/util/nocopyeble.hpp>
 
-#include <stdint.h>
+#include <engine/interfaces/binded_object.hpp>
+
+#include <engine/render/open_gl/open_gl.hpp>
+
+#include <engine/render/open_gl/fwd/vertex_buffer.hpp>
+#include <engine/render/open_gl/fwd/index_buffer.hpp>
+
+#include <cstdint>
 
 
 
 namespace engine::render::open_gl
 {
-	class vertex_buffer;
-	class index_buffer;
-
 	class vertex_array final: private util::nocopyeble, public interfaces::binded_object
 	{
 	public:
@@ -24,6 +26,7 @@ namespace engine::render::open_gl
 
 		void addVertexBuffer(const vertex_buffer& _vertex_buffer) noexcept;
 		void setIndexBuffer(const index_buffer& _index_buffer) noexcept;
+
 		void bind() const noexcept override;
 		void unbind() const noexcept override;
 

@@ -2,6 +2,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/ecs/systems/fwd/basic_system.hpp>
+
 #include <set>
 #include <memory>
 #include <typeinfo>
@@ -10,17 +12,17 @@
 
 namespace engine::ecs::systems
 {
-	class basic_system;
-
 	class systems_manager: private util::nocopyeble
 	{
 	public:
 
-		systems_manager() = default;
-		~systems_manager();
-
 		using system_ptr = std::shared_ptr<basic_system>;
 		using systems_storage = std::set<std::pair<size_t, system_ptr>>;
+
+
+
+		systems_manager() = default;
+		~systems_manager();
 
 		void update(float _delta_time);
 
@@ -42,10 +44,6 @@ namespace engine::ecs::systems
 	{
 		static_assert(std::is_base_of_v<basic_system, SystemType>, "SystemType is not derived basic_system.");
 
-		if (SystemType::getSystemTypeID() == INVALID_SYSTEM_TYPE_ID)
-		{
-			SystemType::setSystemTypeID(typeid(SystemType).hash_code());
-		}
 		m_systems.emplace(_priority, std::make_shared<SystemType>(std::forward<Args>(_args)...));
 	}
 }

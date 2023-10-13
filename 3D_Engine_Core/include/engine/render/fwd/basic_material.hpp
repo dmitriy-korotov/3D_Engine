@@ -1,6 +1,6 @@
 #pragma once
 
-namespace engine::render::materials
+namespace engine::render
 {
 	class basic_material;
 }

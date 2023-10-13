@@ -65,9 +65,7 @@ namespace engine::ecs::components
 	const glm::mat4& transform::getModelMatrix() const noexcept
 	{
 		if (m_is_need_update_model_matrix)
-		{
 			updateModelMatrix();
-		}
 		return m_model_matrix;
 	}
 

@@ -2,15 +2,12 @@
 
 #include <engine/render/basic_material.hpp>
 
+#include <engine/render/fwd/basic_texture2D.hpp>
+
 #include <vector>
 #include <memory>
 
 
-
-namespace engine::render
-{
-	class basic_texture2D;
-}
 
 namespace engine::render
 {

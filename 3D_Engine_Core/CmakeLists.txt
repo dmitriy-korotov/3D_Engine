@@ -352,7 +352,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/vertex_array.cpp
 		src/engine/render/open_gl/texture2D.cpp
 		src/engine/render/open_gl/shader_program.cpp
-		src/engine/render/open_gl/renderer_open_gl.cpp
+		src/engine/render/open_gl/renderer.cpp
 		src/engine/render/open_gl/mesh.cpp
 
 

@@ -6,14 +6,11 @@
 #include <engine/render/render.hpp>
 #include <engine/modules/ui/ui.hpp>
 
+#include <engine/window/fwd/basic_window.hpp>
+
 #include <memory>
 
 
-
-namespace engine::window
-{
-	class basic_window;
-}
 
 namespace engine::modules::ui
 {
@@ -38,6 +35,7 @@ namespace engine::modules::ui
 
 		virtual void initialize(const window_ptr& _window_ptr) noexcept = 0;
 		virtual void terminate() noexcept = 0;
+
 		virtual void onUIDrawBegin() const noexcept = 0;
 		virtual void onUIDrawEnd() const noexcept = 0;
 

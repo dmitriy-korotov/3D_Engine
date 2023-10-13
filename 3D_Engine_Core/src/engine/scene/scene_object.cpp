@@ -1,8 +1,8 @@
 #include <engine/scene/scene_object.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
-#include <engine/ecs/components/physic/rotation.hpp>
-#include <engine/ecs/components/physic/scale.hpp>
+
+
 
 
 

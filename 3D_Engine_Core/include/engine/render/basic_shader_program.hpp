@@ -6,7 +6,6 @@
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/vector_float3.hpp>
 
-#include <stdint.h>
 #include <string>
 
 
@@ -28,6 +27,7 @@ namespace engine::render
 		basic_shader_program& operator=(basic_shader_program&& _right) noexcept;
 
 		bool isCompiled() const noexcept;
+
 		virtual void setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept = 0;
 		virtual void setMatrix3f(const std::string_view& _varieble_name, const glm::mat3& _matrix) const noexcept = 0;
 		virtual void setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept = 0;

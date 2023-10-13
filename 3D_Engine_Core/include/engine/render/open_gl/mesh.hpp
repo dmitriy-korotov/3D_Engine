@@ -2,8 +2,6 @@
 
 #include <engine/render/basic_mesh.hpp>
 
-#include <engine/interfaces/usage_object.hpp>
-
 #include <engine/render/open_gl/vertex_buffer.hpp>
 #include <engine/render/open_gl/index_buffer.hpp>
 #include <engine/render/open_gl/vertex_array.hpp>

@@ -9,6 +9,8 @@
 
 
 
+
+
 using namespace engine::ecs::components;
 using namespace engine::render::utility;
 
@@ -30,8 +32,6 @@ namespace engine::scene
 		addComponent<material>(std::move(loader.getMaterial()));
 
 		if (_shader_program != nullptr)
-		{
 			addComponent<renderable>(std::move(_shader_program));
-		}
 	}
 }

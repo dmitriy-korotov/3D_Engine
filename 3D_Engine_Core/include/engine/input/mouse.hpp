@@ -15,9 +15,12 @@ namespace engine::input
 		using keys_storage = std::array<bool, static_cast<size_t>(MouseButton::MOUSE_BUTTON_LAST)>;
 
 		static bool isButtonPressed(MouseButton _mouse_button) noexcept;
+
 		static void pressButton(MouseButton _mouse_button) noexcept;
 		static void releaseButton(MouseButton _mouse_button) noexcept;
+		
 		static void setCursorPosition(double _x, double _y) noexcept;
+		
 		static double getCursorPositionX() noexcept;
 		static double getCursorPositionY() noexcept;
 

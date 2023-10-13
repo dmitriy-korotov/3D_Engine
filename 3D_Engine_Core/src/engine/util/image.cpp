@@ -10,9 +10,7 @@ namespace engine::util
 	{
 		m_data = reinterpret_cast<std::byte*>(stbi_load(_path_to_image.generic_string().c_str(), &m_width, &m_height, &m_channels, 0));
 		if (m_data != nullptr)
-		{
 			m_is_loaded = true;
-		}
 	}
 
 
@@ -98,8 +96,6 @@ namespace engine::util
 	image::~image()
 	{
 		if (m_data != nullptr)
-		{
 			stbi_image_free(m_data);
-		}
 	}
 }

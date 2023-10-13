@@ -13,6 +13,7 @@ namespace engine::ecs::systems
 	public:
 
 		void update(float _delta_time) const noexcept;
+		void postUpdate(float _delta_time) const noexcept;
 
 	private:
 

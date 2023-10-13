@@ -1,15 +1,15 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
 #include <engine/ecs/ecs.hpp>
 
-#include <engine/util/nocopyeble.hpp>
+#include <engine/ecs/systems/fwd/systems_manager.hpp>
 
 
 
 namespace engine::ecs::systems
 {
-	class systems_manager;
-
 	class basic_system: private util::nocopyeble
 	{
 	public:
@@ -19,17 +19,9 @@ namespace engine::ecs::systems
 		basic_system() = default;
 		virtual ~basic_system() = default;
 
+		virtual void preUpdate(float _delta_time) const noexcept;
 		virtual void update(float _delta_time) const noexcept = 0;
-
-		static system_type_id getSystemTypeID() noexcept;
-
-	private:
-
-		static void setSystemTypeID(system_type_id _system_type_id) noexcept;
-
-	private:
-
-		static system_type_id m_system_type_id;
+		virtual void postUpdate(float _delta_time) const noexcept;
 
 	};
 }

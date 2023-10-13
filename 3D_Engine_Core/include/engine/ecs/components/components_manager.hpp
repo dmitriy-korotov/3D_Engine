@@ -1,27 +1,26 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
+#include <engine/logging/log.hpp>
+
 #include <engine/ecs/ecs.hpp>
 #include <engine/ecs/entities/entities_manager.hpp>
 #include <engine/ecs/entities/basic_entity.hpp>
 
 #include <engine/ecs/components/component_iterator.hpp>
 
-#include <engine/logging/log.hpp>
-
-#include <engine/util/nocopyeble.hpp>
+#include <engine/ecs/components/fwd/basic_component.hpp>
 
 #include <unordered_map>
 #include <vector>
 #include <memory>
 #include <optional>
-#include <typeinfo>
 
 
 
 namespace engine::ecs::components
 {
-	class basic_component;
-
 	class components_manager: private util::nocopyeble
 	{
 	public:
@@ -137,9 +136,7 @@ namespace engine::ecs::components
 
 		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
-		{
 			components_range->erase(_entity_id);
-		}
 	}
 
 

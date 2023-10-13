@@ -2,27 +2,16 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/render/fwd/basic_texture2D.hpp>
+#include <engine/render/fwd/basic_material.hpp>
+#include <engine/render/fwd/basic_mesh.hpp>
+
 #include <vector>
 #include <memory>
 #include <unordered_map>
 #include <filesystem>
 
 
-
-namespace engine::render
-{
-	class basic_mesh;
-}
-
-namespace engine::render
-{
-	class basic_material;
-}
-
-namespace engine::render
-{
-	class basic_texture2D;
-}
 
 namespace engine::render::utility
 {

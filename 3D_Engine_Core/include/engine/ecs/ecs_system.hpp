@@ -2,27 +2,16 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/ecs/components/fwd/components_manager.hpp>
+#include <engine/ecs/entities/fwd/entities_manager.hpp>
+#include <engine/ecs/systems/fwd/systems_manager.hpp>
+
 #include <memory>
 
 
 
 namespace engine::ecs
 {
-	namespace entities
-	{
-		class entities_manager;
-	}
-
-	namespace components
-	{
-		class components_manager;
-	}
-
-	namespace systems
-	{
-		class systems_manager;
-	}
-
 	class ECS: private util::nocopyeble
 	{
 	public:
@@ -30,6 +19,8 @@ namespace engine::ecs
 		using entities_manager_ptr = std::unique_ptr<entities::entities_manager>;
 		using components_manager_ptr = std::unique_ptr<components::components_manager>;
 		using systems_manager_ptr = std::unique_ptr<systems::systems_manager>;
+
+
 
 		static ECS& instance() noexcept;
 

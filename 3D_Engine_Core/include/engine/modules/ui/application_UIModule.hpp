@@ -19,7 +19,6 @@ namespace engine::modules::ui
 		static application_UIModule& instance() noexcept;
 
 		void setUIModule(UIModule_ptr _UI_module) noexcept;
-
 		const UIModule_ptr& getUIModule() const noexcept;
 
 	private:

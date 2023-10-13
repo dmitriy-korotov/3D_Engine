@@ -1,10 +1,13 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
 #include <engine/ecs/ecs.hpp>
 #include <engine/ecs/ecs_system.hpp>
 #include <engine/ecs/components/components_manager.hpp>
 
-#include <engine/util/nocopyeble.hpp>
+#include <engine/ecs/entities/fwd/entities_manager.hpp>
+#include <engine/ecs/components/fwd/basic_component.hpp>
 
 #include <unordered_map>
 #include <memory>
@@ -12,19 +15,10 @@
 
 
 
-namespace engine::ecs::components
-{
-	class basic_component;
-}
-
-
-
 namespace engine::ecs::entities
 {
 	template <typename ComponentType>
 	using component_ptr = std::weak_ptr<ComponentType>;
-
-	class entities_manager;
 
 
 
@@ -95,9 +89,7 @@ namespace engine::ecs::entities
 		{
 			auto component_ptr = std::dynamic_pointer_cast<ComponentType>(component->second.lock());
 			if (component_ptr != nullptr)
-			{
 				return component_ptr;
-			}
 		}
 		return std::nullopt;
 	}

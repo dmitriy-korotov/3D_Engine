@@ -6,25 +6,35 @@
 #include <engine/ecs/components/physic.hpp>
 #include <engine/ecs/components/markers.hpp>
 
-#include <engine/render/open_gl/renderer.hpp>
+#include <engine/Engine.hpp>
+
 #include <engine/render/basic_shader_program.hpp>
 
 #include <engine/application_settings.hpp>
 
 
 
-using namespace engine::render::open_gl;
+
+
 using namespace engine::ecs::components;
-
-
+using namespace engine::render;
 
 namespace engine::ecs::systems
 {
+	void render::preUpdate([[maybe_unused]] float _delta_time) const noexcept
+	{
+		auto& renderer = Engine::getApplicationRenderer();
+
+		renderer->setViewport(application_settings::instance().getWidth(), application_settings::instance().getHeight());
+		renderer->clear(Mask::ColorBuffer);
+		renderer->clear(Mask::DepthBuffer);
+	}
+
+
+
+
 	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		renderer::instance().setViewport(engine::application_settings::instance().getWidth(), engine::application_settings::instance().getHeight());
-		renderer::instance().clear(engine::render::Mask::ColorBuffer);
-
 		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<renderable>();
 		if (renderable_components.has_value())
 		{
@@ -81,7 +91,7 @@ namespace engine::ecs::systems
 				{
 					for (const auto& mesh : mesh_comp->lock()->getMeshes())
 					{
-						renderer::instance().draw(*shader_program, *mesh, *material_comp->getMaterial());
+						Engine::getApplicationRenderer()->draw(*shader_program, *mesh, *material_comp->getMaterial(), renderable_comp->getDrawingMode());
 					}
 				}
 			}

@@ -2,14 +2,14 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/render/basic_renderer.hpp>
+
 #include <memory>
 
 
 
 namespace engine::render
 {
-	class basic_renderer;
-
 	class application_renderer: private util::nocopyeble
 	{
 	public:

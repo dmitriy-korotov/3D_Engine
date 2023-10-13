@@ -208,7 +208,7 @@ namespace engine
         if (!renderer->init(application_settings::instance().getWindowImpl()))
             return error::application_error::can_not_setup_renderer;
 
-        //renderer->enableDepthTest();
+        renderer->enableDepthTest();
 
         application_renderer::instance().setupRenderer(std::move(renderer));
 

@@ -9,9 +9,11 @@
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>
 
-#include <engine/modules/ui/application_UIModule.hpp>
+#include <engine/Engine.hpp>
 
 #include <engine/application_settings.hpp>
+
+
 
 
 
@@ -132,7 +134,7 @@ namespace engine::ecs::systems
 
 		auto current_mouse_position = glm::dvec2(mouse::getCursorPositionX(), mouse::getCursorPositionY());
 
-		auto& UI_module = application_UIModule::instance().getUIModule();
+		auto& UI_module = Engine::getApplicationUIModule();
 		if (!UI_module->isInitialized() || (UI_module->isInitialized() && !UI_module->isMouseOnUI()))
 		{
 			if (mouse::isButtonPressed(MouseButton::MOUSE_BUTTON_LEFT))

@@ -4,19 +4,9 @@
 
 namespace engine::ecs::systems
 {
-	system_type_id basic_system::m_system_type_id = INVALID_SYSTEM_TYPE_ID;
+	void basic_system::preUpdate(float _delta_time) const noexcept
+	{ }
 
-
-
-	system_type_id basic_system::getSystemTypeID() noexcept
-	{
-		return m_system_type_id;
-	}
-
-
-
-	void basic_system::setSystemTypeID(system_type_id _system_type_id) noexcept
-	{
-		m_system_type_id = _system_type_id;
-	}
+	void basic_system::postUpdate(float _delta_time) const noexcept
+	{ }
 }

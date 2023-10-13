@@ -26,10 +26,10 @@ namespace engine::util
 		{
 			m_data.clear();
 			std::string buffer(BUFFER_SIZE, '\0');
+
 			while (fin.read(&buffer[0], BUFFER_SIZE))
-			{
 				m_data.append(buffer, 0, fin.gcount());
-			}
+
 			m_data.append(buffer, 0, fin.gcount());
 		}
 		else

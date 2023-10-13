@@ -33,8 +33,9 @@ namespace engine::render
 		virtual ~basic_mesh() = default;
 
 		void setVertexes(vertex_storage _vertexes) noexcept;
-		const vertex_storage& getVertexes() const noexcept;
 		void setIndexes(index_storage _indexes) noexcept;
+
+		const vertex_storage& getVertexes() const noexcept;
 		const index_storage& getIndexes() const noexcept;
 
 		size_t getIndexesCount() const noexcept;

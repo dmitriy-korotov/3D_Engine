@@ -76,9 +76,7 @@ namespace engine::ecs::components
 	const glm::mat4& camera_transform::getViewMatrix() noexcept
 	{
 		if (m_is_need_update_view_matrix)
-		{
 			updateViewMatrix();
-		}
 		return m_view_matrix;
 	}
 

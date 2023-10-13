@@ -225,10 +225,10 @@ namespace engine::render::open_gl
 	void renderer::clear(std::vector<Mask> _mask_types) noexcept
 	{
 		GLbitfield masks = 0;
+		
 		for (Mask mask: _mask_types)
-		{
 			masks |= mask_enum_to_GLbitfield(mask);
-		}
+		
 		glClear(masks);
 	}
 
