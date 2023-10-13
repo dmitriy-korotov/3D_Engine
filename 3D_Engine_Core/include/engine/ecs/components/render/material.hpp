@@ -6,7 +6,7 @@
 
 
 
-namespace engine::render::materials
+namespace engine::render
 {
 	class basic_material;
 }
@@ -15,7 +15,7 @@ namespace engine::render::materials
 
 namespace engine::ecs::components
 {
-	using render::materials::basic_material;
+	using render::basic_material;
 
 	class material: public virtual basic_component
 	{

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/render/basic_shader_program.hpp>
-#include <engine/render/open_gl/gl_types.hpp>
+#include <engine/render/open_gl/open_gl.hpp>
 
 #include <iostream>
 #include <optional>

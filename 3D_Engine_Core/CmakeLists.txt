@@ -75,6 +75,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/window/windows_collector.hpp
 		include/engine/window/windows_manager.hpp
 		
+
+
 		include/engine/window/glfw/fwd.hpp
 		include/engine/window/glfw/fwd/glfw.hpp
 		include/engine/window/glfw/fwd/glfw_window_context.hpp
@@ -103,30 +105,50 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/fwd/texture_parametrs.hpp
 		include/engine/render/fwd/basic_shader_program.hpp
 		include/engine/render/fwd/basic_renderer.hpp
+		include/engine/render/fwd/basic_material.hpp
+		include/engine/render/fwd/material.hpp
+		include/engine/render/fwd/basic_mesh.hpp
 
 		include/engine/render/application_renderer.hpp
 		include/engine/render/render.hpp
 		include/engine/render/frustum.hpp
-		include/engine/render/model.hpp
 		include/engine/render/basic_texture2D.hpp
 		include/engine/render/texture_parametrs.hpp
 		include/engine/render/basic_shader_program.hpp
 		include/engine/render/basic_renderer.hpp
+		include/engine/render/basic_material.hpp
+		include/engine/render/material.hpp
+		include/engine/render/basic_mesh.hpp
+
+
 
 		include/engine/render/shaders/shader_constructor.hpp
 		include/engine/render/shaders/basic_shader.hpp
 		include/engine/render/shaders/default_shader.hpp
 		
+
+
+		include/engine/render/util/fwd.hpp
+		include/engine/render/util/fwd/basic_models_loader.hpp
+		include/engine/render/util/fwd/models_loader.hpp
+
 		include/engine/render/util/basic_models_loader.hpp
 		include/engine/render/util/models_loader.hpp
 
-		include/engine/render/meshes/basic_mesh.hpp
-		include/engine/render/meshes/open_gl/mesh.hpp
-		
-		include/engine/render/materials/basic_material.hpp
-		include/engine/render/materials/open_gl/material.hpp
 
-		include/engine/render/open_gl/gl_types.hpp
+
+		include/engine/render/open_gl/fwd.hpp
+		include/engine/render/open_gl/fwd/basic_open_gl_buffer.hpp
+		include/engine/render/open_gl/fwd/index_buffer.hpp
+		include/engine/render/open_gl/fwd/vertex_buffer.hpp
+		include/engine/render/open_gl/fwd/vertex_array.hpp
+		include/engine/render/open_gl/fwd/buffer_layout.hpp
+		include/engine/render/open_gl/fwd/texture2D.hpp
+		include/engine/render/open_gl/fwd/shader_program.hpp
+		include/engine/render/open_gl/fwd/renderer.hpp
+		include/engine/render/open_gl/fwd/mesh.hpp
+
+		include/engine/render/open_gl/open_gl.hpp
 		include/engine/render/open_gl/basic_open_gl_buffer.hpp
 		include/engine/render/open_gl/index_buffer.hpp
 		include/engine/render/open_gl/vertex_buffer.hpp
@@ -134,7 +156,8 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/buffer_layout.hpp
 		include/engine/render/open_gl/texture2D.hpp
 		include/engine/render/open_gl/shader_program.hpp
-		include/engine/render/open_gl/renderer_open_gl.hpp
+		include/engine/render/open_gl/renderer.hpp
+		include/engine/render/open_gl/mesh.hpp
 
 
 
@@ -209,6 +232,8 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/window/windows_collector.cpp
 		src/engine/window/windows_manager.cpp
 
+
+
 		src/engine/window/glfw/glfw.cpp
 		src/engine/window/glfw/glfw_window_context.cpp
 		src/engine/window/glfw/glfw_window.cpp
@@ -221,22 +246,24 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 		src/engine/render/application_renderer.cpp
-		src/engine/render/model.cpp
 		src/engine/render/basic_texture2D.cpp
 		src/engine/render/basic_shader_program.cpp
 		src/engine/render/basic_renderer.cpp
+		src/engine/render/material.cpp
+		src/engine/render/basic_mesh.cpp
+
+
+
 
 		src/engine/render/util/basic_models_loader.cpp
 		src/engine/render/util/models_loader.cpp
 
-		src/engine/render/meshes/basic_mesh.cpp
-		src/engine/render/meshes/open_gl/mesh.cpp
 
-		src/engine/render/materials/basic_material.cpp
-		src/engine/render/materials/open_gl/material.cpp
-		
+
 		src/engine/render/shaders/basic_shader.cpp
 		src/engine/render/shaders/default_shader.cpp
+
+
 
 		src/engine/render/open_gl/basic_open_gl_buffer.cpp
 		src/engine/render/open_gl/vertex_buffer.cpp
@@ -246,6 +273,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/texture2D.cpp
 		src/engine/render/open_gl/shader_program.cpp
 		src/engine/render/open_gl/renderer_open_gl.cpp
+		src/engine/render/open_gl/mesh.cpp
 
 
 

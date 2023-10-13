@@ -1,10 +1,10 @@
-#include <engine/render/materials/open_gl/material.hpp>
+#include <engine/render/material.hpp>
 
 #include <engine/render/basic_texture2D.hpp>
 
 
 
-namespace engine::render::materials::open_gl
+namespace engine::render
 {
 	material::material(texture_storage _textures) noexcept
 			: m_textures(std::move(_textures))

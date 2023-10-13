@@ -9,12 +9,12 @@
 
 
 
-namespace engine::render::meshes
+namespace engine::render
 {
 	class basic_mesh;
 }
 
-namespace engine::render::materials
+namespace engine::render
 {
 	class basic_material;
 }
@@ -32,8 +32,8 @@ namespace engine::render::utility
 	{
 	public:
 
-		using mesh_ptr = std::shared_ptr<render::meshes::basic_mesh>;
-		using material_ptr = std::shared_ptr<render::materials::basic_material>;
+		using mesh_ptr = std::shared_ptr<render::basic_mesh>;
+		using material_ptr = std::shared_ptr<render::basic_material>;
 		using texture_ptr = std::shared_ptr<basic_texture2D>;
 		using mesh_storage = std::vector<mesh_ptr>;
 		using texture_storage = std::vector<texture_ptr>;

@@ -1,8 +1,8 @@
-#include <engine/render/meshes/basic_mesh.hpp>
+#include <engine/render/basic_mesh.hpp>
 
 
 
-namespace engine::render::meshes
+namespace engine::render
 {
 	basic_mesh::basic_mesh(vertex_storage _vertexes, index_storage _indexes) noexcept
 			: m_vertexes(std::move(_vertexes))

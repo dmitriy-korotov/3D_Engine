@@ -3,8 +3,8 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/util/image.hpp>
-#include <engine/render/meshes/open_gl/mesh.hpp>
-#include <engine/render/materials/open_gl/material.hpp>
+#include <engine/render/open_gl/mesh.hpp>
+#include <engine/render/material.hpp>
 #include <engine/render/open_gl/texture2D.hpp>
 
 #include <assimp/Importer.hpp>
@@ -53,7 +53,7 @@ namespace engine::render::utility
 
 	void models_loader::prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept
 	{
-		std::vector<meshes::vertex> vertexes;
+		std::vector<vertex> vertexes;
 		vertexes.reserve(_mesh->mNumVertices);
 		std::vector<unsigned int> indexes;
 		indexes.reserve(_mesh->mNumFaces * 3);
@@ -63,7 +63,7 @@ namespace engine::render::utility
 		float max_abs = 0;
 		for (size_t i = 0; i < _mesh->mNumVertices; i++)
 		{
-			meshes::vertex vertex;
+			vertex vertex;
 			glm::vec3 vector;
 
 			vector.x = _mesh->mVertices[i].x;
@@ -122,7 +122,7 @@ namespace engine::render::utility
 		aiMaterial* material = _scene->mMaterials[_mesh->mMaterialIndex];
 		prossesMaterial(material);
 
-		m_meshes.emplace_back(std::make_shared<meshes::open_gl::mesh>(std::move(vertexes), std::move(indexes)));
+		m_meshes.emplace_back(std::make_shared<open_gl::mesh>(std::move(vertexes), std::move(indexes)));
 	}
 
 
@@ -136,7 +136,7 @@ namespace engine::render::utility
 		loadMaterialTextures(_material, aiTextureType_HEIGHT, textures);
 		loadMaterialTextures(_material, aiTextureType_AMBIENT, textures);
 
-		m_material = std::make_shared<materials::open_gl::material>(std::move(textures));
+		m_material = std::make_shared<material>(std::move(textures));
 	}
 
 

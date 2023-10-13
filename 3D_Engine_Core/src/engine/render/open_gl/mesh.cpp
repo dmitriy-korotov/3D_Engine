@@ -1,10 +1,10 @@
-#include <engine/render/meshes/open_gl/mesh.hpp>
+#include <engine/render/open_gl/mesh.hpp>
 
 #include <engine/render/open_gl/buffer_layout.hpp>
 
 
 
-namespace engine::render::meshes::open_gl
+namespace engine::render::open_gl
 {
 	mesh::mesh(vertex_storage _vertexes, index_storage _indexes) noexcept
 			: basic_mesh(std::move(_vertexes), std::move(_indexes))

@@ -1,10 +1,10 @@
-#include <engine/render/open_gl/renderer_open_gl.hpp>
+#include <engine/render/open_gl/renderer.hpp>
 
 #include <engine/logging/log.hpp>
 
 #include <engine/render/basic_shader_program.hpp>
-#include <engine/render/meshes/basic_mesh.hpp>
-#include <engine/render/materials/basic_material.hpp>
+#include <engine/render/basic_mesh.hpp>
+#include <engine/render/basic_material.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

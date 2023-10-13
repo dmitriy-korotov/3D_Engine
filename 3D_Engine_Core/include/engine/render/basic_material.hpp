@@ -6,7 +6,7 @@
 
 
 
-namespace engine::render::materials
+namespace engine::render
 {
 	class basic_material: public interfaces::usage_object, private util::nocopyeble
 	{

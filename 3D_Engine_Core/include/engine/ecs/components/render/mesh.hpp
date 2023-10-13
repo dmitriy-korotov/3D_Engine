@@ -7,7 +7,7 @@
 
 
 
-namespace engine::render::meshes
+namespace engine::render
 {
 	class basic_mesh;
 }
@@ -16,7 +16,7 @@ namespace engine::render::meshes
 
 namespace engine::ecs::components
 {
-	using render::meshes::basic_mesh;
+	using render::basic_mesh;
 
 	class mesh: public virtual basic_component
 	{

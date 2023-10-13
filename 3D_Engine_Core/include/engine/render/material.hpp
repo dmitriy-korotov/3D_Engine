@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/render/materials/basic_material.hpp>
+#include <engine/render/basic_material.hpp>
 
 #include <vector>
 #include <memory>
@@ -12,7 +12,7 @@ namespace engine::render
 	class basic_texture2D;
 }
 
-namespace engine::render::materials::open_gl
+namespace engine::render
 {
 	class material final: public basic_material 
 	{

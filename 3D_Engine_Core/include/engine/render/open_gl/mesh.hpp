@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/render/meshes/basic_mesh.hpp>
+#include <engine/render/basic_mesh.hpp>
 
 #include <engine/interfaces/usage_object.hpp>
 
@@ -12,10 +12,8 @@
 
 
 
-namespace engine::render::meshes::open_gl
+namespace engine::render::open_gl
 {
-	using namespace render::open_gl;
-
 	class mesh final: public basic_mesh 
 	{
 	public:

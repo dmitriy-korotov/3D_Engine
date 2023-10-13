@@ -6,7 +6,7 @@
 #include <engine/ecs/components/physic.hpp>
 #include <engine/ecs/components/markers.hpp>
 
-#include <engine/render/open_gl/renderer_open_gl.hpp>
+#include <engine/render/open_gl/renderer.hpp>
 #include <engine/render/basic_shader_program.hpp>
 
 #include <engine/application_settings.hpp>

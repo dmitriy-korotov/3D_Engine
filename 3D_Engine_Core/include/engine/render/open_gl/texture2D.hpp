@@ -2,7 +2,7 @@
 
 #include <engine/render/basic_texture2D.hpp>
 
-#include <engine/render/open_gl/gl_types.hpp>
+#include <engine/render/open_gl/open_gl.hpp>
 
 
 

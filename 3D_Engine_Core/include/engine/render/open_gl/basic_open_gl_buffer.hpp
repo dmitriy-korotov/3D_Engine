@@ -2,7 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 #include <engine/interfaces/binded_object.hpp>
-#include <engine/render/open_gl/gl_types.hpp>
+#include <engine/render/open_gl/open_gl.hpp>
 
 #include <stdint.h>
 

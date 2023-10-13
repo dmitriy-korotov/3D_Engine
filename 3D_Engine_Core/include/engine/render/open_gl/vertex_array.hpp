@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/interfaces/binded_object.hpp>
-#include <engine/render/open_gl/gl_types.hpp>
+#include <engine/render/open_gl/open_gl.hpp>
 #include <engine/util/nocopyeble.hpp>
 
 #include <stdint.h>

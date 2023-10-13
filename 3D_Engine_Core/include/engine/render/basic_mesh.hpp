@@ -10,7 +10,7 @@
 
 
 
-namespace engine::render::meshes
+namespace engine::render
 {
 	struct vertex
 	{

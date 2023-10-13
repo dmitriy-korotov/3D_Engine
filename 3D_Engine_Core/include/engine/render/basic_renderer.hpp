@@ -10,11 +10,11 @@
 
 
 
-namespace engine::render::meshes
+namespace engine::render
 {
 	class basic_mesh;
 }
-namespace engine::render::materials
+namespace engine::render
 {
 	class basic_material;
 }
@@ -23,8 +23,8 @@ namespace engine::render::materials
 
 namespace engine::render
 {
-	using engine::render::meshes::basic_mesh;
-	using engine::render::materials::basic_material;
+	using engine::render::basic_mesh;
+	using engine::render::basic_material;
 
 	class basic_shader_program;
 

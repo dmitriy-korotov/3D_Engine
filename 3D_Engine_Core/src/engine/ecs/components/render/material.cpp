@@ -1,6 +1,6 @@
 #include <engine/ecs/components/render/material.hpp>
 
-#include <engine/render/materials/basic_material.hpp>
+#include <engine/render/basic_material.hpp>
 
 
 

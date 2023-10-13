@@ -1,6 +1,6 @@
 #include <engine/ecs/components/render/mesh.hpp>
 
-#include <engine/render/meshes/basic_mesh.hpp>
+#include <engine/render/basic_mesh.hpp>
 
 
 

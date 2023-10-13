@@ -2,7 +2,7 @@
 
 #include <engine/ecs/ecs_system.hpp>
 
-#include <engine/render/open_gl/renderer_open_gl.hpp>
+#include <engine/render/open_gl/renderer.hpp>
 
 #include <engine/modules/application_UIModule.hpp>
 #include <engine/modules/basic_UIModule.hpp>
