@@ -5,6 +5,7 @@
 #include <engine/logging/log.hpp>
 
 #include <GLFW/glfw3.h>
+
 #include <iostream>
 
 
@@ -45,6 +46,9 @@ namespace engine::window::glfw
 	int video_mode::greenBits() const noexcept		{ return m_video_mode_ptr->greenBits; }
 	int video_mode::blueBits() const noexcept		{ return m_video_mode_ptr->blueBits; }
 	int video_mode::refreshRate() const noexcept	{ return m_video_mode_ptr->refreshRate; }
+
+	uint16_t video_mode::width() const noexcept		{ return m_video_mode_ptr->width; };
+	uint16_t video_mode::height() const noexcept	{ return m_video_mode_ptr->height; };
 
 
 

@@ -1,15 +1,14 @@
 #pragma once
 
-#include <stdint.h>
+#include <engine/util/fwd/image.hpp>
+
+#include <cstdint>
 #include <string>
 #include <functional>
 
 
 
-namespace engine::util
-{
-	class image;
-}
+
 
 struct GLFWwindow;
 struct GLFWmonitor;
@@ -50,6 +49,9 @@ namespace engine::window::glfw
 		int blueBits() const noexcept;
 		int refreshRate() const noexcept;
 
+		uint16_t width() const noexcept;
+		uint16_t height() const noexcept;
+
 	private:
 
 		const GLFWvidmode* m_video_mode_ptr = nullptr;
@@ -78,24 +80,27 @@ namespace engine::window::glfw
 
 		void init() noexcept;
 		void terminate() noexcept;
-		void getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept;
-		void setWindowIcon(GLFWwindow* _window_ptr, util::image& _icon) const noexcept;
-		void pollEvents() const noexcept;
-		void makeContextCurrent(GLFWwindow* _window_ptr) const noexcept;
-		void swapBuffers(GLFWwindow* _window_ptr) const noexcept;
-		monitor getPrimaryMonitor() const noexcept;
-		video_mode getVideoMode(const monitor& _monitor) const noexcept;
-		void windowHint(WindowHint _hint, int _value) const noexcept;
+
 		GLFWwindow* createWindow(uint16_t _width, uint16_t _height, const std::string_view& _title,
 								 const monitor& _monitor, GLFWwindow* _share = nullptr) const noexcept;
+
+		void getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept;
+		monitor getPrimaryMonitor() const noexcept;
+		video_mode getVideoMode(const monitor& _monitor) const noexcept;
+
+		void windowHint(WindowHint _hint, int _value) const noexcept;
+		void setWindowIcon(GLFWwindow* _window_ptr, util::image& _icon) const noexcept;
+
+		void swapBuffers(GLFWwindow* _window_ptr) const noexcept;
+		void makeContextCurrent(GLFWwindow* _window_ptr) const noexcept;
+		void pollEvents() const noexcept;
+		void destroyWindow(GLFWwindow* _window_ptr) const noexcept;
 
 		void setWindowResizeCallBack(GLFWwindow* _window_ptr, GLFWwindowsizefun _call_back) const noexcept;
 		void setWindowCloseCallBack(GLFWwindow* _window_ptr, GLFWwindowclosefun _call_back) const noexcept;
 		void setKeyCallback(GLFWwindow* _window_ptr, GLFWkeyfun _call_back) const noexcept;
 		void setMouseButtonCallback(GLFWwindow* _window_ptr, GLFWmousebuttonfun _call_back) const noexcept;
 		void setCursorPosCallback(GLFWwindow* _window_ptr, GLFWcursorposfun _call_back) const noexcept;
-
-		void destroyWindow(GLFWwindow* _window_ptr) const noexcept;
 
 		bool isInited() const noexcept;
 

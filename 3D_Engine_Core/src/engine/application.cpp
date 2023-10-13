@@ -175,6 +175,9 @@ namespace engine
         if (m_window_ptr->create(title, width, height, open_mode).has_value())
             return error::application_error::can_not_create_window;
 
+        application_settings::instance().setWidth(m_window_ptr->getWidth());
+        application_settings::instance().setHeight(m_window_ptr->getHeight());
+
         if (path_to_window_icon.has_value())
             m_window_ptr->setupIcon(path_to_window_icon.value());
 

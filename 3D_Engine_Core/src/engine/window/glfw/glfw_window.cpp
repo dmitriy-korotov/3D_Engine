@@ -1,10 +1,8 @@
 #include <engine/window/glfw/glfw_window.hpp>
 
-#include <engine/input/keyboard.hpp>
-#include <engine/input/mouse.hpp>
-
-#include <engine/error/window_error.hpp>
 #include <engine/logging/log.hpp>
+
+#include <engine/input/keys.hpp>
 
 #include <engine/window/windows_manager.hpp>
 
@@ -69,6 +67,9 @@ namespace engine::window::glfw
 			monitor monitor = glfw::instance().getPrimaryMonitor();
 			video_mode mode = glfw::instance().getVideoMode(monitor);
 
+			m_width = mode.width();
+			m_height = mode.height();
+
 			m_window_ptr = glfw::instance().createWindow(m_width, m_height, m_title, monitor);
 		}
 		else
@@ -82,6 +83,7 @@ namespace engine::window::glfw
 			return error::window_error::can_not_create;
 		}
 		glfw::instance().makeContextCurrent(m_window_ptr);
+
 		return std::nullopt;
 	}
 
