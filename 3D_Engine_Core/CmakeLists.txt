@@ -164,10 +164,6 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/modules/application_UIModule.hpp
 		include/engine/modules/basic_UIModule.hpp
 		include/engine/modules/imgui/UIModule.hpp
-
-
-
-		include/engine/models/cube.hpp
 )
 
 set(ENGINE_ECS_PRIVATE_HEADERS
