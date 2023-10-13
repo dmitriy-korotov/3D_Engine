@@ -1,10 +1,10 @@
-#include <engine/modules/basic_UIModule.hpp>
+#include <engine/modules/ui/basic_UIModule.hpp>
 
 #include <engine/logging/log.hpp>
 
 
 
-namespace engine::modules
+namespace engine::modules::ui
 {
 	void basic_UIModule::setWindowImpl(WindowImpl _window_impl) noexcept
 	{

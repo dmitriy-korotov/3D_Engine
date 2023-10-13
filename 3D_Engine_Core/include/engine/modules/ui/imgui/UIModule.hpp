@@ -1,10 +1,10 @@
 #pragma once
 
-#include <engine/modules/basic_UIModule.hpp>
+#include <engine/modules/ui/basic_UIModule.hpp>
 
 
 
-namespace engine::modules::imgui
+namespace engine::modules::ui::imgui
 {
 	class UIModule: public basic_UIModule
 	{

@@ -1,4 +1,4 @@
-#include <engine/modules/imgui/UIModule.hpp>
+#include <engine/modules/ui/imgui/UIModule.hpp>
 
 #include <engine/logging/log.hpp>
 
@@ -12,7 +12,7 @@
 
 
 
-namespace engine::modules::imgui
+namespace engine::modules::ui::imgui
 {
     UIModule& UIModule::instance() noexcept
     {

@@ -4,7 +4,7 @@
 
 #include <engine/window/window.hpp>
 #include <engine/render/render.hpp>
-#include <engine/modules/basic_UIModule.hpp>
+#include <engine/modules/ui/basic_UIModule.hpp>
 
 #include <string>
 #include <optional>
@@ -18,7 +18,7 @@ namespace engine
 	using window::OpenMode;
 	using window::WindowImpl;
 	using render::RendererImpl;
-	using modules::UIModuleImpl;
+	using modules::ui::UIModuleImpl;
 
 	class application_settings: private util::nocopyeble
 	{

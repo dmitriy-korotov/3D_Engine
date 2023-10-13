@@ -6,7 +6,7 @@
 
 
 
-namespace engine::modules
+namespace engine::modules::ui
 {
 	class basic_UIModule;
 

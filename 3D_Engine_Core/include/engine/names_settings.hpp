@@ -2,7 +2,7 @@
 
 #include <engine/window/window.hpp>
 #include <engine/render/render.hpp>
-#include <engine/modules/basic_UIModule.hpp>
+#include <engine/modules/ui/basic_UIModule.hpp>
 
 #include <string>
 
@@ -43,5 +43,5 @@ namespace engine
 	window::WindowImpl toWindowImpl(const std::string_view& _str_window_impl) noexcept;
 	window::OpenMode toOpenMode(const std::string_view& _str_open_mode) noexcept;
 	render::RendererImpl toRendererImpl(const std::string_view& _str_renderer_impl) noexcept;
-	modules::UIModuleImpl toUIModuleImpl(const std::string_view& _str_UI_module_impl) noexcept;
+	modules::ui::UIModuleImpl toUIModuleImpl(const std::string_view& _str_UI_module_impl) noexcept;
 }

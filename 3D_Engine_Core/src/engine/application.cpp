@@ -12,8 +12,8 @@
 #include <engine/render/application_renderer.hpp>
 #include <engine/render/open_gl/renderer.hpp>
 
-#include <engine/modules/application_UIModule.hpp>
-#include <engine/modules/imgui/UIModule.hpp>
+#include <engine/modules/ui/application_UIModule.hpp>
+#include <engine/modules/ui/imgui/UIModule.hpp>
 
 #include <engine/input/mouse.hpp>
 #include <engine/input/keyboard.hpp>
@@ -26,7 +26,7 @@
 
 using namespace engine::window;
 using namespace engine::render;
-using namespace engine::modules;
+using namespace engine::modules::ui;
 
 namespace engine
 {
@@ -224,16 +224,16 @@ namespace engine
 
         switch (UI_module_impl)
         {
-        case engine::modules::UIModuleImpl::ImGui:
+        case UIModuleImpl::ImGui:
             UI_module = std::shared_ptr<imgui::UIModule>(&imgui::UIModule::instance(),
                                                          [](imgui::UIModule* _UI_module) -> void
                                                          { });
             break;
-        case engine::modules::UIModuleImpl::Qt:
+        case UIModuleImpl::Qt:
             break;
-        case engine::modules::UIModuleImpl::Juce:
+        case UIModuleImpl::Juce:
             break;
-        case engine::modules::UIModuleImpl::GTK_Plus:
+        case UIModuleImpl::GTK_Plus:
             break;
         }
 

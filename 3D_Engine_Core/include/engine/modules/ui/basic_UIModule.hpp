@@ -14,7 +14,7 @@ namespace engine::window
 	class basic_window;
 }
 
-namespace engine::modules
+namespace engine::modules::ui
 {
 	enum class UIModuleImpl : uint8_t
 	{

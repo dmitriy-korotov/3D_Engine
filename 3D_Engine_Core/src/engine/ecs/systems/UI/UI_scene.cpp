@@ -4,8 +4,8 @@
 
 #include <engine/render/open_gl/renderer.hpp>
 
-#include <engine/modules/application_UIModule.hpp>
-#include <engine/modules/basic_UIModule.hpp>
+#include <engine/modules/ui/application_UIModule.hpp>
+#include <engine/modules/ui/basic_UIModule.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
 
@@ -15,7 +15,7 @@
 
 
 
-using namespace engine::modules;
+using namespace engine::modules::ui;
 
 namespace engine::ecs::systems
 {

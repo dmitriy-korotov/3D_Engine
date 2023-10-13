@@ -161,9 +161,19 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 
-		include/engine/modules/application_UIModule.hpp
-		include/engine/modules/basic_UIModule.hpp
-		include/engine/modules/imgui/UIModule.hpp
+		include/engine/modules/ui/fwd.hpp
+		include/engine/modules/ui/fwd/application_UIModule.hpp
+		include/engine/modules/ui/fwd/basic_UIModule.hpp
+
+		include/engine/modules/ui/application_UIModule.hpp
+		include/engine/modules/ui/basic_UIModule.hpp
+		
+
+
+		include/engine/modules/ui/imgui/fwd.hpp
+		include/engine/modules/ui/imgui/fwd/UIModule.hpp
+
+		include/engine/modules/ui/imgui/UIModule.hpp
 )
 
 set(ENGINE_ECS_PRIVATE_HEADERS
@@ -273,9 +283,12 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 
-		src/engine/modules/application_UIModule.cpp
-		src/engine/modules/basic_UIModule.cpp
-		src/engine/modules/imgui/UIModule.cpp
+		src/engine/modules/ui/application_UIModule.cpp
+		src/engine/modules/ui/basic_UIModule.cpp
+
+
+
+		src/engine/modules/ui/imgui/UIModule.cpp
 
 
 

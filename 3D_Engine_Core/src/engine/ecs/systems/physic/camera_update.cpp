@@ -9,7 +9,7 @@
 #include <engine/input/keyboard.hpp>
 #include <engine/input/mouse.hpp>
 
-#include <engine/modules/application_UIModule.hpp>
+#include <engine/modules/ui/application_UIModule.hpp>
 
 #include <engine/application_settings.hpp>
 
@@ -17,7 +17,7 @@
 
 using namespace engine::ecs::components;
 using namespace engine::input;
-using namespace engine::modules;
+using namespace engine::modules::ui;
 
 namespace engine::ecs::systems
 {

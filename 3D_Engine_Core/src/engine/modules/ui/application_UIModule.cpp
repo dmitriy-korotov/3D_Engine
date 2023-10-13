@@ -1,12 +1,12 @@
-#include <engine/modules/application_UIModule.hpp>
+#include <engine/modules/ui/application_UIModule.hpp>
 
-#include <engine/modules/basic_UIModule.hpp>
+#include <engine/modules/ui/basic_UIModule.hpp>
 
 #include <cassert>
 
 
 
-namespace engine::modules
+namespace engine::modules::ui
 {
 	application_UIModule& application_UIModule::instance() noexcept
 	{

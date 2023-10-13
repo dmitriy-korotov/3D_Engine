@@ -4,7 +4,7 @@
 
 using namespace engine::window;
 using namespace engine::render;
-using namespace engine::modules;
+using namespace engine::modules::ui;
 
 namespace engine
 {
