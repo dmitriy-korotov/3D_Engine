@@ -55,6 +55,11 @@ set(ENGINE_PUBLIC_HEADERS
 
 
 
+		include/engine/input/fwd.hpp
+		include/engine/input/fwd/keys.hpp
+		include/engine/input/fwd/keyboard.hpp
+		include/engine/input/fwd/mouse.hpp
+
 		include/engine/input/keys.hpp
 		include/engine/input/keyboard.hpp
 		include/engine/input/mouse.hpp
