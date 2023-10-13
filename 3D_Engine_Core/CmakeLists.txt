@@ -23,9 +23,14 @@ set(ENGINE_PUBLIC_HEADERS
 
 
 
+		include/engine/error/fwd.hpp
+		include/engine/error/fwd/application_error.hpp
+		include/engine/error/fwd/window_error.hpp
+		
 		include/engine/error/application_error.hpp
+		include/engine/error/window_error.hpp
 		
-		
+
 		
 		include/engine/logging/log.hpp
 		
@@ -66,10 +71,6 @@ set(ENGINE_PUBLIC_HEADERS
 )
 
 set(ENGINE_PRIVATE_HEADERS
-
-		include/engine/error/window_error.hpp
-
-
 
 		include/engine/window/fwd.hpp
 		include/engine/window/fwd/events.hpp

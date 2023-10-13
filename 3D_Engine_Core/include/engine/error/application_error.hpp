@@ -1,10 +1,12 @@
 #pragma once
 
+#include <cstdint>
+
 
 
 namespace engine::error
 {
-	enum class application_error
+	enum class application_error : uint8_t
 	{
 		can_not_create,
 		can_not_setup_renderer,
