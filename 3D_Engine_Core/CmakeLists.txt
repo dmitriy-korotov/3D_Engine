@@ -189,20 +189,51 @@ set(ENGINE_PRIVATE_HEADERS
 
 set(ENGINE_ECS_PRIVATE_HEADERS
 
+		include/engine/ecs/fwd.hpp
+		include/engine/ecs/fwd/ecs_system.hpp
+
 		include/engine/ecs/ecs.hpp
 		include/engine/ecs/ecs_system.hpp
+
+
+
+		include/engine/ecs/entities/fwd.hpp
+		include/engine/ecs/entities/fwd/basic_entity.hpp
+		include/engine/ecs/entities/fwd/entities_manager.hpp
 
 		include/engine/ecs/entities/basic_entity.hpp
 		include/engine/ecs/entities/entities_manager.hpp
 
 
 
+		include/engine/ecs/components/fwd.hpp
+		include/engine/ecs/components/fwd/basic_component.hpp
+		include/engine/ecs/components/fwd/component_iterator.hpp
+		include/engine/ecs/components/fwd/components_manager.hpp
+
 		include/engine/ecs/components/basic_component.hpp
 		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/components_manager.hpp
 
+
+
+		include/engine/ecs/components/markers/fwd.hpp
+		include/engine/ecs/components/markers/fwd/active_camera.hpp
+
 		include/engine/ecs/components/markers.hpp
 		include/engine/ecs/components/markers/active_camera.hpp
+
+
+
+		include/engine/ecs/components/physic/fwd.hpp
+		include/engine/ecs/components/physic/fwd/position.hpp
+		include/engine/ecs/components/physic/fwd/rotation.hpp
+		include/engine/ecs/components/physic/fwd/direction.hpp
+		include/engine/ecs/components/physic/fwd/scale.hpp
+		include/engine/ecs/components/physic/fwd/velocity.hpp
+		include/engine/ecs/components/physic/fwd/transform.hpp
+		include/engine/ecs/components/physic/fwd/camera_transform.hpp
+		include/engine/ecs/components/physic/fwd/vision.hpp
 
 		include/engine/ecs/components/physic.hpp
 		include/engine/ecs/components/physic/position.hpp
@@ -214,24 +245,55 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic/camera_transform.hpp
 		include/engine/ecs/components/physic/vision.hpp
 
+
+
+		include/engine/ecs/components/render/fwd.hpp
+		include/engine/ecs/components/render/fwd/mesh.hpp
+		include/engine/ecs/components/render/fwd/material.hpp
+		include/engine/ecs/components/render/fwd/color.hpp
+		include/engine/ecs/components/render/fwd/renderable.hpp
+		include/engine/ecs/components/render/fwd/light.hpp
+		include/engine/ecs/components/render/fwd/direction_light.hpp
+
 		include/engine/ecs/components/render.hpp
 		include/engine/ecs/components/render/mesh.hpp
 		include/engine/ecs/components/render/material.hpp
 		include/engine/ecs/components/render/color.hpp
 		include/engine/ecs/components/render/renderable.hpp	
 	
+
+
 		include/engine/ecs/components/render/light/light.hpp
 		include/engine/ecs/components/render/light/direction_light.hpp
 
 
 
+		include/engine/ecs/systems/fwd.hpp
+		include/engine/ecs/systems/fwd/basic_system.hpp
+		include/engine/ecs/systems/fwd/systems_manager.hpp
+
 		include/engine/ecs/systems/basic_system.hpp
 		include/engine/ecs/systems/systems_manager.hpp
 
+
+
+		include/engine/ecs/systems/render/fwd.hpp
+		include/engine/ecs/systems/render/fwd/render.hpp
+
 		include/engine/ecs/systems/render/render.hpp
 		
+
+
+		include/engine/ecs/systems/physic/fwd.hpp
+		include/engine/ecs/systems/physic/fwd/camera_update.hpp
+
 		include/engine/ecs/systems/physic/camera_update.hpp
 		
+
+
+		include/engine/ecs/systems/UI/fwd.hpp
+		include/engine/ecs/systems/UI/fwd/UI_scene.hpp
+
 		include/engine/ecs/systems/UI/UI_scene.hpp
 )
 
