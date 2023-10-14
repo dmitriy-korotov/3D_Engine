@@ -2,7 +2,8 @@
 
 #include <engine/ecs/systems/basic_system.hpp>
 
-#include <array>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 
 
 
@@ -17,8 +18,8 @@ namespace engine::ecs::systems
 
 	private:
 
-		mutable std::array<float, 4> m_bacgroud_color = { 0.f, 0.f, 0.f, 1.f };
-		mutable std::array<float, 3> m_light_direction = { 0.f, 0.f, 0.f };
+		mutable glm::vec4 m_bacgroud_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
+		mutable glm::vec3 m_light_direction = glm::vec3(0.f, 0.f, 0.f);
 
 	};
 }

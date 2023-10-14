@@ -122,10 +122,10 @@ namespace engine::render::utility
 	{
 		texture_storage textures;
 
-		//loadMaterialTextures(_material, aiTextureType_DIFFUSE, textures);
-		//loadMaterialTextures(_material, aiTextureType_SPECULAR, textures);
-		//loadMaterialTextures(_material, aiTextureType_HEIGHT, textures);
-		//loadMaterialTextures(_material, aiTextureType_AMBIENT, textures);
+		loadMaterialTextures(_material, aiTextureType_DIFFUSE, textures);
+		loadMaterialTextures(_material, aiTextureType_SPECULAR, textures);
+		loadMaterialTextures(_material, aiTextureType_HEIGHT, textures);
+		loadMaterialTextures(_material, aiTextureType_AMBIENT, textures);
 
 		m_material = std::make_shared<material>(std::move(textures));
 	}
