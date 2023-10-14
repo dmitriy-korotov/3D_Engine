@@ -68,15 +68,33 @@ namespace editor
 		ECS::instance().getComponentsManager()->addComponent<velocity>(camera, glm::vec3(0.05f));
 		ECS::instance().getComponentsManager()->addComponent<vision>(camera, Projection::Perspective);
 
+
+
+
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
 		ECS::instance().getSystemsManager()->addSystem<render>(2);
 		ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
 
+
+
+
+
+
+
 		auto shader_program = std::make_shared<open_gl::shader_program>(std::move(vs_reader_2.getData()), std::move(fs_reader_2.getData()));
-
+		
 		std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
+		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
-		ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path, shader_program);
+		entity_id cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path, shader_program);
+
+		ECS::instance().getComponentsManager()->addComponent<selected>(cube);
+
+
+
+
+
+
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", engine::application_settings::instance().getTitle(),
 															 engine::application_settings::instance().getWidth(),

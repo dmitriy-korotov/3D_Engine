@@ -1,10 +1,10 @@
 #pragma once
 
-#include <engine/util/nocopyeble.hpp>
-
 #include <engine/window/window.hpp>
 #include <engine/render/render.hpp>
 #include <engine/modules/ui/ui.hpp>
+
+#include <engine/modules/ui/basic_UICreator.hpp>
 
 #include <engine/window/fwd/basic_window.hpp>
 
@@ -17,7 +17,7 @@ namespace engine::modules::ui
 	using window::WindowImpl;
 	using render::RendererImpl;
 
-	class basic_UIModule: private util::nocopyeble
+	class basic_UIModule: public basic_UICreator
 	{
 	public:
 

@@ -174,10 +174,12 @@ set(ENGINE_PRIVATE_HEADERS
 
 		include/engine/modules/ui/fwd.hpp
 		include/engine/modules/ui/fwd/application_UIModule.hpp
+		include/engine/modules/ui/fwd/basic_UICreator.hpp
 		include/engine/modules/ui/fwd/basic_UIModule.hpp
 
 		include/engine/modules/ui/ui.hpp
 		include/engine/modules/ui/application_UIModule.hpp
+		include/engine/modules/ui/basic_UICreator.hpp
 		include/engine/modules/ui/basic_UIModule.hpp
 		
 
@@ -360,6 +362,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 		src/engine/modules/ui/application_UIModule.cpp
+		src/engine/modules/ui/basic_UICreator.cpp
 		src/engine/modules/ui/basic_UIModule.cpp
 
 
