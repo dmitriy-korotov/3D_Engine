@@ -114,4 +114,21 @@ namespace engine::ecs::components
 	{
 		return m_scale;
 	}
+
+
+
+	bool transform::putOnUI() noexcept
+	{
+		bool is_clicked = false;
+
+		is_clicked |= position::putOnUI();
+		is_clicked |= rotation::putOnUI();
+		is_clicked |= scale::putOnUI();
+
+		if (is_clicked)
+			updateModelMatrix();
+
+		return is_clicked;
+	}
+
 }

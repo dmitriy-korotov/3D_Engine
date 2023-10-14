@@ -25,6 +25,8 @@ namespace engine::ecs::components
 		const glm::vec3& getRight() const noexcept;
 		const glm::vec3& getUp() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	protected:
 
 		glm::vec3 m_forward = glm::vec3(1.f, 0.f, 0.f);

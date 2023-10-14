@@ -178,51 +178,71 @@ namespace engine::modules::ui::imgui
 
 
 
-    void UIModule::putColorEdit4(const std::string_view& _title, glm::vec4& _color) const noexcept
+    isClicked UIModule::putColorEdit4(const std::string_view& _title, glm::vec4& _color) const noexcept
     {
-        ImGui::ColorEdit4(_title.data(), &_color[0]);
+        return ImGui::ColorEdit4(_title.data(), &_color[0]);
     }
 
 
 
-    void UIModule::putSliderFloat(const std::string_view& _title, float& _value, float _min_val, float _max_val) const noexcept
+    isClicked UIModule::putSliderFloat(const std::string_view& _title, float& _value, float _min_val, float _max_val) const noexcept
     {
-        ImGui::SliderFloat(_title.data(), &_value, _min_val, _max_val);
+        return ImGui::SliderFloat(_title.data(), &_value, _min_val, _max_val);
     }
 
 
 
-    void UIModule::putSliderFloat2(const std::string_view& _title, glm::vec2& _value, float _min_val, float _max_val) const noexcept
+    isClicked UIModule::putSliderFloat2(const std::string_view& _title, glm::vec2& _value, float _min_val, float _max_val) const noexcept
     {
-        ImGui::SliderFloat2(_title.data(), &_value[0], _min_val, _max_val);
+        return ImGui::SliderFloat2(_title.data(), &_value[0], _min_val, _max_val);
     }
 
 
 
-    void UIModule::putSliderFloat3(const std::string_view& _title, glm::vec3& _value, float _min_val, float _max_val) const noexcept
+    isClicked UIModule::putSliderFloat3(const std::string_view& _title, glm::vec3& _value, float _min_val, float _max_val) const noexcept
     {
-        ImGui::SliderFloat3(_title.data(), &_value[0], _min_val, _max_val);
+        return ImGui::SliderFloat3(_title.data(), &_value[0], _min_val, _max_val);
     }
 
 
 
-    void UIModule::putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept
+    isClicked UIModule::putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept
     {
-        ImGui::SliderFloat4(_title.data(), &_value[0], _min_val, _max_val);
+        return ImGui::SliderFloat4(_title.data(), &_value[0], _min_val, _max_val);
     }
 
 
 
-    void UIModule::putCheckbox(const std::string_view& _title, bool& _value) const noexcept
+    isClicked UIModule::putCheckbox(const std::string_view& _title, bool& _value) const noexcept
     {
-        ImGui::Checkbox(_title.data(), &_value);
+        return ImGui::Checkbox(_title.data(), &_value);
     }
 
 
 
-    void UIModule::Separate() const noexcept
+    isClicked UIModule::putRadioButton(const std::string_view& _title, int& _versions, int _version) const noexcept
+    {
+        return ImGui::RadioButton(_title.data(), &_versions, _version);
+    }
+
+
+
+    void UIModule::separate() const noexcept
     {
         ImGui::Separator();
+    }
+
+
+    void UIModule::newLine() const noexcept
+    {
+        ImGui::NewLine();
+    }
+
+
+
+    void UIModule::sameLine() const noexcept
+    {
+        ImGui::SameLine();
     }
 
 

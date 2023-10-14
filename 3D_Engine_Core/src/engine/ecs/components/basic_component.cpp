@@ -67,7 +67,7 @@ namespace engine::ecs::components
 
 
 
-	void basic_component::putOnUI() noexcept
+	bool basic_component::putOnUI() noexcept
 	{
 		LOG_WARN("[Basic component WARN] Method 'putOnUI' is not implemented");
 	}

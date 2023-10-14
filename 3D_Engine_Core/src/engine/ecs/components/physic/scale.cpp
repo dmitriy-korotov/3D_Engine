@@ -1,5 +1,7 @@
 #include <engine/ecs/components/physic/scale.hpp>
 
+#include <engine/Engine.hpp>
+
 
 
 namespace engine::ecs::components
@@ -20,5 +22,12 @@ namespace engine::ecs::components
 	const glm::vec3& scale::getScale() const noexcept
 	{
 		return m_scale;
+	}
+
+
+
+	bool scale::putOnUI() noexcept
+	{
+		return Engine::getApplicationUIModule()->putSliderFloat3("Scale", m_scale, 0.1f, 10.f);
 	}
 }

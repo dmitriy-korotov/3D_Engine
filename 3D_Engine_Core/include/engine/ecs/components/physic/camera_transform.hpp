@@ -35,6 +35,8 @@ namespace engine::ecs::components
 
 		const glm::mat4& getViewMatrix() noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		void updateViewMatrix() noexcept;

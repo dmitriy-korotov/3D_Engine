@@ -30,7 +30,7 @@ namespace engine::ecs::systems
 		UI_module->begin("Scene");
 
 		UI_module->putColorEdit4("Bacground color", m_bacgroud_color);
-		UI_module->Separate();
+		UI_module->separate();
 		UI_module->putSliderFloat3("Scene light direction", m_light_direction, -1.f, 1.f);
 
 		UI_module->end();

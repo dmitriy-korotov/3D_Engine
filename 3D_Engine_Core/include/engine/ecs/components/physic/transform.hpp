@@ -36,6 +36,8 @@ namespace engine::ecs::components
 		const glm::vec3& getRotation() const noexcept;
 		const glm::vec3& getScale() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		void updateModelMatrix() const noexcept;

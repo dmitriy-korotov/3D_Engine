@@ -28,7 +28,7 @@ namespace engine::ecs::components
 		entities::entity_id getOwner() const noexcept;
 		component_id getID() const noexcept;
 
-		virtual void putOnUI() noexcept;
+		virtual bool putOnUI() noexcept;
 
 	private:
 

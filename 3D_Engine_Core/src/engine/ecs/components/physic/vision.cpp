@@ -1,5 +1,7 @@
 #include <engine/ecs/components/physic/vision.hpp>
 
+#include <engine/Engine.hpp>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 
@@ -86,5 +88,28 @@ namespace engine::ecs::components
 			break;
 		}
 		m_is_need_update_projection_matrix = false;
+	}
+
+
+
+	bool vision::putOnUI() noexcept
+	{
+		auto& UI_module = Engine::getApplicationUIModule();
+
+		bool is_clicked = false;
+
+		static int versions = -1;
+		if (UI_module->putRadioButton("Orthographic", versions, 0))
+		{
+			setProjectionMode(Projection::Orthographic);
+			is_clicked = true;
+		}
+		if (UI_module->putRadioButton("Perspective", versions, 1))
+		{
+			setProjectionMode(Projection::Perspective);
+			is_clicked = true;
+		}
+
+		return is_clicked;
 	}
 }

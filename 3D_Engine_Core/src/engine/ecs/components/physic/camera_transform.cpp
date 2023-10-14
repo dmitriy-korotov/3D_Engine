@@ -110,4 +110,20 @@ namespace engine::ecs::components
 
 		m_is_need_update_view_matrix = false;
 	}
+
+
+
+	bool camera_transform::putOnUI() noexcept
+	{
+		bool is_clicked = false;
+
+		is_clicked |= position::putOnUI();
+		is_clicked |= rotation::putOnUI();
+		is_clicked |= direction::putOnUI();
+
+		if (is_clicked)
+			updateViewMatrix();
+
+		return is_clicked;
+	}
 }

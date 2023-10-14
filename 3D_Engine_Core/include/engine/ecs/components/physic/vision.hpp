@@ -30,6 +30,8 @@ namespace engine::ecs::components
 
 		const glm::mat4& getProjectionMatrix() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		void updateProjectionMatrix() const noexcept;

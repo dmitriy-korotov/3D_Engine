@@ -1,5 +1,7 @@
 #include <engine/ecs/components/physic/velocity.hpp>
 
+#include <engine/Engine.hpp>
+
 
 
 namespace engine::ecs::components
@@ -20,5 +22,12 @@ namespace engine::ecs::components
 	const glm::vec3& velocity::getVelocity() const noexcept
 	{
 		return m_velocity;
+	}
+
+
+
+	bool velocity::putOnUI() noexcept
+	{
+		return Engine::getApplicationUIModule()->putSliderFloat3("Velocity", m_velocity, 0.f, 1.f);
 	}
 }

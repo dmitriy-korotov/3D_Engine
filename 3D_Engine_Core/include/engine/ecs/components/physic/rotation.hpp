@@ -19,6 +19,8 @@ namespace engine::ecs::components
 		void setRotation(const glm::vec3& _rotation) noexcept;
 		const glm::vec3& getRotation() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	protected:
 
 		glm::vec3 m_rotation;
