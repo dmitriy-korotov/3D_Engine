@@ -29,7 +29,7 @@ namespace engine::modules::ui
 		virtual void putSliderFloat3(const std::string_view& _title, glm::vec3& _value, float _min_val, float _max_val) const noexcept;
 		virtual void putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept;
 
-		virtual void putCheckbox() const noexcept;
+		virtual void putCheckbox(const std::string_view& _title, bool& _value) const noexcept;
 
 		virtual void Separate() const noexcept;
 

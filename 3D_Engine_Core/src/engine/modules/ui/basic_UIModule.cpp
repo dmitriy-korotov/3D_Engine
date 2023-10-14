@@ -38,11 +38,4 @@ namespace engine::modules::ui
 	{
 		return m_render_impl;
 	}
-
-
-
-	void basic_UIModule::createDockSpace() const noexcept
-	{
-		LOG_WARN("[Basic UIModule WARN] Method 'createDockSpace' is not implemented.");
-	}
 }

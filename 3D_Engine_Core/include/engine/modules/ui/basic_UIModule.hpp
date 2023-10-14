@@ -23,8 +23,7 @@ namespace engine::modules::ui
 
 		using window_ptr = std::shared_ptr<window::basic_window>;
 
-		basic_UIModule() = default;
-		virtual ~basic_UIModule() = default;
+
 
 		void setWindowImpl(WindowImpl _window_impl) noexcept;
 		void setRendererImpl(RendererImpl _render_impl) noexcept;
@@ -33,6 +32,8 @@ namespace engine::modules::ui
 		WindowImpl getWindowImpl() const noexcept;
 		RendererImpl getRendererImpl() const noexcept;
 
+
+
 		virtual void initialize(const window_ptr& _window_ptr) noexcept = 0;
 		virtual void terminate() noexcept = 0;
 
@@ -40,8 +41,6 @@ namespace engine::modules::ui
 		virtual void onUIDrawEnd() const noexcept = 0;
 
 		virtual bool isMouseOnUI() const noexcept = 0;
-
-		virtual void createDockSpace() const noexcept;
 
 	protected:
 

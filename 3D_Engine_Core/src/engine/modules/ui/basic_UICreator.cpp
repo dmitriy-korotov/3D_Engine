@@ -26,7 +26,7 @@ namespace engine::modules::ui
 	{
 		LOG_WARN("[Basic UI Module WARN] Method 'putSliderFloat4' is not overloaded");
 	}
-	void basic_UICreator::putCheckbox() const noexcept
+	void basic_UICreator::putCheckbox(const std::string_view& _title, bool& _value) const noexcept
 	{
 		LOG_WARN("[Basic UI Module WARN] Method 'putCheckbox' is not overloaded");
 	}

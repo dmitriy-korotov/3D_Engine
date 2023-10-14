@@ -164,6 +164,69 @@ namespace engine::modules::ui::imgui
 
 
 
+    void UIModule::begin(const std::string_view& _title) const noexcept
+    {
+        ImGui::Begin(_title.data());
+    }
+
+
+
+    void UIModule::end() const noexcept
+    {
+        ImGui::End();
+    }
+
+
+
+    void UIModule::putColorEdit4(const std::string_view& _title, glm::vec4& _color) const noexcept
+    {
+        ImGui::ColorEdit4(_title.data(), &_color[0]);
+    }
+
+
+
+    void UIModule::putSliderFloat(const std::string_view& _title, float& _value, float _min_val, float _max_val) const noexcept
+    {
+        ImGui::SliderFloat(_title.data(), &_value, _min_val, _max_val);
+    }
+
+
+
+    void UIModule::putSliderFloat2(const std::string_view& _title, glm::vec2& _value, float _min_val, float _max_val) const noexcept
+    {
+        ImGui::SliderFloat2(_title.data(), &_value[0], _min_val, _max_val);
+    }
+
+
+
+    void UIModule::putSliderFloat3(const std::string_view& _title, glm::vec3& _value, float _min_val, float _max_val) const noexcept
+    {
+        ImGui::SliderFloat3(_title.data(), &_value[0], _min_val, _max_val);
+    }
+
+
+
+    void UIModule::putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept
+    {
+        ImGui::SliderFloat4(_title.data(), &_value[0], _min_val, _max_val);
+    }
+
+
+
+    void UIModule::putCheckbox(const std::string_view& _title, bool& _value) const noexcept
+    {
+        ImGui::Checkbox(_title.data(), &_value);
+    }
+
+
+
+    void UIModule::Separate() const noexcept
+    {
+        ImGui::Separator();
+    }
+
+
+
     void UIModule::createDockSpace() const noexcept
     {
         static bool is_open = false;
@@ -190,7 +253,7 @@ namespace engine::modules::ui::imgui
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
         ImGui::Begin("DockSpace", &is_open, window_flags);
-        
+
         if (!opt_padding)
             ImGui::PopStyleVar();
 
