@@ -219,9 +219,11 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 
 		include/engine/ecs/components/markers/fwd.hpp
+		include/engine/ecs/components/markers/fwd/selected.hpp
 		include/engine/ecs/components/markers/fwd/active_camera.hpp
 
 		include/engine/ecs/components/markers.hpp
+		include/engine/ecs/components/markers/selected.hpp
 		include/engine/ecs/components/markers/active_camera.hpp
 
 
