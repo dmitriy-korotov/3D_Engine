@@ -1,5 +1,7 @@
 #include <engine/ecs/components/basic_component.hpp>
 
+#include <engine/logging/log.hpp>
+
 
 
 namespace engine::ecs::components
@@ -61,5 +63,12 @@ namespace engine::ecs::components
 	component_id basic_component::generateComponentID() noexcept
 	{
 		return ++m_next_component_id;
+	}
+
+
+
+	void basic_component::putOnUI() noexcept
+	{
+		LOG_WARN("[Basic component WARN] Method 'putOnUI' is not implemented");
 	}
 }

@@ -28,6 +28,8 @@ namespace engine::ecs::components
 		entities::entity_id getOwner() const noexcept;
 		component_id getID() const noexcept;
 
+		virtual void putOnUI() noexcept;
+
 	private:
 
 		void setOwner(entities::entity_id _entity_id) noexcept;
