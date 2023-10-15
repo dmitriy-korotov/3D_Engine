@@ -48,6 +48,9 @@ namespace engine::ecs::components
 		std::optional<components_range<ComponentType>> getComponents() const noexcept;
 
 		template <typename ComponentType>
+		component_ptr<ComponentType> getComponent() const noexcept;
+
+		template <typename ComponentType>
 		component_ptr<ComponentType> getComponent(entities::entity_id _entity_id) const noexcept;
 
 		template <typename ComponentType>
@@ -164,6 +167,28 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
+	components_manager::component_ptr<ComponentType>
+	components_manager::getComponent() const noexcept
+	{
+		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto components_range = m_components.find(ComponentType::component_name);
+		if (components_range != m_components.end())
+		{
+			if (components_range->size() > 1)
+				LOG_WARN("[Components manager WARN] Components '{0}' more then one, returned first", ComponentType::component_name);
+
+			if (components_range->size() == 1)
+				return components_range->begin()->second;
+
+			return nullptr;
+		}
+		return nullptr;
+	}
+
+
+
+	template <typename ComponentType>
 	components_manager::component_ptr<ComponentType> 
 	components_manager::getComponent(entities::entity_id _entity_id) const noexcept
 	{
@@ -176,9 +201,6 @@ namespace engine::ecs::components
 
 			return component_iter == components_range.end() ? nullptr : component_iter->second;
 		}
-		else
-		{
-			return nullptr;
-		}
+		return nullptr;
 	}
 }
