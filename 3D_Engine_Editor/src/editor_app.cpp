@@ -91,8 +91,8 @@ namespace editor
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
 		entity_id cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path, shader_program);
-
-		ECS::instance().getComponentsManager()->addComponent<selected>(cube);
+		
+		//ECS::instance().getComponentsManager()->addComponent<selected>(cube);
 
 
 

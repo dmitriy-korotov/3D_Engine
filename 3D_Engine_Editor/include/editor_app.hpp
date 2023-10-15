@@ -24,6 +24,6 @@ namespace editor
 		void onClose() noexcept override;
 
 		void onKeyboardInput() noexcept override;
-
+		
 	};
 }

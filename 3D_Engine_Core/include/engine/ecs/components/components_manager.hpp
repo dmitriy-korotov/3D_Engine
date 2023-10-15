@@ -139,7 +139,7 @@ namespace engine::ecs::components
 
 		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
-			components_range->erase(_entity_id);
+			components_range->second.erase(_entity_id);
 	}
 
 
