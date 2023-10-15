@@ -259,6 +259,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/render/fwd/renderable.hpp
 		include/engine/ecs/components/render/fwd/light.hpp
 		include/engine/ecs/components/render/fwd/direction_light.hpp
+		include/engine/ecs/components/render/fwd/point_light.hpp
 
 		include/engine/ecs/components/render.hpp
 		include/engine/ecs/components/render/mesh.hpp
@@ -270,6 +271,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		include/engine/ecs/components/render/light/light.hpp
 		include/engine/ecs/components/render/light/direction_light.hpp
+		include/engine/ecs/components/render/light/point_light.hpp
 
 
 
@@ -410,6 +412,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		
 		src/engine/ecs/components/render/light/light.cpp
 		src/engine/ecs/components/render/light/direction_light.cpp
+		src/engine/ecs/components/render/light/point_light.cpp
 
 
 
