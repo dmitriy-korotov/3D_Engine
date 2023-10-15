@@ -92,7 +92,7 @@ namespace editor
 
 		entity_id cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path, shader_program);
 		
-		//ECS::instance().getComponentsManager()->addComponent<selected>(cube);
+		ECS::instance().getComponentsManager()->addComponent<selected>(cube);
 
 
 

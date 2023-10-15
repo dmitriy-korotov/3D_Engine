@@ -21,6 +21,8 @@ namespace engine::ecs::components
 		void setColor(const glm::vec4 _color) noexcept;
 		const glm::vec4& getColor() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		glm::vec4 m_color;

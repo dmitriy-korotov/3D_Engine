@@ -31,6 +31,8 @@ namespace engine::ecs::components
 		void setDrawingMode(DrawingMode _drawing_mode) noexcept;
 		DrawingMode getDrawingMode() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		shader_program_ptr m_shader_program = nullptr;

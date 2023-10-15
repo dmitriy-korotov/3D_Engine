@@ -27,6 +27,8 @@ namespace engine::ecs::components
 		const glm::vec3& getDiffuse() const noexcept;
 		const glm::vec3& getSpecular() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		glm::vec3 m_ambient;

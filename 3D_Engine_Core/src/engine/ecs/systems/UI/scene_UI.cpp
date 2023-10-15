@@ -8,13 +8,17 @@
 
 
 
+
+
+using namespace engine::ecs::components;
+
 namespace engine::ecs::systems
 {
 	void scene_UI::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		auto components = ECS::instance().getComponentsManager()->getComponents<components::direction_light>();
-		if (components.has_value())
-			m_light_direction = components->first->getDirection();
+		auto component = ECS::instance().getComponentsManager()->getComponent<direction_light>();
+		if (component == nullptr)
+			return;
 
 
 
@@ -28,16 +32,9 @@ namespace engine::ecs::systems
 
 		UI_module->begin("Scene");
 
-		UI_module->putColorEdit4("Bacground color", m_bacgroud_color);
-		UI_module->separate();
-		UI_module->putSliderFloat3("Scene light direction", m_light_direction, -1.f, 1.f);
+		component->putOnUI();
 
 		UI_module->end();
-		
-
-
-		if (components.has_value())
-			components->first->setDirection(m_light_direction);
 	}
 
 

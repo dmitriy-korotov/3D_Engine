@@ -1,5 +1,7 @@
 #include <engine/ecs/components/render/renderable.hpp>
 
+#include <engine/Engine.hpp>
+
 #include <engine/render/basic_shader_program.hpp>
 
 
@@ -37,5 +39,46 @@ namespace engine::ecs::components
 	DrawingMode renderable::getDrawingMode() const noexcept
 	{
 		return m_drawing_mode;
+	}
+
+
+
+	bool renderable::putOnUI() noexcept
+	{
+		bool is_clicked = false;
+
+		const auto& UI_module = Engine::getApplicationUIModule();
+
+		static int versions = -1;
+		if (UI_module->putRadioButton("Line", versions, 0))
+		{
+			m_drawing_mode = DrawingMode::Line;
+			is_clicked = true;
+		}
+		UI_module->sameLine();
+		if (UI_module->putRadioButton("LineStrip", versions, 1))
+		{
+			m_drawing_mode = DrawingMode::LineStrip;
+			is_clicked = true;
+		}
+		UI_module->sameLine();
+		if (UI_module->putRadioButton("Trianle", versions, 3))
+		{
+			m_drawing_mode = DrawingMode::Triangle;
+			is_clicked = true;
+		}
+		if (UI_module->putRadioButton("TriangleStrip", versions, 4))
+		{
+			m_drawing_mode = DrawingMode::TriangleStrip;
+			is_clicked = true;
+		}
+		UI_module->sameLine();
+		if (UI_module->putRadioButton("Point", versions, 5))
+		{
+			m_drawing_mode = DrawingMode::Point;
+			is_clicked = true;
+		}
+
+		return is_clicked;
 	}
 }

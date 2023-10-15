@@ -1,5 +1,7 @@
 #include <engine/ecs/components/render/light/direction_light.hpp>
 
+#include <engine/Engine.hpp>
+
 
 
 namespace engine::ecs::components
@@ -22,5 +24,17 @@ namespace engine::ecs::components
 	const glm::vec3& direction_light::getDirection() const noexcept
 	{
 		return m_direction;
+	}
+
+
+
+	bool direction_light::putOnUI() noexcept
+	{
+		bool is_clicked = false;
+
+		is_clicked |= light::putOnUI();
+		is_clicked |= Engine::getApplicationUIModule()->putSliderFloat3("Direction", m_direction, -1.f, 1.f);
+
+		return is_clicked;
 	}
 }

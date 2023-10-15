@@ -1,5 +1,7 @@
 #include <engine/ecs/components/render/light/light.hpp>
 
+#include <engine/Engine.hpp>
+
 
 
 namespace engine::ecs::components
@@ -39,5 +41,21 @@ namespace engine::ecs::components
 	const glm::vec3& light::getSpecular() const noexcept
 	{
 		return m_specular;
+	}
+
+
+
+	bool light::putOnUI() noexcept
+	{
+		bool is_clicked = false;
+
+		auto& UI_module = Engine::getApplicationUIModule();
+
+		is_clicked |= color::putOnUI();
+		is_clicked |= UI_module->putSliderFloat3("Ambient", m_ambient, 0.f, 1.f);
+		is_clicked |= UI_module->putSliderFloat3("Diffuse", m_diffuse, 0.f, 1.f);
+		is_clicked |= UI_module->putSliderFloat3("Specular", m_specular, 0.f, 1.f);
+
+		return is_clicked;
 	}
 }

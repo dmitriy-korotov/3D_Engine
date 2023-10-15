@@ -21,6 +21,8 @@ namespace engine::ecs::components
 		void setDirection(const glm::vec3& _direction) noexcept;
 		const glm::vec3& getDirection() const noexcept;
 
+		bool putOnUI() noexcept override;
+
 	private:
 
 		glm::vec3 m_direction;

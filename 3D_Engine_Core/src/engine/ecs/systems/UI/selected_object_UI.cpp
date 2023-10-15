@@ -4,6 +4,7 @@
 
 #include <engine/ecs/components/markers.hpp>
 #include <engine/ecs/components/physic.hpp>
+#include <engine/ecs/components/render.hpp>
 
 #include <engine/Engine.hpp>
 
@@ -34,19 +35,19 @@ namespace engine::ecs::systems
 		if (selected_component == nullptr)
 			return;
 
-
-		
-
-
 		auto& owner = ECS::instance().getEntitiesManager()->getEntity(selected_component->getOwner());
 
 
-		
 
 		auto& transform_opt = owner->getComponent<transform>();
 		if (transform_opt.has_value())
 			transform_opt->lock()->putOnUI();
 
+		m_UI_module->separate();
+
+		auto& renderable_opt = owner->getComponent<renderable>();
+		if (renderable_opt.has_value())
+			renderable_opt->lock()->putOnUI();
 	}
 
 
