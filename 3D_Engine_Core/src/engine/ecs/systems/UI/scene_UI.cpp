@@ -32,6 +32,10 @@ namespace engine::ecs::systems
 
 		UI_module->begin("Scene");
 
+		UI_module->putColorEdit4("Background color", m_bacgroud_color);
+
+		UI_module->separate();
+
 		component->putOnUI();
 
 		UI_module->end();

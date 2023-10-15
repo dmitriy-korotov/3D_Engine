@@ -77,7 +77,6 @@ namespace engine::ecs::systems
 
 
 
-				shader_program->setVector3f("light.color", direction_light_comp->getColor());
 				shader_program->setVector3f("light.direction", direction_light_comp->getDirection());
 				shader_program->setVector3f("light.ambient", direction_light_comp->getAmbient());
 				shader_program->setVector3f("light.diffuse", direction_light_comp->getDiffuse());
