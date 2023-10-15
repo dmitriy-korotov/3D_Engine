@@ -85,12 +85,13 @@ namespace engine::ecs::components
 	void transform::updateModelMatrix() const noexcept
 	{
 		m_model_matrix = glm::mat4(1.f);
-		m_model_matrix = glm::scale(m_model_matrix, m_scale);
-		m_model_matrix = glm::rotate(m_model_matrix, m_rotation.x, glm::vec3(1.f, 0.f, 0.f));
-		m_model_matrix = glm::rotate(m_model_matrix, m_rotation.y, glm::vec3(0.f, 1.f, 0.f));
-		m_model_matrix = glm::rotate(m_model_matrix, m_rotation.z, glm::vec3(0.f, 0.f, 1.f));
+		
 		m_model_matrix = glm::translate(m_model_matrix, m_position);
-
+		m_model_matrix = glm::rotate(m_model_matrix, glm::radians(m_rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		m_model_matrix = glm::rotate(m_model_matrix, glm::radians(m_rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		m_model_matrix = glm::rotate(m_model_matrix, glm::radians(m_rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		m_model_matrix = glm::scale(m_model_matrix, m_scale);
+		
 		m_is_need_update_model_matrix = false;
 	}
 

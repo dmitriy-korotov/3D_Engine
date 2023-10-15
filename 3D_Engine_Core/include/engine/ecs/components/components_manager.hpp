@@ -175,13 +175,13 @@ namespace engine::ecs::components
 		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
 		{
-			if (components_range->size() > 1)
+			auto& components = components_range->second;
+
+			if (components.size() > 1)
 				LOG_WARN("[Components manager WARN] Components '{0}' more then one, returned first", ComponentType::component_name);
 
-			if (components_range->size() == 1)
-				return components_range->begin()->second;
-
-			return nullptr;
+			if (components.size() == 1)
+				return std::dynamic_pointer_cast<ComponentType>(components.begin()->second);
 		}
 		return nullptr;
 	}

@@ -9,7 +9,7 @@
 
 namespace engine::ecs::systems
 {
-	class UI_scene: public basic_system
+	class scene_UI: public basic_system
 	{
 	public:
 

@@ -297,9 +297,11 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 
 		include/engine/ecs/systems/UI/fwd.hpp
-		include/engine/ecs/systems/UI/fwd/UI_scene.hpp
+		include/engine/ecs/systems/UI/fwd/selected_object_UI.hpp
+		include/engine/ecs/systems/UI/fwd/scene_UI.hpp
 
-		include/engine/ecs/systems/UI/UI_scene.hpp
+		include/engine/ecs/systems/UI/selected_object_UI.hpp
+		include/engine/ecs/systems/UI/scene_UI.hpp
 )
 
 set(ENGINE_PRIVATE_SOURCES 
@@ -414,11 +416,18 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/systems/basic_system.cpp
 		src/engine/ecs/systems/systems_manager.cpp
 
+
+
 		src/engine/ecs/systems/render/render.cpp
+
+
 
 		src/engine/ecs/systems/physic/camera_update.cpp
 
-		src/engine/ecs/systems/UI/UI_scene.cpp
+
+
+		src/engine/ecs/systems/UI/selected_object_UI.cpp
+		src/engine/ecs/systems/UI/scene_UI.cpp
 )
 
 set(ENGINE_SHADER_SORCES

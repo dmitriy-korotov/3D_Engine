@@ -2,5 +2,5 @@
 
 namespace engine::ecs::systems
 {
-	class UI_scene;
+	class scene_UI;
 }

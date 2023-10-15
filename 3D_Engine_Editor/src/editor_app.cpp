@@ -14,7 +14,8 @@
 #include <engine/ecs/components/render.hpp>
 
 #include <engine/ecs/systems/physic/camera_update.hpp>
-#include <engine/ecs/systems/UI/UI_scene.hpp>
+#include <engine/ecs/systems/UI/selected_object_UI.hpp>
+#include <engine/ecs/systems/UI/scene_UI.hpp>
 #include <engine/ecs/systems/render/render.hpp>
 #include <engine/render/render.hpp>
 
@@ -22,6 +23,8 @@
 
 #include <engine/render/open_gl/shader_program.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
+
+#include <engine/Engine.hpp>
 
 
 
@@ -73,7 +76,8 @@ namespace editor
 
 		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
 		ECS::instance().getSystemsManager()->addSystem<render>(2);
-		ECS::instance().getSystemsManager()->addSystem<UI_scene>(3);
+		ECS::instance().getSystemsManager()->addSystem<selected_object_UI>(5);
+		ECS::instance().getSystemsManager()->addSystem<scene_UI>(4);
 
 
 
@@ -113,7 +117,9 @@ namespace editor
 
 	void Editor::onUpdate() noexcept
 	{	
+		engine::Engine::getApplicationUIModule()->onUIDrawBegin();
 		ECS::instance().update(0.33f);
+		engine::Engine::getApplicationUIModule()->onUIDrawEnd();
 	}
 
 
