@@ -142,9 +142,11 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/util/fwd.hpp
 		include/engine/render/util/fwd/basic_models_loader.hpp
 		include/engine/render/util/fwd/models_loader.hpp
+		include/engine/render/util/fwd/shader_preprocessor.hpp
 
 		include/engine/render/util/basic_models_loader.hpp
 		include/engine/render/util/models_loader.hpp
+		include/engine/render/util/shader_preprocessor.hpp
 
 
 
@@ -345,6 +347,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/render/util/basic_models_loader.cpp
 		src/engine/render/util/models_loader.cpp
+		src/engine/render/util/shader_preprocessor.cpp
 
 
 

@@ -11,7 +11,7 @@ struct Material
 	sampler2D specular;
 };
 
-struct Light
+struct DirectionLight
 {
 	vec3 direction;
 	
@@ -20,8 +20,50 @@ struct Light
 	vec3 specular;
 };
 
-uniform Light light;
+struct PointLight
+{
+	vec3 position;
+	
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+};
 
+
+
+
+
+
+uniform DirectionLight light;
+
+
+
+
+#define MAX_DIRECTION_LIGHTS 10
+#define MAX_POINT_LIGHTS 10
+
+
+vec3 calcDirectionLights(DirectionLight _light, vec3 _normal)
+{
+	vec3 ambient = _light.ambient * texture(inTexture, fTexCoord).rgb;
+	
+	float diff = max(dot(normalize(_light.direction), _normal), 0);
+	vec3 diffuse = light.diffuse * diff * texture(inTexture, fTexCoord).rgb;
+
+	// need specular
+
+	return ambient + diffuse;
+}
+
+
+struct SceneLight
+{
+	int direction_lights_amount;
+	int point_lights_amount;
+
+	DirectionLight direction_lights[MAX_DIRECTION_LIGHTS];
+	PointLight point_lights[MAX_POINT_LIGHTS];
+};
 
 
 out vec4 frag_color;
@@ -30,17 +72,7 @@ void main() {
 
 	vec3 normal = normalize(fNormal_eye);
 
+	vec3 direction_light = calcDirectionLights(light, normal);
 	
-	
-	vec3 ambient = light.ambient * texture(inTexture, fTexCoord).rgb;
-	
-	
-	
-	vec3 LightDir = normalize(-light.direction);
-	float diff = max(dot(LightDir, normal), 0);
-	vec3 diffuse = light.diffuse * diff * texture(inTexture, fTexCoord).rgb;
-
-
-
-	frag_color = vec4(ambient + diffuse, 1);
+	frag_color = vec4(direction_light, 1);
 }
