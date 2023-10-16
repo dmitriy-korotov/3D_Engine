@@ -9,3 +9,4 @@
 #include <engine/render/fwd/basic_material.hpp>
 #include <engine/render/fwd/material.hpp>
 #include <engine/render/fwd/basic_mesh.hpp>
+#include <engine/render/fwd/shaders_manager.hpp>

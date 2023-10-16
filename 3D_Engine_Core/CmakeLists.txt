@@ -119,6 +119,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/fwd/basic_material.hpp
 		include/engine/render/fwd/material.hpp
 		include/engine/render/fwd/basic_mesh.hpp
+		include/engine/render/fwd/shaders_manager.hpp
 
 		include/engine/render/application_renderer.hpp
 		include/engine/render/render.hpp
@@ -130,6 +131,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/basic_material.hpp
 		include/engine/render/material.hpp
 		include/engine/render/basic_mesh.hpp
+		include/engine/render/shaders_manager.hpp
 
 
 
@@ -341,6 +343,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/basic_renderer.cpp
 		src/engine/render/material.cpp
 		src/engine/render/basic_mesh.cpp
+		src/engine/render/shaders_manager.cpp
 
 
 
