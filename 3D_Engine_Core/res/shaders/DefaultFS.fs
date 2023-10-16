@@ -7,8 +7,8 @@ layout (binding = 0) uniform sampler2D inTexture;
 
 
 
-#include <C:\Users\User\MyProjects\3D_Engine\3D_Engine_Core\res\shaders\DirectionLight.glsl>
-#include <C:\Users\User\MyProjects\3D_Engine\3D_Engine_Core\res\shaders\PointLight.glsl>
+#include <DirectionLight.glsl>
+#include <PointLight.glsl>
 
 
 

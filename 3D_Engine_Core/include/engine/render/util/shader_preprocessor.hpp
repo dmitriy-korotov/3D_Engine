@@ -34,6 +34,7 @@ namespace engine::render::utility
 		static bool isIncludeCommand(const std::string_view& _text, size_t& _current_position) noexcept;
 		static std::optional<std::string> readPath(const std::string_view& _text, size_t& _current_position) noexcept;
 		static std::optional<size_t> findOpenBracket(const std::string_view& _text, size_t _current_position) noexcept;
+		static std::optional<path> findAbsolutePathToShader(const std::string& _shader_file_name) noexcept;
 
 	private:
 

@@ -22,6 +22,7 @@
 #include <engine/ecs/entities/basic_entity.hpp>
 
 #include <engine/render/open_gl/shader_program.hpp>
+#include <engine/render/shaders_manager.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
 
 #include <engine/Engine.hpp>
@@ -54,7 +55,7 @@ namespace editor
 	{
 		ECS::instance().initialize();
 
-
+		shaders_manager::instance().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
 
 		file_reader vs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultVS.vs");
 		file_reader fs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");

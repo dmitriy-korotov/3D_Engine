@@ -4,6 +4,8 @@
 
 #include <engine/util/file_reader.hpp>
 
+#include <engine/render/shaders_manager.hpp>
+
 
 
 static constexpr size_t INITIAL_SIZE = 4096;
@@ -116,6 +118,19 @@ namespace engine::render::utility
 
 
 
+	std::optional<path> shader_preprocessor::findAbsolutePathToShader(const std::string& _shader_file_name) noexcept
+	{
+		for (const path& directory : shaders_manager::instance().getShadersDirectories())
+		{
+			path absolute_path = directory / _shader_file_name;
+			if (std::filesystem::exists(absolute_path))
+				return absolute_path;
+		}
+		return std::nullopt;
+	}
+
+
+
 	std::optional<std::string> shader_preprocessor::__preprocesse(const path& _path_to_shader) noexcept
 	{
 		if (m_already_processed_files.find(_path_to_shader) != m_already_processed_files.end())
@@ -168,7 +183,14 @@ namespace engine::render::utility
 			if (!path_to_included_file.has_value())
 				return std::nullopt;
 
-			auto including_file_data = __preprocesse(path(path_to_included_file.value()));
+			auto absolute_path = findAbsolutePathToShader(path_to_included_file.value());
+			if (!absolute_path.has_value())
+			{
+				LOG_ERROR("[Shader preprocessor WARN] Can't find shader file '{0}'", path_to_included_file.value());
+				return std::nullopt;
+			}
+
+			auto including_file_data = __preprocesse(absolute_path.value());
 			if (including_file_data.has_value())
 			{
 				result.append(including_file_data.value());
