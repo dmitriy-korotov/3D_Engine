@@ -43,7 +43,7 @@ namespace engine::modules::ui
 		virtual isClicked putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept;
 
 		virtual isClicked putCheckbox(const std::string_view& _title, bool& _value) const noexcept;
-		virtual isClicked putRadioButton(const std::string_view& _title, int& _versions, int _version) const noexcept;
+		virtual isClicked putRadioButton(const std::string_view& _title, int& _current_version, int _version) const noexcept;
 
 		virtual void separate() const noexcept;
 		virtual void newLine() const noexcept;

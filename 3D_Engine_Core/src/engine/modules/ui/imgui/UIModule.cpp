@@ -220,9 +220,9 @@ namespace engine::modules::ui::imgui
 
 
 
-    isClicked UIModule::putRadioButton(const std::string_view& _title, int& _versions, int _version) const noexcept
+    isClicked UIModule::putRadioButton(const std::string_view& _title, int& _current_version, int _version) const noexcept
     {
-        return ImGui::RadioButton(_title.data(), &_versions, _version);
+        return ImGui::RadioButton(_title.data(), &_current_version, _version);
     }
 
 

@@ -16,8 +16,11 @@ namespace engine::render::utility
 	public:
 
 		shader_preprocessor() = default;
+		shader_preprocessor(const path& _path_to_shader) noexcept;
+		shader_preprocessor(const std::string_view& _source) noexcept;
 
 		void preprocesse(const path& _path_to_shader) noexcept;
+		void preprocesse(const std::string_view& _source) noexcept;
 
 		bool isSuccessfully() const noexcept;
 
@@ -27,9 +30,10 @@ namespace engine::render::utility
 	private:
 
 		std::optional<std::string> __preprocesse(const path& _path_to_shader) noexcept;
-		static bool isIncludeCommand(const std::string& _text, size_t& _current_position) noexcept;
-		static std::optional<std::string> readPath(const std::string& _text, size_t& _current_position) noexcept;
-		static std::optional<size_t> findOpenBracket(const std::string& _text, size_t _current_position) noexcept;
+		std::optional<std::string> __preprocesse(const std::string_view& _source) noexcept;
+		static bool isIncludeCommand(const std::string_view& _text, size_t& _current_position) noexcept;
+		static std::optional<std::string> readPath(const std::string_view& _text, size_t& _current_position) noexcept;
+		static std::optional<size_t> findOpenBracket(const std::string_view& _text, size_t _current_position) noexcept;
 
 	private:
 

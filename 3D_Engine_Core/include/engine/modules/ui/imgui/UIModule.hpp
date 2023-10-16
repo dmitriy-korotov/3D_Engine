@@ -35,7 +35,7 @@ namespace engine::modules::ui::imgui
 		isClicked putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept override;
 
 		isClicked putCheckbox(const std::string_view& _title, bool& _value) const noexcept override;
-		isClicked putRadioButton(const std::string_view& _title, int& _versions, int _version) const noexcept override;
+		isClicked putRadioButton(const std::string_view& _title, int& _current_version, int _version) const noexcept override;
 
 		void separate() const noexcept override;
 		void newLine() const noexcept override;

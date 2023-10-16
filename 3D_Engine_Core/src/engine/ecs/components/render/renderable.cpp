@@ -49,31 +49,31 @@ namespace engine::ecs::components
 
 		const auto& UI_module = Engine::getApplicationUIModule();
 
-		static int versions = -1;
-		if (UI_module->putRadioButton("Line", versions, 0))
+		static int current_version = 3;
+		if (UI_module->putRadioButton("Line", current_version, 0))
 		{
 			m_drawing_mode = DrawingMode::Line;
 			is_clicked = true;
 		}
 		UI_module->sameLine();
-		if (UI_module->putRadioButton("LineStrip", versions, 1))
+		if (UI_module->putRadioButton("LineStrip", current_version, 1))
 		{
 			m_drawing_mode = DrawingMode::LineStrip;
 			is_clicked = true;
 		}
 		UI_module->sameLine();
-		if (UI_module->putRadioButton("Trianle", versions, 3))
+		if (UI_module->putRadioButton("Trianle", current_version, 3))
 		{
 			m_drawing_mode = DrawingMode::Triangle;
 			is_clicked = true;
 		}
-		if (UI_module->putRadioButton("TriangleStrip", versions, 4))
+		if (UI_module->putRadioButton("TriangleStrip", current_version, 4))
 		{
 			m_drawing_mode = DrawingMode::TriangleStrip;
 			is_clicked = true;
 		}
 		UI_module->sameLine();
-		if (UI_module->putRadioButton("Point", versions, 5))
+		if (UI_module->putRadioButton("Point", current_version, 5))
 		{
 			m_drawing_mode = DrawingMode::Point;
 			is_clicked = true;

@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <engine/render/util/shader_preprocessor.hpp>
+
 #include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>
@@ -10,6 +12,18 @@
 
 namespace engine::render::open_gl
 {
+	static constexpr std::string_view toString(ShaderType _shader_type) noexcept
+	{
+		switch (_shader_type)
+		{
+		case ShaderType::vertex_shader:			return "vertex shader";
+		case ShaderType::fragment_shader:		return "fragment shader";
+		}
+		return "vertex shader";
+	}
+
+
+
 	shader_program::shader_program(const std::string_view& _vertex_shader_source,
 								   const std::string_view& _fragment_shader_source) noexcept
 	{
@@ -105,7 +119,14 @@ namespace engine::render::open_gl
 			break;
 		}
 
-		const char* source_code = _source.data();
+		utility::shader_preprocessor preprocessor(_source);
+		if (!preprocessor.isSuccessfully())
+		{
+			LOG_ERROR("[Shader Program ERROR] Can't preprocesse '{0}' shader", toString(_shader_type));
+			return std::nullopt;
+		}
+
+		const char* source_code = preprocessor.getResult().data();
 		glShaderSource(shader, 1, &source_code, nullptr);
 		glCompileShader(shader);
 
