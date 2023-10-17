@@ -199,7 +199,7 @@ namespace engine::ecs::components
 		{
 			auto component_iter = components_range->find(_entity_id);
 
-			return component_iter == components_range.end() ? nullptr : component_iter->second;
+			return (component_iter == components_range.end() ? nullptr : component_iter->second);
 		}
 		return nullptr;
 	}

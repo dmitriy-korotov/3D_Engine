@@ -9,3 +9,4 @@
 #include <engine/ecs/components/physic/fwd/transform.hpp>
 #include <engine/ecs/components/physic/fwd/velocity.hpp>
 #include <engine/ecs/components/physic/fwd/vision.hpp>
+#include <engine/ecs/components/physic/fwd/movement.hpp>

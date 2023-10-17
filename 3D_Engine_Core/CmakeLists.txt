@@ -244,6 +244,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic/fwd/transform.hpp
 		include/engine/ecs/components/physic/fwd/camera_transform.hpp
 		include/engine/ecs/components/physic/fwd/vision.hpp
+		include/engine/ecs/components/physic/fwd/movement.hpp
 
 		include/engine/ecs/components/physic.hpp
 		include/engine/ecs/components/physic/position.hpp
@@ -255,6 +256,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic/transform.hpp
 		include/engine/ecs/components/physic/camera_transform.hpp
 		include/engine/ecs/components/physic/vision.hpp
+		include/engine/ecs/components/physic/movement.hpp
 
 
 
@@ -413,6 +415,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/physic/transform.cpp
 		src/engine/ecs/components/physic/camera_transform.cpp
 		src/engine/ecs/components/physic/vision.cpp
+		src/engine/ecs/components/physic/movement.cpp
 
 		src/engine/ecs/components/render/mesh.cpp
 		src/engine/ecs/components/render/material.cpp
