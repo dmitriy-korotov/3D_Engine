@@ -237,7 +237,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic/fwd.hpp
 		include/engine/ecs/components/physic/fwd/position.hpp
 		include/engine/ecs/components/physic/fwd/rotation.hpp
-		include/engine/ecs/components/physic/fwd/direction.hpp
+		include/engine/ecs/components/physic/fwd/orientation.hpp
 		include/engine/ecs/components/physic/fwd/scale.hpp
 		include/engine/ecs/components/physic/fwd/velocity.hpp
 		include/engine/ecs/components/physic/fwd/transform.hpp
@@ -247,7 +247,7 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic.hpp
 		include/engine/ecs/components/physic/position.hpp
 		include/engine/ecs/components/physic/rotation.hpp
-		include/engine/ecs/components/physic/direction.hpp
+		include/engine/ecs/components/physic/orientation.hpp
 		include/engine/ecs/components/physic/scale.hpp
 		include/engine/ecs/components/physic/velocity.hpp
 		include/engine/ecs/components/physic/transform.hpp
@@ -404,7 +404,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/components/physic/position.cpp
 		src/engine/ecs/components/physic/rotation.cpp
-		src/engine/ecs/components/physic/direction.cpp
+		src/engine/ecs/components/physic/orientation.cpp
 		src/engine/ecs/components/physic/scale.cpp
 		src/engine/ecs/components/physic/velocity.cpp
 		src/engine/ecs/components/physic/transform.cpp

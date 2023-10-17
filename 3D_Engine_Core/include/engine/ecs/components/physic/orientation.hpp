@@ -8,18 +8,16 @@
 
 namespace engine::ecs::components
 {
-	class direction: public virtual basic_component
+	class orientation: public virtual basic_component
 	{
 	public:
 
-		static constexpr std::string_view component_name = "direction";
+		static constexpr std::string_view component_name = "orientation";
 
-		direction() = default;
-		direction(const glm::vec3& _forward, const glm::vec3& _right, const glm::vec3& _up) noexcept;
+		orientation() = default;
+		orientation(const glm::vec3& _forward, const glm::vec3& _right) noexcept;
 
-		void setForward(const glm::vec3& _forward) noexcept;
-		void setRight(const glm::vec3& _right) noexcept;
-		void setUp(const glm::vec3& _up) noexcept;
+		void setOrientation(const glm::vec3& _forward, const glm::vec3& _right) noexcept;
 
 		const glm::vec3& getForward() const noexcept;
 		const glm::vec3& getRight() const noexcept;

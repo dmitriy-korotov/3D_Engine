@@ -119,7 +119,7 @@ namespace engine::ecs::components
 
 		is_clicked |= position::putOnUI();
 		is_clicked |= rotation::putOnUI();
-		is_clicked |= direction::putOnUI();
+		is_clicked |= orientation::putOnUI();
 
 		if (is_clicked)
 			updateViewMatrix();

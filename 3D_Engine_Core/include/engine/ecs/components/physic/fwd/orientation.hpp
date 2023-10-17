@@ -2,5 +2,5 @@
 
 namespace engine::ecs::components
 {
-	class direction;
+	class orientation;
 }

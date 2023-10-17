@@ -2,7 +2,7 @@
 
 #include <engine/ecs/components/physic/position.hpp>
 #include <engine/ecs/components/physic/rotation.hpp>
-#include <engine/ecs/components/physic/direction.hpp>
+#include <engine/ecs/components/physic/orientation.hpp>
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -13,7 +13,7 @@ namespace engine::ecs::components
 {
 	class camera_transform: public position,
 							public rotation,
-							public direction
+							public orientation
 						
 	{
 	public:
