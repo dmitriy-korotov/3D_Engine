@@ -55,45 +55,34 @@ namespace engine::ecs::systems
 
 
 
-	void camera_update::translateCamera(movement& _transform_component,
-										velocity& _move_component, float _delta_time) const noexcept
+	void camera_update::translateCamera(movement& _movement_component,
+										velocity& _move_velocity_component, float _delta_time) const noexcept
 	{
-		glm::vec3 movement_delta(0.f);
-
-		glm::vec3 velocity = _move_component.getVelocity();
+		glm::vec3 velocity = _move_velocity_component.getVelocity();
 
 		if (keyboard::isKeyPressed(Key::KEY_LEFT_SHIFT))
-		{
 			velocity *= 5.f;
-		}
+
 		if (keyboard::isKeyPressed(Key::KEY_LEFT_CONTROL))
-		{
 			velocity /= 5.f;
-		}
+		
 		if (keyboard::isKeyPressed(Key::KEY_W))
-		{
-			_transform_component.moveForward(velocity.x * _delta_time);
-		}
+			_movement_component.moveForward(velocity.x * _delta_time);
+		
 		if (keyboard::isKeyPressed(Key::KEY_S))
-		{
-			_transform_component.moveForward(-velocity.x * _delta_time);
-		}
+			_movement_component.moveForward(-velocity.x * _delta_time);
+		
 		if (keyboard::isKeyPressed(Key::KEY_D))
-		{
-			_transform_component.moveRight(velocity.y * _delta_time);
-		}
+			_movement_component.moveRight(velocity.y * _delta_time);
+		
 		if (keyboard::isKeyPressed(Key::KEY_A))
-		{
-			_transform_component.moveRight(-velocity.y * _delta_time);
-		}
+			_movement_component.moveRight(-velocity.y * _delta_time);
+		
 		if (keyboard::isKeyPressed(Key::KEY_E))
-		{
-			_transform_component.moveUp(velocity.z * _delta_time);
-		}
+			_movement_component.moveUp(velocity.z * _delta_time);
+		
 		if (keyboard::isKeyPressed(Key::KEY_Q))
-		{
-			_transform_component.moveUp(-velocity.z * _delta_time);
-		}
+			_movement_component.moveUp(-velocity.z * _delta_time);
 	}
 
 

@@ -10,3 +10,4 @@
 #include <engine/ecs/components/physic/fwd/velocity.hpp>
 #include <engine/ecs/components/physic/fwd/vision.hpp>
 #include <engine/ecs/components/physic/fwd/movement.hpp>
+#include <engine/ecs/components/physic/fwd/rotate.hpp>

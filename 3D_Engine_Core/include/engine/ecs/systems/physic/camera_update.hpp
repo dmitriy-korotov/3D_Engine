@@ -22,8 +22,8 @@ namespace engine::ecs::systems
 
 	private:
 
-		void translateCamera(movement& _transform_component, 
-							 velocity& _move_component, float _delta_time) const noexcept;
+		void translateCamera(movement& _movement_component, 
+							 velocity& _move_velocity_component, float _delta_time) const noexcept;
 		void rotateCamera(movement& _transform_component,
 						  velocity& _move_component, float _delta_time) const noexcept;
 
