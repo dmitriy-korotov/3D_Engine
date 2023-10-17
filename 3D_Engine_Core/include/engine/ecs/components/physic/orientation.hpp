@@ -25,7 +25,7 @@ namespace engine::ecs::components
 
 		bool putOnUI() noexcept override;
 
-	protected:
+	private:
 
 		glm::vec3 m_forward = glm::vec3(1.f, 0.f, 0.f);
 		glm::vec3 m_right =	  glm::vec3(0.f, -1.f, 0.f);

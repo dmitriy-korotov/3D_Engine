@@ -64,9 +64,7 @@ namespace engine::ecs::components
 	const glm::mat4& vision::getProjectionMatrix() const noexcept
 	{
 		if (m_is_need_update_projection_matrix)
-		{
 			updateProjectionMatrix();
-		}
 		return m_projection_matrix;
 	}
 

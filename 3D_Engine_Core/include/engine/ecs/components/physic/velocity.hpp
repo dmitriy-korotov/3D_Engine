@@ -21,7 +21,7 @@ namespace engine::ecs::components
 
 		bool putOnUI() noexcept override;
 
-	protected:
+	private:
 
 		glm::vec3 m_velocity;
 

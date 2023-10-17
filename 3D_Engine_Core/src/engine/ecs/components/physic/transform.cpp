@@ -1,135 +1,34 @@
 #include <engine/ecs/components/physic/transform.hpp>
 
-#include <glm/ext/matrix_transform.hpp>
+#include <engine/ecs/ecs_system.hpp>
+
+#include <engine/ecs/components/physic/position.hpp>
+#include <engine/ecs/components/physic/rotation.hpp>
+#include <engine/ecs/components/physic/scale.hpp>
 
 
 
 namespace engine::ecs::components
 {
-	transform::transform(const glm::vec3& _position, const glm::vec3& _rotation, const glm::vec3& _scale) noexcept
-			: position(_position)
-			, rotation(_rotation)
-			, scale(_scale)
+	glm::mat4 transform::getModelMatrix() const noexcept
 	{
-		updateModelMatrix();
-	}
+		const auto& owner = ECS::instance().getEntitiesManager()->getEntity(getOwner());
 
+		auto position_opt = owner->getComponent<position>();
+		auto rotation_opt = owner->getComponent<rotation>();
+		auto scale_opt =	owner->getComponent<scale>();
 
+		glm::mat4 translate_matrix =	position_opt.has_value() ? position_opt->lock()->getTranslateMatrix() : glm::mat4(1.f);
+		glm::mat4 rotation_matrix =		rotation_opt.has_value() ? rotation_opt->lock()->getRotationMatrix() : glm::mat4(1.f);
+		glm::mat4 scale_matrix =		scale_opt.has_value() ? scale_opt->lock()->getScaleMatrix() : glm::mat4(1.f);
 
-	void transform::setTransform(const glm::vec3& _position, const glm::vec3& _rotation, const glm::vec3& _scale) noexcept
-	{
-		if (m_position != _position || m_rotation != _rotation || m_scale != _scale)
-		{
-			position::setPosition(_position);
-			rotation::setRotation(_rotation);
-			scale::setScale(_scale);
-			m_is_need_update_model_matrix = true;
-		}
-	}
-
-
-
-	void transform::setPosition(const glm::vec3& _position) noexcept
-	{
-		if (m_position != _position)
-		{
-			position::setPosition(_position);
-			m_is_need_update_model_matrix = true;
-		}
-	}
-
-
-
-	void transform::setRotation(const glm::vec3& _rotation) noexcept
-	{
-		if (m_rotation != _rotation)
-		{
-			rotation::setRotation(_rotation);
-			m_is_need_update_model_matrix = true;
-		}
-	}
-
-
-
-	void transform::setScale(const glm::vec3& _scale) noexcept
-	{
-		if (m_scale != _scale)
-		{
-			scale::setScale(_scale);
-			m_is_need_update_model_matrix = true;
-		}
-	}
-
-
-
-	const glm::mat4& transform::getModelMatrix() const noexcept
-	{
-		if (m_is_need_update_model_matrix)
-			updateModelMatrix();
-		return m_model_matrix;
+		return translate_matrix * rotation_matrix * scale_matrix;
 	}
 
 
 
 	glm::mat3 transform::getNormalMatrix() const noexcept
 	{
-		if (m_is_need_update_model_matrix)
-		{
-			updateModelMatrix();
-		}
-		return glm::mat3(glm::transpose(glm::inverse(m_model_matrix)));
+		return glm::mat3(glm::transpose(glm::inverse(getModelMatrix())));
 	}
-
-
-
-	void transform::updateModelMatrix() const noexcept
-	{
-		m_model_matrix = glm::mat4(1.f);
-		
-		m_model_matrix = glm::translate(m_model_matrix, m_position);
-		m_model_matrix = glm::rotate(m_model_matrix, glm::radians(m_rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		m_model_matrix = glm::rotate(m_model_matrix, glm::radians(m_rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		m_model_matrix = glm::rotate(m_model_matrix, glm::radians(m_rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		m_model_matrix = glm::scale(m_model_matrix, m_scale);
-		
-		m_is_need_update_model_matrix = false;
-	}
-
-
-
-	const glm::vec3& transform::getPosition() const noexcept
-	{
-		return m_position;
-	}
-
-
-
-	const glm::vec3& transform::getRotation() const noexcept
-	{
-		return m_rotation;
-	}
-
-
-
-	const glm::vec3& transform::getScale() const noexcept
-	{
-		return m_scale;
-	}
-
-
-
-	bool transform::putOnUI() noexcept
-	{
-		bool is_clicked = false;
-
-		is_clicked |= position::putOnUI();
-		is_clicked |= rotation::putOnUI();
-		is_clicked |= scale::putOnUI();
-
-		if (is_clicked)
-			updateModelMatrix();
-
-		return is_clicked;
-	}
-
 }
