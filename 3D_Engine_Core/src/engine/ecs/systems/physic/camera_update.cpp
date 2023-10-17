@@ -32,26 +32,22 @@ namespace engine::ecs::systems
 
 			const auto& active_camera_ent = ECS::instance().getEntitiesManager()->getEntity(active_camera_comp->getOwner());
 
-			auto& opt_transform_comp = active_camera_ent->getComponent<camera_transform>();
+			auto& opt_movement_comp = active_camera_ent->getComponent<movement>();
 			auto& opt_move_comp = active_camera_ent->getComponent<velocity>();
 			auto& opt_vision_comp = active_camera_ent->getComponent<vision>();
 
-			if (!opt_transform_comp.has_value() || !opt_move_comp.has_value() || !opt_vision_comp.has_value())
+			if (!opt_movement_comp.has_value() || !opt_move_comp.has_value() || !opt_vision_comp.has_value())
 			{
-				LOG_ERROR("[Move camera system ERROR] Active camera is not have needed components");
+				LOG_ERROR("[Camera update system ERROR] Active camera is not have needed components");
 				return;
 			}
 
-			auto& transform_comp = opt_transform_comp.value().lock();
+			auto& transform_comp = opt_movement_comp.value().lock();
 			auto& move_comp = opt_move_comp.value().lock();
 			auto& vision_comp = opt_vision_comp.value().lock();
 
-
-
 			translateCamera(*transform_comp, *move_comp, _delta_time);
 			rotateCamera(*transform_comp, *move_comp, _delta_time);
-
-
 
 			vision_comp->setViewPortSize(application_settings::instance().getWidth(), application_settings::instance().getHeight());
 		}
@@ -59,7 +55,7 @@ namespace engine::ecs::systems
 
 
 
-	void camera_update::translateCamera(camera_transform& _transform_component,
+	void camera_update::translateCamera(movement& _transform_component,
 										velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 movement_delta(0.f);
@@ -102,7 +98,7 @@ namespace engine::ecs::systems
 
 
 
-	void camera_update::rotateCamera(camera_transform& _transform_component,
+	void camera_update::rotateCamera(movement& _transform_component,
 									 velocity& _move_component, float _delta_time) const noexcept
 	{
 		glm::vec3 rotation_delta(0.f);
@@ -151,6 +147,6 @@ namespace engine::ecs::systems
 		
 		m_last_cursor_position = current_mouse_position;
 
-		_transform_component.setRotation(_transform_component.getRotation() + rotation_delta);
+		//_transform_component.setRotation(_transform_component.getRotation() + rotation_delta);
 	}
 }

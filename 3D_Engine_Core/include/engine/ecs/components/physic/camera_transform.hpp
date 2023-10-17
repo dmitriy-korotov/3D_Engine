@@ -16,7 +16,7 @@ namespace engine::ecs::components
 
 
 
-		const glm::mat4& getViewMatrix() noexcept;
+		glm::mat4 getViewMatrix() const noexcept;
 
 	};
 }

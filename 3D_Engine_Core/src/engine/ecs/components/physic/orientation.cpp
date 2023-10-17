@@ -38,11 +38,11 @@ namespace engine::ecs::components
 	}
 	const glm::vec3& orientation::getRight() const noexcept
 	{
-		return m_forward;
+		return m_right;
 	}
 	const glm::vec3& orientation::getUp() const noexcept
 	{
-		return m_forward;
+		return m_up;
 	}
 
 

@@ -86,11 +86,7 @@ namespace engine::ecs::entities
 
 		auto component = m_components.find(ComponentType::component_name);
 		if (component != m_components.end())
-		{
-			auto component_ptr = std::dynamic_pointer_cast<ComponentType>(component->second.lock());
-			if (component_ptr != nullptr)
-				return component_ptr;
-		}
+			return std::dynamic_pointer_cast<ComponentType>(component->second.lock());
 		return std::nullopt;
 	}
 }

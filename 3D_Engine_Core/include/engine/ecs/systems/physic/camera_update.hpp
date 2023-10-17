@@ -3,7 +3,7 @@
 #include <engine/ecs/systems/basic_system.hpp>
 
 #include <engine/ecs/components/physic/fwd/velocity.hpp>
-#include <engine/ecs/components/physic/fwd/camera_transform.hpp>
+#include <engine/ecs/components/physic/fwd/movement.hpp>
 
 #include <glm/vec2.hpp>
 
@@ -11,7 +11,7 @@
 
 namespace engine::ecs::systems
 {
-	using components::camera_transform;
+	using components::movement;
 	using components::velocity;
 
 	class camera_update: public basic_system
@@ -22,9 +22,9 @@ namespace engine::ecs::systems
 
 	private:
 
-		void translateCamera(camera_transform& _transform_component, 
+		void translateCamera(movement& _transform_component, 
 							 velocity& _move_component, float _delta_time) const noexcept;
-		void rotateCamera(camera_transform& _transform_component,
+		void rotateCamera(movement& _transform_component,
 						  velocity& _move_component, float _delta_time) const noexcept;
 
 	private:

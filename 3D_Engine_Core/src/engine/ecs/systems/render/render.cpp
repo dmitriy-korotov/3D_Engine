@@ -55,7 +55,7 @@ namespace engine::ecs::systems
 				auto& camera_transform_comp = active_camera_ent->getComponent<camera_transform>()->lock();
 				auto& vision_comp = active_camera_ent->getComponent<vision>()->lock();
 
-
+				
 
 				auto& current_ent = ECS::instance().getEntitiesManager()->getEntity(renderable_comp->getOwner());
 				

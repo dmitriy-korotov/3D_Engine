@@ -197,9 +197,10 @@ namespace engine::ecs::components
 		auto components_range = m_components.find(ComponentType::component_name);
 		if (components_range != m_components.end())
 		{
-			auto component_iter = components_range->find(_entity_id);
+			auto component_iter = components_range->second.find(_entity_id);
 
-			return (component_iter == components_range.end() ? nullptr : component_iter->second);
+			if (component_iter != components_range->second.end())
+				return std::dynamic_pointer_cast<ComponentType>(component_iter->second);
 		}
 		return nullptr;
 	}

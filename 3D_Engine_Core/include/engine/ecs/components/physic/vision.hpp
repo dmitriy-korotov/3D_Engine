@@ -43,7 +43,7 @@ namespace engine::ecs::components
 		orthographic_frustum m_orthographic_frustum;
 		perspective_frustum m_perspective_frustum;
 
-		glm::vec2 m_view_port_size = glm::vec2(0.f);
+		glm::vec2 m_view_port_size = glm::vec2(1.f);
 
 	private:
 

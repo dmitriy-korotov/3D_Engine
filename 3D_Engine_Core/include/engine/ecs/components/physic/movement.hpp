@@ -10,6 +10,10 @@ namespace engine::ecs::components
 	{
 	public:
 
+		static constexpr std::string_view component_name = "movement";
+
+
+
 		movement() = default;
 
 		void moveUp(float _delta_time) const noexcept;

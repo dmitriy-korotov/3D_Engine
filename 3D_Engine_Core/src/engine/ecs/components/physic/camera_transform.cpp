@@ -17,7 +17,7 @@
 
 namespace engine::ecs::components
 {
-	const glm::mat4& camera_transform::getViewMatrix() noexcept
+	glm::mat4 camera_transform::getViewMatrix() const noexcept
 	{
 		auto position_comp =	ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
 		if (position_comp == nullptr)
@@ -59,8 +59,8 @@ namespace engine::ecs::components
 
 
 
-		glm::vec3 forward = glm::normalize(euler_rotate_matrix * scene::g_world_forward_direction);
-		glm::vec3 right =	glm::normalize(euler_rotate_matrix * scene::g_world_right_direction);
+		glm::vec3 forward = euler_rotate_matrix * scene::g_world_forward_direction;
+		glm::vec3 right =	euler_rotate_matrix * scene::g_world_right_direction;
 
 		orientation_comp->setOrientation(forward, right);
 

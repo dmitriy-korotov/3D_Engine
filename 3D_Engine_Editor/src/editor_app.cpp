@@ -70,6 +70,10 @@ namespace editor
 		ECS::instance().getComponentsManager()->addComponent<active_camera>(camera);
 		ECS::instance().getComponentsManager()->addComponent<camera_transform>(camera);
 		ECS::instance().getComponentsManager()->addComponent<velocity>(camera, glm::vec3(0.05f));
+		ECS::instance().getComponentsManager()->addComponent<position>(camera, glm::vec3(-5.f, 0.f, 0.f));
+		ECS::instance().getComponentsManager()->addComponent<rotation>(camera);
+		ECS::instance().getComponentsManager()->addComponent<orientation>(camera);
+		ECS::instance().getComponentsManager()->addComponent<movement>(camera);
 		ECS::instance().getComponentsManager()->addComponent<vision>(camera, Projection::Perspective);
 
 
