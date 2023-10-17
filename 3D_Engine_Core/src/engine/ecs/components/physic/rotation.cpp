@@ -16,7 +16,11 @@ namespace engine::ecs::components
 
 	void rotation::setRotation(const glm::vec3& _rotation) noexcept
 	{
-		m_rotation = _rotation;
+		if (m_rotation != _rotation)
+		{
+			m_rotation = _rotation;
+			m_is_need_update_rotation_matrix = true;
+		}
 	}
 
 

@@ -16,7 +16,11 @@ namespace engine::ecs::components
 
 	void position::setPosition(const glm::vec3& _position) noexcept
 	{
-		m_position = _position;
+		if (m_position != _position)
+		{
+			m_position = _position;
+			m_is_need_update_translate_matrix = true;
+		}
 	}
 
 
