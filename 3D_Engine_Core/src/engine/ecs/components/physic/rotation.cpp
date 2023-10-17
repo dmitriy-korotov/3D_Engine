@@ -54,6 +54,9 @@ namespace engine::ecs::components
 
 	bool rotation::putOnUI() noexcept
 	{
-		return Engine::getApplicationUIModule()->putSliderFloat3("Rotation", m_rotation, -360.f, 360.f);
+		bool is_clicked = Engine::getApplicationUIModule()->putSliderFloat3("Rotation", m_rotation, -360.f, 360.f);
+		if (is_clicked)
+			m_is_need_update_rotation_matrix = true;
+		return is_clicked;
 	}
 }

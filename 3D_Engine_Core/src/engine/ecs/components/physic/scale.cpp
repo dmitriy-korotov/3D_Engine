@@ -52,6 +52,9 @@ namespace engine::ecs::components
 
 	bool scale::putOnUI() noexcept
 	{
-		return Engine::getApplicationUIModule()->putSliderFloat3("Scale", m_scale, 0.1f, 10.f);
+		bool is_clicked = Engine::getApplicationUIModule()->putSliderFloat3("Scale", m_scale, 0.1f, 10.f);
+		if (is_clicked)
+			m_is_need_update_scale_matrix = true;
+		return is_clicked;
 	}
 }

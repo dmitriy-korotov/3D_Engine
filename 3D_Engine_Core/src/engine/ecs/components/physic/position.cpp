@@ -52,6 +52,9 @@ namespace engine::ecs::components
 
 	bool position::putOnUI() noexcept
 	{
-		return Engine::getApplicationUIModule()->putSliderFloat3("Position", m_position, -10.f, 10.f);
+		bool is_clicked = Engine::getApplicationUIModule()->putSliderFloat3("Position", m_position, -10.f, 10.f);
+		if (is_clicked)
+			m_is_need_update_translate_matrix = true;
+		return is_clicked;
 	}
 }
