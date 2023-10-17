@@ -130,10 +130,10 @@ namespace engine::ecs::systems
 			_rotate_component.rotateZ(-_rotate_velocity_component.getVelocity().z * _delta_time);
 		
 		if (keyboard::isKeyPressed(Key::KEY_KP_6))
-			_rotate_component.rotateX(_rotate_velocity_component.getVelocity().x * _delta_time);
+			_rotate_component.rotateX(-_rotate_velocity_component.getVelocity().x * _delta_time);
 
 		if (keyboard::isKeyPressed(Key::KEY_KP_4))
-			_rotate_component.rotateX(-_rotate_velocity_component.getVelocity().x * _delta_time);
+			_rotate_component.rotateX(_rotate_velocity_component.getVelocity().x * _delta_time);
 
 
 

@@ -1,14 +1,24 @@
 #include <engine/ecs/components/render/light/point_light.hpp>
 
+#include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/components/physic/position.hpp>
+
+#include <engine/Engine.hpp>
+
 
 
 namespace engine::ecs::components
 {
-	point_light::point_light(const glm::vec3& _position, const glm::vec3& _ambient,
-							 const glm::vec3& _diffuse, const glm::vec3& _specular) noexcept
-			: light(_ambient, _diffuse, _specular)
-			, position(_position)
-	{ }
+	glm::vec3 point_light::getPosition() const noexcept
+	{
+		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		if (position_comp == nullptr)
+		{
+			LOG_ERROR("[Point light component ERROR] Entity hasn't 'position' component");
+			return glm::vec3(0.f);
+		}
+		return position_comp->getPosition();
+	}
 
 
 
@@ -16,8 +26,14 @@ namespace engine::ecs::components
 	{
 		bool is_clicked = false;
 
-		is_clicked |= position::putOnUI();
 		is_clicked |= light::putOnUI();
+		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		if (position_comp != nullptr)
+		{
+			is_clicked |= position_comp->putOnUI();
+			return is_clicked;
+		}
+		LOG_WARN("[Point light component ERROR] Entity hasn't 'position' component");
 
 		return is_clicked;
 	}

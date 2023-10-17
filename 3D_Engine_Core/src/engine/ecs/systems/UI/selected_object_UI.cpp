@@ -39,9 +39,17 @@ namespace engine::ecs::systems
 
 
 
-		auto& transform_opt = owner->getComponent<transform>();
-		if (transform_opt.has_value())
-			transform_opt->lock()->putOnUI();
+		auto& position_opt = owner->getComponent<position>();
+		if (position_opt.has_value())
+			position_opt->lock()->putOnUI();
+
+		auto& rotation_opt = owner->getComponent<rotation>();
+		if (rotation_opt.has_value())
+			rotation_opt->lock()->putOnUI();
+
+		auto& scale_opt = owner->getComponent<scale>();
+		if (scale_opt.has_value())
+			scale_opt->lock()->putOnUI();
 
 		m_UI_module->separate();
 

@@ -22,6 +22,8 @@ namespace engine::ecs::components
 
 		const glm::vec3& getDirection() const noexcept;
 
+		bool putOnUI() noexcept;
+
 	protected:
 
 		glm::vec3 m_direction;

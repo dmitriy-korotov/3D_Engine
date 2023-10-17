@@ -9,22 +9,8 @@ namespace engine::ecs::components
 	direction_light::direction_light(const glm::vec3& _direction, const glm::vec3& _ambient,
 									 const glm::vec3& _diffuse, const glm::vec3& _specular) noexcept
 			: light(_ambient, _diffuse, _specular)
-			, m_direction(_direction)
+			, direction(_direction)
 	{ }
-
-
-
-	void direction_light::setDirection(const glm::vec3& _direction) noexcept
-	{
-		m_direction = _direction;
-	}
-
-
-
-	const glm::vec3& direction_light::getDirection() const noexcept
-	{
-		return m_direction;
-	}
 
 
 
@@ -33,7 +19,7 @@ namespace engine::ecs::components
 		bool is_clicked = false;
 
 		is_clicked |= light::putOnUI();
-		is_clicked |= Engine::getApplicationUIModule()->putSliderFloat3("Direction", m_direction, -1.f, 1.f);
+		is_clicked |= direction::putOnUI();
 
 		return is_clicked;
 	}
