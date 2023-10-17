@@ -38,7 +38,7 @@ namespace engine::ecs::systems
 
 			if (!opt_transform_comp.has_value() || !opt_move_comp.has_value() || !opt_vision_comp.has_value())
 			{
-				LOG_ERROR("[Move camera system ERROR] Active camera is not have heeded components");
+				LOG_ERROR("[Move camera system ERROR] Active camera is not have needed components");
 				return;
 			}
 
