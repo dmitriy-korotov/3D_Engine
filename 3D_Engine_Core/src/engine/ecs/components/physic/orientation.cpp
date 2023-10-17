@@ -15,14 +15,14 @@ namespace engine::ecs::components
 			, m_right(glm::normalize(_right))
 			, m_up(glm::normalize(glm::cross(m_forward, m_right)))
 	{ 
-		assert(glm::dot(m_forward, m_right) == 0.f);
+		assert(std::abs(glm::dot(m_forward, m_right)) < 1e-3);
 	}
 
 
 
 	void orientation::setOrientation(const glm::vec3& _forward, const glm::vec3& _right) noexcept
 	{
-		assert(glm::dot(_forward, _right) == 0.f);
+		assert(std::abs(glm::dot(m_forward, m_right)) < 1e-3);
 
 		m_forward = glm::normalize(_forward);
 		m_right = glm::normalize(_right);

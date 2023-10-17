@@ -74,6 +74,9 @@ namespace editor
 		ECS::instance().getComponentsManager()->addComponent<rotation>(camera);
 		ECS::instance().getComponentsManager()->addComponent<orientation>(camera);
 		ECS::instance().getComponentsManager()->addComponent<movement>(camera);
+		ECS::instance().getComponentsManager()->addComponent<movement_velocity>(camera);
+		ECS::instance().getComponentsManager()->addComponent<rotate>(camera);
+		ECS::instance().getComponentsManager()->addComponent<rotate_velocity>(camera);
 		ECS::instance().getComponentsManager()->addComponent<vision>(camera, Projection::Perspective);
 
 

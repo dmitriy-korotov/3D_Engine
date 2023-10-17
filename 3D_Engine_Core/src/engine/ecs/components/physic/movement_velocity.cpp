@@ -4,6 +4,12 @@
 
 namespace engine::ecs::components
 {
+	movement_velocity::movement_velocity(const glm::vec3& _movement_velocity) noexcept
+			: velocity(_movement_velocity)
+	{ }
+
+
+
 	void movement_velocity::setVelocityX(float _x_velocity) noexcept
 	{
 		m_velocity.x = _x_velocity;

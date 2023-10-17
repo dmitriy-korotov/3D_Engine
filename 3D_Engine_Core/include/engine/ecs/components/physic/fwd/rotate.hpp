@@ -1,6 +1,6 @@
 #pragma once
 
-namespace engine::ecs::copmponents
+namespace engine::ecs::components
 {
 	class rotate;
 }

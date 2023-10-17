@@ -4,6 +4,12 @@
 
 namespace engine::ecs::components
 {
+	rotate_velocity::rotate_velocity(const glm::vec3& _rotate_velocity) noexcept
+			: velocity(_rotate_velocity)
+	{ }
+
+
+
 	void rotate_velocity::setVelocityRoll(float _roll_velocity) noexcept
 	{
 		m_velocity.x = _roll_velocity;
