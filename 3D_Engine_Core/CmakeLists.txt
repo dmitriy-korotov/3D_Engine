@@ -241,6 +241,8 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic/fwd/direction.hpp
 		include/engine/ecs/components/physic/fwd/scale.hpp
 		include/engine/ecs/components/physic/fwd/velocity.hpp
+		include/engine/ecs/components/physic/fwd/movement_velocity.hpp
+		include/engine/ecs/components/physic/fwd/rotate_velocity.hpp
 		include/engine/ecs/components/physic/fwd/transform.hpp
 		include/engine/ecs/components/physic/fwd/camera_transform.hpp
 		include/engine/ecs/components/physic/fwd/vision.hpp
@@ -254,6 +256,8 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/physic/direction.hpp
 		include/engine/ecs/components/physic/scale.hpp
 		include/engine/ecs/components/physic/velocity.hpp
+		include/engine/ecs/components/physic/movement_velocity.hpp
+		include/engine/ecs/components/physic/rotate_velocity.hpp
 		include/engine/ecs/components/physic/transform.hpp
 		include/engine/ecs/components/physic/camera_transform.hpp
 		include/engine/ecs/components/physic/vision.hpp
@@ -414,6 +418,8 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/physic/direction.cpp
 		src/engine/ecs/components/physic/scale.cpp
 		src/engine/ecs/components/physic/velocity.cpp
+		src/engine/ecs/components/physic/movement_velocity.cpp
+		src/engine/ecs/components/physic/rotate_velocity.cpp
 		src/engine/ecs/components/physic/transform.cpp
 		src/engine/ecs/components/physic/camera_transform.cpp
 		src/engine/ecs/components/physic/vision.cpp

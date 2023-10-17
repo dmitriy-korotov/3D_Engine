@@ -14,6 +14,8 @@ namespace engine::ecs::components
 
 		static constexpr std::string_view component_name = "velocity";
 
+
+
 		velocity(const glm::vec3& _velocity = glm::vec3(0.005f)) noexcept;
 
 		void setVelocity(const glm::vec3& _velocity) noexcept;
@@ -21,7 +23,7 @@ namespace engine::ecs::components
 
 		bool putOnUI() noexcept override;
 
-	private:
+	protected:
 
 		glm::vec3 m_velocity;
 
