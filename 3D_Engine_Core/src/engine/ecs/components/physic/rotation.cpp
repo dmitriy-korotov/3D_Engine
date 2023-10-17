@@ -2,6 +2,8 @@
 
 #include <engine/Engine.hpp>
 
+#include <glm/ext/matrix_transform.hpp>
+
 
 
 namespace engine::ecs::components
@@ -22,6 +24,26 @@ namespace engine::ecs::components
 	const glm::vec3& rotation::getRotation() const noexcept
 	{
 		return m_rotation;
+	}
+
+
+
+	const glm::mat4& rotation::getRotationMatrix() const noexcept
+	{
+		if (m_is_need_update_rotation_matrix)
+			updateRotationMatrix();
+		return m_rotation_matrix;
+	}
+
+
+
+	void rotation::updateRotationMatrix() const noexcept
+	{
+		m_rotation_matrix = glm::rotate(glm::mat4(1.f), m_rotation.x, glm::vec3(1.f, 0.f, 0.f));
+		m_rotation_matrix = glm::rotate(m_rotation_matrix, m_rotation.y, glm::vec3(0.f, 1.f, 0.f));
+		m_rotation_matrix = glm::rotate(m_rotation_matrix, m_rotation.z, glm::vec3(0.f, 0.f, 1.f));
+
+		m_is_need_update_rotation_matrix = false;
 	}
 
 
