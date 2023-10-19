@@ -22,6 +22,7 @@ namespace engine::ecs::components
 
 		material(material_ptr _material) noexcept;
 
+		void setMaterial(material_ptr _material) noexcept;
 		const material_ptr& getMaterial() const noexcept;
 
 	private:

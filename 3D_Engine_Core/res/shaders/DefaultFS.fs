@@ -3,8 +3,6 @@
 in vec2 fTexCoord;
 in vec3 fNormal_eye;
 
-layout (binding = 0) uniform sampler2D inTexture;
-
 
 
 #include <DirectionLight.glsl>
@@ -14,13 +12,19 @@ layout (binding = 0) uniform sampler2D inTexture;
 
 struct Material
 {
-	sampler2D diffuse;
-	sampler2D specular;
+	bool hasDiffuseTexture;
+	sampler2D diffuse_map;
+	vec3 diffuse;
+
+	bool hasSpecularTexture;
+	sampler2D specular_map;
+	float specular;
 };
 
 
 
 uniform DirectionLight light;
+uniform Material material;
 
 
 
@@ -44,9 +48,16 @@ out vec4 frag_color;
 
 void main() {
 
+	vec3 color = material.diffuse;
+	if (material.hasDiffuseTexture)
+	{
+		color = texture(material.diffuse_map, fTexCoord).rgb;
+	}
+
+
 	vec3 normal = normalize(fNormal_eye);
 
-	vec3 direction_light = calcDirectionLights(light, normal);
+	vec3 direction_light = calcDirectionLights(light, normal, color);
 	
 	frag_color = vec4(direction_light, 1);
 }

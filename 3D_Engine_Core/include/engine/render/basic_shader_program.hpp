@@ -34,6 +34,7 @@ namespace engine::render
 		virtual void setVector4f(const std::string_view& _varieble_name, const glm::vec4& _vector) const noexcept = 0;
 		virtual void setInt(const std::string_view& _varieble_name, int _value) const noexcept = 0;
 		virtual void setFloat(const std::string_view& _varieble_name, float _value) const noexcept = 0;
+		virtual void setBool(const std::string_view& _varieble_name, bool _value) const noexcept = 0;
 
 	protected:
 

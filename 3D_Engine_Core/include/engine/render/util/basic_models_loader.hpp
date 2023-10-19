@@ -38,6 +38,7 @@ namespace engine::render::utility
 		material_ptr& getMaterial() noexcept;
 
 		bool isLoaded() const noexcept;
+		bool hasMaterial() const noexcept;
 
 	protected:
 
@@ -46,7 +47,7 @@ namespace engine::render::utility
 		path m_model_directory;
 
 		mesh_storage m_meshes;
-		material_ptr m_material;
+		material_ptr m_material = nullptr;
 
 	};
 }

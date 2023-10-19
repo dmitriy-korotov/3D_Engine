@@ -127,7 +127,8 @@ namespace engine::render::utility
 		loadMaterialTextures(_material, aiTextureType_HEIGHT, textures);
 		loadMaterialTextures(_material, aiTextureType_AMBIENT, textures);
 
-		m_material = std::make_shared<material>(std::move(textures));
+		if (!textures.empty())
+			m_material = std::make_shared<material>(std::move(textures));
 	}
 
 

@@ -202,4 +202,11 @@ namespace engine::render::open_gl
 	{
 		glUniform1f(glGetUniformLocation(m_id, _varieble_name.data()), _value);
 	}
+
+
+
+	void shader_program::setBool(const std::string_view& _varieble_name, bool _value) const noexcept
+	{
+		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _value);
+	}
 }

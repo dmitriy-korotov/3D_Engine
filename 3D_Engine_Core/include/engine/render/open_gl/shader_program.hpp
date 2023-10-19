@@ -27,6 +27,7 @@ namespace engine::render::open_gl
 		void setVector4f(const std::string_view& _varieble_name, const glm::vec4& _vector) const noexcept override;
 		void setInt(const std::string_view& _varieble_name, int _value) const noexcept override;
 		void setFloat(const std::string_view& _varieble_name, float _value) const noexcept override;
+		void setBool(const std::string_view& _varieble_name, bool _value) const noexcept override;
 
 		void bind() const noexcept override;
 		void unbind() const noexcept override;

@@ -9,12 +9,12 @@ struct DirectionLight
 
 
 
-vec3 calcDirectionLights(DirectionLight _light, vec3 _normal)
+vec3 calcDirectionLights(DirectionLight _light, vec3 _normal, vec3 _color)
 {
-	vec3 ambient = _light.ambient * texture(inTexture, fTexCoord).rgb;
+	vec3 ambient = _light.ambient * _color;
 	
-	float diff = max(dot(normalize(_light.direction), _normal), 0);
-	vec3 diffuse = _light.diffuse * diff * texture(inTexture, fTexCoord).rgb;
+	float diff = max(dot(_light.direction, _normal), 0);
+	vec3 diffuse = _light.diffuse * diff * _color;
 
 	// need specular
 

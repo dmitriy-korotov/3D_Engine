@@ -22,4 +22,11 @@ namespace engine::render::utility
 	{
 		return m_is_loaded;
 	}
+
+
+
+	bool basic_models_loader::hasMaterial() const noexcept
+	{
+		return m_material != nullptr;
+	}
 }

@@ -8,5 +8,9 @@
 
     "renderer_impl"             : "OpenGL",
 
-    "UI_module_impl"            : "ImGui"
+    "UI_module_impl"            : "ImGui",
+
+    "shaders_directories"       : [
+                                    "C:/Users/User/MyProjects/3D_Engine/res/shaders/"
+                                  ]
 }

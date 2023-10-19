@@ -76,6 +76,20 @@ namespace engine::ecs::systems
 				const auto& direction_light_comp = *ECS::instance().getComponentsManager()->getComponents<direction_light>()->first;
 
 
+				
+				auto opt_material_comp = current_ent->getComponent<material>();
+				if (opt_material_comp.has_value() && opt_material_comp->lock()->isActive())
+				{
+
+				}
+				else
+				{
+					auto opt_color_comp = current_ent->getComponent<color>();
+					if (opt_color_comp.has_value())
+						shader_program->setVector3f("material.diffuse", opt_color_comp->lock()->getColor());
+					shader_program->setBool("material.hasDiffuseTexture", false);
+				}
+
 
 				shader_program->setVector3f("light.direction", direction_light_comp->getDirection());
 				shader_program->setVector3f("light.ambient", direction_light_comp->getAmbient());
@@ -85,13 +99,14 @@ namespace engine::ecs::systems
 
 
 				auto mesh_comp = current_ent->getComponent<mesh>();
-				auto material_comp = current_ent->getComponent<material>().value().lock();
+				
+				
+
+
 				if (mesh_comp.has_value())
 				{
 					for (const auto& mesh : mesh_comp->lock()->getMeshes())
-					{
-						Engine::getApplicationRenderer()->draw(*shader_program, *mesh, *material_comp->getMaterial(), renderable_comp->getDrawingMode());
-					}
+						Engine::getApplicationRenderer()->draw(*shader_program, *mesh, renderable_comp->getDrawingMode());
 				}
 			}
 		}
