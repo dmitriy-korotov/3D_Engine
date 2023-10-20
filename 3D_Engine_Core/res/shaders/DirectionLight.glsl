@@ -9,7 +9,7 @@ struct DirectionLight
 
 
 
-vec3 calcDirectionLights(DirectionLight _light, vec3 _normal, vec3 _color)
+vec3 calcDirectionLight(DirectionLight _light, vec3 _normal, vec3 _color)
 {
 	vec3 ambient = _light.ambient * _color;
 	

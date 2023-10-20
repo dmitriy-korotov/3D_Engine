@@ -10,9 +10,13 @@ uniform mat3 normal_matrix;
 
 out vec2 fTexCoord;
 out vec3 fNormal_eye;
+out vec3 fPosition_eye;
 
 void main() {
 	fNormal_eye = normal_matrix * vertex_normal;
 	fTexCoord = tex_coord;
+
+	fPosition_eye = (model_view_matrix * vec4(vertex_position, 1.0)).xyz;
+
 	gl_Position = mvp_matrix * vec4(vertex_position, 1.0);
 }

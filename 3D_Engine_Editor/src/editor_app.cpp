@@ -95,7 +95,7 @@ namespace editor
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj";
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
-		entity_id ball = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_ball, shader_program);
+		entity_id ball = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, shader_program);
 
 		entity_id cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, unlit_shader_program);
 		

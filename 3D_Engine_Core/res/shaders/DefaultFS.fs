@@ -2,6 +2,7 @@
 
 in vec2 fTexCoord;
 in vec3 fNormal_eye;
+in vec3 fPosition_eye;
 
 
 
@@ -43,6 +44,8 @@ struct SceneLight
 };
 
 
+uniform SceneLight scene_light;
+
 
 out vec4 frag_color;
 
@@ -57,7 +60,11 @@ void main() {
 
 	vec3 normal = normalize(fNormal_eye);
 
-	vec3 direction_light = calcDirectionLights(light, normal, color);
+	vec3 direction_light = calcDirectionLight(light, normal, color);
+
+	vec3 point_lights = vec3(0, 0, 0);
+	for (int i = 0; i < scene_light.point_lights_amount; i++)
+		point_lights += calcPointLight(scene_light.point_lights[i], normal, fPosition_eye, color);
 	
 	frag_color = vec4(direction_light, 1);
 }
