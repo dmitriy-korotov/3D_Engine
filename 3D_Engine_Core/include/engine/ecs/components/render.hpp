@@ -8,3 +8,4 @@
 #include <engine/ecs/components/render/light/light.hpp>
 #include <engine/ecs/components/render/light/direction_light.hpp>
 #include <engine/ecs/components/render/light/point_light.hpp>
+#include <engine/ecs/components/render/light/light_attenuation.hpp>
