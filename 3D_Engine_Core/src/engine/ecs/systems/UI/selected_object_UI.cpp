@@ -51,6 +51,10 @@ namespace engine::ecs::systems
 		if (scale_opt.has_value())
 			scale_opt->lock()->putOnUI();
 
+		auto& point_light_opt = owner->getComponent<point_light>();
+		if (point_light_opt.has_value())
+			point_light_opt->lock()->putOnUI();
+
 		m_UI_module->separate();
 
 		auto& renderable_opt = owner->getComponent<renderable>();

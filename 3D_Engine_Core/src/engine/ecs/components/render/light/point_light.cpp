@@ -27,13 +27,7 @@ namespace engine::ecs::components
 		bool is_clicked = false;
 
 		is_clicked |= light::putOnUI();
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
-		if (position_comp != nullptr)
-		{
-			is_clicked |= position_comp->putOnUI();
-			return is_clicked;
-		}
-		LOG_WARN("[Point light component ERROR] Entity hasn't 'position' component");
+		is_clicked |= light_attenuation::putOnUI();
 
 		return is_clicked;
 	}

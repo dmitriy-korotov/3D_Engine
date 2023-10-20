@@ -66,5 +66,5 @@ void main() {
 	for (int i = 0; i < scene_light.point_lights_amount; i++)
 		point_lights += calcPointLight(scene_light.point_lights[i], normal, fPosition_eye, color);
 	
-	frag_color = vec4(direction_light, 1);
+	frag_color = vec4(direction_light + point_lights, 1);
 }

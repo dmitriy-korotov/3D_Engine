@@ -92,7 +92,22 @@ namespace engine::ecs::systems
 					shader_program->setBool("material.hasDiffuseTexture", false);
 				}
 
+
+
+				auto point_light_comp = ECS::instance().getComponentsManager()->getComponent<point_light>();
+
+				shader_program->setVector3f("scene_light.point_lights[0].position", point_light_comp->getPosition());
+				shader_program->setVector3f("scene_light.point_lights[0].ambient", point_light_comp->getAmbient());
+				shader_program->setVector3f("scene_light.point_lights[0].diffuse", point_light_comp->getDiffuse());
+				shader_program->setVector3f("scene_light.point_lights[0].specular", point_light_comp->getSpecular());
+
+				shader_program->setFloat("scene_light.point_lights[0].constant", point_light_comp->getConstant());
+				shader_program->setFloat("scene_light.point_lights[0].linear", point_light_comp->getLinear());
+				shader_program->setFloat("scene_light.point_lights[0].quadratic", point_light_comp->getQuadratic());
+
+				shader_program->setInt("scene_light.point_lights_amount", 1);
 				
+
 
 				shader_program->setVector3f("light.direction", direction_light_comp->getDirection());
 				shader_program->setVector3f("light.ambient", direction_light_comp->getAmbient());

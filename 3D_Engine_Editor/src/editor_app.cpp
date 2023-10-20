@@ -98,6 +98,8 @@ namespace editor
 		entity_id ball = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, shader_program);
 
 		entity_id cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, unlit_shader_program);
+
+		ECS::instance().getComponentsManager()->addComponent<point_light>(cube);
 		
 		ECS::instance().getComponentsManager()->addComponent<selected>(cube);
 
