@@ -4,6 +4,8 @@
 
 #include <engine/render/util/shader_preprocessor.hpp>
 
+#include <engine/render/basic_texture2D.hpp>
+
 #include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>
@@ -208,5 +210,15 @@ namespace engine::render::open_gl
 	void shader_program::setBool(const std::string_view& _varieble_name, bool _value) const noexcept
 	{
 		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _value);
+	}
+
+
+
+	void shader_program::setSampler2D(const std::string_view& _varieble_name, const basic_texture2D& _sampler2D, uint16_t _unit) const noexcept
+	{
+		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _unit);
+
+
+		_sampler2D.bind(_unit);
 	}
 }

@@ -6,23 +6,17 @@
 
 namespace engine::render
 {
-	material::material(texture_storage _textures) noexcept
+	material::material(texture_map _textures) noexcept
 			: m_textures(std::move(_textures))
 	{ }
 
 
 
-	void material::use() const noexcept
+	material::texture_ptr material::getTexture(TextureMap _texture_map_type) const noexcept
 	{
-		size_t unit = 0;
-		for (const auto& texture : m_textures)
-		{
-			texture->bind(unit++);
-		}
+		auto texture = m_textures.find(_texture_map_type);
+		if (texture != m_textures.end())
+			return texture->second;
+		return nullptr;
 	}
-
-
-
-	void material::unuse() const noexcept
-	{ }
 }

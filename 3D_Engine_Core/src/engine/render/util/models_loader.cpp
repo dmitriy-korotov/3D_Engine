@@ -16,6 +16,22 @@
 
 namespace engine::render::utility
 {
+	static constexpr TextureMap toTextureMap(aiTextureType _texture_type) noexcept
+	{
+		switch (_texture_type)
+		{
+		case aiTextureType_DIFFUSE:				return TextureMap::Diffuse;
+		case aiTextureType_SPECULAR:			return TextureMap::Specular;
+		case aiTextureType_AMBIENT:				return TextureMap::Ambient;
+		case aiTextureType_NORMALS:				return TextureMap::Normal;
+		}
+		return TextureMap::Unknown;
+	}
+
+
+
+
+
 	void models_loader::load(const path& _path_to_model) noexcept
 	{
 		Assimp::Importer importer;
@@ -120,7 +136,7 @@ namespace engine::render::utility
 
 	void models_loader::prossesMaterial(aiMaterial* _material) noexcept
 	{
-		texture_storage textures;
+		texture_map textures;
 
 		loadMaterialTextures(_material, aiTextureType_DIFFUSE, textures);
 		loadMaterialTextures(_material, aiTextureType_SPECULAR, textures);
@@ -133,7 +149,7 @@ namespace engine::render::utility
 
 
 
-	void models_loader::loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, texture_storage& _textures) noexcept
+	void models_loader::loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, texture_map& _textures) noexcept
 	{
 		for (size_t i = 0; i < _material->GetTextureCount(_texture_type); i++)
 		{
@@ -143,7 +159,7 @@ namespace engine::render::utility
 			auto finded_texture = m_cached_textures.find(path_to_texture.C_Str());
 			if (finded_texture != m_cached_textures.end())
 			{
-				_textures.push_back(finded_texture->second);
+				_textures.emplace(toTextureMap(_texture_type), finded_texture->second);
 				continue;
 			}
 
@@ -152,7 +168,7 @@ namespace engine::render::utility
 			texture->setData(img.getData(), img.getWidth(), img.getHeight());
 
 			m_cached_textures.emplace(path_to_texture.C_Str(), texture);
-			_textures.emplace_back(std::move(texture));
+			_textures.emplace(toTextureMap(_texture_type), std::move(texture));
 		}
 	}
 }

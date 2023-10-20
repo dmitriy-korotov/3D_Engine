@@ -27,7 +27,7 @@ namespace engine::render::utility
 		void processNode(aiNode* _node, const aiScene* _scene) noexcept;
 		void prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept;
 		void prossesMaterial(aiMaterial* _material) noexcept;
-		void loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, texture_storage& _textures) noexcept;
+		void loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, texture_map& _textures) noexcept;
 
 	private:
 

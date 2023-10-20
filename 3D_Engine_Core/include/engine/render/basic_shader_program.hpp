@@ -3,6 +3,8 @@
 #include <engine/util/nocopyeble.hpp>
 #include <engine/interfaces/binded_object.hpp>
 
+#include <engine/render/fwd/basic_texture2D.hpp>
+
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/vector_float3.hpp>
 
@@ -35,6 +37,7 @@ namespace engine::render
 		virtual void setInt(const std::string_view& _varieble_name, int _value) const noexcept = 0;
 		virtual void setFloat(const std::string_view& _varieble_name, float _value) const noexcept = 0;
 		virtual void setBool(const std::string_view& _varieble_name, bool _value) const noexcept = 0;
+		virtual void setSampler2D(const std::string_view& _varieble_name, const basic_texture2D& _sampler2D, uint16_t _unit) const noexcept = 0;
 
 	protected:
 

@@ -3,9 +3,10 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/render/fwd/basic_texture2D.hpp>
-#include <engine/render/fwd/basic_material.hpp>
+#include <engine/render/fwd/material.hpp>
 #include <engine/render/fwd/basic_mesh.hpp>
 
+#include <map>
 #include <vector>
 #include <memory>
 #include <unordered_map>
@@ -22,10 +23,10 @@ namespace engine::render::utility
 	public:
 
 		using mesh_ptr = std::shared_ptr<render::basic_mesh>;
-		using material_ptr = std::shared_ptr<render::basic_material>;
+		using material_ptr = std::shared_ptr<render::material>;
 		using texture_ptr = std::shared_ptr<basic_texture2D>;
 		using mesh_storage = std::vector<mesh_ptr>;
-		using texture_storage = std::vector<texture_ptr>;
+		using texture_map = std::map<TextureMap, texture_ptr>;
 
 
 

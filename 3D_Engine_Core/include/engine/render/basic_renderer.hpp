@@ -7,7 +7,7 @@
 
 #include <engine/render/fwd/basic_shader_program.hpp>
 #include <engine/render/fwd/basic_mesh.hpp>
-#include <engine/render/fwd/basic_material.hpp>
+#include <engine/render/fwd/material.hpp>
 
 #include <string>
 #include <vector>
@@ -17,7 +17,7 @@
 namespace engine::render
 {
 	using engine::render::basic_mesh;
-	using engine::render::basic_material;
+	using engine::render::material;
 
 	class basic_renderer: private util::nocopyeble
 	{
@@ -28,8 +28,6 @@ namespace engine::render
 
 		virtual bool init(window::WindowImpl _window_impl) noexcept = 0;
 
-		virtual void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
-						  const basic_material& _material, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept = 0;
 		virtual void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
 						  DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept = 0;
 

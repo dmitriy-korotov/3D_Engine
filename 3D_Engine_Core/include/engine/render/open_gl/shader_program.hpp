@@ -28,6 +28,7 @@ namespace engine::render::open_gl
 		void setInt(const std::string_view& _varieble_name, int _value) const noexcept override;
 		void setFloat(const std::string_view& _varieble_name, float _value) const noexcept override;
 		void setBool(const std::string_view& _varieble_name, bool _value) const noexcept override;
+		void setSampler2D(const std::string_view& _varieble_name, const basic_texture2D& _sampler2D, uint16_t _unit) const noexcept override;
 
 		void bind() const noexcept override;
 		void unbind() const noexcept override;

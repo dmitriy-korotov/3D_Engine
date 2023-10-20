@@ -9,6 +9,7 @@
 #include <engine/Engine.hpp>
 
 #include <engine/render/basic_shader_program.hpp>
+#include <engine/render/material.hpp>
 
 #include <engine/application_settings.hpp>
 
@@ -77,10 +78,11 @@ namespace engine::ecs::systems
 
 
 				
-				auto opt_material_comp = current_ent->getComponent<material>();
+				auto opt_material_comp = current_ent->getComponent<engine::ecs::components::material>();
 				if (opt_material_comp.has_value() && opt_material_comp->lock()->isActive())
 				{
-
+					shader_program->setSampler2D("material.diffuse_map", *opt_material_comp->lock()->getMaterial()->getTexture(TextureMap::Diffuse), 0);
+					shader_program->setBool("material.hasDiffuseTexture", true);
 				}
 				else
 				{
@@ -90,6 +92,7 @@ namespace engine::ecs::systems
 					shader_program->setBool("material.hasDiffuseTexture", false);
 				}
 
+				
 
 				shader_program->setVector3f("light.direction", direction_light_comp->getDirection());
 				shader_program->setVector3f("light.ambient", direction_light_comp->getAmbient());

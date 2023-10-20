@@ -19,8 +19,6 @@ namespace engine::render::open_gl
 		bool init(window::WindowImpl _window_impl) noexcept override;
 
 		void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
-				  const basic_material& _material, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept override;
-		void draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
 				  DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept override;
 
 		void enableDepthTest() noexcept override;

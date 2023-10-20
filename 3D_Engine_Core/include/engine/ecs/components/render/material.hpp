@@ -2,7 +2,7 @@
 
 #include <engine/ecs/components/basic_component.hpp>
 
-#include <engine/render/fwd/basic_material.hpp>
+#include <engine/render/fwd/material.hpp>
 
 #include <memory>
 
@@ -18,7 +18,7 @@ namespace engine::ecs::components
 
 
 
-		using material_ptr = std::shared_ptr<render::basic_material>;
+		using material_ptr = std::shared_ptr<render::material>;
 
 		material(material_ptr _material) noexcept;
 

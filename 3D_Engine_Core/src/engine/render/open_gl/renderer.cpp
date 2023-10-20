@@ -4,7 +4,7 @@
 
 #include <engine/render/basic_shader_program.hpp>
 #include <engine/render/basic_mesh.hpp>
-#include <engine/render/basic_material.hpp>
+#include <engine/render/material.hpp>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -170,17 +170,6 @@ namespace engine::render::open_gl
 					break;
 				}
 			}, nullptr);
-	}
-
-
-
-	void renderer::draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh,
-						const basic_material& _material, DrawingMode _drawing_mode) noexcept
-	{
-		_shader_program.bind();
-		_material.use();
-		_mesh.use();
-		glDrawElements(drawing_mode_to_GLenum(_drawing_mode), _mesh.getIndexesCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
 

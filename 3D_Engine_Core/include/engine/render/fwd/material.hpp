@@ -1,6 +1,12 @@
 #pragma once
 
-namespace engine::render::materials::open_gl
+#include <cstdint>
+
+
+
+namespace engine::render
 {
+	enum class TextureMap : uint8_t;
+
 	class material;
 }

@@ -123,7 +123,6 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/fwd/texture_parametrs.hpp
 		include/engine/render/fwd/basic_shader_program.hpp
 		include/engine/render/fwd/basic_renderer.hpp
-		include/engine/render/fwd/basic_material.hpp
 		include/engine/render/fwd/material.hpp
 		include/engine/render/fwd/basic_mesh.hpp
 		include/engine/render/fwd/shaders_manager.hpp
@@ -135,7 +134,6 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/texture_parametrs.hpp
 		include/engine/render/basic_shader_program.hpp
 		include/engine/render/basic_renderer.hpp
-		include/engine/render/basic_material.hpp
 		include/engine/render/material.hpp
 		include/engine/render/basic_mesh.hpp
 		include/engine/render/shaders_manager.hpp
