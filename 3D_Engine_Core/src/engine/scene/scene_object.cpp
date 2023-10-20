@@ -10,8 +10,8 @@ using namespace engine::ecs::components;
 
 namespace engine::scene
 {
-	scene_object::scene_object() noexcept
+	scene_object::scene_object(const glm::vec3& _position) noexcept
 	{
-		addComponent<position>();
+		addComponent<position>(_position);
 	}
 }

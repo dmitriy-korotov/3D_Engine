@@ -25,6 +25,8 @@
 #include <engine/render/shaders_manager.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
 
+#include <engine/scene/objects/camera.hpp>
+
 #include <engine/Engine.hpp>
 
 
@@ -40,6 +42,7 @@ using namespace engine::window;
 using namespace engine::util;
 using namespace engine::modules;
 using namespace engine::input;
+using namespace engine::scene;
 
 namespace editor
 {
@@ -65,20 +68,9 @@ namespace editor
 		ECS::instance().getComponentsManager()->addComponent<direction_light>(light);
 
 
-		entity_id camera = ECS::instance().getEntitiesManager()->createEntity<basic_entity>();
+		entity_id camera_id = ECS::instance().getEntitiesManager()->createEntity<camera>(glm::vec3(-5.f, 0.f, 0.f));
 
-		ECS::instance().getComponentsManager()->addComponent<active_camera>(camera);
-		ECS::instance().getComponentsManager()->addComponent<camera_transform>(camera);
-		ECS::instance().getComponentsManager()->addComponent<velocity>(camera, glm::vec3(0.05f));
-		ECS::instance().getComponentsManager()->addComponent<position>(camera, glm::vec3(-5.f, 0.f, 0.f));
-		ECS::instance().getComponentsManager()->addComponent<rotation>(camera);
-		ECS::instance().getComponentsManager()->addComponent<orientation>(camera);
-		ECS::instance().getComponentsManager()->addComponent<movement>(camera);
-		ECS::instance().getComponentsManager()->addComponent<movement_velocity>(camera);
-		ECS::instance().getComponentsManager()->addComponent<rotate>(camera);
-		ECS::instance().getComponentsManager()->addComponent<rotate_velocity>(camera);
-		ECS::instance().getComponentsManager()->addComponent<vision>(camera, Projection::Perspective);
-
+		ECS::instance().getComponentsManager()->addComponent<active_camera>(camera_id);
 
 
 

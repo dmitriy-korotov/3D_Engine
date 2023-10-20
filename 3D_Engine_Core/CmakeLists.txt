@@ -109,6 +109,13 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 
+		include/engine/scene/objects/fwd.hpp
+		include/engine/scene/objects/fwd/camera.hpp
+
+		include/engine/scene/objects/camera.hpp
+
+
+
 		include/engine/render/fwd.hpp
 		include/engine/render/fwd/application_renderer.hpp
 		include/engine/render/fwd/frustum.hpp
@@ -344,6 +351,10 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/scene/scene_object.cpp
 		src/engine/scene/renderable_scene_object.cpp
+
+
+
+		src/engine/scene/objects/camera.cpp
 
 
 

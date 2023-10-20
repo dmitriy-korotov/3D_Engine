@@ -2,6 +2,8 @@
 
 #include <engine/ecs/entities/basic_entity.hpp>
 
+#include <glm/vec3.hpp>
+
 
 
 namespace engine::scene
@@ -10,7 +12,7 @@ namespace engine::scene
 	{
 	public:
 
-		scene_object() noexcept;
+		scene_object(const glm::vec3& _position = glm::vec3(0.f)) noexcept;
 
 	};
 }

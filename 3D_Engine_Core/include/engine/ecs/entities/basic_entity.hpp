@@ -64,7 +64,7 @@ namespace engine::ecs::entities
 	template <typename ComponentType, typename ...Args>
 	void basic_entity::addComponent(Args&&... _args) noexcept
 	{
-		auto& components_manager = ECS::instance().getComponentsManager();
+		const auto& components_manager = ECS::instance().getComponentsManager();
 		component_ptr<ComponentType> component = components_manager->addComponentNotConstructedEntity<ComponentType>(m_id, std::forward<Args>(_args)...);
 		addComponent(std::move(component));
 	}
