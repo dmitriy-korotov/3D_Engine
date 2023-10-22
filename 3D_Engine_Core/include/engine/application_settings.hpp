@@ -43,14 +43,11 @@ namespace engine
 		void setWidth(uint16_t _width) noexcept;
 		void setHeight(uint16_t _height) noexcept;
 		void setTitle(std::string _title) noexcept;
+		void setOpenMode(OpenMode _open_mode) noexcept;
 		void setWindowImpl(WindowImpl _window_impl) noexcept;
 		void setRendererImpl(RendererImpl _renderer_impl) noexcept;
 		void setUIModuleImpl(UIModuleImpl _UI_module_impl) noexcept;
-		void setOpenMode(OpenMode _open_mode) noexcept;
 		void setPathToWindowIcon(path _path_to_window_icon) noexcept;
-
-		void enableFullScreenMode() noexcept;
-		void disableFullScreenMode() noexcept;
 
 	protected:
 

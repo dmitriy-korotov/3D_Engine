@@ -103,6 +103,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/scene/fwd/scene_object.hpp
 		include/engine/scene/fwd/renderable_scene_object.hpp
 
+		include/engine/scene/common_types.hpp
 		include/engine/scene/world_data.hpp
 		include/engine/scene/scene_object.hpp
 		include/engine/scene/renderable_scene_object.hpp
@@ -110,8 +111,10 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 		include/engine/scene/objects/fwd.hpp
+		include/engine/scene/objects/fwd/basic_object_builder.hpp
 		include/engine/scene/objects/fwd/camera.hpp
 
+		include/engine/scene/objects/basic_object_builder.hpp
 		include/engine/scene/objects/camera.hpp
 
 
@@ -356,6 +359,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 
+		src/engine/scene/objects/basic_object_builder.cpp
 		src/engine/scene/objects/camera.cpp
 
 

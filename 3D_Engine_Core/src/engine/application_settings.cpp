@@ -89,6 +89,13 @@ namespace engine
 
 
 
+	void application_settings::setOpenMode(OpenMode _open_mode) noexcept
+	{
+		m_open_mode = _open_mode;
+	}
+
+
+
 	void application_settings::setWindowImpl(WindowImpl _window_impl) noexcept
 	{
 		m_window_impl = _window_impl;
@@ -110,29 +117,8 @@ namespace engine
 
 
 
-	void application_settings::setOpenMode(OpenMode _open_mode) noexcept
-	{
-		m_open_mode = _open_mode;
-	}
-
-
-
 	void application_settings::setPathToWindowIcon(path _path_to_window_icon) noexcept
 	{
 		m_path_to_window_icon = std::move(_path_to_window_icon);
-	}
-
-
-
-	void application_settings::enableFullScreenMode() noexcept
-	{
-		m_open_mode = OpenMode::FullScreen;
-	}
-
-
-
-	void application_settings::disableFullScreenMode() noexcept
-	{
-		m_open_mode = OpenMode::InWindow;
 	}
 }
