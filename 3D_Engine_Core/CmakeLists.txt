@@ -100,10 +100,12 @@ set(ENGINE_PRIVATE_HEADERS
 
 
 		include/engine/scene/fwd.hpp
+		include/engine/scene/fwd/Scene.hpp
 		include/engine/scene/fwd/scene_object.hpp
 		include/engine/scene/fwd/renderable_scene_object.hpp
 
 		include/engine/scene/common_types.hpp
+		include/engine/scene/Scene.hpp
 		include/engine/scene/world_data.hpp
 		include/engine/scene/scene_object.hpp
 		include/engine/scene/renderable_scene_object.hpp
@@ -125,6 +127,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/fwd/basic_texture2D.hpp
 		include/engine/render/fwd/texture_parametrs.hpp
 		include/engine/render/fwd/basic_shader_program.hpp
+		include/engine/render/fwd/basic_shader_programs_creator.hpp
 		include/engine/render/fwd/basic_renderer.hpp
 		include/engine/render/fwd/material.hpp
 		include/engine/render/fwd/basic_mesh.hpp
@@ -136,6 +139,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/basic_texture2D.hpp
 		include/engine/render/texture_parametrs.hpp
 		include/engine/render/basic_shader_program.hpp
+		include/engine/render/basic_shader_programs_creator.hpp
 		include/engine/render/basic_renderer.hpp
 		include/engine/render/material.hpp
 		include/engine/render/basic_mesh.hpp
@@ -354,6 +358,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 
+		src/engine/scene/Scene.cpp
 		src/engine/scene/scene_object.cpp
 		src/engine/scene/renderable_scene_object.cpp
 
