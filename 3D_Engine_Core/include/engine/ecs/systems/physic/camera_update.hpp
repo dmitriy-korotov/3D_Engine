@@ -19,6 +19,8 @@ namespace engine::ecs::systems
 	{
 	public:
 
+		static constexpr std::string_view system_name = "camera_update";
+
 		void update(float _delta_time) const noexcept override;
 
 	private:

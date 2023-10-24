@@ -10,9 +10,9 @@ namespace engine::ecs::systems
 	{
 		for (const auto& system : m_systems)
 		{
-			system.second->preUpdate(_delta_time);
-			system.second->update(_delta_time);
-			system.second->postUpdate(_delta_time);
+			system.second.second->preUpdate(_delta_time);
+			system.second.second->update(_delta_time);
+			system.second.second->postUpdate(_delta_time);
 		}
 	}
 

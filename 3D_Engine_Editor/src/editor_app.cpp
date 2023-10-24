@@ -82,10 +82,6 @@ namespace editor
 
 
 
-
-
-
-
 		auto shader_program = std::make_shared<open_gl::shader_program>(vs_reader_2.getData(), std::move(fs_reader_2.getData()));
 		auto unlit_shader_program = std::make_shared<open_gl::shader_program>(vs_reader_2.getData(), std::move(fs_reader_3.getData()));
 		

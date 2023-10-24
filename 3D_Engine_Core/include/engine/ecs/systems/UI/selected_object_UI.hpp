@@ -14,7 +14,11 @@ namespace engine::ecs::systems
 	{
 	public:
 
-		using UIModule_ptr = std::shared_ptr<modules::ui::basic_UIModule>;
+		static constexpr std::string_view system_name = "selected_object_UI";
+
+
+
+		using UIModule_ptr_t = std::shared_ptr<modules::ui::basic_UIModule>;
 
 		selected_object_UI() noexcept;
 
@@ -24,7 +28,7 @@ namespace engine::ecs::systems
 
 	private:
 
-		const UIModule_ptr& m_UI_module;
+		const UIModule_ptr_t& m_UI_module;
 
 	};
 }

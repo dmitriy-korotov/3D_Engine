@@ -13,6 +13,8 @@ namespace engine::ecs::systems
 	{
 	public:
 
+		static constexpr std::string_view system_name = "scene_UI";
+
 		void update(float _delta_time) const noexcept;
 		void postUpdate(float _delta_time) const noexcept;
 
