@@ -6,5 +6,5 @@
 
 namespace engine::scene
 {
-	using object_id_t = engine::ecs::entities::entity_id;
+	using object_id_t = engine::ecs::entities::entity_id_t;
 }

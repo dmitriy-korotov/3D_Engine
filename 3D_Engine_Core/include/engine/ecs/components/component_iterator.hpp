@@ -20,7 +20,7 @@ namespace engine::ecs::components
 		using component_ptr = std::shared_ptr<T>;
 
 		template <typename T>
-		using map_component_iterator = typename std::unordered_map<entities::entity_id, component_ptr<T>>::const_iterator;
+		using map_component_iterator = typename std::unordered_map<entities::entity_id_t, component_ptr<T>>::const_iterator;
 
 
 		component_iterator(map_component_iterator<basic_component> _map_iterator) noexcept;

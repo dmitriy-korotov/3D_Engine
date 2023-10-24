@@ -39,28 +39,28 @@ namespace engine::ecs::components
 
 
 
-	entities::entity_id basic_component::getOwner() const noexcept
+	entities::entity_id_t basic_component::getOwner() const noexcept
 	{
 		return m_owner;
 	}
 
 
 
-	component_id basic_component::getID() const noexcept
+	component_id_t basic_component::getID() const noexcept
 	{
 		return m_id;
 	}
 
 
 
-	void basic_component::setOwner(entities::entity_id _entity_id) noexcept
+	void basic_component::setOwner(entities::entity_id_t _entity_id) noexcept
 	{
 		m_owner = _entity_id;
 	}
 
 
 
-	component_id basic_component::generateComponentID() noexcept
+	component_id_t basic_component::generateComponentID() noexcept
 	{
 		return ++m_next_component_id;
 	}

@@ -1,8 +1,10 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
 #include <engine/ecs/ecs.hpp>
 
-#include <engine/util/nocopyeble.hpp>
+#include <engine/ecs/components/fwd/components_manager.hpp>
 
 #include <string>
 
@@ -10,31 +12,32 @@
 
 namespace engine::ecs::components
 {
-	class components_manager;
-
 	class basic_component: private util::nocopyeble
 	{
 	public:
 
 		friend components_manager;
 
-		basic_component() noexcept;
 		virtual ~basic_component() = default;
 
 		bool isActive() const noexcept;
 		void enable() noexcept;
 		void disable() noexcept;
 
-		entities::entity_id getOwner() const noexcept;
-		component_id getID() const noexcept;
+		entities::entity_id_t getOwner() const noexcept;
+		component_id_t getID() const noexcept;
 
 		virtual bool putOnUI() noexcept;
 
+	protected:
+
+		basic_component() noexcept;
+
 	private:
 
-		void setOwner(entities::entity_id _entity_id) noexcept;
+		void setOwner(entities::entity_id_t _entity_id) noexcept;
 		
-		static component_id generateComponentID() noexcept;
+		static component_id_t generateComponentID() noexcept;
 
 	private:
 
@@ -43,8 +46,8 @@ namespace engine::ecs::components
 	private:
 
 		bool m_is_active = true;
-		entities::entity_id m_owner = entities::INVALID_ENTITY_ID;
-		component_id m_id = INVALID_COMPONENT_ID;
+		entities::entity_id_t m_owner = entities::INVALID_ENTITY_ID;
+		component_id_t m_id = INVALID_COMPONENT_ID;
 
 	};
 }

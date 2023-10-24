@@ -311,6 +311,9 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		include/engine/ecs/systems/basic_system.hpp
 		include/engine/ecs/systems/systems_manager.hpp
+		include/engine/ecs/systems/render.hpp
+		include/engine/ecs/systems/physic.hpp
+		include/engine/ecs/systems/UI.hpp
 
 
 

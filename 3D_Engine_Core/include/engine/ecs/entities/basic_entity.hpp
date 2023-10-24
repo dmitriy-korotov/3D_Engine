@@ -32,7 +32,7 @@ namespace engine::ecs::entities
 		basic_entity() noexcept;
 		virtual ~basic_entity();
 
-		entity_id getID() const noexcept;
+		entity_id_t getID() const noexcept;
 
 		template <typename ComponentType>
 		std::optional<component_ptr<ComponentType>> getComponent() const noexcept;
@@ -47,12 +47,12 @@ namespace engine::ecs::entities
 
 	private:
 
-		static entity_id generateEntityId() noexcept;
-		static entity_id m_next_entity_id;
+		static entity_id_t generateEntityId() noexcept;
+		static entity_id_t m_next_entity_id;
 
 	private:
 
-		entity_id m_id = INVALID_ENTITY_ID;
+		entity_id_t m_id = INVALID_ENTITY_ID;
 		std::unordered_map<std::string_view, component_ptr<components::basic_component>> m_components;
 
 	};

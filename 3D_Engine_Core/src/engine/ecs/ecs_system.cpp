@@ -38,21 +38,21 @@ namespace engine::ecs
 
 
 
-	const ECS::entities_manager_ptr& ECS::getEntitiesManager() const noexcept
+	const ECS::entities_manager_ptr_t& ECS::getEntitiesManager() const noexcept
 	{
 		return m_entities_manager;
 	}
 
 
 
-	const ECS::components_manager_ptr& ECS::getComponentsManager() const noexcept
+	const ECS::components_manager_ptr_t& ECS::getComponentsManager() const noexcept
 	{
 		return m_components_manager;
 	}
 
 
 
-	const ECS::systems_manager_ptr& ECS::getSystemsManager() const noexcept
+	const ECS::systems_manager_ptr_t& ECS::getSystemsManager() const noexcept
 	{
 		return m_systems_manager;
 	}

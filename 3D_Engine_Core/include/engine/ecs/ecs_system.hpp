@@ -16,20 +16,22 @@ namespace engine::ecs
 	{
 	public:
 
-		using entities_manager_ptr = std::unique_ptr<entities::entities_manager>;
-		using components_manager_ptr = std::unique_ptr<components::components_manager>;
-		using systems_manager_ptr = std::unique_ptr<systems::systems_manager>;
+		using entities_manager_ptr_t = std::unique_ptr<entities::entities_manager>;
+		using components_manager_ptr_t = std::unique_ptr<components::components_manager>;
+		using systems_manager_ptr_t = std::unique_ptr<systems::systems_manager>;
 
 
 
 		static ECS& instance() noexcept;
 
+
+
 		bool initialize() noexcept;
 		void terminate() noexcept;
 
-		const entities_manager_ptr& getEntitiesManager() const noexcept;
-		const components_manager_ptr& getComponentsManager() const noexcept;
-		const systems_manager_ptr& getSystemsManager() const noexcept;
+		const entities_manager_ptr_t& getEntitiesManager() const noexcept;
+		const components_manager_ptr_t& getComponentsManager() const noexcept;
+		const systems_manager_ptr_t& getSystemsManager() const noexcept;
 
 		void update(float _delta_time) noexcept;
 
@@ -39,9 +41,9 @@ namespace engine::ecs
 
 	private:
 
-		entities_manager_ptr m_entities_manager;
-		components_manager_ptr m_components_manager;
-		systems_manager_ptr m_systems_manager;
+		entities_manager_ptr_t m_entities_manager;
+		components_manager_ptr_t m_components_manager;
+		systems_manager_ptr_t m_systems_manager;
 
 	};
 }

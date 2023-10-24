@@ -6,14 +6,14 @@
 
 namespace engine::ecs::entities
 {
-	void entities_manager::destroyEntity(entity_id _entity_id) noexcept
+	void entities_manager::destroyEntity(entity_id_t _entity_id) noexcept
 	{
 		m_entities.erase(_entity_id);
 	}
 
 
 
-	entities_manager::entity_ptr entities_manager::getEntity(entity_id _entity_id) const noexcept
+	entities_manager::entity_ptr entities_manager::getEntity(entity_id_t _entity_id) const noexcept
 	{
 		auto entity = m_entities.find(_entity_id);
 		

@@ -65,11 +65,11 @@ namespace editor
 		file_reader fs_reader_3("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\UnlitFS.fs");
 
 
-		entity_id light = ECS::instance().getEntitiesManager()->createEntity<basic_entity>();
+		entity_id_t light = ECS::instance().getEntitiesManager()->createEntity<basic_entity>();
 		ECS::instance().getComponentsManager()->addComponent<direction_light>(light);
 
 
-		entity_id camera_id = ECS::instance().getEntitiesManager()->createEntity<camera>(glm::vec3(-5.f, 0.f, 0.f));
+		entity_id_t camera_id = ECS::instance().getEntitiesManager()->createEntity<camera>(glm::vec3(-5.f, 0.f, 0.f));
 
 		ECS::instance().getComponentsManager()->addComponent<active_camera>(camera_id);
 
@@ -95,9 +95,9 @@ namespace editor
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj";
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
-		entity_id ball = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, shader_program);
+		entity_id_t ball = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, shader_program);
 
-		entity_id cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, unlit_shader_program);
+		entity_id_t cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, unlit_shader_program);
 
 		ECS::instance().getComponentsManager()->addComponent<point_light>(cube);
 		

@@ -6,11 +6,11 @@
 
 namespace engine::ecs::entities
 {
-	entity_id basic_entity::m_next_entity_id = INVALID_ENTITY_ID;
+	entity_id_t basic_entity::m_next_entity_id = INVALID_ENTITY_ID;
 
 
 
-	entity_id basic_entity::generateEntityId() noexcept
+	entity_id_t basic_entity::generateEntityId() noexcept
 	{
 		return ++m_next_entity_id;
 	}
@@ -25,7 +25,7 @@ namespace engine::ecs::entities
 
 
 
-	entity_id basic_entity::getID() const noexcept
+	entity_id_t basic_entity::getID() const noexcept
 	{
 		return m_id;
 	}

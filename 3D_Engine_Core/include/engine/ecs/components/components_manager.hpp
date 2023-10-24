@@ -34,7 +34,7 @@ namespace engine::ecs::components
 		using components_range = std::pair<component_iterator<T>, component_iterator<T>>;
 		
 		template <typename T>
-		using components_map = std::unordered_map<entities::entity_id, component_ptr<T>>;
+		using components_map = std::unordered_map<entities::entity_id_t, component_ptr<T>>;
 
 		using general_type_components_map = components_map<basic_component>;
 		using components_storage = std::unordered_map<std::string_view, general_type_components_map>;
@@ -42,7 +42,7 @@ namespace engine::ecs::components
 	public:
 
 		template <typename ComponentType, typename ...Args>
-		void addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept;
+		void addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
 		std::optional<components_range<ComponentType>> getComponents() const noexcept;
@@ -51,17 +51,17 @@ namespace engine::ecs::components
 		component_ptr<ComponentType> getComponent() const noexcept;
 
 		template <typename ComponentType>
-		component_ptr<ComponentType> getComponent(entities::entity_id _entity_id) const noexcept;
+		component_ptr<ComponentType> getComponent(entities::entity_id_t _entity_id) const noexcept;
 
 		template <typename ComponentType>
-		void removeComponent(entities::entity_id _entity_id) noexcept;
+		void removeComponent(entities::entity_id_t _entity_id) noexcept;
 
 		void removeAllComponents() noexcept;
 
 	private:
 
 		template <typename ComponentType, typename ...Args>
-		component_ptr<ComponentType> addComponentNotConstructedEntity(entities::entity_id _entity_id, Args&&... _args) noexcept;
+		component_ptr<ComponentType> addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
 	private:
 
@@ -74,7 +74,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType, typename ...Args>
-	void components_manager::addComponent(entities::entity_id _entity_id, Args&&... _args) noexcept
+	void components_manager::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -109,7 +109,7 @@ namespace engine::ecs::components
 
 	template <typename ComponentType, typename ...Args>
 	components_manager::component_ptr<ComponentType>
-	components_manager::addComponentNotConstructedEntity(entities::entity_id _entity_id, Args&&... _args) noexcept
+	components_manager::addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -133,7 +133,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	void components_manager::removeComponent(entities::entity_id _entity_id) noexcept
+	void components_manager::removeComponent(entities::entity_id_t _entity_id) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -190,7 +190,7 @@ namespace engine::ecs::components
 
 	template <typename ComponentType>
 	components_manager::component_ptr<ComponentType> 
-	components_manager::getComponent(entities::entity_id _entity_id) const noexcept
+	components_manager::getComponent(entities::entity_id_t _entity_id) const noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
