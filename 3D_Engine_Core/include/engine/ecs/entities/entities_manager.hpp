@@ -15,23 +15,23 @@ namespace engine::ecs::entities
 	{
 	public:
 
-		using entity_ptr = std::shared_ptr<basic_entity>;
-		using entities_storage = std::unordered_map<entity_id_t, entity_ptr>;
+		using entity_ptr_t = std::shared_ptr<basic_entity>;
+		using entities_storage_t = std::unordered_map<entity_id_t, entity_ptr_t>;
 
 		~entities_manager();
 
 		template <typename EntityType, typename ...Args>
 		entity_id_t createEntity(Args&&... _args);
 
-		void destroyEntity(entity_id_t _entity_id) noexcept;
+		bool destroyEntity(entity_id_t _entity_id) noexcept;
 
 		void destroyAllEntities() noexcept;
 
-		entity_ptr getEntity(entity_id_t _entity_id) const noexcept;
+		entity_ptr_t getEntity(entity_id_t _entity_id) const noexcept;
 
 	private:
 
-		entities_storage m_entities;
+		entities_storage_t m_entities;
 
 	};
 
@@ -46,8 +46,11 @@ namespace engine::ecs::entities
 
 		auto entity_ptr = std::make_shared<EntityType>(std::forward<Args>(_args)...);
 		entity_id_t id = entity_ptr->getID();
-		m_entities.emplace(id, std::move(entity_ptr));
+		auto pair = m_entities.emplace(id, std::move(entity_ptr));
 
-		return id;
+		if (pair.second)
+			return id;
+		
+		return INVALID_ENTITY_ID;
 	}
 }

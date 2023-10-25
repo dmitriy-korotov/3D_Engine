@@ -35,7 +35,16 @@ namespace engine::ecs::entities
 		entity_id_t getID() const noexcept;
 
 		template <typename ComponentType>
-		std::optional<component_ptr<ComponentType>> getComponent() const noexcept;
+		std::optional<component_ptr<ComponentType>> getComponent() const noexcept; // need fix
+
+		template <typename ComponentType>
+		void enableComponent() const noexcept;
+
+		template <typename ComponentType>
+		void disableComponent() const noexcept;
+
+		template <typename ComponentType>
+		bool hasComponent() const noexcept;
 
 		template <typename ComponentType, typename ...Args>
 		void addComponent(Args&&... _args) noexcept;
@@ -88,5 +97,40 @@ namespace engine::ecs::entities
 		if (component != m_components.end())
 			return std::dynamic_pointer_cast<ComponentType>(component->second.lock());
 		return std::nullopt;
+	}
+
+
+
+	template <typename ComponentType>
+	void basic_entity::enableComponent() const noexcept
+	{
+		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto component = m_components.find(ComponentType::component_name);
+		if (component != m_components.end())
+			component->second->enable();
+	}
+
+
+
+	template <typename ComponentType>
+	void basic_entity::disableComponent() const noexcept
+	{
+		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto component = m_components.find(ComponentType::component_name);
+		if (component != m_components.end())
+			component->second->disable();
+	}
+
+
+
+	template <typename ComponentType>
+	bool basic_entity::hasComponent() const noexcept
+	{
+		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto component = m_components.find(ComponentType::component_name);
+		return (component != m_components.end());
 	}
 }

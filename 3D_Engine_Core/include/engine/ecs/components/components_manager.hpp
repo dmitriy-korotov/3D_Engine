@@ -28,30 +28,33 @@ namespace engine::ecs::components
 		friend entities::basic_entity;
 
 		template <typename T>
-		using component_ptr = std::shared_ptr<T>;
+		using component_ptr_t = std::shared_ptr<T>;
 
 		template <typename T>
-		using components_range = std::pair<component_iterator<T>, component_iterator<T>>;
+		using components_range_t = std::pair<component_iterator<T>, component_iterator<T>>;
 		
 		template <typename T>
-		using components_map = std::unordered_map<entities::entity_id_t, component_ptr<T>>;
+		using components_map_t = std::unordered_map<entities::entity_id_t, component_ptr_t<T>>;
 
-		using general_type_components_map = components_map<basic_component>;
-		using components_storage = std::unordered_map<std::string_view, general_type_components_map>;
+		using general_type_components_map_t = components_map_t<basic_component>;
+		using components_storage_t = std::unordered_map<std::string_view, general_type_components_map_t>;
 
 	public:
 
 		template <typename ComponentType, typename ...Args>
-		void addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
+		bool addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
-		std::optional<components_range<ComponentType>> getComponents() const noexcept;
+		std::optional<components_range_t<ComponentType>> getComponents() const noexcept;
 
 		template <typename ComponentType>
-		component_ptr<ComponentType> getComponent() const noexcept;
+		component_ptr_t<ComponentType> getComponent() const noexcept;
 
 		template <typename ComponentType>
-		component_ptr<ComponentType> getComponent(entities::entity_id_t _entity_id) const noexcept;
+		component_ptr_t<ComponentType> getComponent(entities::entity_id_t _entity_id) const noexcept;
+
+		template <typename ComponentType>
+		bool hasComponent(entities::entity_id_t _entity_id) const noexcept;
 
 		template <typename ComponentType>
 		void removeComponent(entities::entity_id_t _entity_id) noexcept;
@@ -61,11 +64,11 @@ namespace engine::ecs::components
 	private:
 
 		template <typename ComponentType, typename ...Args>
-		component_ptr<ComponentType> addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
+		component_ptr_t<ComponentType> addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
 	private:
 
-		components_storage m_components;
+		components_storage_t m_components;
 
 	};
 
@@ -74,7 +77,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType, typename ...Args>
-	void components_manager::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept
+	bool components_manager::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -84,7 +87,7 @@ namespace engine::ecs::components
 		auto current_type_components = m_components.find(ComponentType::component_name);
 		if (current_type_components == m_components.end())
 		{
-			general_type_components_map current_type_components_storage;
+			general_type_components_map_t current_type_components_storage;
 			auto& entity = ECS::instance().getEntitiesManager()->getEntity(_entity_id);
 			if (entity != nullptr)
 			{
@@ -93,7 +96,7 @@ namespace engine::ecs::components
 			else
 			{
 				LOG_ERROR("[Components manager ERROR] Can't find entity (entity_id: {0})", _entity_id);
-				return;
+				return false;
 			}
 			current_type_components_storage.emplace(_entity_id, std::move(component));
 			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
@@ -103,12 +106,13 @@ namespace engine::ecs::components
 			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
 			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, std::move(component));
 		}
+		return true;
 	}
 
 
 
 	template <typename ComponentType, typename ...Args>
-	components_manager::component_ptr<ComponentType>
+	components_manager::component_ptr_t<ComponentType>
 	components_manager::addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
@@ -119,7 +123,7 @@ namespace engine::ecs::components
 		auto current_type_components = m_components.find(ComponentType::component_name);
 		if (current_type_components == m_components.end())
 		{
-			general_type_components_map current_type_components_storage;
+			general_type_components_map_t current_type_components_storage;
 			current_type_components_storage.emplace(_entity_id, component);
 			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
 		}
@@ -145,7 +149,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	std::optional<components_manager::components_range<ComponentType>>
+	std::optional<components_manager::components_range_t<ComponentType>>
 	components_manager::getComponents() const noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
@@ -167,7 +171,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	components_manager::component_ptr<ComponentType>
+	components_manager::component_ptr_t<ComponentType>
 	components_manager::getComponent() const noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
@@ -189,7 +193,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	components_manager::component_ptr<ComponentType> 
+	components_manager::component_ptr_t<ComponentType> 
 	components_manager::getComponent(entities::entity_id_t _entity_id) const noexcept
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
@@ -203,5 +207,22 @@ namespace engine::ecs::components
 				return std::dynamic_pointer_cast<ComponentType>(component_iter->second);
 		}
 		return nullptr;
+	}
+
+
+
+	template <typename ComponentType>
+	bool components_manager::hasComponent(entities::entity_id_t _entity_id) const noexcept
+	{
+		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
+
+		auto components_range = m_components.find(ComponentType::component_name);
+		if (components_range != m_components.end())
+		{
+			auto component_iter = components_range->second.find(_entity_id);
+
+			return (component_iter != components_range->second.end());
+		}
+		return false;
 	}
 }

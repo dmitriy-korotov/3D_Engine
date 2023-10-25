@@ -18,7 +18,7 @@ namespace engine::ecs::components
 
 		friend components_manager;
 
-		virtual ~basic_component() = default;
+		virtual ~basic_component() = default; // need add onConstruct method
 
 		bool isActive() const noexcept;
 		void enable() noexcept;
