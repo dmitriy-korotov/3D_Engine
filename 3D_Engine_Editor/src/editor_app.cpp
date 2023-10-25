@@ -80,7 +80,7 @@ namespace editor
 		ECS::instance().getSystemsManager()->addSystem<selected_object_UI>(5);
 		ECS::instance().getSystemsManager()->addSystem<scene_UI>(4);
 
-
+		
 
 		auto shader_program = std::make_shared<open_gl::shader_program>(vs_reader_2.getData(), std::move(fs_reader_2.getData()));
 		auto unlit_shader_program = std::make_shared<open_gl::shader_program>(vs_reader_2.getData(), std::move(fs_reader_3.getData()));

@@ -10,6 +10,9 @@ namespace engine::ecs::systems
 	{
 		for (const auto& system : m_systems)
 		{
+			if (!system.second.second->isActive())
+				continue;
+
 			system.second.second->preUpdate(_delta_time);
 			system.second.second->update(_delta_time);
 			system.second.second->postUpdate(_delta_time);

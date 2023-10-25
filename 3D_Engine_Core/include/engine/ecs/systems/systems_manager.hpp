@@ -32,7 +32,18 @@ namespace engine::ecs::systems
 		template <typename SystemType>
 		bool removeSystem() noexcept;
 
+		template <typename SystemType>
+		void enableSystem() noexcept;
+
+		template <typename SystemType>
+		void disableSystem() noexcept;
+
 		void removeAllSystems() noexcept;
+
+	private:
+
+		template <typename SystemType>
+		systems_storage_t::iterator findSystem() noexcept;
 
 	private:
 
@@ -55,18 +66,50 @@ namespace engine::ecs::systems
 
 
 	template <typename SystemType>
-	bool systems_manager::removeSystem() noexcept
+	systems_manager::systems_storage_t::iterator
+	systems_manager::findSystem() noexcept
 	{
 		static_assert(std::is_base_of_v<basic_system, SystemType>, "SystemType is not derived basic_system.");
 
 		for (auto begin = m_systems.begin(); begin != m_systems.end(); begin++)
 		{
 			if (begin->second.first == SystemType::system_name)
-			{
-				auto it = m_systems.erase(begin);
-				return it != m_systems.end();
-			}
+				return begin;
+		}
+		return m_systems.end();
+	}
+
+
+
+	template <typename SystemType>
+	bool systems_manager::removeSystem() noexcept
+	{
+		auto system = findSystem<SystemType>();
+		if (system != m_systems.end())
+		{
+			auto it = m_systems.erase(system);
+			return it != m_systems.end();
 		}
 		return false;
+	}
+
+
+
+	template <typename SystemType>
+	void systems_manager::enableSystem() noexcept
+	{
+		auto system = findSystem<SystemType>();
+		if (system != m_systems.end())
+			system->second.second->enable();
+	}
+
+
+
+	template <typename SystemType>
+	void systems_manager::disableSystem() noexcept
+	{
+		auto system = findSystem<SystemType>();
+		if (system != m_systems.end())
+			system->second.second->disable();
 	}
 }
