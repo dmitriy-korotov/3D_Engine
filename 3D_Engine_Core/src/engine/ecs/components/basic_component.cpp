@@ -18,6 +18,11 @@ namespace engine::ecs::components
 
 
 
+	void basic_component::onConstruct() noexcept
+	{ }
+
+
+
 	bool basic_component::isActive() const noexcept
 	{
 		return m_is_active;

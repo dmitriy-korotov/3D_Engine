@@ -83,6 +83,7 @@ namespace engine::ecs::components
 
 		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
 		component->setOwner(_entity_id);
+		component->onConstruct();
 		
 		auto current_type_components = m_components.find(ComponentType::component_name);
 		if (current_type_components == m_components.end())
@@ -119,6 +120,7 @@ namespace engine::ecs::components
 
 		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
 		component->setOwner(_entity_id);
+		component->onConstruct();
 
 		auto current_type_components = m_components.find(ComponentType::component_name);
 		if (current_type_components == m_components.end())
