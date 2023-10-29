@@ -27,7 +27,7 @@ namespace engine::ecs::systems
 		void update(float _delta_time);
 
 		template <typename SystemType, typename ...Args>
-		void addSystem(size_t _priority, Args&&... _args) noexcept;
+		bool addSystem(size_t _priority, Args&&... _args) noexcept;
 
 		template <typename SystemType>
 		bool removeSystem() noexcept;
@@ -54,13 +54,15 @@ namespace engine::ecs::systems
 
 
 	template <typename SystemType, typename ...Args>
-	void systems_manager::addSystem(size_t _priority, Args&&... _args) noexcept
+	bool systems_manager::addSystem(size_t _priority, Args&&... _args) noexcept
 	{
 		static_assert(std::is_base_of_v<basic_system, SystemType>, "SystemType is not derived basic_system.");
 
 		auto system = std::make_shared<SystemType>(std::forward<Args>(_args)...);
 
-		m_systems.emplace(_priority, std::make_pair(SystemType::system_name, std::move(system)));
+		auto it = m_systems.emplace(_priority, std::make_pair(SystemType::system_name, std::move(system)));
+
+		return it != m_systems.end();
 	}
 
 

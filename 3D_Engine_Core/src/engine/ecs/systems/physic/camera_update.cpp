@@ -2,7 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
+#include <engine/scene/Scene.hpp>
+
 #include <engine/ecs/components/markers.hpp>
 #include <engine/ecs/components/physic.hpp>
 
@@ -19,15 +20,16 @@
 
 using namespace engine::input;
 using namespace engine::modules::ui;
+using namespace engine::scene;
 
 namespace engine::ecs::systems
 {
 	void camera_update::update(float _delta_time) const noexcept
 	{
-		auto active_camera_component = ECS::instance().getComponentsManager()->getComponent<active_camera>();
+		auto active_camera_component = Scene::getComponent<active_camera>();
 		if (active_camera_component != nullptr)
 		{
-			const auto& active_camera_ent = ECS::instance().getEntitiesManager()->getEntity(active_camera_component->getOwner());
+			const auto& active_camera_ent = Scene::getObject(active_camera_component->getOwner());
 
 			auto& opt_vision_comp = active_camera_ent->getComponent<vision>();
 			if (!opt_vision_comp.has_value())

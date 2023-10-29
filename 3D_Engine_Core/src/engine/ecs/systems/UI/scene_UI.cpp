@@ -1,6 +1,6 @@
 #include <engine/ecs/systems/UI/scene_UI.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/Engine.hpp>
 
@@ -11,12 +11,13 @@
 
 
 using namespace engine::ecs::components;
+using namespace engine::scene;
 
 namespace engine::ecs::systems
 {
 	void scene_UI::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		auto component = ECS::instance().getComponentsManager()->getComponent<direction_light>();
+		auto component = Scene::getComponent<direction_light>();
 		if (component == nullptr)
 			return;
 

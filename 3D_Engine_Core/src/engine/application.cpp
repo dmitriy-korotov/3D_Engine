@@ -18,6 +18,10 @@
 #include <engine/input/mouse.hpp>
 #include <engine/input/keyboard.hpp>
 
+#include <engine/render/shaders_manager.hpp>
+
+#include <engine/scene/Scene.hpp>
+
 #include <nlohmann/json.hpp>
 
 #include <fstream>
@@ -196,6 +200,8 @@ namespace engine
             renderer = std::shared_ptr<open_gl::renderer>(&open_gl::renderer::instance(),
                                                           [](open_gl::renderer* _renderer) -> void
                                                           { });
+
+            //shaders_manager::instance().setupShaderProgramsCreator(std::make_shared<sha>)
             break;
         case RendererImpl::Direct3D:
             break;
@@ -325,6 +331,8 @@ namespace engine
         if (UIModule_error.has_value())
             return UIModule_error;
 
+        scene::Scene::initialize();
+
         onStart();
 
         m_is_closed = false;
@@ -336,6 +344,9 @@ namespace engine
         }
 
         onClose();
+
+        scene::Scene::terminate();
+
         application_UIModule::instance().getUIModule()->terminate();
         m_window_ptr->shutdown();
         m_window_context->terminate();

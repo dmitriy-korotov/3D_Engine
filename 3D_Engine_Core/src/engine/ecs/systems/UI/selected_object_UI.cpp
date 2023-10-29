@@ -1,6 +1,6 @@
 #include <engine/ecs/systems/UI/selected_object_UI.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/markers.hpp>
 #include <engine/ecs/components/physic.hpp>
@@ -13,6 +13,7 @@
 
 
 using namespace engine::ecs::components;
+using namespace engine::scene;
 
 namespace engine::ecs::systems
 {
@@ -31,11 +32,11 @@ namespace engine::ecs::systems
 
 	void selected_object_UI::update(float _delta_time) const noexcept
 	{
-		auto selected_component = ECS::instance().getComponentsManager()->getComponent<selected>();
+		auto selected_component = Scene::getComponent<selected>();
 		if (selected_component == nullptr)
 			return;
 
-		auto& owner = ECS::instance().getEntitiesManager()->getEntity(selected_component->getOwner());
+		auto& owner = Scene::getObject(selected_component->getOwner());
 
 
 

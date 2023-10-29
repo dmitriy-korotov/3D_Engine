@@ -27,6 +27,8 @@
 
 #include <engine/scene/objects/camera.hpp>
 
+#include <engine/scene/Scene.hpp>
+
 #include <engine/Engine.hpp>
 
 
@@ -56,34 +58,29 @@ namespace editor
 
 	void Editor::onStart() noexcept
 	{
-		ECS::instance().initialize();
 		
 		shaders_manager::instance().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
 
-		file_reader vs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultVS.vs");
-		file_reader fs_reader_2("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\DefaultFS.fs");
-		file_reader fs_reader_3("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders\\UnlitFS.fs");
+
+		entity_id_t light = Scene::addObject<basic_entity>();
+		Scene::addComponent<direction_light>(light);
 
 
-		entity_id_t light = ECS::instance().getEntitiesManager()->createEntity<basic_entity>();
-		ECS::instance().getComponentsManager()->addComponent<direction_light>(light);
+		entity_id_t camera_id = Scene::addObject<camera>(nullptr, glm::vec3(-5.f, 0.f, 0.f));
 
-
-		entity_id_t camera_id = ECS::instance().getEntitiesManager()->createEntity<camera>(glm::vec3(-5.f, 0.f, 0.f));
-
-		ECS::instance().getComponentsManager()->addComponent<active_camera>(camera_id);
+		Scene::addComponent<active_camera>(camera_id);
 
 
 
-		ECS::instance().getSystemsManager()->addSystem<camera_update>(1);
-		ECS::instance().getSystemsManager()->addSystem<render>(2);
-		ECS::instance().getSystemsManager()->addSystem<selected_object_UI>(5);
-		ECS::instance().getSystemsManager()->addSystem<scene_UI>(4);
+		Scene::addSystem<camera_update>(1);
+		Scene::addSystem<render>(2);
+		Scene::addSystem<selected_object_UI>(5);
+		Scene::addSystem<scene_UI>(4);
 
 		
 
-		auto shader_program = std::make_shared<open_gl::shader_program>(vs_reader_2.getData(), std::move(fs_reader_2.getData()));
-		auto unlit_shader_program = std::make_shared<open_gl::shader_program>(vs_reader_2.getData(), std::move(fs_reader_3.getData()));
+		auto shader_program = shaders_manager::instance().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
+		auto unlit_shader_program = shaders_manager::instance().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
 		
 		std::string path_to_cube = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
 		std::string path_to_ball = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Ball\\Ball.obj";
@@ -91,13 +88,13 @@ namespace editor
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj";
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
-		entity_id_t ball = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, shader_program);
+		entity_id_t ball = Scene::addObject<renderable_scene_object>(nullptr, path_to_cube, shader_program);
 
-		entity_id_t cube = ECS::instance().getEntitiesManager()->createEntity<engine::scene::renderable_scene_object>(path_to_cube, unlit_shader_program);
+		entity_id_t cube = Scene::addObject<renderable_scene_object>(nullptr, path_to_cube, unlit_shader_program);
 
-		ECS::instance().getComponentsManager()->addComponent<point_light>(cube);
+		Scene::addComponent<point_light>(cube);
 		
-		ECS::instance().getComponentsManager()->addComponent<selected>(cube);
+		Scene::addComponent<selected>(cube);
 
 
 
@@ -123,7 +120,7 @@ namespace editor
 	void Editor::onUpdate() noexcept
 	{	
 		engine::Engine::getApplicationUIModule()->onUIDrawBegin();
-		ECS::instance().update(0.33f);
+		Scene::update(0.33f);
 		engine::Engine::getApplicationUIModule()->onUIDrawEnd();
 	}
 
@@ -139,6 +136,5 @@ namespace editor
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", engine::application_settings::instance().getTitle(),
 															engine::application_settings::instance().getWidth(),
 															engine::application_settings::instance().getHeight());
-		ECS::instance().terminate();
 	}
 }

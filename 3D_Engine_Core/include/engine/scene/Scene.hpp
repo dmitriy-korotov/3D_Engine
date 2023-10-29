@@ -23,6 +23,12 @@ namespace engine::scene
 
 		using object_builder_ptr_t = std::shared_ptr<basic_object_builder>;
 		using object_ptr_t = std::shared_ptr<ecs::entities::basic_entity>;
+		template <typename T>
+		using component_ptr_t = ecs::components::components_manager::component_ptr_t<T>;
+		template <typename T>
+		using components_range_t = ecs::components::components_manager::components_range_t<T>;
+
+
 
 
 
@@ -35,6 +41,15 @@ namespace engine::scene
 
 		template <typename T, typename ...Args>
 		static bool addComponent(object_id_t _obj_id, Args&& ..._args) noexcept;
+
+		template <typename T>
+		static [[nodiscard]] component_ptr_t<T> getComponent(object_id_t _obj_id) noexcept;
+
+		template <typename T>
+		static [[nodiscard]] component_ptr_t<T> getComponent() noexcept;
+
+		template <typename T>
+		static [[nodiscard]] std::optional<components_range_t<T>> getComponents() noexcept;
 
 		template <typename T>
 		static void enableComponent(object_id_t _obj_id) noexcept;
@@ -58,6 +73,12 @@ namespace engine::scene
 
 		template <typename T>
 		static void disableSystem() noexcept;
+
+
+
+		static bool initialize() noexcept;
+		static void update(float _delta_time) noexcept;
+		static void terminate() noexcept;
 
 	};
 
@@ -83,10 +104,36 @@ namespace engine::scene
 
 
 
+
+
 	template <typename T, typename ...Args>
 	bool Scene::addComponent(object_id_t _obj_id, Args&& ..._args) noexcept
 	{
 		return ecs::ECS::instance().getComponentsManager()->addComponent<T>(_obj_id, std::forward<Args>(_args)...);
+	}
+
+
+
+	template <typename T>
+	static Scene::component_ptr_t<T> Scene::getComponent(object_id_t _obj_id) noexcept
+	{
+		return ecs::ECS::instance().getComponentsManager()->getComponent<T>(_obj_id);
+	}
+
+
+
+	template <typename T>
+	static Scene::component_ptr_t<T> Scene::getComponent() noexcept
+	{
+		return ecs::ECS::instance().getComponentsManager()->getComponent<T>();
+	}
+
+
+
+	template <typename T>
+	static std::optional<Scene::components_range_t<T>> Scene::getComponents() noexcept
+	{
+		return ecs::ECS::instance().getComponentsManager()->getComponents<T>();
 	}
 
 
@@ -112,6 +159,8 @@ namespace engine::scene
 	{
 		ecs::ECS::instance().getEntitiesManager()->getEntity(_obj_id)->hasComponent<T>();
 	}
+
+
 
 
 

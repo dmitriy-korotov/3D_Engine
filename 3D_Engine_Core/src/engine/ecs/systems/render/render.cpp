@@ -1,6 +1,6 @@
 #include <engine/ecs/systems/render/render.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/render.hpp>
 #include <engine/ecs/components/physic.hpp>
@@ -19,6 +19,7 @@
 
 using namespace engine::ecs::components;
 using namespace engine::render;
+using namespace engine::scene;
 
 namespace engine::ecs::systems
 {
@@ -36,7 +37,7 @@ namespace engine::ecs::systems
 
 	void render::update([[maybe_unused]] float _delta_time) const noexcept
 	{
-		auto renderable_components = ECS::instance().getComponentsManager()->getComponents<renderable>();
+		auto renderable_components = Scene::getComponents<renderable>();
 		if (renderable_components.has_value())
 		{
 			auto& [begin, end] = renderable_components.value();
@@ -51,14 +52,14 @@ namespace engine::ecs::systems
 				
 				
 
-				const auto& active_camera_comp = *ECS::instance().getComponentsManager()->getComponents<active_camera>()->first;
-				const auto& active_camera_ent = ECS::instance().getEntitiesManager()->getEntity(active_camera_comp->getOwner());
+				const auto& active_camera_comp = Scene::getComponent<active_camera>();
+				const auto& active_camera_ent = Scene::getObject(active_camera_comp->getOwner());
 				auto& camera_transform_comp = active_camera_ent->getComponent<camera_transform>()->lock();
 				auto& vision_comp = active_camera_ent->getComponent<vision>()->lock();
 
 				
 
-				auto& current_ent = ECS::instance().getEntitiesManager()->getEntity(renderable_comp->getOwner());
+				auto& current_ent = Scene::getObject(renderable_comp->getOwner());
 				
 
 				
@@ -74,7 +75,7 @@ namespace engine::ecs::systems
 
 
 
-				const auto& direction_light_comp = *ECS::instance().getComponentsManager()->getComponents<direction_light>()->first;
+				const auto& direction_light_comp = Scene::getComponent<direction_light>();
 
 
 				
@@ -94,7 +95,7 @@ namespace engine::ecs::systems
 
 
 
-				auto point_light_comp = ECS::instance().getComponentsManager()->getComponent<point_light>();
+				auto point_light_comp = Scene::getComponent<point_light>();
 
 				shader_program->setVector3f("scene_light.point_lights[0].position", point_light_comp->getPosition());
 				shader_program->setVector3f("scene_light.point_lights[0].ambient", point_light_comp->getAmbient());
