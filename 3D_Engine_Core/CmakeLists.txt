@@ -172,6 +172,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/fwd/buffer_layout.hpp
 		include/engine/render/open_gl/fwd/texture2D.hpp
 		include/engine/render/open_gl/fwd/shader_program.hpp
+		include/engine/render/open_gl/fwd/shader_programs_creator.hpp
 		include/engine/render/open_gl/fwd/renderer.hpp
 		include/engine/render/open_gl/fwd/mesh.hpp
 
@@ -183,6 +184,7 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/open_gl/buffer_layout.hpp
 		include/engine/render/open_gl/texture2D.hpp
 		include/engine/render/open_gl/shader_program.hpp
+		include/engine/render/open_gl/shader_programs_creator.hpp
 		include/engine/render/open_gl/renderer.hpp
 		include/engine/render/open_gl/mesh.hpp
 
@@ -401,6 +403,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/open_gl/vertex_array.cpp
 		src/engine/render/open_gl/texture2D.cpp
 		src/engine/render/open_gl/shader_program.cpp
+		src/engine/render/open_gl/shader_programs_creator.cpp
 		src/engine/render/open_gl/renderer.cpp
 		src/engine/render/open_gl/mesh.cpp
 

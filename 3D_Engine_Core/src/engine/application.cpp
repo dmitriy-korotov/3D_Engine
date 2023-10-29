@@ -19,6 +19,7 @@
 #include <engine/input/keyboard.hpp>
 
 #include <engine/render/shaders_manager.hpp>
+#include <engine/render/open_gl/shader_programs_creator.hpp>
 
 #include <engine/scene/Scene.hpp>
 
@@ -201,7 +202,8 @@ namespace engine
                                                           [](open_gl::renderer* _renderer) -> void
                                                           { });
 
-            //shaders_manager::instance().setupShaderProgramsCreator(std::make_shared<sha>)
+            shaders_manager::instance().setupShaderProgramsCreator(std::make_unique<open_gl::shader_programs_creator>());
+
             break;
         case RendererImpl::Direct3D:
             break;
