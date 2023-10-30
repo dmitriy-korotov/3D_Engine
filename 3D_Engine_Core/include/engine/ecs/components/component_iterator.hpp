@@ -23,6 +23,7 @@ namespace engine::ecs::components
 		using map_component_iterator_t = typename std::unordered_map<entities::entity_id_t, component_ptr_t<T>>::const_iterator;
 
 
+
 		component_iterator(map_component_iterator_t<basic_component> _map_iterator) noexcept;
 
 		component_ptr_t<const ComponentType> operator*() const noexcept;

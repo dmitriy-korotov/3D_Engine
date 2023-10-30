@@ -62,7 +62,7 @@ namespace editor
 		shaders_manager::instance().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
 
 
-		entity_id_t light = Scene::addObject<basic_entity>();
+		entity_id_t light = Scene::addObject<basic_entity>(nullptr);
 		Scene::addComponent<direction_light>(light);
 
 

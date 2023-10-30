@@ -31,35 +31,34 @@ namespace engine::ecs::systems
 		{
 			const auto& active_camera_ent = Scene::getObject(active_camera_component->getOwner());
 
-			auto& opt_vision_comp = active_camera_ent->getComponent<vision>();
-			if (!opt_vision_comp.has_value())
+			auto& vision_comp = active_camera_ent->getComponent<vision>();
+			if (vision_comp == nullptr)
 			{
 				LOG_ERROR("[Camera update system ERROR] Active camera is not have 'vision' component");
 				return;
 			}
-			auto& vision_comp = opt_vision_comp->lock();
 			vision_comp->setViewPortSize(application_settings::instance().getWidth(),
 										 application_settings::instance().getHeight());
 
 
 
-			auto& opt_movement_comp = active_camera_ent->getComponent<movement>();
-			auto& opt_movement_velocity_comp = active_camera_ent->getComponent<movement_velocity>();
+			auto& movement_comp = active_camera_ent->getComponent<movement>();
+			auto& movement_velocity_comp = active_camera_ent->getComponent<movement_velocity>();
 			
-			if (!opt_movement_comp.has_value() || !opt_movement_velocity_comp.has_value())
+			if (movement_comp == nullptr || movement_velocity_comp == nullptr)
 				LOG_WARN("[Camera update system WARN] Active camera is not have movement components");
 			else
-				moveCamera(*(opt_movement_comp->lock()), *(opt_movement_velocity_comp->lock()), _delta_time);
+				moveCamera(*movement_comp, *movement_velocity_comp, _delta_time);
 
 
 
-			auto& opt_rotate_comp = active_camera_ent->getComponent<rotate>();
-			auto& opt_rotate_velocity_comp = active_camera_ent->getComponent<rotate_velocity>();
+			auto& rotate_comp = active_camera_ent->getComponent<rotate>();
+			auto& rotate_velocity_comp = active_camera_ent->getComponent<rotate_velocity>();
 
-			if (!opt_rotate_comp.has_value() || !opt_rotate_velocity_comp.has_value())
+			if (rotate_comp == nullptr || rotate_velocity_comp == nullptr)
 				LOG_WARN("[Camera update system WARN] Active camera is not have rotate components");
 			else
-				rotateCamera(*(opt_rotate_comp->lock()), *(opt_rotate_velocity_comp->lock()), _delta_time);
+				rotateCamera(*rotate_comp, *rotate_velocity_comp, _delta_time);
 		}
 	}
 

@@ -11,17 +11,11 @@
 
 #include <unordered_map>
 #include <memory>
-#include <optional>
 
 
 
 namespace engine::ecs::entities
 {
-	template <typename ComponentType>
-	using component_ptr = std::weak_ptr<ComponentType>;
-
-
-
 	class basic_entity: private util::nocopyeble
 	{
 	public:
@@ -29,13 +23,22 @@ namespace engine::ecs::entities
 		friend entities_manager;
 		friend components::components_manager;
 
+
+
+		template <typename ComponentType>
+		using component_ptr_t = std::shared_ptr<ComponentType>;
+
+		using components_map_t = std::unordered_map<std::string_view, component_ptr_t<components::basic_component>>;
+
+
+
 		basic_entity() noexcept;
 		virtual ~basic_entity();
 
 		entity_id_t getID() const noexcept;
 
 		template <typename ComponentType>
-		std::optional<component_ptr<ComponentType>> getComponent() const noexcept; // need fix
+		component_ptr_t<ComponentType> getComponent() const noexcept;
 
 		template <typename ComponentType>
 		void enableComponent() const noexcept;
@@ -47,12 +50,12 @@ namespace engine::ecs::entities
 		bool hasComponent() const noexcept;
 
 		template <typename ComponentType, typename ...Args>
-		void addComponent(Args&&... _args) noexcept;
+		bool addComponent(Args&&... _args) noexcept;
 
 	private:
 
 		template <typename ComponentType>
-		void addComponent(component_ptr<ComponentType> _component) noexcept;
+		bool addComponent(component_ptr_t<ComponentType> _component) noexcept;
 
 	private:
 
@@ -62,7 +65,7 @@ namespace engine::ecs::entities
 	private:
 
 		entity_id_t m_id = INVALID_ENTITY_ID;
-		std::unordered_map<std::string_view, component_ptr<components::basic_component>> m_components;
+		components_map_t m_components;
 
 	};
 
@@ -71,32 +74,33 @@ namespace engine::ecs::entities
 
 
 	template <typename ComponentType, typename ...Args>
-	void basic_entity::addComponent(Args&&... _args) noexcept
+	bool basic_entity::addComponent(Args&&... _args) noexcept
 	{
 		const auto& components_manager = ECS::instance().getComponentsManager();
-		component_ptr<ComponentType> component = components_manager->addComponentNotConstructedEntity<ComponentType>(m_id, std::forward<Args>(_args)...);
-		addComponent(std::move(component));
+		component_ptr_t<ComponentType> component = components_manager->addComponentNotConstructedEntity<ComponentType>(m_id, std::forward<Args>(_args)...);
+		return addComponent(std::move(component));
 	}
 
 
 
 	template <typename ComponentType>
-	void basic_entity::addComponent(component_ptr<ComponentType> _component) noexcept
+	bool basic_entity::addComponent(component_ptr_t<ComponentType> _component) noexcept
 	{
-		m_components.emplace(ComponentType::component_name, std::move(_component));
+		auto it = m_components.emplace(ComponentType::component_name, std::move(_component));
+		return it.second;
 	}
 
 
 
 	template <typename ComponentType>
-	std::optional<component_ptr<ComponentType>> basic_entity::getComponent() const noexcept
+	basic_entity::component_ptr_t<ComponentType> basic_entity::getComponent() const noexcept
 	{
 		static_assert(std::is_base_of_v<components::basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
 		auto component = m_components.find(ComponentType::component_name);
 		if (component != m_components.end())
-			return std::dynamic_pointer_cast<ComponentType>(component->second.lock());
-		return std::nullopt;
+			return std::dynamic_pointer_cast<ComponentType>(component->second);
+		return nullptr;
 	}
 
 

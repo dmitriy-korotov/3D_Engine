@@ -40,27 +40,27 @@ namespace engine::ecs::systems
 
 
 
-		auto& position_opt = owner->getComponent<position>();
-		if (position_opt.has_value())
-			position_opt->lock()->putOnUI();
+		auto& position_comp = owner->getComponent<position>();
+		if (position_comp != nullptr)
+			position_comp->putOnUI();
 
-		auto& rotation_opt = owner->getComponent<rotation>();
-		if (rotation_opt.has_value())
-			rotation_opt->lock()->putOnUI();
+		auto& rotation_comp = owner->getComponent<rotation>();
+		if (rotation_comp != nullptr)
+			rotation_comp->putOnUI();
 
-		auto& scale_opt = owner->getComponent<scale>();
-		if (scale_opt.has_value())
-			scale_opt->lock()->putOnUI();
+		auto& scale_comp = owner->getComponent<scale>();
+		if (scale_comp != nullptr)
+			scale_comp->putOnUI();
 
-		auto& point_light_opt = owner->getComponent<point_light>();
-		if (point_light_opt.has_value())
-			point_light_opt->lock()->putOnUI();
+		auto& point_light_comp = owner->getComponent<point_light>();
+		if (point_light_comp != nullptr)
+			point_light_comp->putOnUI();
 
 		m_UI_module->separate();
 
-		auto& renderable_opt = owner->getComponent<renderable>();
-		if (renderable_opt.has_value())
-			renderable_opt->lock()->putOnUI();
+		auto& renderable_comp = owner->getComponent<renderable>();
+		if (renderable_comp != nullptr)
+			renderable_comp->putOnUI();
 	}
 
 

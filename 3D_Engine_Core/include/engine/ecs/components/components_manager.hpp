@@ -27,6 +27,8 @@ namespace engine::ecs::components
 
 		friend entities::basic_entity;
 
+
+
 		template <typename T>
 		using component_ptr_t = std::shared_ptr<T>;
 
@@ -92,7 +94,7 @@ namespace engine::ecs::components
 			auto& entity = ECS::instance().getEntitiesManager()->getEntity(_entity_id);
 			if (entity != nullptr)
 			{
-				entity->addComponent<ComponentType>(std::weak_ptr(component));
+				entity->addComponent<ComponentType>(component);
 			}
 			else
 			{
@@ -104,7 +106,7 @@ namespace engine::ecs::components
 		}
 		else
 		{
-			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(std::weak_ptr(component));
+			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(component);
 			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, std::move(component));
 		}
 		return true;

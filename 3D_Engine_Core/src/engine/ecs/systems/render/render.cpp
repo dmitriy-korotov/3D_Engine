@@ -54,8 +54,8 @@ namespace engine::ecs::systems
 
 				const auto& active_camera_comp = Scene::getComponent<active_camera>();
 				const auto& active_camera_ent = Scene::getObject(active_camera_comp->getOwner());
-				auto& camera_transform_comp = active_camera_ent->getComponent<camera_transform>()->lock();
-				auto& vision_comp = active_camera_ent->getComponent<vision>()->lock();
+				auto& camera_transform_comp = active_camera_ent->getComponent<camera_transform>();
+				auto& vision_comp = active_camera_ent->getComponent<vision>();
 
 				
 
@@ -63,7 +63,7 @@ namespace engine::ecs::systems
 				
 
 				
-				auto& transform_comp = current_ent->getComponent<transform>()->lock();
+				auto& transform_comp = current_ent->getComponent<transform>();
 
 
 
@@ -79,17 +79,17 @@ namespace engine::ecs::systems
 
 
 				
-				auto opt_material_comp = current_ent->getComponent<engine::ecs::components::material>();
-				if (opt_material_comp.has_value() && opt_material_comp->lock()->isActive())
+				auto material_comp = current_ent->getComponent<engine::ecs::components::material>();
+				if (material_comp != nullptr && material_comp->isActive())
 				{
-					shader_program->setSampler2D("material.diffuse_map", *opt_material_comp->lock()->getMaterial()->getTexture(TextureMap::Diffuse), 0);
+					shader_program->setSampler2D("material.diffuse_map", *material_comp->getMaterial()->getTexture(TextureMap::Diffuse), 0);
 					shader_program->setBool("material.hasDiffuseTexture", true);
 				}
 				else
 				{
-					auto opt_color_comp = current_ent->getComponent<color>();
-					if (opt_color_comp.has_value())
-						shader_program->setVector3f("material.diffuse", opt_color_comp->lock()->getColor());
+					auto color_comp = current_ent->getComponent<color>();
+					if (color_comp != nullptr)
+						shader_program->setVector3f("material.diffuse", color_comp->getColor());
 					shader_program->setBool("material.hasDiffuseTexture", false);
 				}
 
@@ -122,9 +122,9 @@ namespace engine::ecs::systems
 				
 
 
-				if (mesh_comp.has_value())
+				if (mesh_comp != nullptr)
 				{
-					for (const auto& mesh : mesh_comp->lock()->getMeshes())
+					for (const auto& mesh : mesh_comp->getMeshes())
 						Engine::getApplicationRenderer()->draw(*shader_program, *mesh, renderable_comp->getDrawingMode());
 				}
 			}
