@@ -28,6 +28,7 @@ namespace engine::ecs::entities
 		void destroyAllEntities() noexcept;
 
 		entity_ptr_t getEntity(entity_id_t _entity_id) const noexcept;
+		const entities_storage_t& getEntities() const noexcept;
 
 	private:
 

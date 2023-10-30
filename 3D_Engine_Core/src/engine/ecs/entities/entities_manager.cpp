@@ -25,6 +25,13 @@ namespace engine::ecs::entities
 
 
 
+	const entities_manager::entities_storage_t& entities_manager::getEntities() const noexcept
+	{
+		return m_entities;
+	}
+
+
+
 	void entities_manager::destroyAllEntities() noexcept
 	{
 		m_entities.clear();

@@ -66,7 +66,6 @@ namespace editor
 
 
 		entity_id_t camera_id = Scene::addObject<camera>(nullptr, glm::vec3(-5.f, 0.f, 0.f));
-
 		Scene::addComponent<active_camera>(camera_id);
 
 
@@ -88,11 +87,9 @@ namespace editor
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
 		entity_id_t ball = Scene::addObject<renderable_scene_object>(nullptr, path_to_cube, shader_program);
-
 		entity_id_t cube = Scene::addObject<renderable_scene_object>(nullptr, path_to_cube, unlit_shader_program);
 
 		Scene::addComponent<point_light>(cube);
-		
 		Scene::addComponent<selected>(cube);
 
 
