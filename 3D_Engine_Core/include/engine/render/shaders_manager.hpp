@@ -24,10 +24,6 @@ namespace engine::render
 
 
 
-		static shaders_manager& instance() noexcept;
-
-
-
 		void setupShaderProgramsCreator(creator_ptr_t _creator) noexcept;
 
 		void addShadersDirectory(path _directory_path) noexcept;
@@ -46,6 +42,8 @@ namespace engine::render
 	protected:
 
 		shaders_manager() = default;
+
+		static shaders_manager& instance() noexcept;
 
 	private:
 

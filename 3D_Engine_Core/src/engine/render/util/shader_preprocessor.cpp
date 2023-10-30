@@ -4,7 +4,7 @@
 
 #include <engine/util/file_reader.hpp>
 
-#include <engine/render/shaders_manager.hpp>
+#include <engine/resource_manager.hpp>
 
 
 
@@ -120,7 +120,7 @@ namespace engine::render::utility
 
 	std::optional<path> shader_preprocessor::findAbsolutePathToShader(const std::string& _shader_file_name) noexcept
 	{
-		for (const path& directory : shaders_manager::instance().getShadersDirectories())
+		for (const path& directory : engine::GetResourceManager().getShadersDirectories())
 		{
 			path absolute_path = directory / _shader_file_name;
 			if (std::filesystem::exists(absolute_path))

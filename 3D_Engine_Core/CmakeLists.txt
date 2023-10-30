@@ -16,10 +16,16 @@ set(BUILD_SHARED_LIBS OFF)
 
 set(ENGINE_PUBLIC_HEADERS
 
+		include/engine/fwd/Engine.hpp
+		include/engine/fwd/application.hpp
+		include/engine/fwd/application_settings.hpp
+		include/engine/fwd/resource_manager.hpp
+
 		include/engine/Engine.hpp
 		include/engine/application.hpp
 		include/engine/names_settings.hpp
 		include/engine/application_settings.hpp
+		include/engine/resource_manager.hpp
 
 
 
@@ -347,6 +353,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/application.cpp
 		src/engine/names_settings.cpp
 		src/engine/application_settings.cpp
+		src/engine/resource_manager.cpp
 
 
 

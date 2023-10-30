@@ -21,11 +21,11 @@
 
 #include <engine/ecs/entities/basic_entity.hpp>
 
-#include <engine/render/open_gl/shader_program.hpp>
-#include <engine/render/shaders_manager.hpp>
 #include <engine/scene/renderable_scene_object.hpp>
 
 #include <engine/scene/objects/camera.hpp>
+
+#include <engine/resource_manager.hpp>
 
 #include <engine/scene/Scene.hpp>
 
@@ -58,8 +58,7 @@ namespace editor
 
 	void Editor::onStart() noexcept
 	{
-		
-		shaders_manager::instance().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
+		engine::GetResourceManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
 
 
 		entity_id_t light = Scene::addObject<basic_entity>(nullptr);
@@ -79,8 +78,8 @@ namespace editor
 
 		
 
-		auto shader_program = shaders_manager::instance().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
-		auto unlit_shader_program = shaders_manager::instance().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
+		auto shader_program = engine::GetResourceManager().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
+		auto unlit_shader_program = engine::GetResourceManager().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
 		
 		std::string path_to_cube = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
 		std::string path_to_ball = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Ball\\Ball.obj";
