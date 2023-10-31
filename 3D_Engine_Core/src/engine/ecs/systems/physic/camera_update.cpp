@@ -154,4 +154,17 @@ namespace engine::ecs::systems
 		}
 		m_last_cursor_position = current_mouse_position;
 	}
+
+
+
+
+
+	json camera_update::dump() const
+	{
+		json serialized_view = basic_system::dump();
+
+		serialized_view["system_name"] = system_name;
+
+		return serialized_view;
+	}
 }

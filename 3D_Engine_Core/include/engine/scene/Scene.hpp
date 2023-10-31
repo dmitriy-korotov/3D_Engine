@@ -12,11 +12,14 @@
 #include <engine/ecs/entities/basic_entity.hpp>
 
 #include <memory>
+#include <filesystem>
 
 
 
 namespace engine::scene
 {
+	using std::filesystem::path;
+
 	class Scene: private util::noconstructible
 	{
 	public:
@@ -79,6 +82,11 @@ namespace engine::scene
 		static bool initialize() noexcept;
 		static void update(float _delta_time) noexcept;
 		static void terminate() noexcept;
+
+
+
+		static bool load(const path& _path) noexcept;
+		static bool save(const path& _path) noexcept;
 
 	};
 

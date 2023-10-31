@@ -30,4 +30,20 @@ namespace engine::ecs::systems
 	{
 		m_is_active = false;
 	}
+
+
+
+	json basic_system::dump() const
+	{
+		json serialized_view;
+
+		serialized_view["is_active"] = m_is_active;
+
+		return serialized_view;
+	}
+
+
+
+	void basic_system::load(const json& _dumped_view)
+	{ }
 }

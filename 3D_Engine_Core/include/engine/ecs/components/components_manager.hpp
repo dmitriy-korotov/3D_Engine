@@ -10,7 +10,7 @@
 
 #include <engine/ecs/components/component_iterator.hpp>
 
-#include <engine/ecs/components/fwd/basic_component.hpp>
+#include <engine/ecs/components/basic_component.hpp>
 
 #include <unordered_map>
 #include <vector>
@@ -48,6 +48,8 @@ namespace engine::ecs::components
 
 		template <typename ComponentType>
 		std::optional<components_range_t<ComponentType>> getComponents() const noexcept;
+
+		std::vector<component_ptr_t<basic_component>> getComponents() const noexcept;
 
 		template <typename ComponentType>
 		component_ptr_t<ComponentType> getComponent() const noexcept;

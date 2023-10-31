@@ -132,5 +132,7 @@ namespace editor
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", engine::application_settings::instance().getTitle(),
 															engine::application_settings::instance().getWidth(),
 															engine::application_settings::instance().getHeight());
+
+		Scene::save("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
 	}
 }

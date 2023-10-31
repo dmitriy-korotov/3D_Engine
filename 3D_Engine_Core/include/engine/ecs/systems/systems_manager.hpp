@@ -2,7 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/ecs/systems/fwd/basic_system.hpp>
+#include <engine/ecs/systems/basic_system.hpp>
 
 #include <map>
 #include <memory>
@@ -28,6 +28,8 @@ namespace engine::ecs::systems
 
 		template <typename SystemType, typename ...Args>
 		bool addSystem(size_t _priority, Args&&... _args) noexcept;
+
+		const systems_storage_t& getSystems() const noexcept;
 
 		template <typename SystemType>
 		bool removeSystem() noexcept;

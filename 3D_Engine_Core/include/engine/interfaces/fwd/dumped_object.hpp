@@ -2,5 +2,5 @@
 
 namespace engine::interfaces
 {
-	class dumped_object;
+	class serializable_object;
 }

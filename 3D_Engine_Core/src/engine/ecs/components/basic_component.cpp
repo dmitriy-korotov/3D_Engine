@@ -82,53 +82,23 @@ namespace engine::ecs::components
 
 
 
-	std::string basic_component::dump() const noexcept
+	json basic_component::dump() const
 	{
 		json serialize_view;
-		std::string result;
-		
-		try
-		{
-			serialize_view["id"] = m_id;
-			serialize_view["is_active"] = m_is_active;
-			serialize_view["owner"] = m_owner;
+	
+		serialize_view["id"] = m_id;
+		serialize_view["is_active"] = m_is_active;
+		serialize_view["owner"] = m_owner;
 
-			dump(serialize_view);
-
-			result = serialize_view.dump();
-		}
-		catch (const std::exception& _ex)
-		{
-			LOG_ERROR("[Basic component ERROR] Serialize error: {0}", _ex.what());
-		}
-
-		return result;
+		return serialize_view;
 	}
 
 
 
-	void basic_component::load(std::string_view _dumped_view) noexcept
+	void basic_component::load(const json& _serialized_view)
 	{
-		try
-		{
-			json serialize_view = json::parse(_dumped_view);
-			m_id = serialize_view["id"];
-			m_is_active = serialize_view["is_active"];
-			m_owner = serialize_view["owner"];
-		}
-		catch (const std::exception& _ex)
-		{
-			LOG_ERROR("[Basic component ERROR] Deserialize error: {0}", _ex.what());
-		}
-	}
-
-
-
-	void basic_component::dump(json& _dumped_view) const
-	{ }
-
-
-
-	void basic_component::load(const json& _dumped_view)
-	{ }
+		_serialized_view.at("id").get_to(m_id);
+		_serialized_view.at("is_active").get_to(m_is_active);
+		_serialized_view.at("owner").get_to(m_owner);
+}
 }

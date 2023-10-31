@@ -2,6 +2,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/interfaces/dumped_object.hpp>
+
 #include <engine/ecs/ecs.hpp>
 
 #include <engine/ecs/systems/fwd/systems_manager.hpp>
@@ -12,7 +14,7 @@
 
 namespace engine::ecs::systems
 {
-	class basic_system: private util::nocopyeble
+	class basic_system: private util::nocopyeble, public interfaces::serializable_object
 	{
 	public:
 
@@ -28,6 +30,9 @@ namespace engine::ecs::systems
 		bool isActive() const noexcept;
 		void enable() noexcept;
 		void disable() noexcept;
+
+		json dump() const override;
+		void load(const json& _serialized_view) override;
 
 	private:
 

@@ -26,6 +26,8 @@ namespace engine::ecs::systems
 		void update(float _delta_time) const noexcept override;
 		void postUpdate(float _delta_time) const noexcept override;
 
+		json dump() const override;
+
 	private:
 
 		const UIModule_ptr_t& m_UI_module;

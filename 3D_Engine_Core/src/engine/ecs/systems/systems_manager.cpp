@@ -1,7 +1,5 @@
 #include <engine/ecs/systems/systems_manager.hpp>
 
-#include <engine/ecs/systems/basic_system.hpp>
-
 
 
 namespace engine::ecs::systems
@@ -17,6 +15,13 @@ namespace engine::ecs::systems
 			system.second.second->update(_delta_time);
 			system.second.second->postUpdate(_delta_time);
 		}
+	}
+
+
+
+	auto systems_manager::getSystems() const noexcept -> const systems_storage_t&
+	{
+		return m_systems;
 	}
 
 

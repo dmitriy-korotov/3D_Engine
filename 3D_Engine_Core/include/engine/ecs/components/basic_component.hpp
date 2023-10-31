@@ -14,7 +14,7 @@
 
 namespace engine::ecs::components
 {
-	class basic_component: private util::nocopyeble, protected interfaces::dumped_object
+	class basic_component: private util::nocopyeble, protected interfaces::serializable_object
 	{
 	public:
 
@@ -33,15 +33,12 @@ namespace engine::ecs::components
 
 		virtual bool putOnUI() noexcept;
 		
-		std::string dump() const noexcept;
-		void load(std::string_view _dumped_view) noexcept;
+		json dump() const override;
+		void load(const json& _serialized_view) override;
 
 	protected:
 
 		basic_component() noexcept;
-
-		void dump(json& _dumped_view) const override;
-		void load(const json& _dumped_view) override;
 
 	private:
 

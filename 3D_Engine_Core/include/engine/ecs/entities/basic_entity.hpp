@@ -2,6 +2,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/interfaces/dumped_object.hpp>
+
 #include <engine/ecs/ecs.hpp>
 #include <engine/ecs/ecs_system.hpp>
 #include <engine/ecs/components/components_manager.hpp>
@@ -16,7 +18,7 @@
 
 namespace engine::ecs::entities
 {
-	class basic_entity: private util::nocopyeble
+	class basic_entity: private util::nocopyeble, public interfaces::serializable_object
 	{
 	public:
 
@@ -51,6 +53,11 @@ namespace engine::ecs::entities
 
 		template <typename ComponentType, typename ...Args>
 		bool addComponent(Args&&... _args) noexcept;
+
+
+
+		json dump() const final;
+		void load(const json& _serialized_view) final;
 
 	private:
 

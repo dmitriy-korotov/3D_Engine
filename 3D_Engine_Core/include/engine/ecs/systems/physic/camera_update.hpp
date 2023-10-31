@@ -30,6 +30,8 @@ namespace engine::ecs::systems
 		void rotateCamera(const rotate& _rotate_component,
 						  const rotate_velocity& _rotate_velocity_component, float _delta_time) const noexcept;
 
+		json dump() const override;
+
 	private:
 
 		mutable glm::dvec2 m_last_cursor_position = glm::dvec2(0, 0);

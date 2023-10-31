@@ -130,4 +130,17 @@ namespace engine::ecs::systems
 			}
 		}
 	}
+
+
+
+
+
+	json render::dump() const
+	{
+		json serialized_view = basic_system::dump();
+
+		serialized_view["system_name"] = system_name;
+
+		return serialized_view;
+	}
 }

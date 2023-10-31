@@ -10,15 +10,15 @@ using namespace nlohmann;
 
 namespace engine::interfaces
 {
-	class dumped_object
+	class serializable_object
 	{
 	public:
 
-		virtual ~dumped_object() = default;
+		virtual ~serializable_object() = default;
 
-		virtual void dump(json& _dumping_view) const = 0;
+		virtual json dump() const = 0;
 
-		virtual void load(const json& _dumped_view) = 0;
+		virtual void load(const json& _serialized_view) = 0;
 
 	};
 }

@@ -18,6 +18,8 @@ namespace engine::ecs::systems
 		void update(float _delta_time) const noexcept;
 		void postUpdate(float _delta_time) const noexcept;
 
+		json dump() const override;
+
 	private:
 
 		mutable glm::vec4 m_bacgroud_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
