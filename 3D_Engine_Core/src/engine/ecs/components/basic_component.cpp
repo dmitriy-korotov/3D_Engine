@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <sstream>
+
 
 
 namespace engine::ecs::components
@@ -77,4 +79,56 @@ namespace engine::ecs::components
 		LOG_WARN("[Basic component WARN] Method 'putOnUI' is not overrided");
 		return false;
 	}
+
+
+
+	std::string basic_component::dump() const noexcept
+	{
+		json serialize_view;
+		std::string result;
+		
+		try
+		{
+			serialize_view["id"] = m_id;
+			serialize_view["is_active"] = m_is_active;
+			serialize_view["owner"] = m_owner;
+
+			dump(serialize_view);
+
+			result = serialize_view.dump();
+		}
+		catch (const std::exception& _ex)
+		{
+			LOG_ERROR("[Basic component ERROR] Serialize error: {0}", _ex.what());
+		}
+
+		return result;
+	}
+
+
+
+	void basic_component::load(std::string_view _dumped_view) noexcept
+	{
+		try
+		{
+			json serialize_view = json::parse(_dumped_view);
+			m_id = serialize_view["id"];
+			m_is_active = serialize_view["is_active"];
+			m_owner = serialize_view["owner"];
+		}
+		catch (const std::exception& _ex)
+		{
+			LOG_ERROR("[Basic component ERROR] Deserialize error: {0}", _ex.what());
+		}
+	}
+
+
+
+	void basic_component::dump(json& _dumped_view) const
+	{ }
+
+
+
+	void basic_component::load(const json& _dumped_view)
+	{ }
 }

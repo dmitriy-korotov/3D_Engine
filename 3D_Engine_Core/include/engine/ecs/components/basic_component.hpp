@@ -2,6 +2,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/interfaces/dumped_object.hpp>
+
 #include <engine/ecs/ecs.hpp>
 
 #include <engine/ecs/components/fwd/components_manager.hpp>
@@ -12,7 +14,7 @@
 
 namespace engine::ecs::components
 {
-	class basic_component: private util::nocopyeble
+	class basic_component: private util::nocopyeble, protected interfaces::dumped_object
 	{
 	public:
 
@@ -30,10 +32,16 @@ namespace engine::ecs::components
 		component_id_t getID() const noexcept;
 
 		virtual bool putOnUI() noexcept;
+		
+		std::string dump() const noexcept;
+		void load(std::string_view _dumped_view) noexcept;
 
 	protected:
 
 		basic_component() noexcept;
+
+		void dump(json& _dumped_view) const override;
+		void load(const json& _dumped_view) override;
 
 	private:
 
