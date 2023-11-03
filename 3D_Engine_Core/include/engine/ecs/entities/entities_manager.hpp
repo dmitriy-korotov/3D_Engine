@@ -21,7 +21,7 @@ namespace engine::ecs::entities
 		~entities_manager();
 
 		template <typename EntityType, typename ...Args>
-		entity_id_t createEntity(Args&&... _args);
+		[[nodiscard]] entity_ptr_t createEntity(Args&&... _args);
 
 		bool destroyEntity(entity_id_t _entity_id) noexcept;
 
@@ -41,17 +41,17 @@ namespace engine::ecs::entities
 
 
 	template <typename EntityType, typename ...Args>
-	entity_id_t entities_manager::createEntity(Args&&... _args)
+	auto entities_manager::createEntity(Args&&... _args) -> entity_ptr_t
 	{
 		static_assert(std::is_base_of_v<basic_entity, EntityType>, "EntityType is not derived basic_entity");
 
 		auto entity_ptr = std::make_shared<EntityType>(std::forward<Args>(_args)...);
 		entity_id_t id = entity_ptr->getID();
-		auto pair = m_entities.emplace(id, std::move(entity_ptr));
+		auto pair = m_entities.emplace(id, entity_ptr);
 
 		if (pair.second)
-			return id;
+			return nullptr;
 		
-		return INVALID_ENTITY_ID;
+		return entity_ptr;
 	}
 }

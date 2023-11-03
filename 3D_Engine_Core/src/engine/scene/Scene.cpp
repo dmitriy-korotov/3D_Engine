@@ -8,6 +8,8 @@
 
 
 
+
+
 using namespace nlohmann;
 
 namespace engine::scene
@@ -19,7 +21,7 @@ namespace engine::scene
 
 
 
-	Scene::object_ptr_t Scene::getObject(object_id_t _obj_id) noexcept
+	auto Scene::getObject(object_id_t _obj_id) noexcept -> object_ptr_t
 	{
 		return ecs::ECS::instance().getEntitiesManager()->getEntity(_obj_id);
 	}

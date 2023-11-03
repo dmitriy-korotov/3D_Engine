@@ -2,7 +2,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/interfaces/dumped_object.hpp>
+#include <engine/interfaces/serializable_object.hpp>
 
 #include <engine/ecs/ecs.hpp>
 #include <engine/ecs/ecs_system.hpp>

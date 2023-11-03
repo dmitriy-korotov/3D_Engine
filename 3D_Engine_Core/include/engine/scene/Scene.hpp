@@ -36,7 +36,10 @@ namespace engine::scene
 
 
 		template <typename T, typename ...Args>
-		static object_id_t addObject(const object_builder_ptr_t& _obj_builder = nullptr, Args&&... _args) noexcept;
+		static object_ptr_t addObject(Args&&... _args) noexcept;
+
+		template <typename T, typename Builder, typename ...Args>
+		static object_ptr_t addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept;
 
 		static bool delObject(object_id_t _obj_id) noexcept;
 
@@ -95,19 +98,27 @@ namespace engine::scene
 
 
 	template <typename T, typename ...Args>
-	object_id_t Scene::addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept
+	auto Scene::addObject(Args&&... _args) noexcept -> object_ptr_t
 	{
-		auto ID = ecs::ECS::instance().getEntitiesManager()->createEntity<T>(std::forward<Args>(_args)...);
-		if (ID == ecs::entities::INVALID_ENTITY_ID)
+		return addObject<T, basic_object_builder>(object_builder_ptr_t(nullptr), std::forward<Args>(_args)...);
+	}
+
+
+
+	template <typename T, typename Builder, typename ...Args>
+	auto Scene::addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept -> object_ptr_t
+	{
+		auto object = ecs::ECS::instance().getEntitiesManager()->createEntity<T>(std::forward<Args>(_args)...);
+		if (object == nullptr)
 		{
 			LOG_WARN("[Scene WARN] Can't create object");
-			return ID;
+			return nullptr;
 		}
 
 		if (_obj_builder)
-			_obj_builder->build(ID);
+			_obj_builder->build(object->getID());
 
-		return ID;
+		return object;
 	}
 
 
@@ -123,7 +134,7 @@ namespace engine::scene
 
 
 	template <typename T>
-	static Scene::component_ptr_t<T> Scene::getComponent(object_id_t _obj_id) noexcept
+	auto Scene::getComponent(object_id_t _obj_id) noexcept -> component_ptr_t<T>
 	{
 		return ecs::ECS::instance().getComponentsManager()->getComponent<T>(_obj_id);
 	}
@@ -131,7 +142,7 @@ namespace engine::scene
 
 
 	template <typename T>
-	static Scene::component_ptr_t<T> Scene::getComponent() noexcept
+	auto Scene::getComponent() noexcept -> component_ptr_t<T>
 	{
 		return ecs::ECS::instance().getComponentsManager()->getComponent<T>();
 	}
@@ -139,7 +150,7 @@ namespace engine::scene
 
 
 	template <typename T>
-	static std::optional<Scene::components_range_t<T>> Scene::getComponents() noexcept
+	auto Scene::getComponents() noexcept -> std::optional<components_range_t<T>>
 	{
 		return ecs::ECS::instance().getComponentsManager()->getComponents<T>();
 	}

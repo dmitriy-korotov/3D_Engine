@@ -61,12 +61,12 @@ namespace editor
 		engine::GetResourceManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
 
 
-		entity_id_t light = Scene::addObject<basic_entity>(nullptr);
-		Scene::addComponent<direction_light>(light);
+		auto light = Scene::addObject<basic_entity>();
+		light->addComponent<direction_light>();
 
 
-		entity_id_t camera_id = Scene::addObject<camera>(nullptr, glm::vec3(-5.f, 0.f, 0.f));
-		Scene::addComponent<active_camera>(camera_id);
+		auto camera = Scene::addObject<engine::scene::camera>(glm::vec3(-5.f, 0.f, 0.f));
+		camera->addComponent<active_camera>();
 
 
 
@@ -86,11 +86,11 @@ namespace editor
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj";
 		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
-		entity_id_t ball = Scene::addObject<renderable_scene_object>(nullptr, path_to_cube, shader_program);
-		entity_id_t cube = Scene::addObject<renderable_scene_object>(nullptr, path_to_cube, unlit_shader_program);
+		auto ball = Scene::addObject<renderable_scene_object>(path_to_cube, shader_program);
+		auto cube = Scene::addObject<renderable_scene_object>(path_to_cube, unlit_shader_program);
 
-		Scene::addComponent<point_light>(cube);
-		Scene::addComponent<selected>(cube);
+		cube->addComponent<point_light>();
+		cube->addComponent<selected>();
 
 
 
