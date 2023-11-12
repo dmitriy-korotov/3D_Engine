@@ -36,6 +36,7 @@
 
 
 
+
 using namespace engine::render;
 using namespace engine::ecs::components;
 using namespace engine::ecs::entities;
@@ -93,9 +94,6 @@ namespace editor
 		
 		std::string path_to_cube = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
 		std::string path_to_ball = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Ball\\Ball.obj";
-		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\MyCube\\Cube.obj";
-		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\E-45-Aircraft\\E_45_Aircraft_obj.obj";
-		//std::string path = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
 		auto ball = Scene::addObject<renderable_scene_object>(path_to_cube, shader_program);
 		auto cube = Scene::addObject<renderable_scene_object>(path_to_cube, unlit_shader_program);
@@ -103,15 +101,7 @@ namespace editor
 		cube->addComponent<point_light>();
 		cube->addComponent<selected>();
 
-
-
-
-
-
-
-		LOG_INFO("'{0}' application started, size: {1}x{2}", engine::application_settings::instance().getTitle(),
-															 engine::application_settings::instance().getWidth(),
-															 engine::application_settings::instance().getHeight());
+		LOG_INFO("'{0}' application started, size: {1}x{2}", getSettings().getTitle(), getSettings().getWidth(), getSettings().getHeight());
 	}
 
 
@@ -140,9 +130,7 @@ namespace editor
 
 	void Editor::onClose() noexcept
 	{
-		LOG_INFO("'{0}' application closed, size: {1}x{2}", engine::application_settings::instance().getTitle(),
-															engine::application_settings::instance().getWidth(),
-															engine::application_settings::instance().getHeight());
+		LOG_INFO("'{0}' application closed, size: {1}x{2}", getSettings().getTitle(), getSettings().getWidth(),	getSettings().getHeight());
 
 		Scene::save("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
 	}

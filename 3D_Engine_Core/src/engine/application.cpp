@@ -69,7 +69,7 @@ namespace engine
 
 
 
-    application::app_error application::loadConfig() noexcept
+    application::app_error_t application::loadConfig() noexcept
     {
         RendererImpl renderer_impl =                application_settings::instance().getRendererImpl();
         UIModuleImpl UI_module_impl =               application_settings::instance().getUIModuleImpl();
@@ -152,7 +152,7 @@ namespace engine
 
 
 
-    application::app_error application::createWindow() noexcept
+    application::app_error_t application::createWindow() noexcept
     {
         WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
         std::string title =                         application_settings::instance().getTitle();
@@ -192,7 +192,7 @@ namespace engine
 
 
 
-    application::app_error application::setupRenderer() noexcept
+    application::app_error_t application::setupRenderer() noexcept
     {
         std::shared_ptr<basic_renderer> renderer = nullptr;
 
@@ -226,7 +226,7 @@ namespace engine
 
 
 
-    application::app_error application::setupUIModule() noexcept
+    application::app_error_t application::setupUIModule() noexcept
     {
         UIModuleImpl UI_module_impl = application_settings::instance().getUIModuleImpl();
         RendererImpl renderer_impl = application_settings::instance().getRendererImpl();
@@ -313,7 +313,7 @@ namespace engine
 
 
 
-	application::app_error application::start() noexcept
+	application::app_error_t application::start() noexcept
 	{
         auto cfg_error = loadConfig();
         if (cfg_error.has_value())
@@ -362,6 +362,13 @@ namespace engine
     bool application::isClosed() const noexcept
     {
         return m_is_closed;
+    }
+
+
+
+    application_settings& application::getSettings() noexcept
+    {
+        return application_settings::instance();
     }
 
 
