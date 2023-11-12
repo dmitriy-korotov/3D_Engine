@@ -50,8 +50,8 @@ namespace engine::ecs::entities
 		auto pair = m_entities.emplace(id, entity_ptr);
 
 		if (pair.second)
-			return nullptr;
+			return entity_ptr;
 		
-		return entity_ptr;
+		return nullptr;
 	}
 }

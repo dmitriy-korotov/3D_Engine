@@ -1,10 +1,13 @@
 #include <engine/scene/Scene.hpp>
 
+#include <engine/ecs/systems/systems_creator.hpp>
+
 #include <engine/logging/log.hpp>
 
 #include <nlohmann/json.hpp>
 
 #include <fstream>
+#include <string>
 
 
 
@@ -51,6 +54,38 @@ namespace engine::scene
 
 	bool Scene::load(const path& _path) noexcept
 	{
+		if (!std::filesystem::exists(_path))
+		{
+			LOG_ERROR("[Scene ERROR] Can't find scene file '{0}'", _path.generic_string());
+			return false;
+		}
+
+		std::ifstream file(_path);
+		if (!file.is_open())
+		{
+			LOG_ERROR("[Scene ERROR] Can't open scene file '{0}'", _path.generic_string());
+			return false;
+		}
+
+		try
+		{
+			json serialized_scene;
+			file >> serialized_scene;
+
+			auto& systems = serialized_scene["systems"];
+			for (auto it = systems.begin(); it != systems.end(); it++)
+			{
+				LOG_INFO("{}", std::string(it->at("system_name")));
+				auto system_creator = ecs::systems::systems_creator::getCreator(std::string(it->at("system_name")));
+				(*system_creator)();
+			}
+		}
+		catch (const std::exception& _ex)
+		{
+			LOG_ERROR("[Scene ERROR] Parse error: {0}", std::string(_ex.what()));
+			return false;
+		}
+
 		return true;
 	}
 

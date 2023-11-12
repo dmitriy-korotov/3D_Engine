@@ -31,6 +31,7 @@
 
 #include <engine/Engine.hpp>
 
+#include <engine/ecs/systems/systems_creator.hpp>
 
 
 
@@ -60,6 +61,16 @@ namespace editor
 	{
 		engine::GetResourceManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
 
+		AddSystemCreator<camera_update>(1);
+		AddSystemCreator<render>(2);
+		AddSystemCreator<scene_UI>(3);
+		AddSystemCreator<selected_object_UI>(4);
+
+
+
+		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
+
+
 
 		auto light = Scene::addObject<basic_entity>();
 		light->addComponent<direction_light>();
@@ -70,10 +81,10 @@ namespace editor
 
 
 
-		Scene::addSystem<camera_update>(1);
-		Scene::addSystem<render>(2);
-		Scene::addSystem<selected_object_UI>(5);
-		Scene::addSystem<scene_UI>(4);
+		//Scene::addSystem<camera_update>(1);
+		//Scene::addSystem<render>(2);
+		//Scene::addSystem<selected_object_UI>(5);
+		//Scene::addSystem<scene_UI>(4);
 
 		
 

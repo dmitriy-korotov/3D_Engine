@@ -317,9 +317,11 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 
 		include/engine/ecs/systems/fwd.hpp
 		include/engine/ecs/systems/fwd/basic_system.hpp
+		include/engine/ecs/systems/fwd/systems_creator.hpp
 		include/engine/ecs/systems/fwd/systems_manager.hpp
 
 		include/engine/ecs/systems/basic_system.hpp
+		include/engine/ecs/systems/systems_creator.hpp
 		include/engine/ecs/systems/systems_manager.hpp
 		include/engine/ecs/systems/render.hpp
 		include/engine/ecs/systems/physic.hpp
@@ -440,6 +442,7 @@ set(ENGINE_PRIVATE_SOURCES
 set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/ecs_system.cpp
+		src/engine/ecs/systems_constructor.cpp
 
 		src/engine/ecs/entities/basic_entity.cpp
 		src/engine/ecs/entities/entities_manager.cpp
