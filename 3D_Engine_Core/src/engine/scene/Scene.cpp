@@ -1,6 +1,7 @@
 #include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/systems/systems_creator.hpp>
+#include <engine/ecs/systems/systems_manager.hpp>
 
 #include <engine/logging/log.hpp>
 

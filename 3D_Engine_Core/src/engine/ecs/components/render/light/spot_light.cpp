@@ -1,6 +1,7 @@
 #include <engine/ecs/components/render/light/spot_light.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/components/components_manager.hpp>
 
 #include <engine/ecs/components/physic/direction.hpp>
 

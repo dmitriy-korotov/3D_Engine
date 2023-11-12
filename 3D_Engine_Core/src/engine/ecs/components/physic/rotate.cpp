@@ -3,6 +3,7 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/components/components_manager.hpp>
 
 #include <engine/ecs/components/physic/rotation.hpp>
 

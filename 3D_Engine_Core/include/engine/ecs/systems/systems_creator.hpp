@@ -1,6 +1,7 @@
 #pragma once
 
 #include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/systems/systems_manager.hpp>
 
 #include <unordered_map>
 #include <string>

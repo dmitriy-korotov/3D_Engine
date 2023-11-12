@@ -54,8 +54,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	typename component_iterator<ComponentType>::component_ptr_t<const ComponentType>
-	component_iterator<ComponentType>::operator*() const noexcept
+	auto component_iterator<ComponentType>::operator*() const noexcept -> component_ptr_t<const ComponentType>
 	{
 		return std::dynamic_pointer_cast<const ComponentType>(m_map_iterator->second);
 	}
@@ -63,8 +62,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType>
-	typename component_iterator<ComponentType>::component_ptr_t<ComponentType>
-		component_iterator<ComponentType>::operator*() noexcept
+	auto component_iterator<ComponentType>::operator*() noexcept -> component_ptr_t<ComponentType>
 	{
 		return std::dynamic_pointer_cast<ComponentType>(m_map_iterator->second);
 	}

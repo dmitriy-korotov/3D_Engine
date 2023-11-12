@@ -1,6 +1,7 @@
 #include <engine/ecs/components/physic/movement.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/components/components_manager.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
 #include <engine/ecs/components/physic/orientation.hpp>

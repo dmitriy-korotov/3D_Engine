@@ -1,6 +1,8 @@
 #include <engine/ecs/components/render/light/point_light.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/components/components_manager.hpp>
+
 #include <engine/ecs/components/physic/position.hpp>
 
 #include <engine/Engine.hpp>

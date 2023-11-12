@@ -1,6 +1,7 @@
 #include <engine/ecs/components/physic/transform.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/entities/basic_entity.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
 #include <engine/ecs/components/physic/rotation.hpp>

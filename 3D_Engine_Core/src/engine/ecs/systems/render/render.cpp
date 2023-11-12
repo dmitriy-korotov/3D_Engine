@@ -44,7 +44,7 @@ namespace engine::ecs::systems
 
 			for (;begin != end; begin++)
 			{
-				auto& renderable_comp = *begin;
+				const auto& renderable_comp = *begin;
 				
 				
 
@@ -54,16 +54,16 @@ namespace engine::ecs::systems
 
 				const auto& active_camera_comp = Scene::getComponent<active_camera>();
 				const auto& active_camera_ent = Scene::getObject(active_camera_comp->getOwner());
-				auto& camera_transform_comp = active_camera_ent->getComponent<camera_transform>();
-				auto& vision_comp = active_camera_ent->getComponent<vision>();
+				const auto& camera_transform_comp = active_camera_ent->getComponent<camera_transform>();
+				const auto& vision_comp = active_camera_ent->getComponent<vision>();
 
 				
 
-				auto& current_ent = Scene::getObject(renderable_comp->getOwner());
+				const auto& current_ent = Scene::getObject(renderable_comp->getOwner());
 				
 
 				
-				auto& transform_comp = current_ent->getComponent<transform>();
+				const auto& transform_comp = current_ent->getComponent<transform>();
 
 
 

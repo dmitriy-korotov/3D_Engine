@@ -5,8 +5,8 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/ecs/ecs.hpp>
+#include <engine/ecs/ecs_system.hpp>
 #include <engine/ecs/entities/entities_manager.hpp>
-#include <engine/ecs/entities/basic_entity.hpp>
 
 #include <engine/ecs/components/component_iterator.hpp>
 
@@ -93,10 +93,10 @@ namespace engine::ecs::components
 		if (current_type_components == m_components.end())
 		{
 			general_type_components_map_t current_type_components_storage;
-			auto& entity = ECS::instance().getEntitiesManager()->getEntity(_entity_id);
+			auto entity = ECS::instance().getEntitiesManager()->getEntity(_entity_id);
 			if (entity != nullptr)
 			{
-				entity->addComponent<ComponentType>(component);
+				//entity->addComponent<ComponentType>(component);
 			}
 			else
 			{

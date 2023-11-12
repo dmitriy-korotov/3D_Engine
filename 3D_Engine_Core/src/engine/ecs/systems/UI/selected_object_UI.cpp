@@ -36,29 +36,29 @@ namespace engine::ecs::systems
 		if (selected_component == nullptr)
 			return;
 
-		auto& owner = Scene::getObject(selected_component->getOwner());
+		const auto& owner = Scene::getObject(selected_component->getOwner());
 
 
 
-		auto& position_comp = owner->getComponent<position>();
+		const auto& position_comp = owner->getComponent<position>();
 		if (position_comp != nullptr)
 			position_comp->putOnUI();
 
-		auto& rotation_comp = owner->getComponent<rotation>();
+		const auto& rotation_comp = owner->getComponent<rotation>();
 		if (rotation_comp != nullptr)
 			rotation_comp->putOnUI();
 
-		auto& scale_comp = owner->getComponent<scale>();
+		const auto& scale_comp = owner->getComponent<scale>();
 		if (scale_comp != nullptr)
 			scale_comp->putOnUI();
 
-		auto& point_light_comp = owner->getComponent<point_light>();
+		const auto& point_light_comp = owner->getComponent<point_light>();
 		if (point_light_comp != nullptr)
 			point_light_comp->putOnUI();
 
 		m_UI_module->separate();
 
-		auto& renderable_comp = owner->getComponent<renderable>();
+		const auto& renderable_comp = owner->getComponent<renderable>();
 		if (renderable_comp != nullptr)
 			renderable_comp->putOnUI();
 	}

@@ -31,7 +31,7 @@ namespace engine::ecs::systems
 		{
 			const auto& active_camera_ent = Scene::getObject(active_camera_component->getOwner());
 
-			auto& vision_comp = active_camera_ent->getComponent<vision>();
+			const auto& vision_comp = active_camera_ent->getComponent<vision>();
 			if (vision_comp == nullptr)
 			{
 				LOG_ERROR("[Camera update system ERROR] Active camera is not have 'vision' component");
@@ -42,8 +42,8 @@ namespace engine::ecs::systems
 
 
 
-			auto& movement_comp = active_camera_ent->getComponent<movement>();
-			auto& movement_velocity_comp = active_camera_ent->getComponent<movement_velocity>();
+			const auto& movement_comp = active_camera_ent->getComponent<movement>();
+			const auto& movement_velocity_comp = active_camera_ent->getComponent<movement_velocity>();
 			
 			if (movement_comp == nullptr || movement_velocity_comp == nullptr)
 				LOG_WARN("[Camera update system WARN] Active camera is not have movement components");
@@ -52,8 +52,8 @@ namespace engine::ecs::systems
 
 
 
-			auto& rotate_comp = active_camera_ent->getComponent<rotate>();
-			auto& rotate_velocity_comp = active_camera_ent->getComponent<rotate_velocity>();
+			const auto& rotate_comp = active_camera_ent->getComponent<rotate>();
+			const auto& rotate_velocity_comp = active_camera_ent->getComponent<rotate_velocity>();
 
 			if (rotate_comp == nullptr || rotate_velocity_comp == nullptr)
 				LOG_WARN("[Camera update system WARN] Active camera is not have rotate components");

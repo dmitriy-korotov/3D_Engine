@@ -47,9 +47,3 @@ namespace engine::ecs
 
 	};
 }
-
-
-
-#include <engine/ecs/entities/entities_manager.hpp>
-#include <engine/ecs/components/components_manager.hpp>
-#include <engine/ecs/systems/systems_manager.hpp>
