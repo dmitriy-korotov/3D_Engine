@@ -2,11 +2,7 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/application_settings.hpp>
-
 #include <engine/input/keyboard.hpp>
-
-#include <engine/util/file_reader.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
 #include <engine/ecs/components/physic.hpp>
@@ -94,9 +90,12 @@ namespace editor
 		
 		std::string path_to_cube = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
 		std::string path_to_ball = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Ball\\Ball.obj";
+		std::string path_to_deer = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj";
+		std::string path_to_steve = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Steve\\Model\\Santa\\Steve.obj";
+		std::string path_to_backpack = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
 		auto ball = Scene::addObject<renderable_scene_object>(path_to_cube, shader_program);
-		auto cube = Scene::addObject<renderable_scene_object>(path_to_cube, unlit_shader_program);
+		auto cube = Scene::addObject<renderable_scene_object>(path_to_backpack, unlit_shader_program);
 
 		cube->addComponent<point_light>();
 		cube->addComponent<selected>();

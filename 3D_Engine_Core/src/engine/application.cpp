@@ -9,18 +9,15 @@
 #include <engine/window/events.hpp>
 #include <engine/window/glfw/glfw_window_context.hpp>
 
-#include <engine/render/application_renderer.hpp>
-#include <engine/render/open_gl/renderer.hpp>
-
-#include <engine/modules/ui/application_UIModule.hpp>
-#include <engine/modules/ui/imgui/UIModule.hpp>
-
 #include <engine/input/mouse.hpp>
 #include <engine/input/keyboard.hpp>
 
-#include <engine/render/open_gl/shader_programs_creator.hpp>
+#include <engine/Engine.hpp>
+#include <engine/render/open_gl/renderer.hpp>
+#include <engine/modules/ui/imgui/UIModule.hpp>
 
 #include <engine/resource_manager.hpp>
+#include <engine/render/open_gl/shader_programs_creator.hpp>
 
 #include <engine/scene/Scene.hpp>
 
@@ -71,14 +68,14 @@ namespace engine
 
     application::app_error_t application::loadConfig() noexcept
     {
-        RendererImpl renderer_impl =                application_settings::instance().getRendererImpl();
-        UIModuleImpl UI_module_impl =               application_settings::instance().getUIModuleImpl();
-        WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
-        std::string title =                         application_settings::instance().getTitle();
-        uint16_t width =                            application_settings::instance().getWidth();
-        uint16_t height =                           application_settings::instance().getHeight();
-        OpenMode open_mode =                        application_settings::instance().getOpenMode();
-        std::optional<path> path_to_window_icon =   application_settings::instance().getPathToWindowIcon();
+        RendererImpl renderer_impl =                getSettings().getRendererImpl();
+        UIModuleImpl UI_module_impl =               getSettings().getUIModuleImpl();
+        WindowImpl window_impl =                    getSettings().getWindowImpl();
+        std::string title =                         getSettings().getTitle();
+        uint16_t width =                            getSettings().getWidth();
+        uint16_t height =                           getSettings().getHeight();
+        OpenMode open_mode =                        getSettings().getOpenMode();
+        std::optional<path> path_to_window_icon =   getSettings().getPathToWindowIcon();
 
 
 
@@ -95,32 +92,32 @@ namespace engine
                 if (settings.find(WINDOW_IMPL_SETTING_NAME) != settings.end())
                 {
                     window_impl = toWindowImpl(settings[WINDOW_IMPL_SETTING_NAME]);
-                    application_settings::instance().setWindowImpl(window_impl);
+                    getSettings().setWindowImpl(window_impl);
                 }
                 if (settings.find(TITLE_SETTING_NAME) != settings.end())
                 {
                     title = settings[TITLE_SETTING_NAME];
-                    application_settings::instance().setTitle(title);
+                    getSettings().setTitle(title);
                 }
                 if (settings.find(WIDTH_SETTING_NAME) != settings.end())
                 {
                     width = settings[WIDTH_SETTING_NAME];
-                    application_settings::instance().setWidth(width);
+                    getSettings().setWidth(width);
                 }
                 if (settings.find(HEIGHT_SETTING_NAME) != settings.end())
                 {
                     height = settings[HEIGHT_SETTING_NAME];
-                    application_settings::instance().setHeight(height);
+                    getSettings().setHeight(height);
                 }
                 if (settings.find(OPEN_MODE_SETTING_NAME) != settings.end())
                 {
                     open_mode = toOpenMode(settings[OPEN_MODE_SETTING_NAME]);
-                    application_settings::instance().setOpenMode(open_mode);
+                    getSettings().setOpenMode(open_mode);
                 }
                 if (settings.find(PATH_TO_WINDOW_ICON_NAME) != settings.end())
                 {
                     path_to_window_icon = std::string(settings[PATH_TO_WINDOW_ICON_NAME]);
-                    application_settings::instance().setPathToWindowIcon(path_to_window_icon.value());
+                    getSettings().setPathToWindowIcon(path_to_window_icon.value());
                 }
 
 
@@ -129,7 +126,7 @@ namespace engine
                 if (settings.find(RENDERER_IMPL_SETTING_NAME) != settings.end())
                 {
                     renderer_impl = toRendererImpl(settings[RENDERER_IMPL_SETTING_NAME]);
-                    application_settings::instance().setRendererImpl(renderer_impl);
+                    getSettings().setRendererImpl(renderer_impl);
                 }
 
 
@@ -138,7 +135,7 @@ namespace engine
                 if (settings.find(UI_MODULE_IMPL_SETTING_NAME) != settings.end())
                 {
                     UI_module_impl = toUIModuleImpl(settings[UI_MODULE_IMPL_SETTING_NAME]);
-                    application_settings::instance().setUIModuleImpl(UI_module_impl);
+                    getSettings().setUIModuleImpl(UI_module_impl);
                 }
             }
             else
@@ -154,12 +151,12 @@ namespace engine
 
     application::app_error_t application::createWindow() noexcept
     {
-        WindowImpl window_impl =                    application_settings::instance().getWindowImpl();
-        std::string title =                         application_settings::instance().getTitle();
-        uint16_t width =                            application_settings::instance().getWidth();
-        uint16_t height =                           application_settings::instance().getHeight();
-        OpenMode open_mode =                        application_settings::instance().getOpenMode();
-        std::optional<path> path_to_window_icon =   application_settings::instance().getPathToWindowIcon();
+        WindowImpl window_impl =                    getSettings().getWindowImpl();
+        std::string title =                         getSettings().getTitle();
+        uint16_t width =                            getSettings().getWidth();
+        uint16_t height =                           getSettings().getHeight();
+        OpenMode open_mode =                        getSettings().getOpenMode();
+        std::optional<path> path_to_window_icon =   getSettings().getPathToWindowIcon();
 
 
 
@@ -181,8 +178,8 @@ namespace engine
         if (m_window_ptr->create(title, width, height, open_mode).has_value())
             return error::application_error::can_not_create_window;
 
-        application_settings::instance().setWidth(m_window_ptr->getWidth());
-        application_settings::instance().setHeight(m_window_ptr->getHeight());
+        getSettings().setWidth(m_window_ptr->getWidth());
+        getSettings().setHeight(m_window_ptr->getHeight());
 
         if (path_to_window_icon.has_value())
             m_window_ptr->setupIcon(path_to_window_icon.value());
@@ -196,7 +193,7 @@ namespace engine
     {
         std::shared_ptr<basic_renderer> renderer = nullptr;
 
-        switch (application_settings::instance().getRendererImpl())
+        switch (getSettings().getRendererImpl())
         {
         case RendererImpl::OpenGL:
             renderer = std::shared_ptr<open_gl::renderer>(&open_gl::renderer::instance(),
@@ -214,12 +211,12 @@ namespace engine
             break;
         }
 
-        if (!renderer->init(application_settings::instance().getWindowImpl()))
+        if (!renderer->init(getSettings().getWindowImpl()))
             return error::application_error::can_not_setup_renderer;
 
         renderer->enableDepthTest();
 
-        application_renderer::instance().setupRenderer(std::move(renderer));
+        Engine::setApplicationRenderer(std::move(renderer));
 
         return std::nullopt;
     }
@@ -228,9 +225,9 @@ namespace engine
 
     application::app_error_t application::setupUIModule() noexcept
     {
-        UIModuleImpl UI_module_impl = application_settings::instance().getUIModuleImpl();
-        RendererImpl renderer_impl = application_settings::instance().getRendererImpl();
-        WindowImpl window_impl = application_settings::instance().getWindowImpl();
+        UIModuleImpl UI_module_impl = getSettings().getUIModuleImpl();
+        RendererImpl renderer_impl =  getSettings().getRendererImpl();
+        WindowImpl window_impl =      getSettings().getWindowImpl();
 
 
 
@@ -257,7 +254,7 @@ namespace engine
         if (!UI_module->isInitialized())
             return error::application_error::can_not_setup_UIModule;
 
-        application_UIModule::instance().setUIModule(std::move(UI_module));
+        Engine::setApplicationUIModule(std::move(UI_module));
 
         return std::nullopt;
     }
@@ -269,8 +266,8 @@ namespace engine
         m_window_ptr->addEventListener<Events::Resize>(
             [this](const ResizeEventData& _size) -> void
             {
-                application_settings::instance().setWidth(_size.width);
-                application_settings::instance().setHeight(_size.height);
+                getSettings().setWidth(_size.width);
+                getSettings().setHeight(_size.height);
 
                 onWindowResize();
             });
@@ -350,7 +347,7 @@ namespace engine
 
         scene::Scene::terminate();
 
-        application_UIModule::instance().getUIModule()->terminate();
+        Engine::getApplicationUIModule()->terminate();
         m_window_ptr->shutdown();
         m_window_context->terminate();
 

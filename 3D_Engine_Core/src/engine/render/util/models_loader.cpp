@@ -117,7 +117,7 @@ namespace engine::render::utility
 		}
 
 		for (size_t i = 0; i < vertexes.size(); i++)
-			//vertexes[i].position /= max_abs;
+			vertexes[i].position /= max_abs;
 
 		for (size_t i = 0; i < _mesh->mNumFaces; i++)
 		{
@@ -165,7 +165,13 @@ namespace engine::render::utility
 
 			util::image img(m_model_directory / path_to_texture.C_Str());
 			auto texture = std::make_shared<open_gl::texture2D>();
-			texture->setData(img.getData(), img.getWidth(), img.getHeight());
+
+			if (img.getChannels() == 3)
+				texture->setData(img.getData(), img.getWidth(), img.getHeight());
+			else if (img.getChannels() == 4)
+				texture->setData(img.getData(), img.getWidth(), img.getHeight(), InternalFormat::RGBA_8);
+			else
+				LOG_ERROR("[Models loader ERROR] Unexpected channels count: {0}", img.getChannels());
 
 			m_cached_textures.emplace(path_to_texture.C_Str(), texture);
 			_textures.emplace(toTextureMap(_texture_type), std::move(texture));

@@ -197,7 +197,7 @@ namespace engine::render::utility
 			}
 			else
 			{
-				LOG_WARN("[Shader preprocessor WARN] Can't include file '{0}' (line : {2})", path_to_included_file.value(), line);
+				LOG_WARN("[Shader preprocessor WARN] Can't include file '{0}' (line : {1})", path_to_included_file.value(), line);
 				return std::nullopt;
 			}
 		}

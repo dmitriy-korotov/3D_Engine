@@ -8,18 +8,36 @@
 
 namespace engine::render::open_gl
 {
-	constexpr GLenum internal_format_to_GLenum(InternalFormat _internal_format) noexcept
+	constexpr GLenum internal_format_to_GLenum_internal_format(InternalFormat _internal_format) noexcept
 	{
 		switch (_internal_format)
 		{
 		case InternalFormat::RGB_8:
 			return GL_RGB8;
+		case InternalFormat::RGBA_8:
+			return GL_RGBA8;
 		case InternalFormat::RGB_12:
 			return GL_RGB12;
 		case InternalFormat::RGB_16:
 			return GL_RGB16;
 		}
-		LOG_ERROR("[Texture2D ERROR] This format is not found (code: {0}).", static_cast<uint8_t>(_internal_format));
+		LOG_ERROR("[Texture2D ERROR] This internal format is not found (code: {0}).", static_cast<uint8_t>(_internal_format));
+
+		return GL_RGB8;
+	}
+
+
+
+	constexpr GLenum internal_format_to_GLenum_format(InternalFormat _format) noexcept
+	{
+		switch (_format)
+		{
+		case InternalFormat::RGB_8:
+			return GL_RGB;
+		case InternalFormat::RGBA_8:
+			return GL_RGBA;
+		}
+		LOG_ERROR("[Texture2D ERROR] This format is not found (code: {0}).", static_cast<uint8_t>(_format));
 
 		return GL_RGB8;
 	}
@@ -117,8 +135,8 @@ namespace engine::render::open_gl
 		m_internal_format = _internal_format;
 
 		GLsizei mip_map_levels = static_cast<GLsizei>(std::log2(std::max(_width, _height))) + 1;
-		glTextureStorage2D(m_id, mip_map_levels, internal_format_to_GLenum(m_internal_format), m_width, m_height);
-		glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, _data);
+		glTextureStorage2D(m_id, mip_map_levels, internal_format_to_GLenum_internal_format(m_internal_format), m_width, m_height);
+		glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, internal_format_to_GLenum_format(_internal_format), GL_UNSIGNED_BYTE, _data);
 		glGenerateTextureMipmap(m_id);
 	}
 

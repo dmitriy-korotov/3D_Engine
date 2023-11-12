@@ -9,6 +9,7 @@ namespace engine::render
 	enum class InternalFormat : uint8_t
 	{
 		RGB_8,
+		RGBA_8,
 		RGB_12,
 		RGB_16
 	};
