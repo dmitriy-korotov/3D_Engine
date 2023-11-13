@@ -18,7 +18,7 @@ namespace engine::ecs::systems
 		void update(float _delta_time) const noexcept;
 		void postUpdate(float _delta_time) const noexcept;
 
-		json dump() const override;
+		serialized_view_t serialize() const override;
 
 	private:
 

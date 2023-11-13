@@ -32,9 +32,9 @@ namespace engine::ecs::entities
 
 
 
-	json basic_entity::dump() const
+	auto basic_entity::serialize() const -> serialized_view_t
 	{
-		json serialize_view;
+		serialized_view_t serialize_view;
 
 		serialize_view["id"] = m_id;
 
@@ -43,7 +43,7 @@ namespace engine::ecs::entities
 
 
 
-	void basic_entity::load(const json& _serialized_view)
+	void basic_entity::deserializeFrom(const serialized_view_t& _serialized_view)
 	{
 		_serialized_view.at("id").get_to(m_id);
 	}

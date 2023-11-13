@@ -33,8 +33,8 @@ namespace engine::ecs::components
 
 		virtual bool putOnUI() noexcept;
 		
-		json dump() const override;
-		void load(const json& _serialized_view) override;
+		serialized_view_t serialize() const override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) override;
 
 	protected:
 

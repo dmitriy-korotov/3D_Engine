@@ -29,18 +29,15 @@
 
 #include <engine/ecs/systems/systems_creator.hpp>
 
+#include <engine/util/json_view.hpp>
 
 
 
 
-using namespace engine::render;
+
 using namespace engine::ecs::components;
 using namespace engine::ecs::entities;
 using namespace engine::ecs::systems;
-using namespace engine::ecs;
-using namespace engine::window;
-using namespace engine::util;
-using namespace engine::modules;
 using namespace engine::input;
 using namespace engine::scene;
 
@@ -76,13 +73,6 @@ namespace editor
 		auto camera = Scene::addObject<engine::scene::camera>(glm::vec3(-5.f, 0.f, 0.f));
 		camera->addComponent<active_camera>();
 
-
-
-		//Scene::addSystem<camera_update>(1);
-		//Scene::addSystem<render>(2);
-		//Scene::addSystem<selected_object_UI>(5);
-		//Scene::addSystem<scene_UI>(4);
-
 		
 
 		auto shader_program = engine::GetResourceManager().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
@@ -95,7 +85,7 @@ namespace editor
 		std::string path_to_backpack = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
 		auto ball = Scene::addObject<renderable_scene_object>(path_to_cube, shader_program);
-		auto cube = Scene::addObject<renderable_scene_object>(path_to_backpack, unlit_shader_program);
+		auto cube = Scene::addObject<renderable_scene_object>(path_to_steve, unlit_shader_program);
 
 		cube->addComponent<point_light>();
 		cube->addComponent<selected>();

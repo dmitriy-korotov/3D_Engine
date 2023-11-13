@@ -48,22 +48,26 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/util/fwd/nomoveble.hpp
 		include/engine/util/fwd/file_reader.hpp
 		include/engine/util/fwd/image.hpp
+		include/engine/util/fwd/json_view.hpp
 
 		include/engine/util/nocopyeble.hpp
 		include/engine/util/noconstructible.hpp
 		include/engine/util/nomoveble.hpp
 		include/engine/util/file_reader.hpp
 		include/engine/util/image.hpp
+		include/engine/util/json_view.hpp
 
 
 
 		include/engine/interfaces/fwd.hpp
 		include/engine/interfaces/fwd/binded_object.hpp
 		include/engine/interfaces/fwd/usage_object.hpp
+		include/engine/interfaces/fwd/serialized_view.hpp
 		include/engine/interfaces/fwd/serializable_object.hpp
 
 		include/engine/interfaces/binded_object.hpp
 		include/engine/interfaces/usage_object.hpp
+		include/engine/interfaces/serialized_view.hpp
 		include/engine/interfaces/serializable_object.hpp
 
 
@@ -437,6 +441,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 		src/engine/util/file_reader.cpp
 		src/engine/util/image.cpp
+		src/engine/util/json_view.cpp
 )
 
 set(ENGINE_ECS_PRIVATE_SOURCES

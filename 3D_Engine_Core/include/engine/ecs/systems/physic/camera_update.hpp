@@ -30,7 +30,7 @@ namespace engine::ecs::systems
 		void rotateCamera(const rotate& _rotate_component,
 						  const rotate_velocity& _rotate_velocity_component, float _delta_time) const noexcept;
 
-		json dump() const override;
+		serialized_view_t serialize() const override;
 
 	private:
 

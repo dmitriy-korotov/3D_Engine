@@ -15,7 +15,7 @@ namespace engine::ecs::systems
 		void preUpdate(float _delta_time) const noexcept override;
 		void update(float _delta_time) const noexcept override;
 
-		json dump() const override;
+		serialized_view_t serialize() const override;
 
 	};
 }

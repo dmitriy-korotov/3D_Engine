@@ -135,9 +135,9 @@ namespace engine::ecs::systems
 
 
 
-	json render::dump() const
+	auto render::serialize() const -> serialized_view_t
 	{
-		json serialized_view = basic_system::dump();
+		serialized_view_t serialized_view = basic_system::serialize();
 
 		serialized_view["system_name"] = system_name;
 

@@ -56,8 +56,8 @@ namespace engine::ecs::entities
 
 
 
-		json dump() const final;
-		void load(const json& _serialized_view) final;
+		serialized_view_t serialize() const final;
+		void deserializeFrom(const serialized_view_t& _serialized_view) final;
 
 	private:
 

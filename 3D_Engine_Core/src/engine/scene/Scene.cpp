@@ -100,8 +100,6 @@ namespace engine::scene
 		serialize_view["components"] =	json::array();
 		serialize_view["systems"] =		json::array();
 
-
-
 		auto& entities_array = serialize_view.at("entities");
 		auto& systems_array = serialize_view.at("systems");
 		auto& components_array = serialize_view.at("components");
@@ -110,19 +108,19 @@ namespace engine::scene
 
 		for (auto& entity : ecs::ECS::instance().getEntitiesManager()->getEntities())
 		{
-			auto dumped_view = entity.second->dump();
+			auto dumped_view = entity.second->serialize();
 			entities_array.push_back(std::move(dumped_view));
 		}
 
 		for (auto& component : ecs::ECS::instance().getComponentsManager()->getComponents())
 		{
-			auto dumped_view = component->dump();
+			auto dumped_view = component->serialize();
 			components_array.push_back(std::move(dumped_view));
 		}
 
 		for (auto& system : ecs::ECS::instance().getSystemsManager()->getSystems())
 		{
-			auto dumped_view = system.second.second->dump();
+			auto dumped_view = system.second.second->serialize();
 			systems_array.push_back(std::move(dumped_view));
 		}
 

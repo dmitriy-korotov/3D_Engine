@@ -6,19 +6,19 @@
 
 
 
-using namespace nlohmann;
-
 namespace engine::interfaces
 {
 	class serializable_object
 	{
 	public:
 
+		using serialized_view_t = nlohmann::json;
+
 		virtual ~serializable_object() = default;
 
-		virtual json dump() const = 0;
+		virtual serialized_view_t serialize() const = 0;
 
-		virtual void load(const json& _serialized_view) = 0;
+		virtual void deserializeFrom(const serialized_view_t& _serialized_view) = 0;
 
 	};
 }

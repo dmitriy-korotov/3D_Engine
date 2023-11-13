@@ -33,9 +33,9 @@ namespace engine::ecs::systems
 
 
 
-	json basic_system::dump() const
+	auto basic_system::serialize() const -> serialized_view_t
 	{
-		json serialized_view;
+		serialized_view_t serialized_view;
 
 		serialized_view["is_active"] = m_is_active;
 
@@ -44,6 +44,6 @@ namespace engine::ecs::systems
 
 
 
-	void basic_system::load(const json& _dumped_view)
+	void basic_system::deserializeFrom(const serialized_view_t& _dumped_view)
 	{ }
 }
