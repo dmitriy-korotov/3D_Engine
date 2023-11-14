@@ -18,16 +18,17 @@ namespace engine::ecs::components
 
 
 
-		using material_ptr = std::shared_ptr<render::material>;
+		using material_ptr_t = std::shared_ptr<render::material>;
 
-		material(material_ptr _material) noexcept;
+		material() = default;
+		material(std::string_view _material_name) noexcept;
 
-		void setMaterial(material_ptr _material) noexcept;
-		const material_ptr& getMaterial() const noexcept;
+		void setMaterial(material_ptr_t _material) noexcept;
+		const material_ptr_t& getMaterial() const noexcept;
 
 	private:
 
-		material_ptr m_material = nullptr;
+		material_ptr_t m_material = nullptr;
 
 	};
 }

@@ -2,8 +2,6 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/render/model.hpp>
-
 #include <engine/render/util/models_loader.hpp>
 
 
@@ -79,8 +77,8 @@ namespace engine::render
 
 		auto model = std::make_shared<render::model>(std::move(meshes), std::move(material));
 
-		if (!m_models.emplace(_model_name, model).second)
-			LOG_WARN("[Models manager WARN] Model with name is not saved: '{0}'", _model_name);
+		if (!m_models.emplace(_model_name, std::make_pair(model, _path_to_model)).second)
+			LOG_WARN("[Models manager WARN] Model with this name is not saved: '{0}'", _model_name);
 
 		return model;
 	}
@@ -91,11 +89,21 @@ namespace engine::render
 	{
 		auto finded_model = m_models.find(_model_name.data());
 		if (finded_model == m_models.end())
-		{
-			LOG_ERROR("[Models manager ERROR] Can't find model with this name: '{0}'", _model_name);
 			return nullptr;
+		return finded_model->second.first;
+	}
+
+
+
+	std::optional<path> models_manager::getModelLocation(std::string_view _model_name) const noexcept
+	{
+		auto finded_model = m_models.find(_model_name.data());
+		if (finded_model == m_models.end())
+		{
+			LOG_WARN("[Models manager WARN] Location model with this name is not found: '{0}'", _model_name);
+			return std::nullopt;
 		}
-		return finded_model->second;
+		return finded_model->second.second;
 	}
 
 

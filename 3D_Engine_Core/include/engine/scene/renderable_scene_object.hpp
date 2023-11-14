@@ -17,8 +17,8 @@ namespace engine::scene
 
 		using shader_program_ptr = std::shared_ptr<render::basic_shader_program>;
 
-		renderable_scene_object(const std::string_view& _path_to_model,
-								shader_program_ptr _shader_program = nullptr) noexcept;
+		renderable_scene_object(std::string_view _model_name,
+								std::string_view _program_name) noexcept;
 
 	};
 }

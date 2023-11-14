@@ -78,7 +78,8 @@ namespace engine::scene
 			{
 				LOG_INFO("{}", std::string(it->at("system_name")));
 				auto system_creator = ecs::systems::systems_creator::getCreator(std::string(it->at("system_name")));
-				(*system_creator)();
+				if (system_creator != nullptr)
+					(*system_creator)();
 			}
 		}
 		catch (const std::exception& _ex)

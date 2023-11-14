@@ -28,6 +28,8 @@ namespace engine::render
 		material_ptr_t&& getMaterial() && noexcept;
 		const material_ptr_t& getMaterial() const & noexcept;
 
+		bool hasMaterial() const noexcept;
+
 	private:
 
 		meshes_storage_t m_meshes;

@@ -31,6 +31,8 @@ namespace engine::render
 
 		[[nodiscard]] texture_ptr getTexture(TextureMap _texture_map_type) const noexcept;
 
+		bool isEmpty() const noexcept;
+
 	private:
 
 		texture_map m_textures;

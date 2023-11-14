@@ -10,6 +10,35 @@
 
 namespace engine::render
 {
+	shaders_manager::program_location::program_location(path _vertex_location, path _fragment_location) noexcept
+			: m_vertex_location(std::move(_vertex_location))
+			, m_fragment_location(std::move(_fragment_location))
+	{ }
+
+	void shaders_manager::program_location::setVertexLocation(path _vertex_location) noexcept
+	{
+		m_vertex_location = std::move(_vertex_location);
+	}
+
+	void shaders_manager::program_location::setFragmentLocation(path _fragment_location) noexcept
+	{
+		m_fragment_location = std::move(_fragment_location);
+	}
+
+	const path& shaders_manager::program_location::getVertexLocation() const noexcept
+	{
+		return m_vertex_location;
+	}
+
+	const path& shaders_manager::program_location::getFragmentLocation() const noexcept
+	{
+		return m_fragment_location;
+	}
+
+
+
+
+
 	shaders_manager& shaders_manager::instance() noexcept
 	{
 		static shaders_manager instance;
@@ -102,14 +131,14 @@ namespace engine::render
 
 		auto shader_program = m_shader_programs_creator->createShaderProgram(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
 
-		auto result = m_shader_programs.emplace(_program_name, std::move(shader_program));
+		auto result = m_shader_programs.emplace(_program_name, std::make_pair(shader_program, program_location(_veretx_shader, _fragment_shader)));
 		if (result.second == false)
 		{
 			LOG_ERROR("[Shaders manager ERROR] Can't add shader program with this name: '{0}'", _program_name);
 			return nullptr;
 		}
 
-		return result.first->second;
+		return result.first->second.first;
 	}
 
 
@@ -118,11 +147,21 @@ namespace engine::render
 	{
 		auto finded_program = m_shader_programs.find(_program_name.data());
 		if (finded_program == m_shader_programs.end())
-		{
-			LOG_ERROR("[Shaders manager ERROR] Can't find shader program with this name: '{0}'", _program_name);
 			return nullptr;
+		return finded_program->second.first;
+	}
+
+
+
+	auto shaders_manager::getProgramLocation(std::string_view _program_name) const noexcept -> std::optional<program_location>
+	{
+		auto finded_program = m_shader_programs.find(_program_name.data());
+		if (finded_program == m_shader_programs.end())
+		{
+			LOG_ERROR("[Shaders manager ERROR] Can't find location shader program with this name: '{0}'", _program_name);
+			return std::nullopt;
 		}
-		return finded_program->second;
+		return finded_program->second.second;
 	}
 
 

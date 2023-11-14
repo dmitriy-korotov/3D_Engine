@@ -4,7 +4,7 @@
 
 #include <engine/util/file_searcher.hpp>
 
-#include <engine/render/fwd/model.hpp>
+#include <engine/render/model.hpp>
 
 #include <unordered_map>
 #include <filesystem>
@@ -23,19 +23,21 @@ namespace engine::render
 
 		using dirs_storage_t = util::file_searcher::dirs_storage_t;
 		using model_ptr_t = std::shared_ptr<model>;
-		using models_storaget_t = std::unordered_map<std::string, model_ptr_t>;
+		using models_storaget_t = std::unordered_map<std::string, std::pair<model_ptr_t, path>>;
 
 
 
 		bool addModelsDirectory(path _directory_path) noexcept;
 		bool removeModelsDirectory(const path& _directory_path) noexcept;
 
-		[[nodiscard]] model_ptr_t loadModel(std::string_view _model_name, const path& _path_to_model) noexcept;
+		model_ptr_t loadModel(std::string_view _model_name, const path& _path_to_model) noexcept;
 
 		[[nodiscard]] model_ptr_t getModel(std::string_view _model_name) const noexcept;
 		bool deleleModel(std::string_view _model_name) noexcept;
 
 		const dirs_storage_t& getModelsDirectories() const noexcept;
+
+		std::optional<path> getModelLocation(std::string_view _model_name) const noexcept;
 
 	protected:
 

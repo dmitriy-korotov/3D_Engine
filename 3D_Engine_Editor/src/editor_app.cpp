@@ -77,15 +77,20 @@ namespace editor
 
 		auto shader_program = engine::GetResourceManager().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
 		auto unlit_shader_program = engine::GetResourceManager().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
-		
-		std::string path_to_cube = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\cube\\Crate\\Crate1.obj";
-		std::string path_to_ball = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Ball\\Ball.obj";
-		std::string path_to_deer = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\deer\\Deer.obj";
-		std::string path_to_steve = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\Steve\\Model\\Santa\\Steve.obj";
-		std::string path_to_backpack = "C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects\\BackPack\\backpack.obj";
 
-		auto ball = Scene::addObject<renderable_scene_object>(path_to_cube, shader_program);
-		auto cube = Scene::addObject<renderable_scene_object>(path_to_steve, unlit_shader_program);
+		engine::GetResourceManager().addModelsDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects");
+		
+		std::string path_to_cube = "cube\\Crate\\Crate1.obj";
+		std::string path_to_ball = "Ball\\Ball.obj";
+		std::string path_to_deer = "deer\\Deer.obj";
+		std::string path_to_steve = "Steve\\Model\\Santa\\Steve.obj";
+		std::string path_to_backpack = "BackPack\\backpack.obj";
+
+		engine::GetResourceManager().loadModel("Cube", path_to_cube);
+		engine::GetResourceManager().loadModel("Steve", path_to_steve);
+
+		auto ball = Scene::addObject<renderable_scene_object>("Cube", "Default");
+		auto cube = Scene::addObject<renderable_scene_object>("Steve", "Default");
 
 		cube->addComponent<point_light>();
 		cube->addComponent<selected>();

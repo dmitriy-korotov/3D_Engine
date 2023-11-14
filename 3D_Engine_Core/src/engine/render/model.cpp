@@ -1,5 +1,7 @@
 #include <engine/render/model.hpp>
 
+#include <engine/render/material.hpp>
+
 
 
 namespace engine::render
@@ -49,5 +51,14 @@ namespace engine::render
 	auto model::getMaterial() const& noexcept -> const material_ptr_t&
 	{
 		return m_material;
+	}
+
+
+
+	auto model::hasMaterial() const noexcept -> bool
+	{
+		if (m_material == nullptr)
+			return false;
+		return !m_material->isEmpty();
 	}
 }

@@ -19,4 +19,11 @@ namespace engine::render
 			return texture->second;
 		return nullptr;
 	}
+
+
+
+	bool material::isEmpty() const noexcept
+	{
+		return m_textures.empty();
+	}
 }
