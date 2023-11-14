@@ -49,6 +49,7 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/util/fwd/file_reader.hpp
 		include/engine/util/fwd/image.hpp
 		include/engine/util/fwd/json_view.hpp
+		include/engine/util/fwd/file_searcher.hpp
 
 		include/engine/util/nocopyeble.hpp
 		include/engine/util/noconstructible.hpp
@@ -56,6 +57,7 @@ set(ENGINE_PUBLIC_HEADERS
 		include/engine/util/file_reader.hpp
 		include/engine/util/image.hpp
 		include/engine/util/json_view.hpp
+		include/engine/util/file_searcher.hpp
 
 
 
@@ -143,7 +145,9 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/fwd/basic_renderer.hpp
 		include/engine/render/fwd/material.hpp
 		include/engine/render/fwd/basic_mesh.hpp
+		include/engine/render/fwd/model.hpp
 		include/engine/render/fwd/shaders_manager.hpp
+		include/engine/render/fwd/models_manager.hpp
 
 		include/engine/render/application_renderer.hpp
 		include/engine/render/render.hpp
@@ -155,7 +159,9 @@ set(ENGINE_PRIVATE_HEADERS
 		include/engine/render/basic_renderer.hpp
 		include/engine/render/material.hpp
 		include/engine/render/basic_mesh.hpp
+		include/engine/render/model.hpp
 		include/engine/render/shaders_manager.hpp
+		include/engine/render/models_manager.hpp
 
 
 
@@ -395,8 +401,9 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/render/basic_renderer.cpp
 		src/engine/render/material.cpp
 		src/engine/render/basic_mesh.cpp
+		src/engine/render/model.cpp
 		src/engine/render/shaders_manager.cpp
-
+		src/engine/render/models_manager.cpp
 
 
 
@@ -442,6 +449,7 @@ set(ENGINE_PRIVATE_SOURCES
 		src/engine/util/file_reader.cpp
 		src/engine/util/image.cpp
 		src/engine/util/json_view.cpp
+		src/engine/util/file_searcher.cpp
 )
 
 set(ENGINE_ECS_PRIVATE_SOURCES

@@ -27,29 +27,23 @@ namespace engine::render
 
 
 
-	void shaders_manager::addShadersDirectory(path _directory_path) noexcept
+	bool shaders_manager::addShadersDirectory(path _directory_path) noexcept
 	{
-		m_shaders_directories.emplace(std::move(_directory_path));
+		return m_file_searcher.addSearchDirectory(std::move(_directory_path));
 	}
 
 
 
-	void shaders_manager::removeShadersDirectory(const path& _directory_path) noexcept
+	bool shaders_manager::removeShadersDirectory(const path& _directory_path) noexcept
 	{
-		m_shaders_directories.erase(_directory_path);
+		return m_file_searcher.removeSearchDirectory(_directory_path);
 	}
 
 
 
 	std::optional<path> shaders_manager::searchShader(const path& _path_to_shader) const noexcept
 	{
-		for (const path& shaders_directory : m_shaders_directories)
-		{
-			path absolute_path = shaders_directory / _path_to_shader;
-			if (std::filesystem::exists(absolute_path))
-				return absolute_path;
-		}
-		return std::nullopt;
+		return m_file_searcher.searchFile(_path_to_shader);
 	}
 
 
@@ -61,23 +55,50 @@ namespace engine::render
 		assert(m_shader_programs_creator != nullptr);
 
 
+		auto exists_shader_program = getShaderProgram(_program_name);
+		if (exists_shader_program != nullptr)
+			return exists_shader_program;
 
-		auto path_to_vertex_shader = searchShader(_veretx_shader);
-		if (!path_to_vertex_shader.has_value())
+
+		path path_to_vertex_shader;
+		path path_to_fragment_shader;
+
+
+
+		if (std::filesystem::exists(_veretx_shader))
 		{
-			LOG_ERROR("[Shaders manager ERROR] Can't find vertex shader with this filename: '{0}'", _veretx_shader.generic_string());
-			return nullptr;
+			path_to_vertex_shader = _veretx_shader;
+		}
+		else
+		{
+			auto path_to_vertex_shader_opt = searchShader(_veretx_shader);
+			if (!path_to_vertex_shader_opt.has_value())
+			{
+				LOG_ERROR("[Shaders manager ERROR] Can't find vertex shader with this filename: '{0}'", _veretx_shader.generic_string());
+				return nullptr;
+			}
+			path_to_vertex_shader = std::move(path_to_vertex_shader_opt.value());
 		}
 
-		auto path_to_fragment_shader = searchShader(_fragment_shader);
-		if (!path_to_fragment_shader.has_value())
+		if (std::filesystem::exists(_fragment_shader))
 		{
-			LOG_ERROR("[Shaders manager ERROR] Can't find fragment shader with this filename: '{0}'", _fragment_shader.generic_string());
-			return nullptr;
+			path_to_fragment_shader = _fragment_shader;
+		}
+		else
+		{
+			auto path_to_fragment_shader_opt = searchShader(_fragment_shader);
+			if (!path_to_fragment_shader_opt.has_value())
+			{
+				LOG_ERROR("[Shaders manager ERROR] Can't find fragment shader with this filename: '{0}'", _fragment_shader.generic_string());
+				return nullptr;
+			}
+			path_to_fragment_shader = std::move(path_to_fragment_shader_opt.value());
 		}
 
-		util::file_reader vs_reader(path_to_vertex_shader.value());
-		util::file_reader fs_reader(path_to_fragment_shader.value());
+
+
+		util::file_reader vs_reader(path_to_vertex_shader);
+		util::file_reader fs_reader(path_to_fragment_shader);
 
 		auto shader_program = m_shader_programs_creator->createShaderProgram(std::move(vs_reader.getData()), std::move(fs_reader.getData()));
 
@@ -116,7 +137,7 @@ namespace engine::render
 
 	const shaders_manager::dirs_storage_t& shaders_manager::getShadersDirectories() const noexcept
 	{
-		return m_shaders_directories;
+		return m_file_searcher.getSearchDirectories();
 	}
 
 

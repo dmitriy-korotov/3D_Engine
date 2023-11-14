@@ -35,8 +35,8 @@ namespace engine::render::utility
 
 		virtual void load(const path& _path_to_model) noexcept = 0;
 
-		mesh_storage& getMeshes() noexcept;
-		material_ptr& getMaterial() noexcept;
+		mesh_storage&& getMeshes() && noexcept;
+		material_ptr&& getMaterial() && noexcept;
 
 		bool isLoaded() const noexcept;
 		bool hasMaterial() const noexcept;

@@ -1,6 +1,10 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
 #include <engine/render/basic_shader_programs_creator.hpp>
+
+#include <engine/util/file_searcher.hpp>
 
 #include <filesystem>
 #include <unordered_set>
@@ -13,11 +17,11 @@ namespace engine::render
 {
 	using std::filesystem::path;
 
-	class shaders_manager
+	class shaders_manager: private util::nocopyeble
 	{
 	public:
 
-		using dirs_storage_t = std::unordered_set<path>;
+		using dirs_storage_t = util::file_searcher::dirs_storage_t;
 		using shader_program_ptr_t = basic_shader_programs_creator::shader_ptrogram_ptr_t;
 		using programs_map_t = std::unordered_map<std::string, shader_program_ptr_t>;
 		using creator_ptr_t = std::unique_ptr<basic_shader_programs_creator>;
@@ -26,8 +30,8 @@ namespace engine::render
 
 		void setupShaderProgramsCreator(creator_ptr_t _creator) noexcept;
 
-		void addShadersDirectory(path _directory_path) noexcept;
-		void removeShadersDirectory(const path& _directory_path) noexcept;
+		bool addShadersDirectory(path _directory_path) noexcept;
+		bool removeShadersDirectory(const path& _directory_path) noexcept;
 
 		[[nodiscard]] shader_program_ptr_t loadShaderProgram(std::string_view _program_name,
 															 const path& _veretx_shader,
@@ -51,10 +55,10 @@ namespace engine::render
 
 	private:
 
-		 dirs_storage_t m_shaders_directories;
+		util::file_searcher m_file_searcher;
 
-		 creator_ptr_t m_shader_programs_creator = nullptr;
-		 programs_map_t m_shader_programs;
+		creator_ptr_t m_shader_programs_creator = nullptr;
+		programs_map_t m_shader_programs;
 
 	};
 }

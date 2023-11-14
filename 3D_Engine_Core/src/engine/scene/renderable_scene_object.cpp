@@ -28,10 +28,10 @@ namespace engine::scene
 			return;
 		}
 
-		addComponent<mesh>(std::move(loader.getMeshes()));
+		addComponent<mesh>(std::move(loader).getMeshes());
 		
 		if (loader.hasMaterial())
-			addComponent<engine::ecs::components::material>(std::move(loader.getMaterial()));
+			addComponent<engine::ecs::components::material>(std::move(loader).getMaterial());
 		else
 			addComponent<color>(glm::vec4(0.3f, 0.3f, 0.3f, 1.f));
 

@@ -9,4 +9,6 @@
 #include <engine/render/fwd/texture_parametrs.hpp>
 #include <engine/render/fwd/material.hpp>
 #include <engine/render/fwd/basic_mesh.hpp>
+#include <engine/render/fwd/model.hpp>
 #include <engine/render/fwd/shaders_manager.hpp>
+#include <engine/render/models_manager.hpp>
