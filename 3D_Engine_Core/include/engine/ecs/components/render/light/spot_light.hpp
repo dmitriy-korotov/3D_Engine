@@ -21,6 +21,9 @@ namespace engine::ecs::components
 		void setRadius(float _radius) noexcept;
 		float getRadius() const noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
+
 	private:
 
 		float m_radius = 1.f;

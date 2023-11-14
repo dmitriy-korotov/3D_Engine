@@ -33,4 +33,29 @@ namespace engine::ecs::components
 
 		return is_clicked;
 	}
+
+
+
+	auto point_light::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view_light_attenuation = light_attenuation::serialize();
+		auto serialized_view_light = light::serialize();
+
+		serialized_view_t serialized_view_point_light;
+
+		serialized_view_point_light["component_name"] = component_name;
+
+		serialized_view_point_light["components"] = { std::move(serialized_view_light_attenuation), std::move(serialized_view_light) };
+
+		return serialized_view_point_light;
+	}
+
+
+
+	void point_light::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		auto iter = _serialized_view.at("components").begin();
+		light_attenuation::deserializeFrom(*iter);		iter++;
+		light::deserializeFrom(*iter);
+	}
 }

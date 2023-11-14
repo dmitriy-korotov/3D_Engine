@@ -26,22 +26,13 @@ namespace engine::scene
 			return;
 		}
 
-		addComponent<mesh>(model->getMeshes());
+		addComponent<mesh>(_model_name);
 		
 		if (model->hasMaterial())
-			addComponent<ecs::components::material>(model->getMaterial());
+			addComponent<ecs::components::material>(_model_name);
 		else
 			addComponent<color>(glm::vec4(0.3f, 0.3f, 0.3f, 1.f));
 
-		
-
-		auto shader_program = GetResourceManager().getShaderProgram(_program_name);
-		if (shader_program == nullptr)
-		{
-			LOG_ERROR("[Renderable scene object ERROR] Shader program with name '{0}' not found", _model_name);
-			return;
-		}
-
-		addComponent<renderable>(std::move(shader_program));
+		addComponent<renderable>(_program_name);
 	}
 }

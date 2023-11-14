@@ -68,4 +68,29 @@ namespace engine::ecs::components
 
 		return is_clicked;
 	}
+
+
+
+	auto light_attenuation::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+		serialized_view["linear"] = m_linear;
+		serialized_view["qudratic"] = m_qudratic;
+		serialized_view["constant"] = m_constant;
+
+		return serialized_view;
+	}
+
+
+
+	void light_attenuation::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		basic_component::deserializeFrom(_serialized_view);
+
+		_serialized_view.at("linear").get_to(m_linear);
+		_serialized_view.at("qudratic").get_to(m_qudratic);
+		_serialized_view.at("constant").get_to(m_constant);
+	}
 }

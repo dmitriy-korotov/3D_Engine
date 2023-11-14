@@ -1,29 +1,53 @@
 #include <engine/ecs/components/render/renderable.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/Engine.hpp>
 
+#include <engine/resource_manager.hpp>
+
 #include <engine/render/basic_shader_program.hpp>
+
+#include <cassert>
 
 
 
 namespace engine::ecs::components
 {
-	renderable::renderable(shader_program_ptr _shader_program, DrawingMode _drawing_mode) noexcept
-			: m_shader_program(std::move(_shader_program))
+	renderable::renderable(std::string_view _shader_program_name, DrawingMode _drawing_mode) noexcept
+			: m_shader_program_name(_shader_program_name)
 			, m_drawing_mode(_drawing_mode)
-	{ }
-
-
-
-	void renderable::setShaderProgram(shader_program_ptr _shader_program) noexcept
 	{
-		m_shader_program = std::move(_shader_program);
+		setShaderProgram(_shader_program_name);
 	}
 
 
 
-	const renderable::shader_program_ptr& renderable::getShaderProgram() const noexcept
+	bool renderable::setShaderProgram(std::string_view _shader_program_name) noexcept
 	{
+		m_shader_program_name = _shader_program_name;
+
+
+		auto shader_program = GetResourceManager().getShaderProgram(m_shader_program_name);
+		if (shader_program == nullptr)
+		{
+			LOG_ERROR("[Renderable component ERROR] Can't find shader program with this name: {0}", m_shader_program_name);
+			disable();
+			return false;
+		}
+
+		m_shader_program = std::move(shader_program);
+
+		enable();
+
+		return true;
+	}
+
+
+
+	const renderable::shader_program_ptr_t& renderable::getShaderProgram() const noexcept
+	{
+		assert(m_shader_program != nullptr);
 		return m_shader_program;
 	}
 
@@ -80,5 +104,26 @@ namespace engine::ecs::components
 		}
 
 		return is_clicked;
+	}
+
+
+
+	auto renderable::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["componenet_name"] = component_name;
+		serialized_view["program_name"] = m_shader_program_name;
+
+		return serialized_view;
+	}
+
+
+
+	void renderable::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		basic_component::deserializeFrom(_serialized_view);
+
+		setShaderProgram(_serialized_view.at("program_name"));
 	}
 }

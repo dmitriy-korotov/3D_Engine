@@ -23,11 +23,15 @@ namespace engine::ecs::components
 		material() = default;
 		material(std::string_view _material_name) noexcept;
 
-		void setMaterial(material_ptr_t _material) noexcept;
+		bool setMaterial(std::string_view _material_name) noexcept;
 		const material_ptr_t& getMaterial() const noexcept;
+
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
 
 	private:
 
+		std::string m_material_name;
 		material_ptr_t m_material = nullptr;
 
 	};

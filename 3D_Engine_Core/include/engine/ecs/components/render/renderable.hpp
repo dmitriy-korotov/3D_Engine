@@ -21,21 +21,25 @@ namespace engine::ecs::components
 
 
 
-		using shader_program_ptr = std::shared_ptr<basic_shader_program>;
+		using shader_program_ptr_t = std::shared_ptr<basic_shader_program>;
 
-		renderable(shader_program_ptr _shader_program, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
+		renderable(std::string_view _shader_program_name, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
 
-		void setShaderProgram(shader_program_ptr _shader_program) noexcept;
-		const shader_program_ptr& getShaderProgram() const noexcept;
+		bool setShaderProgram(std::string_view _shader_program_name) noexcept;
+		const shader_program_ptr_t& getShaderProgram() const noexcept;
 		
 		void setDrawingMode(DrawingMode _drawing_mode) noexcept;
 		DrawingMode getDrawingMode() const noexcept;
 
 		bool putOnUI() noexcept override;
 
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
+
 	private:
 
-		shader_program_ptr m_shader_program = nullptr;
+		std::string m_shader_program_name;
+		shader_program_ptr_t m_shader_program = nullptr;
 		DrawingMode m_drawing_mode = DrawingMode::Triangle;
 
 	};

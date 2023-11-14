@@ -19,16 +19,23 @@ namespace engine::ecs::components
 
 
 
-		using mesh_ptr = std::shared_ptr<render::basic_mesh>;
-		using mesh_storage = std::vector<mesh_ptr>;
+		using mesh_ptr_t = std::shared_ptr<render::basic_mesh>;
+		using mesh_storage_t = std::vector<mesh_ptr_t>;
 
-		mesh(mesh_storage _meshes) noexcept;
+		mesh() = default;
+		mesh(std::string_view _model_name) noexcept;
 
-		const mesh_storage& getMeshes() const noexcept;
+		bool setMeshes(std::string_view _model_name) noexcept;
+
+		const mesh_storage_t& getMeshes() const noexcept;
+
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
 
 	private:
 
-		mesh_storage m_meshes;
+		std::string m_model_name;
+		mesh_storage_t m_meshes;
 
 	};
 }
