@@ -39,7 +39,7 @@ namespace engine::ecs::systems
 		systems_creator::addCreator(std::string(System::system_name),
 			[_priority]() -> void
 			{
-				ECS::instance().getSystemsManager()->addSystem<System>(_priority);
+				auto system = ECS::instance().getSystemsManager()->addSystem<System>(_priority);
 			});
 	}
 

@@ -249,10 +249,12 @@ set(ENGINE_ECS_PRIVATE_HEADERS
 		include/engine/ecs/components/fwd/basic_component.hpp
 		include/engine/ecs/components/fwd/component_iterator.hpp
 		include/engine/ecs/components/fwd/components_manager.hpp
+		include/engine/ecs/components/fwd/components_creator.hpp
 
 		include/engine/ecs/components/basic_component.hpp
 		include/engine/ecs/components/component_iterator.hpp
 		include/engine/ecs/components/components_manager.hpp
+		include/engine/ecs/components/components_creator.hpp
 
 
 
@@ -464,6 +466,7 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 
 		src/engine/ecs/components/basic_component.cpp
 		src/engine/ecs/components/components_manager.cpp
+		src/engine/ecs/components/components_creator.cpp
 
 
 
