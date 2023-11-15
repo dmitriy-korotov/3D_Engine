@@ -30,6 +30,7 @@ namespace engine::scene
 
 		using object_builder_ptr_t = std::shared_ptr<basic_object_builder>;
 		using object_ptr_t = std::shared_ptr<ecs::entities::basic_entity>;
+		using system_ptr_t = std::shared_ptr<ecs::systems::basic_system>;
 		template <typename T>
 		using component_ptr_t = ecs::components::components_manager::component_ptr_t<T>;
 		template <typename T>
@@ -50,7 +51,7 @@ namespace engine::scene
 		static [[nodiscard]] object_ptr_t getObject(object_id_t _obj_id) noexcept;
 
 		template <typename T, typename ...Args>
-		static bool addComponent(object_id_t _obj_id, Args&&... _args) noexcept;
+		static component_ptr_t<T> addComponent(object_id_t _obj_id, Args&&... _args) noexcept;
 
 		template <typename T>
 		static [[nodiscard]] component_ptr_t<T> getComponent(object_id_t _obj_id) noexcept;
@@ -73,7 +74,7 @@ namespace engine::scene
 
 
 		template <typename T, typename ...Args>
-		static bool addSystem(Args&&... _args) noexcept;
+		static system_ptr_t addSystem(Args&&... _args) noexcept;
 
 		template <typename T>
 		static bool delSystem() noexcept;
@@ -130,7 +131,7 @@ namespace engine::scene
 
 
 	template <typename T, typename ...Args>
-	bool Scene::addComponent(object_id_t _obj_id, Args&&... _args) noexcept
+	auto Scene::addComponent(object_id_t _obj_id, Args&&... _args) noexcept -> component_ptr_t<T>
 	{
 		return ecs::ECS::instance().getComponentsManager()->addComponent<T>(_obj_id, std::forward<Args>(_args)...);
 	}
@@ -188,7 +189,7 @@ namespace engine::scene
 
 
 	template <typename T, typename ...Args>
-	bool Scene::addSystem(Args&&... _args) noexcept
+	auto Scene::addSystem(Args&&... _args) noexcept -> system_ptr_t
 	{
 		return ecs::ECS::instance().getSystemsManager()->addSystem<T>(std::forward<Args>(_args)...);
 	}

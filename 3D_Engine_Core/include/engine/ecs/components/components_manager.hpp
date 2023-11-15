@@ -44,7 +44,7 @@ namespace engine::ecs::components
 	public:
 
 		template <typename ComponentType, typename ...Args>
-		bool addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
+		component_ptr_t<ComponentType> addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
 		template <typename ComponentType>
 		std::optional<components_range_t<ComponentType>> getComponents() const noexcept;
@@ -81,7 +81,7 @@ namespace engine::ecs::components
 
 
 	template <typename ComponentType, typename ...Args>
-	bool components_manager::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept
+	auto components_manager::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept -> component_ptr_t<ComponentType>
 	{
 		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
 
@@ -101,17 +101,17 @@ namespace engine::ecs::components
 			else
 			{
 				LOG_ERROR("[Components manager ERROR] Can't find entity (entity_id: {0})", _entity_id);
-				return false;
+				return nullptr;
 			}
-			current_type_components_storage.emplace(_entity_id, std::move(component));
+			current_type_components_storage.emplace(_entity_id, component);
 			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
 		}
 		else
 		{
 			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(component);
-			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, std::move(component));
+			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, component);
 		}
-		return true;
+		return component;
 	}
 
 
