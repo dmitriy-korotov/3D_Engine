@@ -32,6 +32,9 @@ namespace engine::ecs::components
 
 		bool putOnUI() noexcept override;
 
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
+
 	private:
 
 		void updateProjectionMatrix() const noexcept;

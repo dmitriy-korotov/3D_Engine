@@ -12,5 +12,7 @@ namespace engine::ecs::components
 
 		static constexpr std::string_view component_name = "selected";
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }

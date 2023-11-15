@@ -59,4 +59,29 @@ namespace engine::ecs::components
 			m_is_need_update_rotation_matrix = true;
 		return is_clicked;
 	}
+
+
+
+	auto rotation::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+		serialized_view["rotation"] = serialized_view_t::array({ m_rotation.x, m_rotation.y, m_rotation.z });
+
+		return serialized_view;
+	}
+
+
+
+	void rotation::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		basic_component::deserializeFrom(_serialized_view);
+
+		auto rotation_coord = _serialized_view.at("rotation").begin();
+
+		m_rotation.x = *(rotation_coord);		rotation_coord++;
+		m_rotation.y = *(rotation_coord);		rotation_coord++;
+		m_rotation.z = *(rotation_coord);
+	}
 }

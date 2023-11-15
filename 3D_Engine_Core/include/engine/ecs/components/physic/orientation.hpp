@@ -25,6 +25,9 @@ namespace engine::ecs::components
 
 		bool putOnUI() noexcept override;
 
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
+
 	private:
 
 		glm::vec3 m_forward = glm::vec3(1.f, 0.f, 0.f);

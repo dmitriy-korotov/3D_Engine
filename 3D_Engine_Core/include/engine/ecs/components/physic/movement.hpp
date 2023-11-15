@@ -24,5 +24,7 @@ namespace engine::ecs::components
 		void moveWorldRight(float _delta_time) const noexcept;
 		void moveWorldForward(float _delta_time) const noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }

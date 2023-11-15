@@ -18,5 +18,7 @@ namespace engine::ecs::components
 
 		glm::mat4 getViewMatrix() const noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }

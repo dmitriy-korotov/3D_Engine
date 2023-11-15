@@ -47,4 +47,15 @@ namespace engine::ecs::components
 		}
 		rotation_comp->setRotation(rotation_comp->getRotation() + glm::vec3(0.f, 0.f, _delta_angle));
 	}
+
+
+
+	auto rotate::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+
+		return serialized_view;
+	}
 }

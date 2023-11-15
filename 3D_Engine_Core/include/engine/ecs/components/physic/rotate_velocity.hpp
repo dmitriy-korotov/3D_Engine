@@ -20,5 +20,7 @@ namespace engine::ecs::components
 		void setVelocityPitch(float _pitch_velocity) noexcept;
 		void setVelocityYaw(float _yaw_velocity) noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }

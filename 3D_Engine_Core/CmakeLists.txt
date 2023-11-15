@@ -465,6 +465,13 @@ set(ENGINE_ECS_PRIVATE_SOURCES
 		src/engine/ecs/components/basic_component.cpp
 		src/engine/ecs/components/components_manager.cpp
 
+
+
+		src/engine/ecs/components/markers/active_camera.cpp
+		src/engine/ecs/components/markers/selected.cpp
+
+
+
 		src/engine/ecs/components/physic/position.cpp
 		src/engine/ecs/components/physic/rotation.cpp
 		src/engine/ecs/components/physic/orientation.cpp

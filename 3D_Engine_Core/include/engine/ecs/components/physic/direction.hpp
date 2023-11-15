@@ -24,6 +24,9 @@ namespace engine::ecs::components
 
 		bool putOnUI() noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+		void deserializeFrom(const serialized_view_t& _serialized_view) noexcept override;
+
 	protected:
 
 		glm::vec3 m_direction;

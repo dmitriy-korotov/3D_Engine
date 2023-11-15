@@ -110,4 +110,46 @@ namespace engine::ecs::components
 
 		return is_clicked;
 	}
+
+
+
+	auto vision::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+		
+		serialized_view["proj_mode"] = static_cast<int>(m_projection_mode);
+
+		serialized_view["PF"]["far_plane"] = m_perspective_frustum.far_plane;
+		serialized_view["PF"]["near_plane"] = m_perspective_frustum.near_plane;
+		serialized_view["PF"]["fov"] = m_perspective_frustum.field_of_view;
+
+		serialized_view["OF"]["far_plane"] = m_orthographic_frustum.far_plane;
+		serialized_view["OF"]["near_plane"] = m_orthographic_frustum.near_plane;
+		serialized_view["OF"]["right_plane"] = m_orthographic_frustum.right_plane;
+		serialized_view["OF"]["top_plane"] = m_orthographic_frustum.top_plane;
+		serialized_view["OF"]["scale"] = m_orthographic_frustum.scale;
+
+		return serialized_view;
+	}
+
+
+
+	void vision::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		basic_component::deserializeFrom(_serialized_view);
+
+		_serialized_view.at("proj_mode").get_to(m_projection_mode);
+
+		_serialized_view.at("PF").at("far_plane").get_to(m_perspective_frustum.far_plane);
+		_serialized_view.at("PF").at("near_plane").get_to(m_perspective_frustum.near_plane);
+		_serialized_view.at("PF").at("fov").get_to(m_perspective_frustum.field_of_view);
+
+		_serialized_view.at("OF").at("far_plane").get_to(m_orthographic_frustum.far_plane);
+		_serialized_view.at("OF").at("near_plane").get_to(m_orthographic_frustum.near_plane);
+		_serialized_view.at("OF").at("right_plane").get_to(m_orthographic_frustum.right_plane);
+		_serialized_view.at("OF").at("top_plane").get_to(m_orthographic_frustum.top_plane);
+		_serialized_view.at("OF").at("scale").get_to(m_orthographic_frustum.scale);
+	}
 }

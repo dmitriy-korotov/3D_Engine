@@ -73,10 +73,22 @@ namespace engine::scene
 			json serialized_scene;
 			file >> serialized_scene;
 
+			auto& entities = serialized_scene["entities"];
+			for (auto it = entities.begin(); it != entities.end(); it++)
+			{
+				LOG_INFO("Entity ID: {0}", static_cast<int>(it->at("id")));
+			}
+
+			auto& components = serialized_scene["components"];
+			for (auto it = components.begin(); it != components.end(); it++)
+			{
+				LOG_INFO("Component: {0}", std::string(it->at("component_name")));
+			}
+
 			auto& systems = serialized_scene["systems"];
 			for (auto it = systems.begin(); it != systems.end(); it++)
 			{
-				LOG_INFO("{}", std::string(it->at("system_name")));
+				LOG_INFO("System: {0}", std::string(it->at("system_name")));
 				auto system_creator = ecs::systems::systems_creator::getCreator(std::string(it->at("system_name")));
 				if (system_creator != nullptr)
 					(*system_creator)();

@@ -101,4 +101,15 @@ namespace engine::ecs::components
 
 		position_comp->setPosition(position_comp->getPosition() + scene::g_world_forward_direction * _delta_time);
 	}
+
+
+
+	auto movement::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+
+		return serialized_view;
+	}
 }

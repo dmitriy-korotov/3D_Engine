@@ -21,5 +21,7 @@ namespace engine::ecs::components
 		glm::mat4 getModelMatrix() const noexcept;
 		glm::mat3 getNormalMatrix() const noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }

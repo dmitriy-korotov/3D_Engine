@@ -20,5 +20,7 @@ namespace engine::ecs::components
 		void setVelocityY(float _y_velocity) noexcept;
 		void setVelocityZ(float _z_velocity) noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }

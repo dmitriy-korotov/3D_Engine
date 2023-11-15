@@ -30,4 +30,29 @@ namespace engine::ecs::components
 	{
 		return Engine::getApplicationUIModule()->putSliderFloat3("Velocity", m_velocity, 0.f, 1.f);
 	}
+
+
+
+	auto velocity::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+		serialized_view["velocity"] = serialized_view_t::array({ m_velocity.x, m_velocity.y, m_velocity.z });
+
+		return serialized_view;
+	}
+
+
+
+	void velocity::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		basic_component::deserializeFrom(_serialized_view);
+
+		auto valocity_component = _serialized_view.at("velocity").begin();
+
+		m_velocity.x = *(valocity_component);		valocity_component++;
+		m_velocity.y = *(valocity_component);		valocity_component++;
+		m_velocity.z = *(valocity_component);
+	}
 }

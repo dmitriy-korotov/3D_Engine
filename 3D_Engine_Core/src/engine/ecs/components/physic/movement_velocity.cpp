@@ -28,4 +28,15 @@ namespace engine::ecs::components
 	{
 		m_velocity.z = _z_velocity;
 	}
+
+
+
+	auto movement_velocity::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = velocity::serialize();
+
+		serialized_view["component_name"] = component_name;
+
+		return serialized_view;
+	}
 }

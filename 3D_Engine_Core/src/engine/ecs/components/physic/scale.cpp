@@ -57,4 +57,29 @@ namespace engine::ecs::components
 			m_is_need_update_scale_matrix = true;
 		return is_clicked;
 	}
+
+
+
+	auto scale::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+		serialized_view["scale"] = serialized_view_t::array({ m_scale.x, m_scale.y, m_scale.z });
+
+		return serialized_view;
+	}
+
+
+
+	void scale::deserializeFrom(const serialized_view_t& _serialized_view) noexcept
+	{
+		basic_component::deserializeFrom(_serialized_view);
+
+		auto scale_component = _serialized_view.at("scale").begin();
+
+		m_scale.x = *(scale_component);		scale_component++;
+		m_scale.y = *(scale_component);		scale_component++;
+		m_scale.z = *(scale_component);
+	}
 }

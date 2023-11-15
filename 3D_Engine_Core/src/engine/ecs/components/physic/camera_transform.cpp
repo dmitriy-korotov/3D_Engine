@@ -67,4 +67,15 @@ namespace engine::ecs::components
 
 		return glm::lookAt(position_comp->getPosition(), position_comp->getPosition() + orientation_comp->getForward(), orientation_comp->getUp());
 	}
+
+
+
+	auto camera_transform::serialize() const noexcept -> serialized_view_t
+	{
+		auto serialized_view = basic_component::serialize();
+
+		serialized_view["component_name"] = component_name;
+
+		return serialized_view;
+	}
 }

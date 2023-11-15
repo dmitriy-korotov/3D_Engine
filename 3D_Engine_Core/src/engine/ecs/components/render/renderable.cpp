@@ -112,8 +112,9 @@ namespace engine::ecs::components
 	{
 		auto serialized_view = basic_component::serialize();
 
-		serialized_view["componenet_name"] = component_name;
+		serialized_view["component_name"] = component_name;
 		serialized_view["program_name"] = m_shader_program_name;
+		serialized_view["drawing_mode"] = static_cast<int>(m_drawing_mode);
 
 		return serialized_view;
 	}
@@ -125,5 +126,6 @@ namespace engine::ecs::components
 		basic_component::deserializeFrom(_serialized_view);
 
 		setShaderProgram(_serialized_view.at("program_name"));
+		_serialized_view.at("drawing_mode").get_to(m_drawing_mode);
 	}
 }

@@ -18,5 +18,7 @@ namespace engine::ecs::components
 		void rotateY(float _delta_angle) const noexcept;
 		void rotateZ(float _delta_angle) const noexcept;
 
+		serialized_view_t serialize() const noexcept override;
+
 	};
 }
