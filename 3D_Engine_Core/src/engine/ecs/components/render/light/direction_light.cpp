@@ -31,7 +31,7 @@ namespace engine::ecs::components
 		auto serialized_view_direction = direction::serialize();
 		auto serialized_view_light = light::serialize();
 
-		serialized_view_t serialized_view_direction_light;
+		serialized_view_t serialized_view_direction_light = basic_component::serialize();
 
 		serialized_view_direction_light["component_name"] = component_name;
 

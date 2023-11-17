@@ -23,6 +23,7 @@ namespace engine::ecs::components
 
 		using shader_program_ptr_t = std::shared_ptr<basic_shader_program>;
 
+		renderable() = default;
 		renderable(std::string_view _shader_program_name, DrawingMode _drawing_mode = DrawingMode::Triangle) noexcept;
 
 		bool setShaderProgram(std::string_view _shader_program_name) noexcept;

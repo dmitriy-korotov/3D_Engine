@@ -41,7 +41,7 @@ namespace engine::ecs::components
 		auto serialized_view_light_attenuation = light_attenuation::serialize();
 		auto serialized_view_light = light::serialize();
 
-		serialized_view_t serialized_view_point_light;
+		serialized_view_t serialized_view_point_light = basic_component::serialize();
 
 		serialized_view_point_light["component_name"] = component_name;
 

@@ -3,6 +3,11 @@
 #include <engine/ecs/systems/systems_creator.hpp>
 #include <engine/ecs/systems/systems_manager.hpp>
 
+#include <engine/ecs/components/components_creator.hpp>
+#include <engine/ecs/components/components_manager.hpp>
+
+#include <engine/ecs/entities/entities_manager.hpp>
+
 #include <engine/logging/log.hpp>
 
 #include <nlohmann/json.hpp>
@@ -77,12 +82,27 @@ namespace engine::scene
 			for (auto it = entities.begin(); it != entities.end(); it++)
 			{
 				LOG_INFO("Entity ID: {0}", static_cast<int>(it->at("id")));
+				auto object = ecs::ECS::instance().getEntitiesManager()->createEntity<ecs::entities::basic_entity>();
+				if (object != nullptr)
+					object->deserializeFrom(*it);
+				else
+					LOG_WARN("[Scene WARN] Entity with ID '{0}' is not created", static_cast<int>(it->at("id")));
 			}
 
 			auto& components = serialized_scene["components"];
 			for (auto it = components.begin(); it != components.end(); it++)
 			{
 				LOG_INFO("Component: {0}", std::string(it->at("component_name")));
+				auto component_creator = ecs::components::components_creator::getComponentCreator(it->at("component_name"));
+				if (component_creator != nullptr)
+				{
+					auto component = std::invoke(*component_creator, static_cast<size_t>(it->at("owner")));
+					component->deserializeFrom(*it);
+				}
+				else
+				{
+					LOG_WARN("[Scene WARN] Component '{0}' is not created", std::string(it->at("component_name")));
+				}
 			}
 
 			auto& systems = serialized_scene["systems"];

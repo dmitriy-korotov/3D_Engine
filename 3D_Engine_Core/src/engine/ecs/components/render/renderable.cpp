@@ -73,33 +73,33 @@ namespace engine::ecs::components
 
 		const auto& UI_module = Engine::getApplicationUIModule();
 
-		static int current_version = 3;
-		if (UI_module->putRadioButton("Line", current_version, 0))
+		static int current_version = static_cast<int>(m_drawing_mode);
+		if (UI_module->putRadioButton("Point", current_version, 0))
+		{
+			m_drawing_mode = DrawingMode::Point;
+			is_clicked = true;
+		}
+		UI_module->sameLine();
+		if (UI_module->putRadioButton("Triangle", current_version, 1))
+		{
+			m_drawing_mode = DrawingMode::Triangle;
+			is_clicked = true;
+		}
+		UI_module->sameLine();
+		if (UI_module->putRadioButton("TrianleStrip", current_version, 2))
+		{
+			m_drawing_mode = DrawingMode::TriangleStrip;
+			is_clicked = true;
+		}
+		if (UI_module->putRadioButton("Line", current_version, 3))
 		{
 			m_drawing_mode = DrawingMode::Line;
 			is_clicked = true;
 		}
 		UI_module->sameLine();
-		if (UI_module->putRadioButton("LineStrip", current_version, 1))
+		if (UI_module->putRadioButton("LineStrip", current_version, 4))
 		{
 			m_drawing_mode = DrawingMode::LineStrip;
-			is_clicked = true;
-		}
-		UI_module->sameLine();
-		if (UI_module->putRadioButton("Trianle", current_version, 3))
-		{
-			m_drawing_mode = DrawingMode::Triangle;
-			is_clicked = true;
-		}
-		if (UI_module->putRadioButton("TriangleStrip", current_version, 4))
-		{
-			m_drawing_mode = DrawingMode::TriangleStrip;
-			is_clicked = true;
-		}
-		UI_module->sameLine();
-		if (UI_module->putRadioButton("Point", current_version, 5))
-		{
-			m_drawing_mode = DrawingMode::Point;
 			is_clicked = true;
 		}
 

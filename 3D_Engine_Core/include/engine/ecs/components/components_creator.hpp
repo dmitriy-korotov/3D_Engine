@@ -1,6 +1,9 @@
 #pragma once
 
+#include <engine/ecs/ecs_system.hpp>
+#include <engine/ecs/entities/entities_manager.hpp>
 #include <engine/ecs/components/components_manager.hpp>
+#include <engine/ecs/entities/basic_entity.hpp>
 
 #include <unordered_map>
 #include <string>
@@ -15,7 +18,7 @@ namespace engine::ecs::components
 	{
 	public:
 
-		using creatorfn_t = std::function<components_manager::component_ptr_t<basic_component>()>;
+		using creatorfn_t = std::function<components_manager::component_ptr_t<basic_component>(entities::entity_id_t)>;
 		using creatorfn_ptr_t = std::shared_ptr<creatorfn_t>;
 		using creators_map_t = std::unordered_map<std::string, creatorfn_ptr_t>;
 
@@ -36,10 +39,12 @@ namespace engine::ecs::components
 	{
 		//static_cast(std::is_base_of_v<basic_component, ComponentType>, "")
 
-		components_creator::addComponentCreator(ComponentType::component_name,
-			[]() -> components_manager::component_ptr_t<basic_component>
+		components_creator::addComponentCreator(std::string(ComponentType::component_name),
+			[](entities::entity_id_t _target) -> components_manager::component_ptr_t<basic_component>
 			{
-				return components_manager::addComponent<ComponentType>();
+				auto entity = ECS::instance().getEntitiesManager()->getEntity(_target);
+				entity->addComponent<ComponentType>();
+				return entity->getComponent<ComponentType>();
 			});
 	}
 }
