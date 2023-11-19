@@ -4,11 +4,8 @@
 
 #include <engine/interfaces/serializable_object.hpp>
 
-#include <engine/ecs/ecs.hpp>
-
-#include <engine/ecs/systems/fwd/systems_manager.hpp>
-
 #include <string>
+#include <concepts>
 
 
 
@@ -17,8 +14,6 @@ namespace engine::ecs::systems
 	class basic_system: private util::nocopyeble, public interfaces::serializable_object
 	{
 	public:
-
-		friend systems_manager;
 
 		basic_system() = default;
 		virtual ~basic_system() = default;
@@ -38,5 +33,12 @@ namespace engine::ecs::systems
 
 		bool m_is_active = true;
 
+	};
+
+
+
+	template <typename T>
+	concept System = std::is_same_v<T, basic_system> || std::derived_from<T, basic_system> && requires {
+		{ T::system_name } -> std::convertible_to<std::string_view>;
 	};
 }

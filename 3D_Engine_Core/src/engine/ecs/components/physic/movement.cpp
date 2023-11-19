@@ -1,7 +1,6 @@
 #include <engine/ecs/components/physic/movement.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/components_manager.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
 #include <engine/ecs/components/physic/orientation.hpp>
@@ -14,11 +13,11 @@ namespace engine::ecs::components
 {
 	void movement::moveUp(float _delta_time) const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 			return;
 
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 			return;
 
@@ -29,11 +28,11 @@ namespace engine::ecs::components
 
 	void movement::moveRight(float _delta_time) const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 			return;
 
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 			return;
 
@@ -44,11 +43,11 @@ namespace engine::ecs::components
 
 	void movement::moveForward(float _delta_time) const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 			return;
 
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 			return;
 
@@ -61,11 +60,11 @@ namespace engine::ecs::components
 
 	void movement::moveWorldUp(float _delta_time) const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 			return;
 
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 			return;
 
@@ -76,11 +75,11 @@ namespace engine::ecs::components
 
 	void movement::moveWorldRight(float _delta_time) const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 			return;
 
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 			return;
 
@@ -91,11 +90,11 @@ namespace engine::ecs::components
 
 	void movement::moveWorldForward(float _delta_time) const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 			return;
 
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 			return;
 

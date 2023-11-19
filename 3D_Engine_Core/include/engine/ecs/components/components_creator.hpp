@@ -18,7 +18,7 @@ namespace engine::ecs::components
 	{
 	public:
 
-		using creatorfn_t = std::function<components_manager::component_ptr_t<basic_component>(entities::entity_id_t)>;
+		using creatorfn_t = std::function<std::shared_ptr<basic_component>(entities::entity_id_t)>;
 		using creatorfn_ptr_t = std::shared_ptr<creatorfn_t>;
 		using creators_map_t = std::unordered_map<std::string, creatorfn_ptr_t>;
 

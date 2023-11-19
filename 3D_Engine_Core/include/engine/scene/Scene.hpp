@@ -28,13 +28,18 @@ namespace engine::scene
 	{
 	public:
 
+		using entity_t = ecs::entities::basic_entity;
+		using component_t = ecs::components::basic_component;
+		using system_t = ecs::systems::basic_system;
+		using ECS = ecs::ECS<entity_t, component_t, system_t>;
+
 		using object_builder_ptr_t = std::shared_ptr<basic_object_builder>;
 		using object_ptr_t = std::shared_ptr<ecs::entities::basic_entity>;
 		using system_ptr_t = std::shared_ptr<ecs::systems::basic_system>;
 		template <typename T>
-		using component_ptr_t = ecs::components::components_manager::component_ptr_t<T>;
+		using component_ptr_t = ecs::components::components_manager<component_t>::component_ptr_t<T>;
 		template <typename T>
-		using components_range_t = ecs::components::components_manager::components_range_t<T>;
+		using components_range_t = ecs::components::components_manager<component_t>::components_range_t<T>;
 
 
 
@@ -96,6 +101,10 @@ namespace engine::scene
 		static bool load(const path& _path) noexcept;
 		static bool save(const path& _path) noexcept;
 
+	private:
+
+		static ECS& entity_component_system;
+
 	};
 
 
@@ -113,7 +122,7 @@ namespace engine::scene
 	template <typename T, typename Builder, typename ...Args>
 	auto Scene::addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept -> object_ptr_t
 	{
-		auto object = ecs::ECS::instance().getEntitiesManager()->createEntity<T>(std::forward<Args>(_args)...);
+		auto object = entity_component_system.getEntitiesManager()->createEntity<T>(std::forward<Args>(_args)...);
 		if (object == nullptr)
 		{
 			LOG_WARN("[Scene WARN] Can't create object");
@@ -133,7 +142,7 @@ namespace engine::scene
 	template <typename T, typename ...Args>
 	auto Scene::addComponent(object_id_t _obj_id, Args&&... _args) noexcept -> component_ptr_t<T>
 	{
-		return ecs::ECS::instance().getComponentsManager()->addComponent<T>(_obj_id, std::forward<Args>(_args)...);
+		return entity_component_system.getComponentsManager()->addComponent<T>(_obj_id, std::forward<Args>(_args)...);
 	}
 
 
@@ -141,7 +150,7 @@ namespace engine::scene
 	template <typename T>
 	auto Scene::getComponent(object_id_t _obj_id) noexcept -> component_ptr_t<T>
 	{
-		return ecs::ECS::instance().getComponentsManager()->getComponent<T>(_obj_id);
+		return entity_component_system.getComponentsManager()->getComponent<T>(_obj_id);
 	}
 
 
@@ -149,7 +158,7 @@ namespace engine::scene
 	template <typename T>
 	auto Scene::getComponent() noexcept -> component_ptr_t<T>
 	{
-		return ecs::ECS::instance().getComponentsManager()->getComponent<T>();
+		return entity_component_system.getComponentsManager()->getComponent<T>();
 	}
 
 
@@ -157,7 +166,7 @@ namespace engine::scene
 	template <typename T>
 	auto Scene::getComponents() noexcept -> std::optional<components_range_t<T>>
 	{
-		return ecs::ECS::instance().getComponentsManager()->getComponents<T>();
+		return entity_component_system.getComponentsManager()->getComponents<T>();
 	}
 
 
@@ -165,7 +174,7 @@ namespace engine::scene
 	template <typename T>
 	void Scene::enableComponent(object_id_t _obj_id) noexcept
 	{
-		ecs::ECS::instance().getEntitiesManager()->getEntity(_obj_id)->enableComponent<T>();
+		entity_component_system.getEntitiesManager()->getEntity(_obj_id)->enableComponent<T>();
 	}
 
 
@@ -173,7 +182,7 @@ namespace engine::scene
 	template <typename T>
 	void Scene::disableComponent(object_id_t _obj_id) noexcept
 	{
-		ecs::ECS::instance().getEntitiesManager()->getEntity(_obj_id)->disableComponent<T>();
+		entity_component_system.getEntitiesManager()->getEntity(_obj_id)->disableComponent<T>();
 	}
 
 
@@ -181,7 +190,7 @@ namespace engine::scene
 	template <typename T>
 	bool Scene::hasComponent(object_id_t _obj_id) noexcept
 	{
-		ecs::ECS::instance().getEntitiesManager()->getEntity(_obj_id)->hasComponent<T>();
+		entity_component_system.getEntitiesManager()->getEntity(_obj_id)->hasComponent<T>();
 	}
 
 
@@ -191,7 +200,7 @@ namespace engine::scene
 	template <typename T, typename ...Args>
 	auto Scene::addSystem(Args&&... _args) noexcept -> system_ptr_t
 	{
-		return ecs::ECS::instance().getSystemsManager()->addSystem<T>(std::forward<Args>(_args)...);
+		return entity_component_system.getSystemsManager()->addSystem<T>(std::forward<Args>(_args)...);
 	}
 
 
@@ -199,7 +208,7 @@ namespace engine::scene
 	template <typename T>
 	bool Scene::delSystem() noexcept
 	{
-		return ecs::ECS::instance().getSystemsManager()->removeSystem<T>();
+		return entity_component_system.getSystemsManager()->removeSystem<T>();
 	}
 
 
@@ -207,7 +216,7 @@ namespace engine::scene
 	template <typename T>
 	void Scene::enableSystem() noexcept
 	{
-		return ecs::ECS::instance().getSystemsManager()->enableSystem<T>();
+		return entity_component_system.getSystemsManager()->enableSystem<T>();
 	}
 
 
@@ -215,6 +224,6 @@ namespace engine::scene
 	template <typename T>
 	void Scene::disableSystem() noexcept
 	{
-		return ecs::ECS::instance().getSystemsManager()->disableSystem<T>();
+		return entity_component_system.getSystemsManager()->disableSystem<T>();
 	}
 }

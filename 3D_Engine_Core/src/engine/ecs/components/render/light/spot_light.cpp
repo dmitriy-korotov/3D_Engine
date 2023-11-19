@@ -1,7 +1,6 @@
 #include <engine/ecs/components/render/light/spot_light.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/components_manager.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/physic/direction.hpp>
 
@@ -17,7 +16,7 @@ namespace engine::ecs::components
 
 	const glm::vec3& spot_light::getDirection() const noexcept
 	{
-		return ECS::instance().getComponentsManager()->getComponent<direction>(getOwner())->getDirection();
+		return scene::Scene::getComponent<direction>(getOwner())->getDirection();
 	}
 
 

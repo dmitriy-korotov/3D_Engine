@@ -1,7 +1,6 @@
 #include <engine/ecs/components/render/light/point_light.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/components_manager.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
 
@@ -13,7 +12,7 @@ namespace engine::ecs::components
 {
 	glm::vec3 point_light::getPosition() const noexcept
 	{
-		auto position_comp = ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp = scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 		{
 			LOG_ERROR("[Point light component ERROR] Entity hasn't 'position' component");

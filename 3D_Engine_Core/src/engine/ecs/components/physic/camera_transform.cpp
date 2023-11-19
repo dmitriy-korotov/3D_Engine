@@ -2,8 +2,7 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/components_manager.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
 #include <engine/ecs/components/physic/rotation.hpp>
@@ -20,19 +19,19 @@ namespace engine::ecs::components
 {
 	glm::mat4 camera_transform::getViewMatrix() const noexcept
 	{
-		auto position_comp =	ECS::instance().getComponentsManager()->getComponent<position>(getOwner());
+		auto position_comp =	scene::Scene::getComponent<position>(getOwner());
 		if (position_comp == nullptr)
 		{
 			LOG_WARN("[Camera transform WARN] Entity hasn't position component");
 			return glm::mat4(1.f);
 		}
-		auto rotation_comp =	ECS::instance().getComponentsManager()->getComponent<rotation>(getOwner());
+		auto rotation_comp =	scene::Scene::getComponent<rotation>(getOwner());
 		if (rotation_comp == nullptr)
 		{
 			LOG_WARN("[Camera transform WARN] Entity hasn't rotation component");
 			return glm::mat4(1.f);
 		}
-		auto orientation_comp = ECS::instance().getComponentsManager()->getComponent<orientation>(getOwner());
+		auto orientation_comp = scene::Scene::getComponent<orientation>(getOwner());
 		if (orientation_comp == nullptr)
 		{
 			LOG_WARN("[Camera transform WARN] Entity hasn't orientation component");

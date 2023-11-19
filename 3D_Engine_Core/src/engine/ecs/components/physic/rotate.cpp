@@ -2,8 +2,7 @@
 
 #include <engine/logging/log.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/components_manager.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/physic/rotation.hpp>
 
@@ -13,7 +12,7 @@ namespace engine::ecs::components
 {
 	void rotate::rotateX(float _delta_angle) const noexcept
 	{
-		auto rotation_comp = ECS::instance().getComponentsManager()->getComponent<rotation>(getOwner());
+		auto rotation_comp = scene::Scene::getComponent<rotation>(getOwner());
 		if (rotation_comp == nullptr)
 		{
 			LOG_ERROR("[Rotate component ERROR] Entity hasn't 'rotation' component");
@@ -26,7 +25,7 @@ namespace engine::ecs::components
 
 	void rotate::rotateY(float _delta_angle) const noexcept
 	{
-		auto rotation_comp = ECS::instance().getComponentsManager()->getComponent<rotation>(getOwner());
+		auto rotation_comp = scene::Scene::getComponent<rotation>(getOwner());
 		if (rotation_comp == nullptr)
 		{
 			LOG_ERROR("[Rotate component ERROR] Entity hasn't 'rotation' component");
@@ -39,7 +38,7 @@ namespace engine::ecs::components
 
 	void rotate::rotateZ(float _delta_angle) const noexcept
 	{
-		auto rotation_comp = ECS::instance().getComponentsManager()->getComponent<rotation>(getOwner());
+		auto rotation_comp = scene::Scene::getComponent<rotation>(getOwner());
 		if (rotation_comp == nullptr)
 		{
 			LOG_ERROR("[Rotate component ERROR] Entity hasn't 'rotation' component");

@@ -2,8 +2,6 @@
 
 #include <engine/ecs/ecs.hpp>
 
-#include <engine/ecs/components/fwd/basic_component.hpp>
-
 #include <unordered_map>
 #include <memory>
 
@@ -11,7 +9,7 @@
 
 namespace engine::ecs::components
 {
-	template <typename ComponentType>
+	template <typename BasicComponentType, typename ComponentType>
 	class component_iterator
 	{
 	public:
@@ -24,7 +22,7 @@ namespace engine::ecs::components
 
 
 
-		component_iterator(map_component_iterator_t<basic_component> _map_iterator) noexcept;
+		component_iterator(map_component_iterator_t<BasicComponentType> _map_iterator) noexcept;
 
 		component_ptr_t<const ComponentType> operator*() const noexcept;
 		component_ptr_t<ComponentType> operator*() noexcept;
@@ -40,78 +38,78 @@ namespace engine::ecs::components
 
 	private:
 
-		map_component_iterator_t<basic_component> m_map_iterator;
+		map_component_iterator_t<BasicComponentType> m_map_iterator;
 
 	};
 
 
 	
-	template <typename ComponentType>
-	component_iterator<ComponentType>::component_iterator(map_component_iterator_t<basic_component> _map_iterator) noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	component_iterator<BasicComponentType, ComponentType>::component_iterator(map_component_iterator_t<BasicComponentType> _map_iterator) noexcept
 			: m_map_iterator(std::move(_map_iterator))
 	{ }
 
 
 
-	template <typename ComponentType>
-	auto component_iterator<ComponentType>::operator*() const noexcept -> component_ptr_t<const ComponentType>
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator*() const noexcept -> component_ptr_t<const ComponentType>
 	{
 		return std::dynamic_pointer_cast<const ComponentType>(m_map_iterator->second);
 	}
 
 
 
-	template <typename ComponentType>
-	auto component_iterator<ComponentType>::operator*() noexcept -> component_ptr_t<ComponentType>
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator*() noexcept -> component_ptr_t<ComponentType>
 	{
 		return std::dynamic_pointer_cast<ComponentType>(m_map_iterator->second);
 	}
 
 
 
-	template <typename ComponentType>
-	component_iterator<ComponentType>& component_iterator<ComponentType>::operator++() noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator++() noexcept -> component_iterator&
 	{
 		return ++m_map_iterator;
 	}
 
 
 
-	template <typename ComponentType>
-	component_iterator<ComponentType> component_iterator<ComponentType>::operator++(int) noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator++(int) noexcept -> component_iterator
 	{
-		component_iterator<ComponentType> prev_iter(m_map_iterator++);
+		component_iterator<BasicComponentType, ComponentType> prev_iter(m_map_iterator++);
 		return prev_iter;
 	}
 
 
 
-	template <typename ComponentType>
-	bool component_iterator<ComponentType>::operator==(const component_iterator& _right) const noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator==(const component_iterator& _right) const noexcept -> bool
 	{
 		return m_map_iterator == _right.m_map_iterator;
 	}
 
 
 
-	template <typename ComponentType>
-	bool component_iterator<ComponentType>::operator!=(const component_iterator& _right) const noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator!=(const component_iterator& _right) const noexcept -> bool
 	{
 		return m_map_iterator != _right.m_map_iterator;
 	}
 
 
 
-	template <typename ComponentType>
-	const ComponentType* const component_iterator<ComponentType>::operator->() const noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator->() const noexcept -> const ComponentType* const
 	{
 		return dynamic_cast<ComponentType* const>(m_map_iterator->second.get());
 	}
 
 
 
-	template <typename ComponentType>
-	ComponentType* const component_iterator<ComponentType>::operator->() noexcept
+	template <typename BasicComponentType, typename ComponentType>
+	auto component_iterator<BasicComponentType, ComponentType>::operator->() noexcept -> ComponentType* const
 	{
 		return dynamic_cast<ComponentType* const>(m_map_iterator->second.get());
 	}

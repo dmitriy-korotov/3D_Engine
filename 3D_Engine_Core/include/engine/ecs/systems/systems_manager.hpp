@@ -6,17 +6,18 @@
 
 #include <map>
 #include <memory>
-#include <string>
+#include <concepts>
 
 
 
 namespace engine::ecs::systems
 {
+	template <System UserBasicSystem>
 	class systems_manager: private util::nocopyeble
 	{
 	public:
 
-		using system_ptr_t = std::shared_ptr<basic_system>;
+		using system_ptr_t = std::shared_ptr<UserBasicSystem>;
 		using systems_storage_t = std::multimap<size_t, std::pair<std::string, system_ptr_t>>;
 
 
@@ -26,26 +27,26 @@ namespace engine::ecs::systems
 
 		void update(float _delta_time);
 
-		template <typename SystemType, typename ...Args>
+		template <std::derived_from<UserBasicSystem> T, typename ...Args>
 		[[nodiscard]] system_ptr_t addSystem(size_t _priority, Args&&... _args) noexcept;
 
 		const systems_storage_t& getSystems() const noexcept;
 
-		template <typename SystemType>
+		template <std::derived_from<UserBasicSystem> T>
 		bool removeSystem() noexcept;
 
-		template <typename SystemType>
+		template <std::derived_from<UserBasicSystem> T>
 		void enableSystem() noexcept;
 
-		template <typename SystemType>
+		template <std::derived_from<UserBasicSystem> T>
 		void disableSystem() noexcept;
 
 		void removeAllSystems() noexcept;
 
 	private:
 
-		template <typename SystemType>
-		systems_storage_t::iterator findSystem() noexcept;
+		template <std::derived_from<UserBasicSystem> T>
+		typename systems_storage_t::iterator findSystem() noexcept;
 
 	private:
 
@@ -55,14 +56,13 @@ namespace engine::ecs::systems
 
 
 
-	template <typename SystemType, typename ...Args>
-	auto systems_manager::addSystem(size_t _priority, Args&&... _args) noexcept -> system_ptr_t
+	template <System UserBasicSystem>
+	template <std::derived_from<UserBasicSystem> T, typename ...Args>
+	auto systems_manager<UserBasicSystem>::addSystem(size_t _priority, Args&&... _args) noexcept -> system_ptr_t
 	{
-		static_assert(std::is_base_of_v<basic_system, SystemType>, "SystemType is not derived basic_system.");
+		auto system = std::make_shared<T>(std::forward<Args>(_args)...);
 
-		auto system = std::make_shared<SystemType>(std::forward<Args>(_args)...);
-
-		auto it = m_systems.emplace(_priority, std::make_pair(SystemType::system_name, system));
+		auto it = m_systems.emplace(_priority, std::make_pair(T::system_name, system));
 
 		if (it == m_systems.end())
 			return nullptr;
@@ -72,15 +72,13 @@ namespace engine::ecs::systems
 
 
 
-	template <typename SystemType>
-	systems_manager::systems_storage_t::iterator
-	systems_manager::findSystem() noexcept
+	template <System UserBasicSystem>
+	template <std::derived_from<UserBasicSystem> T> 
+	auto systems_manager<UserBasicSystem>::findSystem() noexcept -> typename systems_storage_t::iterator
 	{
-		static_assert(std::is_base_of_v<basic_system, SystemType>, "SystemType is not derived basic_system.");
-
 		for (auto begin = m_systems.begin(); begin != m_systems.end(); begin++)
 		{
-			if (begin->second.first == SystemType::system_name)
+			if (begin->second.first == T::system_name)
 				return begin;
 		}
 		return m_systems.end();
@@ -88,10 +86,11 @@ namespace engine::ecs::systems
 
 
 
-	template <typename SystemType>
-	bool systems_manager::removeSystem() noexcept
+	template <System UserBasicSystem>
+	template <std::derived_from<UserBasicSystem> T>
+	auto systems_manager<UserBasicSystem>::removeSystem() noexcept -> bool
 	{
-		auto system = findSystem<SystemType>();
+		auto system = findSystem<T>();
 		if (system != m_systems.end())
 		{
 			auto it = m_systems.erase(system);
@@ -102,21 +101,63 @@ namespace engine::ecs::systems
 
 
 
-	template <typename SystemType>
-	void systems_manager::enableSystem() noexcept
+	template <System UserBasicSystem>
+	template <std::derived_from<UserBasicSystem> T>
+	auto systems_manager<UserBasicSystem>::enableSystem() noexcept -> void
 	{
-		auto system = findSystem<SystemType>();
+		auto system = findSystem<T>();
 		if (system != m_systems.end())
 			system->second.second->enable();
 	}
 
 
 
-	template <typename SystemType>
-	void systems_manager::disableSystem() noexcept
+	template <System UserBasicSystem>
+	template <std::derived_from<UserBasicSystem> T>
+	auto systems_manager<UserBasicSystem>::disableSystem() noexcept -> void
 	{
-		auto system = findSystem<SystemType>();
+		auto system = findSystem<T>();
 		if (system != m_systems.end())
 			system->second.second->disable();
+	}
+
+
+
+	template <System UserBasicSystem>
+	auto systems_manager<UserBasicSystem>::update(float _delta_time) -> void
+	{
+		for (const auto& system : m_systems)
+		{
+			if (!system.second.second->isActive())
+				continue;
+
+			system.second.second->preUpdate(_delta_time);
+			system.second.second->update(_delta_time);
+			system.second.second->postUpdate(_delta_time);
+		}
+	}
+
+
+
+	template <System UserBasicSystem>
+	auto systems_manager<UserBasicSystem>::getSystems() const noexcept -> const systems_storage_t&
+	{
+		return m_systems;
+	}
+
+
+
+	template <System UserBasicSystem>
+	auto systems_manager<UserBasicSystem>::removeAllSystems() noexcept -> void
+	{
+		m_systems.clear();
+	}
+
+
+
+	template <System UserBasicSystem>
+	systems_manager<UserBasicSystem>::~systems_manager()
+	{
+		removeAllSystems();
 	}
 }

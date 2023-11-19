@@ -5,70 +5,58 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/ecs/ecs.hpp>
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/entities/entities_manager.hpp>
-
-#include <engine/ecs/components/component_iterator.hpp>
 
 #include <engine/ecs/components/basic_component.hpp>
+#include <engine/ecs/components/component_iterator.hpp>
 
 #include <unordered_map>
 #include <vector>
 #include <memory>
 #include <optional>
+#include <concepts>
 
 
 
 namespace engine::ecs::components
 {
+	template <Component UserBasicComponent>
 	class components_manager: private util::nocopyeble
 	{
 	public:
-
-		friend entities::basic_entity;
-
-
 
 		template <typename T>
 		using component_ptr_t = std::shared_ptr<T>;
 
 		template <typename T>
-		using components_range_t = std::pair<component_iterator<T>, component_iterator<T>>;
+		using components_range_t = std::pair<component_iterator<UserBasicComponent, T>, component_iterator<UserBasicComponent, T>>;
 		
-		template <typename T>
-		using components_map_t = std::unordered_map<entities::entity_id_t, component_ptr_t<T>>;
+		using components_map_t = std::unordered_map<entities::entity_id_t, component_ptr_t<UserBasicComponent>>;
 
-		using general_type_components_map_t = components_map_t<basic_component>;
-		using components_storage_t = std::unordered_map<std::string_view, general_type_components_map_t>;
+		using components_storage_t = std::unordered_map<std::string_view, components_map_t>;
 
 	public:
 
-		template <typename ComponentType, typename ...Args>
-		component_ptr_t<ComponentType> addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
+		template <std::derived_from<UserBasicComponent> T, typename ...Args>
+		[[nodiscard]] component_ptr_t<T> addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
-		template <typename ComponentType>
-		std::optional<components_range_t<ComponentType>> getComponents() const noexcept;
+		template <std::derived_from<UserBasicComponent> T>
+		std::optional<components_range_t<T>> getComponents() const noexcept;
 
-		std::vector<component_ptr_t<basic_component>> getComponents() const noexcept;
+		std::vector<component_ptr_t<UserBasicComponent>> getComponents() const noexcept;
 
-		template <typename ComponentType>
-		component_ptr_t<ComponentType> getComponent() const noexcept;
+		template <std::derived_from<UserBasicComponent> T>
+		[[nodiscard]] component_ptr_t<T> getComponent() const noexcept;
 
-		template <typename ComponentType>
-		component_ptr_t<ComponentType> getComponent(entities::entity_id_t _entity_id) const noexcept;
+		template <std::derived_from<UserBasicComponent> T>
+		[[nodiscard]] component_ptr_t<T> getComponent(entities::entity_id_t _entity_id) const noexcept;
 
-		template <typename ComponentType>
+		template <std::derived_from<UserBasicComponent> T>
 		bool hasComponent(entities::entity_id_t _entity_id) const noexcept;
 
-		template <typename ComponentType>
+		template <std::derived_from<UserBasicComponent> T>
 		void removeComponent(entities::entity_id_t _entity_id) noexcept;
 
 		void removeAllComponents() noexcept;
-
-	private:
-
-		template <typename ComponentType, typename ...Args>
-		component_ptr_t<ComponentType> addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept;
 
 	private:
 
@@ -80,149 +68,101 @@ namespace engine::ecs::components
 
 
 
-	template <typename ComponentType, typename ...Args>
-	auto components_manager::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept -> component_ptr_t<ComponentType>
+	template <Component UserBasicComponent>
+	template <std::derived_from<UserBasicComponent> T, typename ...Args>
+	auto components_manager<UserBasicComponent>::addComponent(entities::entity_id_t _entity_id, Args&&... _args) noexcept -> component_ptr_t<T>
 	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
+		auto component = std::make_shared<T>(std::forward<Args>(_args)...);
 		component->setOwner(_entity_id);
 		component->onConstruct();
 		
-		auto current_type_components = m_components.find(ComponentType::component_name);
-		if (current_type_components == m_components.end())
+		auto T_components_map = m_components.find(T::component_name);
+		if (T_components_map == m_components.end())
 		{
-			general_type_components_map_t current_type_components_storage;
-			auto entity = ECS::instance().getEntitiesManager()->getEntity(_entity_id);
-			if (entity != nullptr)
-			{
-				//entity->addComponent<ComponentType>(component);
-			}
-			else
-			{
-				LOG_ERROR("[Components manager ERROR] Can't find entity (entity_id: {0})", _entity_id);
-				return nullptr;
-			}
-			current_type_components_storage.emplace(_entity_id, component);
-			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
+			components_map_t new_T_components_map;
+			new_T_components_map.emplace(_entity_id, component);
+			m_components.emplace(T::component_name, std::move(new_T_components_map));
 		}
 		else
 		{
-			ECS::instance().getEntitiesManager()->getEntity(_entity_id)->addComponent<ComponentType>(component);
-			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, component);
+			m_components.find(T::component_name)->second.emplace(_entity_id, component);
 		}
 		return component;
 	}
 
 
 
-	template <typename ComponentType, typename ...Args>
-	components_manager::component_ptr_t<ComponentType>
-	components_manager::addComponentNotConstructedEntity(entities::entity_id_t _entity_id, Args&&... _args) noexcept
+	template <Component UserBasicComponent>
+	template <std::derived_from<UserBasicComponent> T>
+	auto components_manager<UserBasicComponent>::removeComponent(entities::entity_id_t _entity_id) noexcept -> void
 	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto component = std::make_shared<ComponentType>(std::forward<Args>(_args)...);
-		component->setOwner(_entity_id);
-		component->onConstruct();
-
-		auto current_type_components = m_components.find(ComponentType::component_name);
-		if (current_type_components == m_components.end())
-		{
-			general_type_components_map_t current_type_components_storage;
-			current_type_components_storage.emplace(_entity_id, component);
-			m_components.emplace(ComponentType::component_name, std::move(current_type_components_storage));
-		}
-		else
-		{
-			m_components.find(ComponentType::component_name)->second.emplace(_entity_id, component);
-		}
-		return component;
-	}
-
-
-
-	template <typename ComponentType>
-	void components_manager::removeComponent(entities::entity_id_t _entity_id) noexcept
-	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto components_range = m_components.find(ComponentType::component_name);
+		auto components_range = m_components.find(T::component_name);
 		if (components_range != m_components.end())
 			components_range->second.erase(_entity_id);
 	}
 
 
 
-	template <typename ComponentType>
-	std::optional<components_manager::components_range_t<ComponentType>>
-	components_manager::getComponents() const noexcept
+	template <Component UserBasicComponent>
+	template <std::derived_from<UserBasicComponent> T>
+	auto components_manager<UserBasicComponent>::getComponents() const noexcept -> std::optional<components_range_t<T>>
 	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto components_range = m_components.find(ComponentType::component_name);
+		auto components_range = m_components.find(T::component_name);
 		if (components_range != m_components.end())
 		{
 			auto range_begin = components_range->second.begin();
 			auto range_end = components_range->second.end();
 
-			return std::make_pair(component_iterator<ComponentType>(std::move(range_begin)), component_iterator<ComponentType>(std::move(range_end)));
+			return std::make_pair(component_iterator<UserBasicComponent, T>(std::move(range_begin)),
+								  component_iterator<UserBasicComponent, T>(std::move(range_end)));
 		}
-		else
-		{
-			return std::nullopt;
-		}
+		return std::nullopt;
 	}
 
 
 
-	template <typename ComponentType>
-	components_manager::component_ptr_t<ComponentType>
-	components_manager::getComponent() const noexcept
+	template <Component UserBasicComponent>
+	template <std::derived_from<UserBasicComponent> T>
+	auto components_manager<UserBasicComponent>::getComponent() const noexcept -> component_ptr_t<T>
 	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto components_range = m_components.find(ComponentType::component_name);
+		auto components_range = m_components.find(T::component_name);
 		if (components_range != m_components.end())
 		{
 			auto& components = components_range->second;
 
 			if (components.size() > 1)
-				LOG_WARN("[Components manager WARN] Components '{0}' more then one, returned first", ComponentType::component_name);
+				LOG_WARN("[Components manager WARN] Components '{0}' more then one, returned first", T::component_name);
 
 			if (components.size() == 1)
-				return std::dynamic_pointer_cast<ComponentType>(components.begin()->second);
+				return std::dynamic_pointer_cast<T>(components.begin()->second);
 		}
 		return nullptr;
 	}
 
 
 
-	template <typename ComponentType>
-	components_manager::component_ptr_t<ComponentType> 
-	components_manager::getComponent(entities::entity_id_t _entity_id) const noexcept
+	template <Component UserBasicComponent>
+	template <std::derived_from<UserBasicComponent> T>
+	auto components_manager<UserBasicComponent>::getComponent(entities::entity_id_t _entity_id) const noexcept -> component_ptr_t<T>
 	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto components_range = m_components.find(ComponentType::component_name);
+		auto components_range = m_components.find(T::component_name);
 		if (components_range != m_components.end())
 		{
 			auto component_iter = components_range->second.find(_entity_id);
 
 			if (component_iter != components_range->second.end())
-				return std::dynamic_pointer_cast<ComponentType>(component_iter->second);
+				return std::dynamic_pointer_cast<T>(component_iter->second);
 		}
 		return nullptr;
 	}
 
 
 
-	template <typename ComponentType>
-	bool components_manager::hasComponent(entities::entity_id_t _entity_id) const noexcept
+	template <Component UserBasicComponent>
+	template <std::derived_from<UserBasicComponent> T>
+	auto components_manager<UserBasicComponent>::hasComponent(entities::entity_id_t _entity_id) const noexcept -> bool
 	{
-		static_assert(std::is_base_of_v<basic_component, ComponentType>, "ComponentType is not derived basic_component");
-
-		auto components_range = m_components.find(ComponentType::component_name);
+		auto components_range = m_components.find(T::component_name);
 		if (components_range != m_components.end())
 		{
 			auto component_iter = components_range->second.find(_entity_id);
@@ -230,5 +170,35 @@ namespace engine::ecs::components
 			return (component_iter != components_range->second.end());
 		}
 		return false;
+	}
+
+
+
+	template <Component UserBasicComponent>
+	auto components_manager<UserBasicComponent>::getComponents() const noexcept -> std::vector<component_ptr_t<UserBasicComponent>>
+	{
+		size_t components_count = 0;
+		std::for_each(m_components.begin(), m_components.end(),
+			[&components_count](const auto& _elem) -> void
+			{
+				components_count += _elem.second.size();
+			});
+
+		std::vector<component_ptr_t<UserBasicComponent>> components;
+		components.reserve(components_count);
+
+		for (auto& [comp_name, comps_storage] : m_components)
+			for (auto& [ent_id, comp] : comps_storage)
+				components.emplace_back(comp);
+
+		return components;
+	}
+
+
+
+	template <Component UserBasicComponent>
+	auto components_manager<UserBasicComponent>::removeAllComponents() noexcept -> void
+	{
+		m_components.clear();
 	}
 }

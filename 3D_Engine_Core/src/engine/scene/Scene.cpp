@@ -23,37 +23,43 @@ using namespace nlohmann;
 
 namespace engine::scene
 {
+	Scene::ECS& entity_component_system = Scene::ECS::instance();
+
+
+
+
+
 	bool Scene::delObject(object_id_t _obj_id) noexcept
 	{
-		return ecs::ECS::instance().getEntitiesManager()->destroyEntity(_obj_id);
+		return entity_component_system.getEntitiesManager()->destroyEntity(_obj_id);
 	}
 
 
 
 	auto Scene::getObject(object_id_t _obj_id) noexcept -> object_ptr_t
 	{
-		return ecs::ECS::instance().getEntitiesManager()->getEntity(_obj_id);
+		return entity_component_system.getEntitiesManager()->getEntity(_obj_id);
 	}
 
 
 
 	bool Scene::initialize() noexcept
 	{
-		return ecs::ECS::instance().initialize();
+		return entity_component_system.initialize();
 	}
 
 
 
 	void Scene::update(float _delta_time) noexcept
 	{
-		ecs::ECS::instance().update(_delta_time);
+		entity_component_system.update(_delta_time);
 	}
 
 
 
 	void Scene::terminate() noexcept
 	{
-		ecs::ECS::instance().terminate();
+		entity_component_system.terminate();
 	}
 
 
@@ -82,7 +88,7 @@ namespace engine::scene
 			for (auto it = entities.begin(); it != entities.end(); it++)
 			{
 				LOG_INFO("Entity ID: {0}", static_cast<int>(it->at("id")));
-				auto object = ecs::ECS::instance().getEntitiesManager()->createEntity<ecs::entities::basic_entity>();
+				auto object = entity_component_system.getEntitiesManager()->createEntity<ecs::entities::basic_entity>();
 				if (object != nullptr)
 					object->deserializeFrom(*it);
 				else
@@ -139,19 +145,19 @@ namespace engine::scene
 
 
 
-		for (auto& entity : ecs::ECS::instance().getEntitiesManager()->getEntities())
+		for (auto& entity : entity_component_system.getEntitiesManager()->getEntities())
 		{
 			auto dumped_view = entity.second->serialize();
 			entities_array.push_back(std::move(dumped_view));
 		}
 
-		for (auto& component : ecs::ECS::instance().getComponentsManager()->getComponents())
+		for (auto& component : entity_component_system.getComponentsManager()->getComponents())
 		{
 			auto dumped_view = component->serialize();
 			components_array.push_back(std::move(dumped_view));
 		}
 
-		for (auto& system : ecs::ECS::instance().getSystemsManager()->getSystems())
+		for (auto& system : entity_component_system.getSystemsManager()->getSystems())
 		{
 			auto dumped_view = system.second.second->serialize();
 			systems_array.push_back(std::move(dumped_view));

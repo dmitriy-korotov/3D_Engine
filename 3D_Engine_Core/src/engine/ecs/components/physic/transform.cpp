@@ -1,7 +1,6 @@
 #include <engine/ecs/components/physic/transform.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/entities/basic_entity.hpp>
+#include <engine/scene/Scene.hpp>
 
 #include <engine/ecs/components/physic/position.hpp>
 #include <engine/ecs/components/physic/rotation.hpp>
@@ -13,7 +12,7 @@ namespace engine::ecs::components
 {
 	glm::mat4 transform::getModelMatrix() const noexcept
 	{
-		const auto& owner = ECS::instance().getEntitiesManager()->getEntity(getOwner());
+		const auto& owner = scene::Scene::getObject(getOwner());
 
 		auto position_comp = owner->getComponent<position>();
 		auto rotation_comp = owner->getComponent<rotation>();
