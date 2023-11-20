@@ -16,7 +16,7 @@ namespace engine::modules::ui
 
 
 
-	void application_UIModule::setUIModule(UIModule_ptr _UI_module) noexcept
+	void application_UIModule::setupUIModule(UIModule_ptr _UI_module) noexcept
 	{
 		m_UI_module = std::move(_UI_module);
 	}

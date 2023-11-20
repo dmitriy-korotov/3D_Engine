@@ -32,16 +32,11 @@
 using namespace engine::window;
 using namespace engine::render;
 using namespace engine::modules::ui;
+using namespace nlohmann;
 
 namespace engine
 {
-    using nlohmann::json;
-
-
-
-
-
-    application& application::instance() noexcept
+    auto application::instance() noexcept -> application&
     {
         static application instance;
         return instance;
@@ -49,7 +44,7 @@ namespace engine
 
 
 
-    void application::setConfig(const path& _path_to_config_file) noexcept
+    auto application::setConfig(const path& _path_to_config_file) noexcept -> void
     {
         if (std::filesystem::exists(_path_to_config_file))
             m_path_to_config = _path_to_config_file;
@@ -59,14 +54,14 @@ namespace engine
 
 
 
-    const std::optional<path>& application::getPathToConfig() const noexcept
+    auto application::getPathToConfig() const noexcept -> const std::optional<path>&
     {
         return m_path_to_config;
     }
 
 
 
-    application::app_error_t application::loadConfig() noexcept
+    auto application::loadConfig() noexcept -> app_error_t
     {
         RendererImpl renderer_impl =                getSettings().getRendererImpl();
         UIModuleImpl UI_module_impl =               getSettings().getUIModuleImpl();
@@ -149,7 +144,7 @@ namespace engine
 
 
 
-    application::app_error_t application::createWindow() noexcept
+    auto application::createWindow() noexcept -> app_error_t
     {
         WindowImpl window_impl =                    getSettings().getWindowImpl();
         std::string title =                         getSettings().getTitle();
@@ -189,7 +184,7 @@ namespace engine
 
 
 
-    application::app_error_t application::setupRenderer() noexcept
+    auto application::setupRenderer() noexcept -> app_error_t
     {
         std::shared_ptr<basic_renderer> renderer = nullptr;
 
@@ -197,7 +192,7 @@ namespace engine
         {
         case RendererImpl::OpenGL:
             renderer = std::shared_ptr<open_gl::renderer>(&open_gl::renderer::instance(),
-                                                          [](open_gl::renderer* _renderer) -> void
+                                                          [](open_gl::renderer*) -> void
                                                           { });
 
             engine::GetResourceManager().setupShaderProgramsCreator(std::make_unique<open_gl::shader_programs_creator>());
@@ -223,7 +218,7 @@ namespace engine
 
 
 
-    application::app_error_t application::setupUIModule() noexcept
+    auto application::setupUIModule() noexcept -> app_error_t
     {
         UIModuleImpl UI_module_impl = getSettings().getUIModuleImpl();
         RendererImpl renderer_impl =  getSettings().getRendererImpl();
@@ -261,7 +256,7 @@ namespace engine
 
 
 
-    void application::setWindowEventHandlers() noexcept
+    auto application::setWindowEventHandlers() noexcept -> void
     {
         m_window_ptr->addEventListener<Events::Resize>(
             [this](const ResizeEventData& _size) -> void
@@ -310,7 +305,7 @@ namespace engine
 
 
 
-	application::app_error_t application::start() noexcept
+	auto application::start() noexcept -> app_error_t
 	{
         auto cfg_error = loadConfig();
         if (cfg_error.has_value())
@@ -356,48 +351,48 @@ namespace engine
 
 
 
-    bool application::isClosed() const noexcept
+    auto application::isClosed() const noexcept -> bool
     {
         return m_is_closed;
     }
 
 
 
-    application_settings& application::getSettings() noexcept
+    auto application::getSettings() noexcept -> application_settings&
     {
         return application_settings::instance();
     }
 
 
 
-    void application::close() noexcept
+    auto application::close() noexcept -> void
     {
         m_is_closed = true;
     }
 
 
 
-	void application::onUpdate() noexcept
+	auto application::onUpdate() noexcept -> void
 	{ }
-    void application::onDrawUI() noexcept
+    auto application::onDrawUI() noexcept -> void
     { }
-    void application::onStart() noexcept
+    auto application::onStart() noexcept -> void
     { }
-    void application::onClose() noexcept
+    auto application::onClose() noexcept -> void
     { }
 
 
 
-    void application::onWindowResize() noexcept
+    auto application::onWindowResize() noexcept -> void
     { }
-    void application::onWindowClose() noexcept
+    auto application::onWindowClose() noexcept -> void
     { }
-    void application::onWindowMove() noexcept
+    auto application::onWindowMove() noexcept -> void
     { }
-    void application::onMouseMove() noexcept
+    auto application::onMouseMove() noexcept -> void
     { }
-    void application::onMouseInput() noexcept
+    auto application::onMouseInput() noexcept -> void
     { }
-    void application::onKeyboardInput() noexcept
+    auto application::onKeyboardInput() noexcept -> void
     { }
 }

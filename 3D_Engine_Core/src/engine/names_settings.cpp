@@ -10,7 +10,7 @@ using namespace engine::modules::ui;
 
 namespace engine
 {
-    WindowImpl toWindowImpl(const std::string_view& _str_window_impl) noexcept
+    auto toWindowImpl(const std::string_view& _str_window_impl) noexcept -> WindowImpl
     {
         if (_str_window_impl == GLFW_IMPLE)           return WindowImpl::GLFW;
         if (_str_window_impl == SDL_IMPL)             return WindowImpl::SDL;
@@ -21,7 +21,7 @@ namespace engine
 
 
 
-    OpenMode toOpenMode(const std::string_view& _str_open_mode) noexcept
+    auto toOpenMode(const std::string_view& _str_open_mode) noexcept -> OpenMode
     {
         if (_str_open_mode == FULL_SCREEN_OPEN_MODE)        return OpenMode::FullScreen;
         if (_str_open_mode == IN_WINDOW_OPEN_MODE)          return OpenMode::InWindow;
@@ -31,7 +31,7 @@ namespace engine
 
 
 
-    RendererImpl toRendererImpl(const std::string_view& _str_renderer_impl) noexcept
+    auto toRendererImpl(const std::string_view& _str_renderer_impl) noexcept -> RendererImpl
     {
         if (_str_renderer_impl == OPEN_GL_IMPL)             return RendererImpl::OpenGL;
         if (_str_renderer_impl == DIRECT_X_IMPL)            return RendererImpl::DirectX;
@@ -43,7 +43,7 @@ namespace engine
 
 
 
-    UIModuleImpl toUIModuleImpl(const std::string_view& _str_UI_module_impl) noexcept
+    auto toUIModuleImpl(const std::string_view& _str_UI_module_impl) noexcept -> UIModuleImpl
     {
         if (_str_UI_module_impl == IMGUI_IMPL)             return UIModuleImpl::ImGui;
         if (_str_UI_module_impl == QT_IMPL)                return UIModuleImpl::Qt;

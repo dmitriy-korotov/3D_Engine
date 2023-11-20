@@ -7,21 +7,21 @@
 
 namespace engine::window::glfw
 {
-	void glfw_window_context::init() const noexcept
+	auto glfw_window_context::init() const noexcept -> void
 	{
 		glfw::instance().init();
 	}
 
 
 
-	void glfw_window_context::terminate() const noexcept
+	auto glfw_window_context::terminate() const noexcept -> void
 	{
 		glfw::instance().terminate();
 	}
 
 
 
-	std::shared_ptr<basic_window> glfw_window_context::createWindow() const noexcept
+	auto glfw_window_context::createWindow() const noexcept -> window_sptr_t
 	{
 		return std::make_shared<glfw_window>();
 	}

@@ -16,13 +16,11 @@ namespace engine::window
 	{
 	public:
 
-		using window_ptr = std::shared_ptr<basic_window>;
-		using windows_storage = std::unordered_map<window_id_t, window_ptr>;
+		using window_ptr_t = std::shared_ptr<basic_window>;
+		using windows_storage_t = std::unordered_map<window_id_t, window_ptr_t>;
 
-		static windows_collector& instance() noexcept;
-
-		void addNewWindow(window_id_t _window_id, window_ptr _window);
-		void removeWindow(window_id_t _window_id) noexcept;
+		void addNewWindow(window_id_t _window_id, window_ptr_t _window);
+		bool removeWindow(window_id_t _window_id) noexcept;
 		void closeAllWindows() noexcept;
 
 		size_t getWindowsCount() noexcept;
@@ -34,7 +32,7 @@ namespace engine::window
 
 	protected:
 
-		windows_storage m_windows_storage;
+		windows_storage_t m_windows_storage;
 
 	};
 }

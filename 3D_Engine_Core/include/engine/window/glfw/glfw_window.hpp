@@ -5,6 +5,8 @@
 
 
 
+
+
 struct GLFWwindow;
 
 namespace engine::window::glfw
@@ -18,7 +20,7 @@ namespace engine::window::glfw
 
 		~glfw_window() override;
 
-		window_err create(const std::string_view& _title, uint16_t _width,
+		window_err_t create(const std::string_view& _title, uint16_t _width,
 						  uint16_t _height, OpenMode _open_mode = OpenMode::InWindow) noexcept override;
 
 		void shutdown() noexcept override;
@@ -38,7 +40,7 @@ namespace engine::window::glfw
 		void setMouseInputCallBack() const noexcept override;
 		void setMouseMoveCallBack() const noexcept override;
 
-		window_err createWindow(OpenMode _open_mode) noexcept;
+		window_err_t createWindow(OpenMode _open_mode) noexcept;
 
 	protected:
 

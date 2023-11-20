@@ -14,7 +14,7 @@
 
 namespace engine::window::glfw
 {
-	static window_id_t generateWindowID(glfw_window::glfw_window_ptr_t _window) noexcept
+	static auto generateWindowID(glfw_window::glfw_window_ptr_t _window) noexcept -> window_id_t
 	{
 		return std::hash<glfw_window::glfw_window_ptr_t>::_Do_hash(_window);
 	}
@@ -33,14 +33,14 @@ namespace engine::window::glfw
 
 
 
-	glfw_window::glfw_window_ptr_t const glfw_window::getRawGlfwPtr() noexcept
+	auto glfw_window::getRawGlfwPtr() noexcept -> glfw_window_ptr_t const
 	{
 		return m_window_ptr;
 	}
 
 
 
-	void glfw_window::setupIcon(const path& _path_to_icon) const noexcept
+	auto glfw_window::setupIcon(const path& _path_to_icon) const noexcept -> void
 	{
 		util::image icon(_path_to_icon);
 		if (icon.isLoaded())
@@ -51,7 +51,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::onUpdate() noexcept
+	auto glfw_window::onUpdate() noexcept -> void
 	{
 		glfw::instance().pollEvents();
 		glfw::instance().makeContextCurrent(m_window_ptr);
@@ -60,7 +60,7 @@ namespace engine::window::glfw
 
 
 
-	glfw_window::window_err glfw_window::createWindow(OpenMode _open_mode) noexcept
+	auto glfw_window::createWindow(OpenMode _open_mode) noexcept -> window_err_t
 	{
 		if (_open_mode == OpenMode::FullScreen)
 		{
@@ -89,8 +89,8 @@ namespace engine::window::glfw
 
 
 
-	glfw_window::window_err glfw_window::create(const std::string_view& _title, uint16_t _width,
-												uint16_t _height, OpenMode _open_mode) noexcept
+	auto glfw_window::create(const std::string_view& _title, uint16_t _width, 
+												uint16_t _height, OpenMode _open_mode) noexcept -> window_err_t
 	{
 		glfw::instance().init();
 		if (!glfw::instance().isInited())
@@ -121,7 +121,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::setWindowResizeCallBack() const noexcept
+	auto glfw_window::setWindowResizeCallBack() const noexcept -> void
 	{
 		glfw::instance().setWindowResizeCallBack(m_window_ptr,
 			[](glfw_window_ptr_t _window_ptr, int _width, int _height) -> void
@@ -145,7 +145,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::setWindowCloseCallBack() const noexcept
+	auto glfw_window::setWindowCloseCallBack() const noexcept -> void
 	{
 		glfw::instance().setWindowCloseCallBack(m_window_ptr,
 			[](glfw_window_ptr_t _window_ptr) -> void
@@ -164,7 +164,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::setKeyboardInputCallBack() const noexcept
+	auto glfw_window::setKeyboardInputCallBack() const noexcept -> void
 	{
 		glfw::instance().setKeyCallback(m_window_ptr,
 			[](glfw_window_ptr_t _window_ptr, int _key_code, int _scancode, int _action, int _mode) -> void
@@ -188,7 +188,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::setMouseInputCallBack() const noexcept
+	auto glfw_window::setMouseInputCallBack() const noexcept -> void
 	{
 		glfw::instance().setMouseButtonCallback(m_window_ptr,
 			[](glfw_window_ptr_t _window_ptr, int _button, int _action, int _mods) -> void
@@ -211,7 +211,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::setMouseMoveCallBack() const noexcept
+	auto glfw_window::setMouseMoveCallBack() const noexcept -> void
 	{
 		glfw::instance().setCursorPosCallback(m_window_ptr,
 			[](glfw_window_ptr_t _window_ptr, double _xpos, double _ypos) -> void
@@ -233,7 +233,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw_window::shutdown() noexcept
+	auto glfw_window::shutdown() noexcept -> void
 	{
 		if (m_window_ptr != nullptr)
 		{

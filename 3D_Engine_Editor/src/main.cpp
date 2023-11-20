@@ -6,11 +6,9 @@
 
 
 
-using editor::Editor;
-
 int main(int _argc, char** _argv)
 {
-	auto& application = Editor::instance();
+	auto& application = editor::Editor::instance();
 
 	application.setConfig("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\config\\config.json");
 	

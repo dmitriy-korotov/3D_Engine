@@ -44,7 +44,7 @@ using namespace engine::scene;
 
 namespace editor
 {
-	Editor& Editor::instance() noexcept
+	auto Editor::instance() noexcept -> Editor&
 	{
 		static Editor instance;
 		return instance;
@@ -52,7 +52,7 @@ namespace editor
 
 
 
-	void Editor::onStart() noexcept
+	auto Editor::onStart() noexcept -> void
 	{
 		AddSystemCreator<camera_update>(1);
 		AddSystemCreator<render>(2);
@@ -128,18 +128,18 @@ namespace editor
 
 
 
-	void Editor::onKeyboardInput() noexcept
+	auto Editor::onKeyboardInput() noexcept -> void
 	{
 		if (keyboard::isKeyPressed(Key::KEY_ESCAPE))
 			close();
 
-		if (keyboard::isKeyPressed(Key::KEY_LEFT_CONTROL) && keyboard::isKeyPressed(Key::KEY_S))
+		if (keyboard::isKeyPressed(Key::KEY_LEFT_CONTROL) && keyboard::isKeyPressed(Key::KEY_F))
 			Scene::save("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
 	}
 
 
 
-	void Editor::onUpdate() noexcept
+	auto Editor::onUpdate() noexcept -> void
 	{	
 		engine::Engine::getApplicationUIModule()->onUIDrawBegin();
 		Scene::update(0.33f);
@@ -148,12 +148,12 @@ namespace editor
 
 
 
-	void Editor::onDrawUI() noexcept
+	auto Editor::onDrawUI() noexcept -> void
 	{ }
 
 
 
-	void Editor::onClose() noexcept
+	auto Editor::onClose() noexcept -> void
 	{
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", getSettings().getTitle(), getSettings().getWidth(),	getSettings().getHeight());
 	}

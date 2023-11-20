@@ -6,84 +6,84 @@
 
 namespace engine::window
 {
-	void basic_window::setWidth(uint16_t _width) noexcept
+	auto basic_window::setWidth(uint16_t _width) noexcept -> void
 	{
 		m_width = _width;
 	}
 
 
 
-	void basic_window::setHeight(uint16_t _height) noexcept
+	auto basic_window::setHeight(uint16_t _height) noexcept -> void
 	{
 		m_height = _height;
 	}
 
 
 
-	uint16_t basic_window::getWidth() const noexcept
+	auto basic_window::getWidth() const noexcept -> uint16_t
 	{
 		return m_width;
 	}
 
 
 
-	uint16_t basic_window::getHeight() const noexcept
+	auto basic_window::getHeight() const noexcept -> uint16_t
 	{
 		return m_height;
 	}
 
 
 
-	const std::string& basic_window::getTitle() const noexcept
+	auto basic_window::getTitle() const noexcept -> const std::string&
 	{
 		return m_title;
 	}
 
 
 
-	window_id_t basic_window::getID() const noexcept
+	auto basic_window::getID() const noexcept -> window_id_t
 	{
 		return m_id;
 	}
 
 
 
-	const call_backs_storage& basic_window::getCallBacksStorage() const noexcept
+	auto basic_window::getCallBacksStorage() const noexcept -> const call_backs_storage&
 	{
 		return m_window_call_backs;
 	}
 
 
 
-	void basic_window::onUpdate() noexcept
+	auto basic_window::onUpdate() noexcept -> void
 	{ }
 
 
 
-	void basic_window::setupIcon(const path& _path_to_icon) const noexcept
+	auto basic_window::setupIcon(const path& _path_to_icon) const noexcept -> void
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setupIcon' is not implemented.");
 	}
 
 
 
-	void basic_window::setWindowResizeCallBack() const noexcept
+	auto basic_window::setWindowResizeCallBack() const noexcept -> void
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setWindowResizeCallBack' is not implemented.");
 	}
-	void basic_window::setWindowCloseCallBack() const noexcept 
+	auto basic_window::setWindowCloseCallBack() const noexcept -> void
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setWindowCloseCallBack' is not implemented.");
 	}
-	void basic_window::setKeyboardInputCallBack() const noexcept 
+	auto basic_window::setKeyboardInputCallBack() const noexcept -> void
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setKeyboardInputCallBack' is not implemented.");
 	}
-	void basic_window::setMouseInputCallBack() const noexcept 
+	auto basic_window::setMouseInputCallBack() const noexcept -> void
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setMouseInputCallBack' is not implemented.");
 	}
-	void basic_window::setMouseMoveCallBack() const noexcept
+	auto basic_window::setMouseMoveCallBack() const noexcept -> void
 	{
 		LOG_ERROR("[Basic window ERROR] Method 'setMouseMoveCallBack' is not implemented.");
 	}

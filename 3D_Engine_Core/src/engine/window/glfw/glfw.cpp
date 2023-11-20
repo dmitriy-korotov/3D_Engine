@@ -6,20 +6,18 @@
 
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-
 
 
 namespace engine::window::glfw
 {
-	static constexpr int windowHintToGlfwHint(WindowHint _hint) noexcept
+	static constexpr auto windowHintToGlfwHint(WindowHint _hint) noexcept -> int
 	{
 		switch (_hint)
 		{
-		case engine::window::glfw::WindowHint::RedBits:			return GLFW_RED_BITS;
-		case engine::window::glfw::WindowHint::GreenBits:		return GLFW_GREEN_BITS;
-		case engine::window::glfw::WindowHint::BlueBits:		return GLFW_BLUE_BITS;
-		case engine::window::glfw::WindowHint::RefreshRate:		return GLFW_REFRESH_RATE;
+		case WindowHint::RedBits:			return GLFW_RED_BITS;
+		case WindowHint::GreenBits:			return GLFW_GREEN_BITS;
+		case WindowHint::BlueBits:			return GLFW_BLUE_BITS;
+		case WindowHint::RefreshRate:		return GLFW_REFRESH_RATE;
 		}
 		LOG_ERROR("[Glfw ERROR] Window hint is not found (code: {0}).", static_cast<int>(_hint));
 
@@ -42,19 +40,19 @@ namespace engine::window::glfw
 
 
 
-	int video_mode::redBits() const noexcept		{ return m_video_mode_ptr->redBits; }
-	int video_mode::greenBits() const noexcept		{ return m_video_mode_ptr->greenBits; }
-	int video_mode::blueBits() const noexcept		{ return m_video_mode_ptr->blueBits; }
-	int video_mode::refreshRate() const noexcept	{ return m_video_mode_ptr->refreshRate; }
+	auto video_mode::redBits() const noexcept -> int			{ return m_video_mode_ptr->redBits; }
+	auto video_mode::greenBits() const noexcept -> int			{ return m_video_mode_ptr->greenBits; }
+	auto video_mode::blueBits() const noexcept -> int			{ return m_video_mode_ptr->blueBits; }
+	auto video_mode::refreshRate() const noexcept -> int		{ return m_video_mode_ptr->refreshRate; }
 
-	uint16_t video_mode::width() const noexcept		{ return m_video_mode_ptr->width; };
-	uint16_t video_mode::height() const noexcept	{ return m_video_mode_ptr->height; };
-
-
+	auto video_mode::width() const noexcept -> uint16_t			{ return m_video_mode_ptr->width; };
+	auto video_mode::height() const noexcept -> uint16_t		{ return m_video_mode_ptr->height; };
 
 
 
-	glfw& glfw::instance() noexcept
+
+
+	auto glfw::instance() noexcept -> glfw&
 	{
 		static glfw instance;
 		return instance;
@@ -62,7 +60,7 @@ namespace engine::window::glfw
 
 
 
-	void glfw::init() noexcept
+	auto glfw::init() noexcept -> void
 	{
 		if (!m_is_inited)
 		{
@@ -80,14 +78,14 @@ namespace engine::window::glfw
 
 
 
-	void glfw::getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept
+	auto glfw::getCurrentCursorPosition(GLFWwindow* _window_ptr, double& _x, double& _y) const noexcept -> void
 	{
 		glfwGetCursorPos(_window_ptr, &_x, &_y);
 	}
 
 
 
-	void glfw::setWindowIcon(GLFWwindow* _window_ptr, util::image& _icon) const noexcept
+	auto glfw::setWindowIcon(GLFWwindow* _window_ptr, util::image& _icon) const noexcept -> void
 	{
 		GLFWimage glfw_icon;
 		glfw_icon.pixels = reinterpret_cast<unsigned char*>(_icon.getData());
@@ -98,106 +96,106 @@ namespace engine::window::glfw
 
 
 
-	void glfw::pollEvents() const noexcept
+	auto glfw::pollEvents() const noexcept -> void
 	{
 		glfwPollEvents();
 	}
 
 
 
-	void glfw::makeContextCurrent(GLFWwindow* _window_ptr) const noexcept
+	auto glfw::makeContextCurrent(GLFWwindow* _window_ptr) const noexcept -> void
 	{
 		glfwMakeContextCurrent(_window_ptr);
 	}
 
 
 
-	void glfw::swapBuffers(GLFWwindow* _window_ptr) const noexcept
+	auto glfw::swapBuffers(GLFWwindow* _window_ptr) const noexcept -> void
 	{
 		glfwSwapBuffers(_window_ptr);
 	}
 
 
 
-	monitor glfw::getPrimaryMonitor() const noexcept
+	auto glfw::getPrimaryMonitor() const noexcept -> monitor
 	{
 		return monitor(glfwGetPrimaryMonitor());
 	}
 
 
 
-	video_mode glfw::getVideoMode(const monitor& _monitor) const noexcept
+	auto glfw::getVideoMode(const monitor& _monitor) const noexcept -> video_mode
 	{
 		return video_mode(glfwGetVideoMode(_monitor.m_monitor_ptr));
 	}
 
 
 
-	void glfw::windowHint(WindowHint _hint, int _value) const noexcept
+	auto glfw::windowHint(WindowHint _hint, int _value) const noexcept -> void
 	{
 		glfwWindowHint(windowHintToGlfwHint(_hint), _value);
 	}
 
 
 
-	GLFWwindow* glfw::createWindow(uint16_t _width, uint16_t _height, const std::string_view& _title,
-								   const monitor& _monitor, GLFWwindow* _share) const noexcept
+	auto glfw::createWindow(uint16_t _width, uint16_t _height, const std::string_view& _title,
+								   const monitor& _monitor, GLFWwindow* _share) const noexcept -> GLFWwindow*
 	{
 		return glfwCreateWindow(_width, _height, _title.data(), _monitor.m_monitor_ptr, _share);
 	}
 
 
 
-	void glfw::setWindowResizeCallBack(GLFWwindow* _window_ptr, GLFWwindowsizefun _call_back) const noexcept
+	auto glfw::setWindowResizeCallBack(GLFWwindow* _window_ptr, GLFWwindowsizefun _call_back) const noexcept -> void
 	{
 		glfwSetWindowSizeCallback(_window_ptr, _call_back);
 	}
 
 
 
-	void glfw::setWindowCloseCallBack(GLFWwindow* _window_ptr, GLFWwindowclosefun _call_back) const noexcept
+	auto glfw::setWindowCloseCallBack(GLFWwindow* _window_ptr, GLFWwindowclosefun _call_back) const noexcept -> void
 	{
 		glfwSetWindowCloseCallback(_window_ptr, _call_back);
 	}
 
 
 
-	void glfw::setKeyCallback(GLFWwindow* _window_ptr, GLFWkeyfun _call_back) const noexcept
+	auto glfw::setKeyCallback(GLFWwindow* _window_ptr, GLFWkeyfun _call_back) const noexcept -> void
 	{
 		glfwSetKeyCallback(_window_ptr, _call_back);
 	}
 
 
 
-	void glfw::setMouseButtonCallback(GLFWwindow* _window_ptr, GLFWmousebuttonfun _call_back) const noexcept
+	auto glfw::setMouseButtonCallback(GLFWwindow* _window_ptr, GLFWmousebuttonfun _call_back) const noexcept -> void
 	{
 		glfwSetMouseButtonCallback(_window_ptr, _call_back);
 	}
 
 
 
-	void glfw::setCursorPosCallback(GLFWwindow* _window_ptr, GLFWcursorposfun _call_back) const noexcept
+	auto glfw::setCursorPosCallback(GLFWwindow* _window_ptr, GLFWcursorposfun _call_back) const noexcept -> void
 	{
 		glfwSetCursorPosCallback(_window_ptr, _call_back);
 	}
 
 
 
-	void glfw::destroyWindow(GLFWwindow* _window_ptr) const noexcept
+	auto glfw::destroyWindow(GLFWwindow* _window_ptr) const noexcept -> void
 	{
 		glfwDestroyWindow(_window_ptr);
 	}
 
 
 
-	bool glfw::isInited() const noexcept
+	auto glfw::isInited() const noexcept -> bool
 	{
 		return m_is_inited;
 	}
 
 
 
-	void glfw::terminate() noexcept
+	auto glfw::terminate() noexcept -> void
 	{
 		glfwTerminate();
 		m_is_inited = false;

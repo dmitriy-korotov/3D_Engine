@@ -38,7 +38,7 @@ namespace engine
 		UIModuleImpl	getUIModuleImpl() const noexcept;
 		OpenMode		getOpenMode() const noexcept;
 
-		std::optional<path> getPathToWindowIcon() const noexcept;
+		const std::optional<path>& getPathToWindowIcon() const noexcept;
 
 		void setWidth(uint16_t _width) noexcept;
 		void setHeight(uint16_t _height) noexcept;

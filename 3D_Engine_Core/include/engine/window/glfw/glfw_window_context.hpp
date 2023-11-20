@@ -13,7 +13,7 @@ namespace engine::window::glfw
 		void init() const noexcept override;
 		void terminate() const noexcept override;
 
-		[[nodiscard]] virtual std::shared_ptr<basic_window> createWindow() const noexcept override;
+		[[nodiscard]] window_sptr_t createWindow() const noexcept override;
 
 	};
 }

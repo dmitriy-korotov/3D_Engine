@@ -12,6 +12,7 @@
 #include <string>
 #include <filesystem>
 #include <optional>
+#include <memory>
 
 
 
@@ -23,7 +24,7 @@ namespace engine::window
 	{
 	public:
 
-		using window_err = std::optional<error::window_error>;
+		using window_err_t = std::optional<error::window_error>;
 		
 
 
@@ -40,7 +41,7 @@ namespace engine::window
 
 		const call_backs_storage& getCallBacksStorage() const noexcept;
 
-		virtual window_err create(const std::string_view& _title, uint16_t _width,
+		virtual window_err_t create(const std::string_view& _title, uint16_t _width,
 								  uint16_t _height, OpenMode _open_mode = OpenMode::InWindow) noexcept = 0;
 
 		virtual void shutdown() noexcept = 0;
@@ -70,6 +71,14 @@ namespace engine::window
 
 		call_backs_storage m_window_call_backs;
 	};
+
+
+
+
+
+	using window_sptr_t = std::shared_ptr<basic_window>;
+	using window_wptr_t = std::weak_ptr<basic_window>;
+	using window_uptr_t = std::unique_ptr<basic_window>;
 
 
 

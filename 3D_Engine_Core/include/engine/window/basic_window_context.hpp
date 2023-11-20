@@ -3,7 +3,7 @@
 #include <engine/util/nocopyeble.hpp>
 
 #include <engine/window/window.hpp>
-#include <engine/window/fwd/basic_window.hpp>
+#include <engine/window/basic_window.hpp>
 
 #include <memory>
 #include <string>
@@ -26,7 +26,7 @@ namespace engine::window
 		basic_window_context() = default;
 		virtual ~basic_window_context() = default;
 
-		[[nodiscard]] virtual std::shared_ptr<basic_window> createWindow() const noexcept = 0;
+		[[nodiscard]] virtual window_sptr_t createWindow() const noexcept = 0;
 
 		virtual void init() const noexcept = 0;
 		virtual void terminate() const noexcept = 0;

@@ -4,7 +4,7 @@
 
 namespace engine::window
 {
-	ContextState basic_window_context::getState() const noexcept
+	auto basic_window_context::getState() const noexcept -> ContextState
 	{
 		return m_state;
 	}

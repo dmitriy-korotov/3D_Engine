@@ -12,7 +12,7 @@ namespace engine::window
 
 		static windows_manager& instance() noexcept;
 
-		[[nodiscard]] window_ptr getWindow(window_id_t _window_id) const noexcept;
+		[[nodiscard]] window_ptr_t getWindow(window_id_t _window_id) const noexcept;
 
 	private:
 

@@ -4,7 +4,7 @@
 
 namespace engine
 {
-	resource_manager& resource_manager::instance() noexcept
+	auto resource_manager::instance() noexcept -> resource_manager&
 	{
 		static resource_manager instance;
 		return instance;
@@ -14,7 +14,7 @@ namespace engine
 
 
 
-	resource_manager& GetResourceManager() noexcept
+	auto GetResourceManager() noexcept -> resource_manager&
 	{
 		return resource_manager::instance();
 	}

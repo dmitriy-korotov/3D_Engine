@@ -61,7 +61,7 @@ namespace engine
 
 	private:
 
-		using window_ptr_t = std::shared_ptr<window::basic_window>;
+		using window_ptr_t = window::window_sptr_t;
 		using window_context_ptr_t = std::shared_ptr<window::basic_window_context>;
 
 		app_error_t createWindow() noexcept;
