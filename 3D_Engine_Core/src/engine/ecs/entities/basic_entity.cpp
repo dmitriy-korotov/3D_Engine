@@ -32,24 +32,6 @@ namespace engine::ecs::entities
 
 
 
-	auto basic_entity::serialize() const -> serialized_view_t
-	{
-		serialized_view_t serialize_view;
-
-		serialize_view["id"] = m_id;
-
-		return serialize_view;
-	}
-
-
-
-	void basic_entity::deserializeFrom(const serialized_view_t& _serialized_view)
-	{
-		_serialized_view.at("id").get_to(m_id);
-	}
-
-
-
 	basic_entity::~basic_entity()
 	{
 		m_id = INVALID_ENTITY_ID;

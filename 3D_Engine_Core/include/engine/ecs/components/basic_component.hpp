@@ -57,7 +57,7 @@ namespace engine::ecs::components
 
 
 	template <typename T>
-	concept Component = std::is_same_v <T, basic_component> || std::derived_from<T, basic_component> && requires {
+	concept Component = (std::is_same_v<T, basic_component> || std::derived_from<T, basic_component>) && requires {
 		{ T::component_name } -> std::convertible_to<std::string_view>;
 	};
 }

@@ -31,7 +31,7 @@ namespace engine::util
 
 
 
-	image& image::operator=(image&& _right) noexcept
+	auto image::operator=(image&& _right) noexcept -> image&
 	{
 		image tmp = std::move(_right);
 		swap(tmp);
@@ -40,7 +40,7 @@ namespace engine::util
 
 
 
-	void image::swap(image& _other) noexcept
+	auto image::swap(image& _other) noexcept -> void
 	{
 		std::swap(m_width, _other.m_width);
 		std::swap(m_height, _other.m_height);
@@ -51,42 +51,42 @@ namespace engine::util
 
 
 
-	int image::getWidth() const noexcept
+	auto image::getWidth() const noexcept -> int
 	{
 		return m_width;
 	}
 
 
 
-	int image::getHeight() const noexcept
+	auto image::getHeight() const noexcept -> int
 	{
 		return m_height;
 	}
 
 
 
-	int image::getChannels() const noexcept
+	auto image::getChannels() const noexcept -> int
 	{
 		return m_channels;
 	}
 
 
 
-	const std::byte* image::getData() const noexcept
+	auto image::getData() const noexcept -> const std::byte*
 	{
 		return m_data;
 	}
 
 
 
-	std::byte* image::getData() noexcept
+	auto image::getData() noexcept -> std::byte*
 	{
 		return m_data;
 	}
 
 
 
-	bool image::isLoaded() const noexcept
+	auto image::isLoaded() const noexcept -> bool
 	{
 		return m_is_loaded;
 	}

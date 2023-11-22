@@ -17,7 +17,7 @@ namespace engine::util
 
 
 
-	interfaces::serialized_view& json_view::at(const char* _key)
+	auto json_view::at(const char* _key) -> serialized_view&
 	{
 		if (!m_childs.has_value())
 			m_childs.emplace(childs_map_t());
@@ -29,7 +29,7 @@ namespace engine::util
 
 
 
-	interfaces::serialized_view& json_view::to_array() noexcept
+	auto json_view::to_array() noexcept -> serialized_view&
 	{
 		m_reference_on_data = json_t::array();
 		return *this;
@@ -51,7 +51,7 @@ namespace engine::util
 
 
 
-	void json_view::push_back(const serialized_view& _value) noexcept
+	auto json_view::push_back(const serialized_view& _value) noexcept -> void
 	{
 		const json_view& json_value = static_cast<const json_view&>(_value);
 		m_reference_on_data.push_back(json_value.m_reference_on_data);
@@ -59,31 +59,31 @@ namespace engine::util
 
 
 
-	void json_view::emplace(const char* _key, float _value) noexcept
+	auto json_view::emplace(const char* _key, float _value) noexcept -> void
 	{										
 		m_reference_on_data[_key] = _value;
 	}										
-	void json_view::emplace(const char* _key, double _value) noexcept
+	auto json_view::emplace(const char* _key, double _value) noexcept -> void
 	{										
 		m_reference_on_data[_key] = _value;
 	}										
-	void json_view::emplace(const char* _key, unsigned int _value) noexcept
+	auto json_view::emplace(const char* _key, unsigned int _value) noexcept -> void
 	{										
 		m_reference_on_data[_key] = _value;
 	}										
-	void json_view::emplace(const char* _key, int _value) noexcept
+	auto json_view::emplace(const char* _key, int _value) noexcept -> void
 	{										
 		m_reference_on_data[_key] = _value;
 	}
-	void json_view::emplace(const char* _key, bool _value) noexcept
+	auto json_view::emplace(const char* _key, bool _value) noexcept -> void
 	{										
 		m_reference_on_data[_key] = _value;
 	}										
-	void json_view::emplace(const char* _key, std::string _value) noexcept
+	auto json_view::emplace(const char* _key, std::string _value) noexcept -> void
 	{
 		m_reference_on_data[_key] = std::move(_value);
 	}
-	void json_view::emplace(const char* _key, const char* _value) noexcept
+	auto json_view::emplace(const char* _key, const char* _value) noexcept -> void
 	{
 		m_reference_on_data[_key] = _value;
 	}

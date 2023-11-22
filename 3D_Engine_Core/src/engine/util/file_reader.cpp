@@ -19,7 +19,7 @@ namespace engine::util
 
 
 
-	void file_reader::read(const path& _path_to_file) noexcept
+	auto file_reader::read(const path& _path_to_file) noexcept -> void
 	{
 		std::ifstream fin(_path_to_file);
 		if (fin.is_open())
@@ -40,7 +40,7 @@ namespace engine::util
 
 
 
-	std::string& file_reader::getData() noexcept
+	auto file_reader::getData() noexcept -> std::string&
 	{
 		return m_data;
 	}

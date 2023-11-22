@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/scene/scene_object.hpp>
+#include <engine/scene/objects/scene_object.hpp>
 
 #include <engine/render/frustum.hpp>
 
@@ -8,7 +8,7 @@
 
 
 
-namespace engine::scene
+namespace engine::scene::objects
 {
 	using render::Projection;
 

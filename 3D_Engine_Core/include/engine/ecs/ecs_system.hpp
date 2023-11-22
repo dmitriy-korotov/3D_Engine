@@ -7,6 +7,7 @@
 #include <engine/ecs/systems/systems_manager.hpp>
 
 #include <memory>
+#include <cassert>
 
 
 
@@ -38,13 +39,13 @@ namespace engine::ecs
 
 	private:
 
-		ECS() noexcept;
+		constexpr ECS() noexcept;
 
 	private:
 
-		entities_manager_ptr_t m_entities_manager;
-		components_manager_ptr_t m_components_manager;
-		systems_manager_ptr_t m_systems_manager;
+		entities_manager_ptr_t m_entities_manager = nullptr;
+		components_manager_ptr_t m_components_manager = nullptr;
+		systems_manager_ptr_t m_systems_manager = nullptr;
 
 	};
 
@@ -64,10 +65,7 @@ namespace engine::ecs
 
 
 	template <entities::Entity E, components::Component C, systems::System S>
-	ECS<E, C, S>::ECS() noexcept
-		: m_entities_manager(std::make_unique<entities::entities_manager<E>>())
-		, m_components_manager(std::make_unique<components::components_manager<C>>())
-		, m_systems_manager(std::make_unique<systems::systems_manager<S>>())
+	constexpr ECS<E, C, S>::ECS() noexcept
 	{ }
 
 
@@ -75,6 +73,10 @@ namespace engine::ecs
 	template <entities::Entity E, components::Component C, systems::System S>
 	auto ECS<E, C, S>::initialize() noexcept -> bool
 	{
+		m_entities_manager = std::make_unique<entities::entities_manager<E>>();
+		m_components_manager = std::make_unique<components::components_manager<C>>();
+		m_systems_manager = std::make_unique<systems::systems_manager<S>>();
+
 		return true;
 	}
 
@@ -83,6 +85,8 @@ namespace engine::ecs
 	template <entities::Entity E, components::Component C, systems::System S>
 	auto ECS<E, C, S>::terminate() noexcept -> void
 	{
+		assert(m_entities_manager != nullptr && m_components_manager != nullptr && m_systems_manager != nullptr);
+
 		m_components_manager->removeAllComponents();
 		m_entities_manager->destroyAllEntities();
 		m_systems_manager->removeAllSystems();
@@ -93,6 +97,7 @@ namespace engine::ecs
 	template <entities::Entity E, components::Component C, systems::System S>
 	auto ECS<E, C, S>::getEntitiesManager() const noexcept -> const entities_manager_ptr_t&
 	{
+		assert(m_entities_manager != nullptr);
 		return m_entities_manager;
 	}
 
@@ -101,6 +106,7 @@ namespace engine::ecs
 	template <entities::Entity E, components::Component C, systems::System S>
 	auto ECS<E, C, S>::getComponentsManager() const noexcept -> const components_manager_ptr_t&
 	{
+		assert(m_components_manager != nullptr);
 		return m_components_manager;
 	}
 
@@ -109,6 +115,7 @@ namespace engine::ecs
 	template <entities::Entity E, components::Component C, systems::System S>
 	auto ECS<E, C, S>::getSystemsManager() const noexcept -> const systems_manager_ptr_t&
 	{
+		assert(m_systems_manager != nullptr);
 		return m_systems_manager;
 	}
 
@@ -117,6 +124,7 @@ namespace engine::ecs
 	template <entities::Entity E, components::Component C, systems::System S>
 	auto ECS<E, C, S>::update(float _delta_time) noexcept -> void
 	{
+		assert(m_systems_manager != nullptr);
 		m_systems_manager->update(_delta_time);
 	}
 }

@@ -5,19 +5,19 @@
 #include <engine/input/keyboard.hpp>
 
 #include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/physic.hpp>
-#include <engine/ecs/components/markers.hpp>
-#include <engine/ecs/components/render.hpp>
+#include <engine/scene/components/physic.hpp>
+#include <engine/scene/components/markers.hpp>
+#include <engine/scene/components/render.hpp>
 
-#include <engine/ecs/systems/physic/camera_update.hpp>
-#include <engine/ecs/systems/UI/selected_object_UI.hpp>
-#include <engine/ecs/systems/UI/scene_UI.hpp>
-#include <engine/ecs/systems/render/render.hpp>
+#include <engine/scene/systems/physic/camera_update.hpp>
+#include <engine/scene/systems/UI/selected_object_UI.hpp>
+#include <engine/scene/systems/UI/scene_UI.hpp>
+#include <engine/scene/systems/render/render.hpp>
 #include <engine/render/render.hpp>
 
 #include <engine/ecs/entities/basic_entity.hpp>
 
-#include <engine/scene/renderable_scene_object.hpp>
+#include <engine/scene/objects/renderable_scene_object.hpp>
 
 #include <engine/scene/objects/camera.hpp>
 
@@ -27,18 +27,18 @@
 
 #include <engine/Engine.hpp>
 
-#include <engine/ecs/systems/systems_creator.hpp>
+#include <engine/scene/systems/systems_creator.hpp>
 
-#include <engine/ecs/components/components.hpp>
-#include <engine/ecs/components/components_creator.hpp>
-
-
+#include <engine/scene/components/components.hpp>
+#include <engine/scene/components/components_creator.hpp>
 
 
 
-using namespace engine::ecs::components;
-using namespace engine::ecs::entities;
-using namespace engine::ecs::systems;
+
+
+using namespace engine::scene::components;
+using namespace engine::scene::objects;
+using namespace engine::scene::systems;
 using namespace engine::input;
 using namespace engine::scene;
 
@@ -80,7 +80,7 @@ namespace editor
 		AddComponentCreator<point_light>();
 		AddComponentCreator<spot_light>();
 		AddComponentCreator<color>();
-		AddComponentCreator<engine::ecs::components::material>();
+		AddComponentCreator<engine::scene::components::material>();
 		AddComponentCreator<mesh>();
 		AddComponentCreator<renderable>();
 

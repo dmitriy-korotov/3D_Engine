@@ -1,6 +1,6 @@
 #pragma once
 
-namespace engine::scene
+namespace engine::scene::objects
 {
 	class basic_object_builder;
 }

@@ -4,16 +4,13 @@
 
 #include <engine/logging/log.hpp>
 
+#include <engine/ecs/ecs_system.hpp>
+
 #include <engine/scene/common_types.hpp>
 
 #include <engine/scene/objects/basic_object_builder.hpp>
 
-#include <engine/ecs/ecs_system.hpp>
-#include <engine/ecs/components/components_manager.hpp>
-#include <engine/ecs/systems/systems_manager.hpp>
-#include <engine/ecs/entities/entities_manager.hpp>
-
-#include <engine/ecs/entities/basic_entity.hpp>
+#include <glm/vec3.hpp>
 
 #include <memory>
 #include <filesystem>
@@ -24,70 +21,151 @@ namespace engine::scene
 {
 	using std::filesystem::path;
 
+
+
+	namespace objects
+	{
+		class scene_object: public virtual ecs::entities::basic_entity, public interfaces::serializable_object
+		{
+		public:
+
+			scene_object(const glm::vec3& _position = glm::vec3(0.f)) noexcept;
+
+			template <ecs::components::Component T>
+			std::shared_ptr<T> getComponent() const noexcept;
+
+			template <ecs::components::Component T>
+			void enableComponent() const noexcept;
+
+			template <ecs::components::Component T>
+			void disableComponent() const noexcept;
+
+			template <ecs::components::Component T>
+			bool hasComponent() const noexcept;
+
+			template <ecs::components::Component T, typename ...Args>
+			bool addComponent(Args&&... _args) noexcept;
+
+			serialized_view_t serialize() const final;
+			void deserializeFrom(const serialized_view_t& _serialized_view) final;
+
+		};
+	}
+
+
+
+	namespace components
+	{
+		class scene_component: public virtual ecs::components::basic_component//, interfaces::serializable_object
+		{
+		public:
+
+			static constexpr std::string_view component_name = "scene_component";
+
+		};
+	}
+
+
+
+	namespace systems
+	{
+		class scene_system: public ecs::systems::basic_system
+		{
+		public:
+
+			static constexpr std::string_view system_name = "scene_system";
+
+		};
+	}
+
+
+
+
+
+	template <typename T>
+	concept SceneObject = std::derived_from<T, basic_object_t> || std::is_same_v<T, basic_object_t>;
+
+	template <typename T>
+	concept SceneComponent = std::derived_from<T, basic_component_t> || std::is_same_v<T, basic_component_t>;
+
+	template <typename T>
+	concept SceneSystem = std::derived_from<T, basic_system_t> || std::is_same_v<T, basic_system_t>;
+
+
+
+
+
+	using object_builder_ptr_t = std::shared_ptr<objects::basic_object_builder>;
+
+	template <SceneObject T>
+	using object_ptr_t = std::shared_ptr<T>;
+
+	template <SceneSystem T>
+	using system_ptr_t = std::shared_ptr<T>;
+
+	template <SceneComponent T>
+	using component_ptr_t = std::shared_ptr<T>;
+
+	template <SceneComponent T>
+	using components_range_t = ecs::components::components_manager<basic_component_t>::components_range_t<T>;
+
+
+
+
+	
 	class Scene: private util::noconstructible
 	{
 	public:
 
-		using entity_t = ecs::entities::basic_entity;
-		using component_t = ecs::components::basic_component;
-		using system_t = ecs::systems::basic_system;
-		using ECS = ecs::ECS<entity_t, component_t, system_t>;
-
-		using object_builder_ptr_t = std::shared_ptr<basic_object_builder>;
-		using object_ptr_t = std::shared_ptr<ecs::entities::basic_entity>;
-		using system_ptr_t = std::shared_ptr<ecs::systems::basic_system>;
-		template <typename T>
-		using component_ptr_t = ecs::components::components_manager<component_t>::component_ptr_t<T>;
-		template <typename T>
-		using components_range_t = ecs::components::components_manager<component_t>::components_range_t<T>;
+		using ECS = ecs::ECS<basic_object_t, basic_component_t, basic_system_t>;
 
 
 
+		template <SceneObject T, typename ...Args>
+		static object_ptr_t<basic_object_t> addObject(Args&&... _args) noexcept;
 
-
-		template <typename T, typename ...Args>
-		static object_ptr_t addObject(Args&&... _args) noexcept;
-
-		template <typename T, typename Builder, typename ...Args>
-		static object_ptr_t addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept;
+		template <SceneObject T, typename Builder, typename ...Args>
+		static object_ptr_t<basic_object_t> addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept;
 
 		static bool delObject(object_id_t _obj_id) noexcept;
 
-		static [[nodiscard]] object_ptr_t getObject(object_id_t _obj_id) noexcept;
+		static [[nodiscard]] object_ptr_t<basic_object_t> getObject(object_id_t _obj_id) noexcept;
 
-		template <typename T, typename ...Args>
+
+
+		template <SceneComponent T, typename ...Args>
 		static component_ptr_t<T> addComponent(object_id_t _obj_id, Args&&... _args) noexcept;
 
-		template <typename T>
+		template <SceneComponent T>
 		static [[nodiscard]] component_ptr_t<T> getComponent(object_id_t _obj_id) noexcept;
 
-		template <typename T>
+		template <SceneComponent T>
 		static [[nodiscard]] component_ptr_t<T> getComponent() noexcept;
 
-		template <typename T>
+		template <SceneComponent T>
 		static [[nodiscard]] std::optional<components_range_t<T>> getComponents() noexcept;
 
-		template <typename T>
+		template <SceneComponent T>
 		static void enableComponent(object_id_t _obj_id) noexcept;
 
-		template <typename T>
+		template <SceneComponent T>
 		static void disableComponent(object_id_t _obj_id) noexcept;
 
-		template <typename T>
+		template <SceneComponent T>
 		static bool hasComponent(object_id_t _obj_id) noexcept;
 
 
 
-		template <typename T, typename ...Args>
-		static system_ptr_t addSystem(Args&&... _args) noexcept;
+		template <SceneSystem T, typename ...Args>
+		static system_ptr_t<basic_system_t> addSystem(Args&&... _args) noexcept;
 
-		template <typename T>
+		template <SceneSystem T>
 		static bool delSystem() noexcept;
 
-		template <typename T>
+		template <SceneSystem T>
 		static void enableSystem() noexcept;
 
-		template <typename T>
+		template <SceneSystem T>
 		static void disableSystem() noexcept;
 
 
@@ -103,7 +181,7 @@ namespace engine::scene
 
 	private:
 
-		static ECS& entity_component_system;
+		static ECS& m_entity_component_system;
 
 	};
 
@@ -111,18 +189,18 @@ namespace engine::scene
 
 
 
-	template <typename T, typename ...Args>
-	auto Scene::addObject(Args&&... _args) noexcept -> object_ptr_t
+	template <SceneObject T, typename ...Args>
+	auto Scene::addObject(Args&&... _args) noexcept -> object_ptr_t<basic_object_t>
 	{
-		return addObject<T, basic_object_builder>(object_builder_ptr_t(nullptr), std::forward<Args>(_args)...);
+		return addObject<T, objects::basic_object_builder>(object_builder_ptr_t(nullptr), std::forward<Args>(_args)...);
 	}
 
 
 
-	template <typename T, typename Builder, typename ...Args>
-	auto Scene::addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept -> object_ptr_t
+	template <SceneObject T, typename Builder, typename ...Args>
+	auto Scene::addObject(const object_builder_ptr_t& _obj_builder, Args&&... _args) noexcept -> object_ptr_t<basic_object_t>
 	{
-		auto object = entity_component_system.getEntitiesManager()->createEntity<T>(std::forward<Args>(_args)...);
+		auto object = m_entity_component_system.getEntitiesManager()->createEntity<T>(std::forward<Args>(_args)...);
 		if (object == nullptr)
 		{
 			LOG_WARN("[Scene WARN] Can't create object");
@@ -139,91 +217,91 @@ namespace engine::scene
 
 
 
-	template <typename T, typename ...Args>
+	template <SceneComponent T, typename ...Args>
 	auto Scene::addComponent(object_id_t _obj_id, Args&&... _args) noexcept -> component_ptr_t<T>
 	{
-		return entity_component_system.getComponentsManager()->addComponent<T>(_obj_id, std::forward<Args>(_args)...);
+		return m_entity_component_system.getComponentsManager()->addComponent<T>(_obj_id, std::forward<Args>(_args)...);
 	}
 
 
 
-	template <typename T>
+	template <SceneComponent T>
 	auto Scene::getComponent(object_id_t _obj_id) noexcept -> component_ptr_t<T>
 	{
-		return entity_component_system.getComponentsManager()->getComponent<T>(_obj_id);
+		return m_entity_component_system.getComponentsManager()->getComponent<T>(_obj_id);
 	}
 
 
 
-	template <typename T>
+	template <SceneComponent T>
 	auto Scene::getComponent() noexcept -> component_ptr_t<T>
 	{
-		return entity_component_system.getComponentsManager()->getComponent<T>();
+		return m_entity_component_system.getComponentsManager()->getComponent<T>();
 	}
 
 
 
-	template <typename T>
+	template <SceneComponent T>
 	auto Scene::getComponents() noexcept -> std::optional<components_range_t<T>>
 	{
-		return entity_component_system.getComponentsManager()->getComponents<T>();
+		return m_entity_component_system.getComponentsManager()->getComponents<T>();
 	}
 
 
 
-	template <typename T>
-	void Scene::enableComponent(object_id_t _obj_id) noexcept
+	template <SceneComponent T>
+	auto Scene::enableComponent(object_id_t _obj_id) noexcept -> void
 	{
-		entity_component_system.getEntitiesManager()->getEntity(_obj_id)->enableComponent<T>();
+		m_entity_component_system.getEntitiesManager()->getEntity(_obj_id)->enableComponent<T>();
 	}
 
 
 
-	template <typename T>
-	void Scene::disableComponent(object_id_t _obj_id) noexcept
+	template <SceneComponent T>
+	auto Scene::disableComponent(object_id_t _obj_id) noexcept -> void
 	{
-		entity_component_system.getEntitiesManager()->getEntity(_obj_id)->disableComponent<T>();
+		m_entity_component_system.getEntitiesManager()->getEntity(_obj_id)->disableComponent<T>();
 	}
 
 
 
-	template <typename T>
-	bool Scene::hasComponent(object_id_t _obj_id) noexcept
+	template <SceneComponent T>
+	auto Scene::hasComponent(object_id_t _obj_id) noexcept -> bool
 	{
-		entity_component_system.getEntitiesManager()->getEntity(_obj_id)->hasComponent<T>();
+		m_entity_component_system.getEntitiesManager()->getEntity(_obj_id)->hasComponent<T>();
 	}
 
 
 
 
 
-	template <typename T, typename ...Args>
-	auto Scene::addSystem(Args&&... _args) noexcept -> system_ptr_t
+	template <SceneSystem T, typename ...Args>
+	auto Scene::addSystem(Args&&... _args) noexcept -> system_ptr_t<basic_system_t>
 	{
-		return entity_component_system.getSystemsManager()->addSystem<T>(std::forward<Args>(_args)...);
+		return m_entity_component_system.getSystemsManager()->addSystem<T>(std::forward<Args>(_args)...);
 	}
 
 
 
-	template <typename T>
-	bool Scene::delSystem() noexcept
+	template <SceneSystem T>
+	auto Scene::delSystem() noexcept -> bool
 	{
-		return entity_component_system.getSystemsManager()->removeSystem<T>();
+		return m_entity_component_system.getSystemsManager()->removeSystem<T>();
 	}
 
 
 
-	template <typename T>
-	void Scene::enableSystem() noexcept
+	template <SceneSystem T>
+	auto Scene::enableSystem() noexcept -> void
 	{
-		return entity_component_system.getSystemsManager()->enableSystem<T>();
+		return m_entity_component_system.getSystemsManager()->enableSystem<T>();
 	}
 
 
 
-	template <typename T>
-	void Scene::disableSystem() noexcept
+	template <SceneSystem T>
+	auto Scene::disableSystem() noexcept -> void
 	{
-		return entity_component_system.getSystemsManager()->disableSystem<T>();
+		return m_entity_component_system.getSystemsManager()->disableSystem<T>();
 	}
 }

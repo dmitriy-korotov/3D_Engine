@@ -1,19 +1,17 @@
 #include <engine/scene/objects/camera.hpp>
 
-#include <engine/ecs/components/physic.hpp>
-#include <engine/ecs/components/render.hpp>
+#include <engine/scene/components/physic.hpp>
+#include <engine/scene/components/render.hpp>
 
 
 
-
-
-using namespace engine::ecs::components;
-
-namespace engine::scene
+namespace engine::scene::objects
 {
 	camera::camera(const glm::vec3& _position, Projection _projection_mode) noexcept
 			: scene_object(_position)
 	{
+		using namespace components;
+
 		addComponent<rotation>();
 		addComponent<orientation>();
 		addComponent<camera_transform>();
