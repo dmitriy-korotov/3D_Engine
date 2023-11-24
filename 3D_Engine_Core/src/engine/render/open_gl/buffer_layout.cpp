@@ -8,7 +8,7 @@
 
 namespace engine::render::open_gl
 {
-	constexpr uint8_t get_components_count_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
+	constexpr auto get_components_count_for_shader_data_type(ShaderDataType _shader_data_type) noexcept -> uint8_t
 	{
 		switch (_shader_data_type)
 		{
@@ -32,7 +32,7 @@ namespace engine::render::open_gl
 
 
 
-	constexpr uint32_t get_openGL_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
+	constexpr auto get_openGL_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept -> uint32_t
 	{
 		switch (_shader_data_type)
 		{
@@ -54,7 +54,7 @@ namespace engine::render::open_gl
 
 
 
-	constexpr uint32_t get_sizeof_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept
+	constexpr auto get_sizeof_type_for_shader_data_type(ShaderDataType _shader_data_type) noexcept -> uint32_t
 	{
 		switch (_shader_data_type)
 		{
@@ -76,7 +76,7 @@ namespace engine::render::open_gl
 
 
 
-	constexpr size_t get_sizeof_shader_data_type(ShaderDataType _shader_data_type) noexcept
+	constexpr auto get_sizeof_shader_data_type(ShaderDataType _shader_data_type) noexcept -> size_t
 	{
 		return get_components_count_for_shader_data_type(_shader_data_type) * get_sizeof_type_for_shader_data_type(_shader_data_type);
 	}
@@ -109,14 +109,14 @@ namespace engine::render::open_gl
 
 
 
-	size_t buffer_layout::getStride() const noexcept
+	auto buffer_layout::getStride() const noexcept -> size_t
 	{
 		return m_stride;
 	}
 
 
 
-	const std::vector<buffer_element>& buffer_layout::getElements() const noexcept
+	auto buffer_layout::getElements() const noexcept -> const std::vector<buffer_element>&
 	{
 		return m_buffer_elements;
 	}

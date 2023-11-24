@@ -12,7 +12,7 @@ namespace engine::render
 
 
 
-	basic_shader_program& basic_shader_program::operator=(basic_shader_program&& _right) noexcept
+	auto basic_shader_program::operator=(basic_shader_program&& _right) noexcept -> basic_shader_program&
 	{
 		m_is_compiled = _right.m_is_compiled;
 		_right.m_is_compiled = false;
@@ -21,7 +21,7 @@ namespace engine::render
 
 
 
-	bool basic_shader_program::isCompiled() const noexcept
+	auto basic_shader_program::isCompiled() const noexcept -> bool
 	{
 		return m_is_compiled;
 	}

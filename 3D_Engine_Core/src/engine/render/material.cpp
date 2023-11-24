@@ -12,7 +12,7 @@ namespace engine::render
 
 
 
-	material::texture_ptr material::getTexture(TextureMap _texture_map_type) const noexcept
+	auto material::getTexture(TextureMap _texture_map_type) const noexcept -> texture_ptr
 	{
 		auto texture = m_textures.find(_texture_map_type);
 		if (texture != m_textures.end())
@@ -22,7 +22,7 @@ namespace engine::render
 
 
 
-	bool material::isEmpty() const noexcept
+	auto material::isEmpty() const noexcept -> bool
 	{
 		return m_textures.empty();
 	}

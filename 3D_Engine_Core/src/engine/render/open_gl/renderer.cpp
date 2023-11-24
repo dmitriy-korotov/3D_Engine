@@ -13,7 +13,7 @@
 
 namespace engine::render::open_gl
 {
-	GLbitfield mask_enum_to_GLbitfield(Mask _mask_type) noexcept
+	auto mask_enum_to_GLbitfield(Mask _mask_type) noexcept -> GLbitfield
 	{
 		switch (_mask_type)
 		{
@@ -26,7 +26,7 @@ namespace engine::render::open_gl
 
 
 
-	GLenum drawing_mode_to_GLenum(DrawingMode _drawing_mode) noexcept
+	auto drawing_mode_to_GLenum(DrawingMode _drawing_mode) noexcept -> GLenum
 	{
 		switch (_drawing_mode)
 		{
@@ -42,7 +42,7 @@ namespace engine::render::open_gl
 
 
 
-	std::string GLenum_debug_severity_to_string(GLenum _severity) noexcept
+	auto GLenum_debug_severity_to_string(GLenum _severity) noexcept -> std::string
 	{
 		switch (_severity)
 		{
@@ -56,7 +56,7 @@ namespace engine::render::open_gl
 
 
 
-	std::string GLenum_source_message_to_string(GLenum _source) noexcept
+	auto GLenum_source_message_to_string(GLenum _source) noexcept -> std::string
 	{
 		switch (_source)
 		{
@@ -72,7 +72,7 @@ namespace engine::render::open_gl
 
 
 
-	std::string GLenum_message_type_to_string(GLenum _message_type) noexcept
+	auto GLenum_message_type_to_string(GLenum _message_type) noexcept -> std::string
 	{
 		switch (_message_type)
 		{
@@ -91,7 +91,7 @@ namespace engine::render::open_gl
 
 
 
-	renderer& renderer::instance() noexcept
+	auto renderer::instance() noexcept -> renderer&
 	{
 		static renderer instance;
 		return instance;
@@ -104,7 +104,7 @@ namespace engine::render::open_gl
 
 
 
-	bool renderer::init(window::WindowImpl _window_impl) noexcept
+	auto renderer::init(window::WindowImpl _window_impl) noexcept -> bool
 	{
 		switch (_window_impl)
 		{
@@ -132,7 +132,7 @@ namespace engine::render::open_gl
 
 
 
-	void renderer::setupDebugContext() noexcept
+	auto renderer::setupDebugContext() noexcept -> void
 	{
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(
@@ -174,7 +174,7 @@ namespace engine::render::open_gl
 
 
 
-	void renderer::draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh, DrawingMode _drawing_mode) noexcept
+	auto renderer::draw(const basic_shader_program& _shader_program, const basic_mesh& _mesh, DrawingMode _drawing_mode) noexcept -> void
 	{
 		_shader_program.bind();
 		_mesh.use();
@@ -183,35 +183,35 @@ namespace engine::render::open_gl
 
 
 
-	void renderer::enableDepthTest() noexcept
+	auto renderer::enableDepthTest() noexcept -> void
 	{
 		glEnable(GL_DEPTH_TEST);
 	}
 
 
 
-	void renderer::disableDepthTest() noexcept
+	auto renderer::disableDepthTest() noexcept -> void
 	{
 		glDisable(GL_DEPTH_TEST);
 	}
 
 
 
-	void renderer::setClearColor(float _red, float _green, float _blue, float _alpha) noexcept
+	auto renderer::setClearColor(float _red, float _green, float _blue, float _alpha) noexcept -> void
 	{
 		glClearColor(_red, _green, _blue, _alpha);
 	}
 
 
 
-	void renderer::clear(Mask _mask_type) noexcept
+	auto renderer::clear(Mask _mask_type) noexcept -> void
 	{
 		glClear(mask_enum_to_GLbitfield(_mask_type));
 	}
 
 
 
-	void renderer::clear(std::vector<Mask> _mask_types) noexcept
+	auto renderer::clear(std::vector<Mask> _mask_types) noexcept -> void
 	{
 		GLbitfield masks = 0;
 		
@@ -223,28 +223,28 @@ namespace engine::render::open_gl
 
 
 
-	void renderer::setViewport(uint16_t _width, uint16_t _height, uint16_t _left_offset, uint16_t _bottom_offset) noexcept
+	auto renderer::setViewport(uint16_t _width, uint16_t _height, uint16_t _left_offset, uint16_t _bottom_offset) noexcept -> void
 	{
 		glViewport(_left_offset, _bottom_offset, _width, _height);
 	}
 
 
 
-	std::string renderer::getVendor() noexcept
+	auto renderer::getVendor() noexcept -> std::string
 	{
 		return reinterpret_cast<const char*>(glGetString(GL_VENDOR));
 	}
 
 
 
-	std::string renderer::getRenderer() noexcept
+	auto renderer::getRenderer() noexcept -> std::string
 	{
 		return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 	}
 
 
 
-	std::string renderer::getVersion() noexcept
+	auto renderer::getVersion() noexcept -> std::string
 	{
 		return reinterpret_cast<const char*>(glGetString(GL_VERSION));
 	}

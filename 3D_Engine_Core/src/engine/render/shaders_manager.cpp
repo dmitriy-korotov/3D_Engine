@@ -15,22 +15,22 @@ namespace engine::render
 			, m_fragment_location(std::move(_fragment_location))
 	{ }
 
-	void shaders_manager::program_location::setVertexLocation(path _vertex_location) noexcept
+	auto shaders_manager::program_location::setVertexLocation(path _vertex_location) noexcept -> void
 	{
 		m_vertex_location = std::move(_vertex_location);
 	}
 
-	void shaders_manager::program_location::setFragmentLocation(path _fragment_location) noexcept
+	auto shaders_manager::program_location::setFragmentLocation(path _fragment_location) noexcept -> void
 	{
 		m_fragment_location = std::move(_fragment_location);
 	}
 
-	const path& shaders_manager::program_location::getVertexLocation() const noexcept
+	auto shaders_manager::program_location::getVertexLocation() const noexcept -> const path&
 	{
 		return m_vertex_location;
 	}
 
-	const path& shaders_manager::program_location::getFragmentLocation() const noexcept
+	auto shaders_manager::program_location::getFragmentLocation() const noexcept -> const path&
 	{
 		return m_fragment_location;
 	}
@@ -39,7 +39,7 @@ namespace engine::render
 
 
 
-	shaders_manager& shaders_manager::instance() noexcept
+	auto shaders_manager::instance() noexcept -> shaders_manager&
 	{
 		static shaders_manager instance;
 		return instance;
@@ -49,37 +49,37 @@ namespace engine::render
 
 
 
-	void shaders_manager::setupShaderProgramsCreator(creator_ptr_t _creator) noexcept
+	auto shaders_manager::setupShaderProgramsCreator(creator_ptr_t _creator) noexcept -> void
 	{
 		m_shader_programs_creator = std::move(_creator);
 	}
 
 
 
-	bool shaders_manager::addShadersDirectory(path _directory_path) noexcept
+	auto shaders_manager::addShadersDirectory(path _directory_path) noexcept -> bool
 	{
 		return m_file_searcher.addSearchDirectory(std::move(_directory_path));
 	}
 
 
 
-	bool shaders_manager::removeShadersDirectory(const path& _directory_path) noexcept
+	auto shaders_manager::removeShadersDirectory(const path& _directory_path) noexcept -> bool
 	{
 		return m_file_searcher.removeSearchDirectory(_directory_path);
 	}
 
 
 
-	std::optional<path> shaders_manager::searchShader(const path& _path_to_shader) const noexcept
+	auto shaders_manager::searchShader(const path& _path_to_shader) const noexcept -> std::optional<path>
 	{
 		return m_file_searcher.searchFile(_path_to_shader);
 	}
 
 
 
-	shaders_manager::shader_program_ptr_t shaders_manager::loadShaderProgram(std::string_view _program_name,
-																			 const path& _veretx_shader,
-																			 const path& _fragment_shader) noexcept
+	auto shaders_manager::loadShaderProgram(std::string_view _program_name,
+											const path& _veretx_shader,
+											const path& _fragment_shader) noexcept -> shader_program_ptr_t
 	{
 		assert(m_shader_programs_creator != nullptr);
 
@@ -143,7 +143,7 @@ namespace engine::render
 
 
 
-	shaders_manager::shader_program_ptr_t shaders_manager::getShaderProgram(std::string_view _program_name) const noexcept
+	auto shaders_manager::getShaderProgram(std::string_view _program_name) const noexcept -> shader_program_ptr_t
 	{
 		auto finded_program = m_shader_programs.find(_program_name.data());
 		if (finded_program == m_shader_programs.end())
@@ -166,7 +166,7 @@ namespace engine::render
 
 
 
-	bool shaders_manager::deleleShaderProgram(std::string_view _program_name) noexcept
+	auto shaders_manager::deleleShaderProgram(std::string_view _program_name) noexcept -> bool
 	{
 		auto count_removed_elements = m_shader_programs.erase(_program_name.data());
 		return count_removed_elements;
@@ -174,14 +174,14 @@ namespace engine::render
 
 
 
-	const shaders_manager::dirs_storage_t& shaders_manager::getShadersDirectories() const noexcept
+	auto shaders_manager::getShadersDirectories() const noexcept -> const dirs_storage_t&
 	{
 		return m_file_searcher.getSearchDirectories();
 	}
 
 
 
-	const shaders_manager::programs_map_t& shaders_manager::getShaderPrograms() const noexcept
+	auto shaders_manager::getShaderPrograms() const noexcept -> const programs_map_t&
 	{
 		return m_shader_programs;
 	}

@@ -4,7 +4,7 @@
 
 namespace engine::render
 {
-	bool basic_renderer::isInited() const noexcept
+	auto basic_renderer::isInited() const noexcept -> bool
 	{
 		return m_is_inited;
 	}

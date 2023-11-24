@@ -14,12 +14,12 @@ namespace engine::modules::ui
 	{
 	public:
 
-		using UIModule_ptr = std::shared_ptr<basic_UIModule>;
+		using UIModule_ptr_t = std::shared_ptr<basic_UIModule>;
 
 		static application_UIModule& instance() noexcept;
 
-		void setupUIModule(UIModule_ptr _UI_module) noexcept;
-		const UIModule_ptr& getUIModule() const noexcept;
+		void setupUIModule(UIModule_ptr_t _UI_module) noexcept;
+		const UIModule_ptr_t& getUIModule() const noexcept;
 
 	private:
 
@@ -27,7 +27,7 @@ namespace engine::modules::ui
 
 	private:
 
-		UIModule_ptr m_UI_module = nullptr;
+		UIModule_ptr_t m_UI_module = nullptr;
 
 	};
 }

@@ -16,7 +16,7 @@
 
 namespace engine::render::utility
 {
-	static constexpr TextureMap toTextureMap(aiTextureType _texture_type) noexcept
+	static constexpr auto toTextureMap(aiTextureType _texture_type) noexcept -> TextureMap
 	{
 		switch (_texture_type)
 		{
@@ -32,7 +32,7 @@ namespace engine::render::utility
 
 
 
-	void models_loader::load(const path& _path_to_model) noexcept
+	auto models_loader::load(const path& _path_to_model) noexcept -> void
 	{
 		Assimp::Importer importer;
 		const auto& scene = importer.ReadFile(_path_to_model.generic_string(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
@@ -52,7 +52,7 @@ namespace engine::render::utility
 
 
 
-	void models_loader::processNode(aiNode* _node, const aiScene* _scene) noexcept
+	auto models_loader::processNode(aiNode* _node, const aiScene* _scene) noexcept -> void
 	{
 		for (size_t i = 0; i < _node->mNumMeshes; i++)
 		{
@@ -66,7 +66,7 @@ namespace engine::render::utility
 
 
 
-	void models_loader::prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept
+	auto models_loader::prossesMesh(aiMesh* _mesh, const aiScene* _scene) noexcept -> void
 	{
 		std::vector<vertex> vertexes;
 		vertexes.reserve(_mesh->mNumVertices);
@@ -134,7 +134,7 @@ namespace engine::render::utility
 
 
 
-	void models_loader::prossesMaterial(aiMaterial* _material) noexcept
+	auto models_loader::prossesMaterial(aiMaterial* _material) noexcept -> void
 	{
 		texture_map textures;
 
@@ -149,7 +149,7 @@ namespace engine::render::utility
 
 
 
-	void models_loader::loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, texture_map& _textures) noexcept
+	auto models_loader::loadMaterialTextures(aiMaterial* _material, aiTextureType _texture_type, texture_map& _textures) noexcept -> void
 	{
 		for (size_t i = 0; i < _material->GetTextureCount(_texture_type); i++)
 		{

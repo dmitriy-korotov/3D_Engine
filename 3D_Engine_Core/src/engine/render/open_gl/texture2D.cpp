@@ -8,7 +8,7 @@
 
 namespace engine::render::open_gl
 {
-	constexpr GLenum internal_format_to_GLenum_internal_format(InternalFormat _internal_format) noexcept
+	constexpr auto internal_format_to_GLenum_internal_format(InternalFormat _internal_format) noexcept -> GLenum
 	{
 		switch (_internal_format)
 		{
@@ -28,7 +28,7 @@ namespace engine::render::open_gl
 
 
 
-	constexpr GLenum internal_format_to_GLenum_format(InternalFormat _format) noexcept
+	constexpr auto internal_format_to_GLenum_format(InternalFormat _format) noexcept -> GLenum
 	{
 		switch (_format)
 		{
@@ -44,7 +44,7 @@ namespace engine::render::open_gl
 
 
 
-	constexpr GLenum wrap_type_to_GLenum(Wrap _wrap_type) noexcept
+	constexpr auto wrap_type_to_GLenum(Wrap _wrap_type) noexcept -> GLenum
 	{
 		switch (_wrap_type)
 		{
@@ -66,7 +66,7 @@ namespace engine::render::open_gl
 
 
 
-	constexpr GLenum filter_type_to_GLenum(Filter _filter_type) noexcept
+	constexpr auto filter_type_to_GLenum(Filter _filter_type) noexcept -> GLenum
 	{
 		switch (_filter_type)
 		{
@@ -107,7 +107,7 @@ namespace engine::render::open_gl
 
 
 
-	texture2D& texture2D::operator=(texture2D&& _right) noexcept
+	auto texture2D::operator=(texture2D&& _right) noexcept -> texture2D&
 	{
 		if (m_id != _right.m_id)
 		{
@@ -128,7 +128,7 @@ namespace engine::render::open_gl
 
 
 
-	void texture2D::setData(const std::byte* _data, uint16_t _width, uint16_t _height, InternalFormat _internal_format) noexcept
+	auto texture2D::setData(const std::byte* _data, uint16_t _width, uint16_t _height, InternalFormat _internal_format) noexcept -> void
 	{
 		m_width = _width;
 		m_height = _height;
@@ -142,7 +142,7 @@ namespace engine::render::open_gl
 
 
 
-	void texture2D::setParametrs(const TextureParamsStorage& _texture_params) noexcept
+	auto texture2D::setParametrs(const TextureParamsStorage& _texture_params) noexcept -> void
 	{
 		m_texture_parametrs = _texture_params;
 
@@ -154,7 +154,7 @@ namespace engine::render::open_gl
 
 
 
-	void texture2D::bind(uint8_t _unit) const noexcept
+	auto texture2D::bind(uint8_t _unit) const noexcept -> void
 	{
 		glBindTextureUnit(_unit, m_id);
 	}

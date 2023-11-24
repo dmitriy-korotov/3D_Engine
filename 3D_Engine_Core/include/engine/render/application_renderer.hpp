@@ -14,12 +14,12 @@ namespace engine::render
 	{
 	public:
 
-		using renderer_ptr = std::shared_ptr<basic_renderer>;
+		using renderer_ptr_t = std::shared_ptr<basic_renderer>;
 
 		static application_renderer& instance() noexcept;
 
-		void setupRenderer(renderer_ptr _renderer) noexcept;
-		const renderer_ptr& getRenderer() const noexcept;
+		void setupRenderer(renderer_ptr_t _renderer) noexcept;
+		const renderer_ptr_t& getRenderer() const noexcept;
 
 	private:
 
@@ -27,7 +27,7 @@ namespace engine::render
 
 	private:
 
-		renderer_ptr m_renderer = nullptr;
+		renderer_ptr_t m_renderer = nullptr;
 
 	};
 }

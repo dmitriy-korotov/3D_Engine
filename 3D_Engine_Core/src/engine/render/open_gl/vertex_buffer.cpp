@@ -30,7 +30,7 @@ namespace engine::render::open_gl
 
 
 
-	vertex_buffer& vertex_buffer::operator=(vertex_buffer&& _right) noexcept
+	auto vertex_buffer::operator=(vertex_buffer&& _right) noexcept -> vertex_buffer&
 	{
 		if (m_id != _right.m_id)
 		{
@@ -50,7 +50,7 @@ namespace engine::render::open_gl
 
 
 
-	void vertex_buffer::setData(const void* _data, size_t _size, const buffer_layout& _buffer_layout, Usage _usage_type) noexcept
+	auto vertex_buffer::setData(const void* _data, size_t _size, const buffer_layout& _buffer_layout, Usage _usage_type) noexcept -> void
 	{
 		if (!m_is_data_set)
 		{
@@ -63,21 +63,21 @@ namespace engine::render::open_gl
 
 
 
-	void vertex_buffer::bind() const noexcept
+	auto vertex_buffer::bind() const noexcept -> void
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);
 	}
 
 
 
-	void vertex_buffer::unbind() const noexcept
+	auto vertex_buffer::unbind() const noexcept -> void
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 
 
-	const buffer_layout& vertex_buffer::getBufferLayout() const noexcept
+	auto vertex_buffer::getBufferLayout() const noexcept -> const buffer_layout&
 	{
 		return m_buffer_layout;
 	}

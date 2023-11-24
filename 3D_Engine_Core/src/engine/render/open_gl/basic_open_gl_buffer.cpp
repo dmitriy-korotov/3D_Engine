@@ -8,7 +8,7 @@
 
 namespace engine::render::open_gl
 {
-	GLenum basic_open_gl_buffer::usageToGLenum(Usage _usage_type) noexcept
+	auto basic_open_gl_buffer::usageToGLenum(Usage _usage_type) noexcept -> GLenum
 	{
 		switch (_usage_type)
 		{
@@ -29,7 +29,7 @@ namespace engine::render::open_gl
 
 
 
-	bool basic_open_gl_buffer::isDataSet() const noexcept
+	auto basic_open_gl_buffer::isDataSet() const noexcept -> bool
 	{
 		return m_is_data_set;
 	}

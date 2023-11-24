@@ -4,28 +4,28 @@
 
 namespace engine::render::utility
 {
-	basic_models_loader::mesh_storage&& basic_models_loader::getMeshes() && noexcept
+	auto basic_models_loader::getMeshes() && noexcept -> mesh_storage&&
 	{
 		return std::move(m_meshes);
 	}
 
 
 
-	basic_models_loader::material_ptr&& basic_models_loader::getMaterial() && noexcept
+	auto basic_models_loader::getMaterial() && noexcept -> material_ptr&&
 	{
 		return std::move(m_material);
 	}
 
 
 
-	bool basic_models_loader::isLoaded() const noexcept
+	auto basic_models_loader::isLoaded() const noexcept -> bool
 	{
 		return m_is_loaded;
 	}
 
 
 
-	bool basic_models_loader::hasMaterial() const noexcept
+	auto basic_models_loader::hasMaterial() const noexcept -> bool
 	{
 		return m_material != nullptr;
 	}

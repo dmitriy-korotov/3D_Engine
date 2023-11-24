@@ -30,7 +30,7 @@ namespace engine::render
 
 
 
-	std::optional<path> models_manager::searchModelFile(const path& _path_to_model) const noexcept
+	auto models_manager::searchModelFile(const path& _path_to_model) const noexcept -> std::optional<path>
 	{
 		return m_file_searcher.searchFile(_path_to_model);
 	}
@@ -95,7 +95,7 @@ namespace engine::render
 
 
 
-	std::optional<path> models_manager::getModelLocation(std::string_view _model_name) const noexcept
+	auto models_manager::getModelLocation(std::string_view _model_name) const noexcept -> std::optional<path>
 	{
 		auto finded_model = m_models.find(_model_name.data());
 		if (finded_model == m_models.end())

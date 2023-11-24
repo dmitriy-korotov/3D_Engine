@@ -28,7 +28,7 @@ namespace engine::render::open_gl
 
 
 
-	vertex_array& vertex_array::operator=(vertex_array&& _right) noexcept
+	auto vertex_array::operator=(vertex_array&& _right) noexcept -> vertex_array&
 	{
 		if (m_id != _right.m_id)
 		{
@@ -54,7 +54,7 @@ namespace engine::render::open_gl
 
 
 
-	void vertex_array::addVertexBuffer(const vertex_buffer& _vertex_buffer) noexcept
+	auto vertex_array::addVertexBuffer(const vertex_buffer& _vertex_buffer) noexcept -> void
 	{
 		bind();
 		_vertex_buffer.bind();
@@ -74,7 +74,7 @@ namespace engine::render::open_gl
 
 
 
-	void vertex_array::setIndexBuffer(const index_buffer& _index_buffer) noexcept
+	auto vertex_array::setIndexBuffer(const index_buffer& _index_buffer) noexcept -> void
 	{
 		m_indexes_count = _index_buffer.getIndexesCount();
 		bind();
@@ -83,21 +83,21 @@ namespace engine::render::open_gl
 
 
 
-	uint64_t vertex_array::getIndexesCount() const noexcept
+	auto vertex_array::getIndexesCount() const noexcept -> uint64_t
 	{
 		return m_indexes_count;
 	}
 
 
 
-	void vertex_array::bind() const noexcept
+	auto vertex_array::bind() const noexcept -> void
 	{
 		glBindVertexArray(m_id);
 	}
 
 
 
-	void vertex_array::unbind() const noexcept
+	auto vertex_array::unbind() const noexcept -> void
 	{
 		glBindVertexArray(0);
 	}

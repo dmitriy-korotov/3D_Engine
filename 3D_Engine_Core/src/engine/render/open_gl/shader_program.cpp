@@ -14,7 +14,7 @@
 
 namespace engine::render::open_gl
 {
-	static constexpr std::string_view toString(ShaderType _shader_type) noexcept
+	static constexpr auto toString(ShaderType _shader_type) noexcept -> std::string_view
 	{
 		switch (_shader_type)
 		{
@@ -70,7 +70,7 @@ namespace engine::render::open_gl
 
 
 
-	shader_program& shader_program::operator=(shader_program&& _right) noexcept
+	auto shader_program::operator=(shader_program&& _right) noexcept -> shader_program&
 	{
 		if (m_id != _right.m_id)
 		{
@@ -94,21 +94,21 @@ namespace engine::render::open_gl
 
 
 
-	void shader_program::bind() const noexcept
+	auto shader_program::bind() const noexcept -> void
 	{
 		glUseProgram(m_id);
 	}
 
 
 
-	void shader_program::unbind() const noexcept
+	auto shader_program::unbind() const noexcept -> void
 	{
 		glUseProgram(0);
 	}
 
 
 
-	std::optional<GLuint> shader_program::createShader(ShaderType _shader_type, const std::string_view& _source) noexcept
+	auto shader_program::createShader(ShaderType _shader_type, const std::string_view& _source) noexcept -> std::optional<GLuint>
 	{
 		GLuint shader = 0;
 		switch (_shader_type)
@@ -149,7 +149,7 @@ namespace engine::render::open_gl
 
 
 
-	bool shader_program::isProgramLinked() const noexcept
+	auto shader_program::isProgramLinked() const noexcept -> bool
 	{
 		GLint success;
 		glGetProgramiv(m_id, GL_LINK_STATUS, &success);
@@ -165,56 +165,56 @@ namespace engine::render::open_gl
 
 
 
-	void shader_program::setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept
+	auto shader_program::setMatrix4f(const std::string_view& _varieble_name, const glm::mat4& _matrix) const noexcept -> void
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_id, _varieble_name.data()), 1, GL_FALSE, glm::value_ptr(_matrix));
 	}
 
 
 
-	void shader_program::setMatrix3f(const std::string_view& _varieble_name, const glm::mat3& _matrix) const noexcept
+	auto shader_program::setMatrix3f(const std::string_view& _varieble_name, const glm::mat3& _matrix) const noexcept -> void
 	{
 		glUniformMatrix3fv(glGetUniformLocation(m_id, _varieble_name.data()), 1, GL_FALSE, glm::value_ptr(_matrix));
 	}
 
 
 
-	void shader_program::setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept
+	auto shader_program::setVector3f(const std::string_view& _varieble_name, const glm::vec3& _vector) const noexcept -> void
 	{
 		glUniform3f(glGetUniformLocation(m_id, _varieble_name.data()), _vector.x, _vector.y, _vector.z);
 	}
 
 
 
-	void shader_program::setVector4f(const std::string_view& _varieble_name, const glm::vec4& _vector) const noexcept
+	auto shader_program::setVector4f(const std::string_view& _varieble_name, const glm::vec4& _vector) const noexcept -> void
 	{
 		glUniform4f(glGetUniformLocation(m_id, _varieble_name.data()), _vector.x, _vector.y, _vector.z, _vector.w);
 	}
 
 
 
-	void shader_program::setInt(const std::string_view& _varieble_name, int _value) const noexcept
+	auto shader_program::setInt(const std::string_view& _varieble_name, int _value) const noexcept -> void
 	{
 		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _value);
 	}
 
 
 
-	void shader_program::setFloat(const std::string_view& _varieble_name, float _value) const noexcept
+	auto shader_program::setFloat(const std::string_view& _varieble_name, float _value) const noexcept -> void
 	{
 		glUniform1f(glGetUniformLocation(m_id, _varieble_name.data()), _value);
 	}
 
 
 
-	void shader_program::setBool(const std::string_view& _varieble_name, bool _value) const noexcept
+	auto shader_program::setBool(const std::string_view& _varieble_name, bool _value) const noexcept -> void
 	{
 		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _value);
 	}
 
 
 
-	void shader_program::setSampler2D(const std::string_view& _varieble_name, const basic_texture2D& _sampler2D, uint16_t _unit) const noexcept
+	auto shader_program::setSampler2D(const std::string_view& _varieble_name, const basic_texture2D& _sampler2D, uint16_t _unit) const noexcept -> void
 	{
 		glUniform1i(glGetUniformLocation(m_id, _varieble_name.data()), _unit);
 

@@ -33,7 +33,7 @@ namespace engine::render::utility
 
 
 
-	void shader_preprocessor::preprocesse(const path& _path_to_shader) noexcept
+	auto shader_preprocessor::preprocesse(const path& _path_to_shader) noexcept -> void
 	{
 		auto result = __preprocesse(_path_to_shader);
 		if (result.has_value())
@@ -45,7 +45,7 @@ namespace engine::render::utility
 
 
 
-	void shader_preprocessor::preprocesse(const std::string_view& _source) noexcept
+	auto shader_preprocessor::preprocesse(const std::string_view& _source) noexcept -> void
 	{
 		auto result = __preprocesse(_source);
 		if (result.has_value())
@@ -57,7 +57,7 @@ namespace engine::render::utility
 
 
 
-	bool shader_preprocessor::isIncludeCommand(const std::string_view& _text, size_t& _current_position) noexcept
+	auto shader_preprocessor::isIncludeCommand(const std::string_view& _text, size_t& _current_position) noexcept -> bool
 	{
 		if (_text[_current_position] == '#')
 		{
@@ -80,7 +80,7 @@ namespace engine::render::utility
 
 
 
-	std::optional<std::string> shader_preprocessor::readPath(const std::string_view& _text, size_t& _current_position) noexcept
+	auto shader_preprocessor::readPath(const std::string_view& _text, size_t& _current_position) noexcept -> std::optional<std::string>
 	{
 		std::string path;
 		while (_current_position < _text.size())
@@ -118,7 +118,7 @@ namespace engine::render::utility
 
 
 
-	std::optional<path> shader_preprocessor::findAbsolutePathToShader(const std::string& _shader_file_name) noexcept
+	auto shader_preprocessor::findAbsolutePathToShader(const std::string& _shader_file_name) noexcept -> std::optional<path>
 	{
 		for (const path& directory : engine::GetResourceManager().getShadersDirectories())
 		{
@@ -131,7 +131,7 @@ namespace engine::render::utility
 
 
 
-	std::optional<std::string> shader_preprocessor::__preprocesse(const path& _path_to_shader) noexcept
+	auto shader_preprocessor::__preprocesse(const path& _path_to_shader) noexcept -> std::optional<std::string>
 	{
 		if (m_already_processed_files.find(_path_to_shader) != m_already_processed_files.end())
 		{
@@ -148,7 +148,7 @@ namespace engine::render::utility
 
 
 
-	std::optional<std::string> shader_preprocessor::__preprocesse(const std::string_view& _source) noexcept
+	auto shader_preprocessor::__preprocesse(const std::string_view& _source) noexcept -> std::optional<std::string>
 	{
 		std::string result;
 		result.reserve(INITIAL_SIZE);
@@ -206,21 +206,21 @@ namespace engine::render::utility
 
 
 
-	bool shader_preprocessor::isSuccessfully() const noexcept
+	auto shader_preprocessor::isSuccessfully() const noexcept -> bool
 	{
 		return m_is_successfully;
 	}
 
 
 
-	std::string& shader_preprocessor::getResult() noexcept
+	auto shader_preprocessor::getResult() noexcept -> std::string&
 	{
 		return m_preprocessed_data;
 	}
 
 
 
-	const std::string& shader_preprocessor::getResult() const noexcept
+	auto shader_preprocessor::getResult() const noexcept -> const std::string&
 	{
 		return m_preprocessed_data;
 	}

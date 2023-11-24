@@ -6,35 +6,35 @@
 
 namespace engine::modules::ui
 {
-	void basic_UIModule::setWindowImpl(WindowImpl _window_impl) noexcept
+	auto basic_UIModule::setWindowImpl(WindowImpl _window_impl) noexcept -> void
 	{
 		m_window_impl = _window_impl;
 	}
 
 
 
-	void basic_UIModule::setRendererImpl(RendererImpl _render_impl) noexcept
+	auto basic_UIModule::setRendererImpl(RendererImpl _render_impl) noexcept -> void
 	{
 		m_render_impl = _render_impl;
 	}
 
 
 
-	bool basic_UIModule::isInitialized() const noexcept
+	auto basic_UIModule::isInitialized() const noexcept -> bool
 	{
 		return m_is_inited;
 	}
 
 
 
-	WindowImpl basic_UIModule::getWindowImpl() const noexcept
+	auto basic_UIModule::getWindowImpl() const noexcept -> WindowImpl
 	{
 		return m_window_impl;
 	}
 
 
 
-	RendererImpl basic_UIModule::getRendererImpl() const noexcept
+	auto basic_UIModule::getRendererImpl() const noexcept -> RendererImpl
 	{
 		return m_render_impl;
 	}

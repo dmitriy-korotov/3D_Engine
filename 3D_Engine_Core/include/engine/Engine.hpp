@@ -13,7 +13,7 @@ namespace engine
 	{
 	public:
 
-		using render_ptr_t = render::application_renderer::renderer_ptr;
+		using render_ptr_t = render::application_renderer::renderer_ptr_t;
 		using UIModule_ptr_t = modules::ui::application_UIModule::UIModule_ptr;
 
 		static void setApplicationRenderer(render_ptr_t _renderer) noexcept;

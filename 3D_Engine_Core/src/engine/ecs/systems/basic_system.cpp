@@ -4,29 +4,29 @@
 
 namespace engine::ecs::systems
 {
-	void basic_system::preUpdate(float _delta_time) const noexcept
+	auto basic_system::preUpdate(float _delta_time) const noexcept -> void
 	{ }
 
-	void basic_system::postUpdate(float _delta_time) const noexcept
+	auto basic_system::postUpdate(float _delta_time) const noexcept -> void
 	{ }
 
 
 
-	bool basic_system::isActive() const noexcept
+	auto basic_system::isActive() const noexcept -> bool
 	{
 		return m_is_active;
 	}
 
 
 
-	void basic_system::enable() noexcept
+	auto basic_system::enable() noexcept -> void
 	{
 		m_is_active = true;
 	}
 
 
 
-	void basic_system::disable() noexcept
+	auto basic_system::disable() noexcept -> void
 	{
 		m_is_active = false;
 	}
@@ -44,6 +44,6 @@ namespace engine::ecs::systems
 
 
 
-	void basic_system::deserializeFrom(const serialized_view_t& _dumped_view)
+	auto basic_system::deserializeFrom(const serialized_view_t& _dumped_view) -> void
 	{ }
 }

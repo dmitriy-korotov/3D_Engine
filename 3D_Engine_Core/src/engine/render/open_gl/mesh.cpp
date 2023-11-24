@@ -29,7 +29,7 @@ namespace engine::render::open_gl
 
 
 
-	mesh& mesh::operator=(mesh&& _right) noexcept
+	auto mesh::operator=(mesh&& _right) noexcept -> mesh&
 	{
 		mesh tmp = std::move(_right);
 		swap(tmp);
@@ -38,7 +38,7 @@ namespace engine::render::open_gl
 
 
 
-	void mesh::swap(mesh& _other) noexcept
+	auto mesh::swap(mesh& _other) noexcept -> void
 	{
 		std::swap(m_vertexes, _other.m_vertexes);
 		std::swap(m_indexes, _other.m_indexes);
@@ -49,14 +49,14 @@ namespace engine::render::open_gl
 
 
 
-	void mesh::use() const noexcept
+	auto mesh::use() const noexcept -> void
 	{
 		m_VAO.bind();
 	}
 
 
 
-	void mesh::unuse() const noexcept
+	auto mesh::unuse() const noexcept -> void
 	{
 		m_VAO.unbind();
 	}

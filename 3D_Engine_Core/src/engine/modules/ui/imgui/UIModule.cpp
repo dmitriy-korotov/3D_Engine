@@ -14,7 +14,7 @@
 
 namespace engine::modules::ui::imgui
 {
-    UIModule& UIModule::instance() noexcept
+    auto UIModule::instance() noexcept -> UIModule&
     {
         static UIModule instance;
         return instance;
@@ -22,7 +22,7 @@ namespace engine::modules::ui::imgui
 
 
 
-    void UIModule::setupImGuiConfig() const noexcept
+    auto UIModule::setupImGuiConfig() const noexcept -> void
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -34,7 +34,7 @@ namespace engine::modules::ui::imgui
 
 
 
-	void UIModule::initialize(const window_ptr& _window_ptr) noexcept
+	auto UIModule::initialize(const window_ptr& _window_ptr) noexcept -> void
 	{
         setupImGuiConfig();
 
@@ -74,7 +74,7 @@ namespace engine::modules::ui::imgui
 
 
 
-	void UIModule::terminate() noexcept
+	auto UIModule::terminate() noexcept -> void
 	{
         switch (m_render_impl)
         {
@@ -107,7 +107,7 @@ namespace engine::modules::ui::imgui
 
 
 
-	void UIModule::onUIDrawBegin() const noexcept
+	auto UIModule::onUIDrawBegin() const noexcept -> void
 	{
         switch (m_render_impl)
         {
@@ -138,7 +138,7 @@ namespace engine::modules::ui::imgui
 
 
 
-	void UIModule::onUIDrawEnd() const noexcept
+	auto UIModule::onUIDrawEnd() const noexcept -> void
 	{
 		ImGui::Render();
 		
@@ -157,97 +157,97 @@ namespace engine::modules::ui::imgui
 
 
 
-    bool UIModule::isMouseOnUI() const noexcept
+    auto UIModule::isMouseOnUI() const noexcept -> bool
     {
         return ImGui::GetIO().WantCaptureMouse;
     }
 
 
 
-    void UIModule::begin(const std::string_view& _title) const noexcept
+    auto UIModule::begin(const std::string_view& _title) const noexcept -> void
     {
         ImGui::Begin(_title.data());
     }
 
 
 
-    void UIModule::end() const noexcept
+    auto UIModule::end() const noexcept -> void
     {
         ImGui::End();
     }
 
 
 
-    isClicked UIModule::putColorEdit4(const std::string_view& _title, glm::vec4& _color) const noexcept
+    auto UIModule::putColorEdit4(const std::string_view& _title, glm::vec4& _color) const noexcept -> isClicked
     {
         return ImGui::ColorEdit4(_title.data(), &_color[0]);
     }
 
 
 
-    isClicked UIModule::putSliderFloat(const std::string_view& _title, float& _value, float _min_val, float _max_val) const noexcept
+    auto UIModule::putSliderFloat(const std::string_view& _title, float& _value, float _min_val, float _max_val) const noexcept -> isClicked
     {
         return ImGui::SliderFloat(_title.data(), &_value, _min_val, _max_val);
     }
 
 
 
-    isClicked UIModule::putSliderFloat2(const std::string_view& _title, glm::vec2& _value, float _min_val, float _max_val) const noexcept
+    auto UIModule::putSliderFloat2(const std::string_view& _title, glm::vec2& _value, float _min_val, float _max_val) const noexcept -> isClicked
     {
         return ImGui::SliderFloat2(_title.data(), &_value[0], _min_val, _max_val);
     }
 
 
 
-    isClicked UIModule::putSliderFloat3(const std::string_view& _title, glm::vec3& _value, float _min_val, float _max_val) const noexcept
+    auto UIModule::putSliderFloat3(const std::string_view& _title, glm::vec3& _value, float _min_val, float _max_val) const noexcept -> isClicked
     {
         return ImGui::SliderFloat3(_title.data(), &_value[0], _min_val, _max_val);
     }
 
 
 
-    isClicked UIModule::putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept
+    auto UIModule::putSliderFloat4(const std::string_view& _title, glm::vec4& _value, float _min_val, float _max_val) const noexcept -> isClicked
     {
         return ImGui::SliderFloat4(_title.data(), &_value[0], _min_val, _max_val);
     }
 
 
 
-    isClicked UIModule::putCheckbox(const std::string_view& _title, bool& _value) const noexcept
+    auto UIModule::putCheckbox(const std::string_view& _title, bool& _value) const noexcept -> isClicked
     {
         return ImGui::Checkbox(_title.data(), &_value);
     }
 
 
 
-    isClicked UIModule::putRadioButton(const std::string_view& _title, int& _current_version, int _version) const noexcept
+    auto UIModule::putRadioButton(const std::string_view& _title, int& _current_version, int _version) const noexcept -> isClicked
     {
         return ImGui::RadioButton(_title.data(), &_current_version, _version);
     }
 
 
 
-    void UIModule::separate() const noexcept
+    auto UIModule::separate() const noexcept -> void
     {
         ImGui::Separator();
     }
 
 
-    void UIModule::newLine() const noexcept
+    auto UIModule::newLine() const noexcept -> void
     {
         ImGui::NewLine();
     }
 
 
 
-    void UIModule::sameLine() const noexcept
+    auto UIModule::sameLine() const noexcept -> void
     {
         ImGui::SameLine();
     }
 
 
 
-    void UIModule::createDockSpace() const noexcept
+    auto UIModule::createDockSpace() const noexcept -> void
     {
         static bool is_open = false;
         static bool opt_fullscreen = true;

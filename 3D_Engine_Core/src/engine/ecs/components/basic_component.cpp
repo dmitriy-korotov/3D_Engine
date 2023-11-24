@@ -20,61 +20,61 @@ namespace engine::ecs::components
 
 
 
-	void basic_component::onConstruct() noexcept
+	auto basic_component::onConstruct() noexcept -> void
 	{ }
 
 
 
-	bool basic_component::isActive() const noexcept
+	auto basic_component::isActive() const noexcept -> bool
 	{
 		return m_is_active;
 	}
 
 
 
-	void basic_component::enable() noexcept
+	auto basic_component::enable() noexcept -> void
 	{
 		m_is_active = true;
 	}
 
 
 
-	void basic_component::disable() noexcept
+	auto basic_component::disable() noexcept -> void
 	{
 		m_is_active = false;
 	}
 
 
 
-	entities::entity_id_t basic_component::getOwner() const noexcept
+	auto basic_component::getOwner() const noexcept -> entities::entity_id_t
 	{
 		return m_owner;
 	}
 
 
 
-	component_id_t basic_component::getID() const noexcept
+	auto basic_component::getID() const noexcept -> component_id_t
 	{
 		return m_id;
 	}
 
 
 
-	void basic_component::setOwner(entities::entity_id_t _entity_id) noexcept
+	auto basic_component::setOwner(entities::entity_id_t _entity_id) noexcept -> void
 	{
 		m_owner = _entity_id;
 	}
 
 
 
-	component_id_t basic_component::generateComponentID() noexcept
+	auto basic_component::generateComponentID() noexcept -> component_id_t
 	{
 		return ++m_next_component_id;
 	}
 
 
 
-	bool basic_component::putOnUI() noexcept
+	auto basic_component::putOnUI() noexcept -> bool
 	{
 		LOG_WARN("[Basic component WARN] Method 'putOnUI' is not overrided");
 		return false;
@@ -95,10 +95,10 @@ namespace engine::ecs::components
 
 
 
-	void basic_component::deserializeFrom(const serialized_view_t& _serialized_view)
+	auto basic_component::deserializeFrom(const serialized_view_t& _serialized_view) -> void
 	{
 		_serialized_view.at("id").get_to(m_id);
 		_serialized_view.at("is_active").get_to(m_is_active);
 		_serialized_view.at("owner").get_to(m_owner);
-}
+	}
 }

@@ -35,9 +35,9 @@ namespace engine::scene::systems
 	void AddSystemCreator(size_t _priority) noexcept
 	{
 		systems_creator::addCreator(std::string(T::system_name),
-			[_priority]() -> void
+			[_priority]() -> system_ptr_t<basic_system_t>
 			{
-				auto system = Scene::addSystem<T>(_priority);
+				return Scene::addSystem<T>(_priority);
 			});
 	}
 

@@ -16,7 +16,7 @@ namespace engine::render
 
 
 
-	basic_texture2D& basic_texture2D::operator=(basic_texture2D&& _right) noexcept
+	auto basic_texture2D::operator=(basic_texture2D&& _right) noexcept -> basic_texture2D&
 	{
 		m_height = _right.m_height;
 		m_width = _right.m_width;
@@ -29,49 +29,49 @@ namespace engine::render
 
 
 
-	uint16_t basic_texture2D::getWidth() const noexcept
+	auto basic_texture2D::getWidth() const noexcept -> uint16_t
 	{
 		return m_width;
 	}
 
 
 
-	uint16_t basic_texture2D::getHeight() const noexcept
+	auto basic_texture2D::getHeight() const noexcept -> uint16_t
 	{
 		return m_height;
 	}
 
 
 
-	InternalFormat basic_texture2D::getInternalFormat() const noexcept
+	auto basic_texture2D::getInternalFormat() const noexcept -> InternalFormat
 	{
 		return m_internal_format;
 	}
 
 
 
-	Wrap basic_texture2D::getWrapT() const noexcept
+	auto basic_texture2D::getWrapT() const noexcept -> Wrap
 	{
 		return m_texture_parametrs.texture_wrap_t;
 	}
 
 
 
-	Wrap basic_texture2D::getWrapS() const noexcept
+	auto basic_texture2D::getWrapS() const noexcept -> Wrap
 	{
 		return m_texture_parametrs.texture_wrap_s;
 	}
 
 
 
-	Filter basic_texture2D::getMinFilter() const noexcept
+	auto basic_texture2D::getMinFilter() const noexcept -> Filter
 	{
 		return m_texture_parametrs.texture_min_filter;
 	}
 
 
 
-	Filter basic_texture2D::getMagFilter() const noexcept
+	auto basic_texture2D::getMagFilter() const noexcept -> Filter
 	{
 		return m_texture_parametrs.texture_mag_filter;
 	}

@@ -34,7 +34,7 @@ namespace engine::render::open_gl
 
 
 
-	index_buffer& index_buffer::operator=(index_buffer&& _right) noexcept
+	auto index_buffer::operator=(index_buffer&& _right) noexcept -> index_buffer&
 	{
 		if (m_id != _right.m_id)
 		{
@@ -58,7 +58,7 @@ namespace engine::render::open_gl
 
 
 
-	void index_buffer::setIndexes(const void* _data, uint64_t _indexes_count, Usage _usage_type) noexcept
+	auto index_buffer::setIndexes(const void* _data, uint64_t _indexes_count, Usage _usage_type) noexcept -> void
 	{
 		if (!m_is_data_set)
 		{
@@ -74,21 +74,21 @@ namespace engine::render::open_gl
 
 
 
-	void index_buffer::bind() const noexcept
+	auto index_buffer::bind() const noexcept -> void
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 	}
 
 
 
-	void index_buffer::unbind() const noexcept
+	auto index_buffer::unbind() const noexcept -> void
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 
 
-	uint64_t index_buffer::getIndexesCount() const noexcept
+	auto index_buffer::getIndexesCount() const noexcept -> uint64_t
 	{
 		return m_indexes_count;
 	}

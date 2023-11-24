@@ -12,28 +12,28 @@ namespace engine::input
 
 
 
-	bool mouse::isButtonPressed(MouseButton _mouse_button) noexcept
+	auto mouse::isButtonPressed(MouseButton _mouse_button) noexcept -> bool
 	{
 		return m_mouse_button_keys[static_cast<size_t>(_mouse_button)];
 	}
 
 
 
-	void mouse::pressButton(MouseButton _mouse_button) noexcept
+	auto mouse::pressButton(MouseButton _mouse_button) noexcept -> void
 	{
 		m_mouse_button_keys[static_cast<size_t>(_mouse_button)] = true;
 	}
 
 
 
-	void mouse::releaseButton(MouseButton _mouse_button) noexcept
+	auto mouse::releaseButton(MouseButton _mouse_button) noexcept -> void
 	{
 		m_mouse_button_keys[static_cast<size_t>(_mouse_button)] = false;
 	}
 
 
 
-	void mouse::setCursorPosition(double _x, double _y) noexcept
+	auto mouse::setCursorPosition(double _x, double _y) noexcept -> void
 	{
 		m_cursor_position_x = _x;
 		m_cursor_position_y = _y;
@@ -41,14 +41,14 @@ namespace engine::input
 
 
 
-	double mouse::getCursorPositionX() noexcept
+	auto mouse::getCursorPositionX() noexcept -> double
 	{
 		return m_cursor_position_x;
 	}
 
 
 
-	double mouse::getCursorPositionY() noexcept
+	auto mouse::getCursorPositionY() noexcept -> double
 	{
 		return m_cursor_position_y;
 	}

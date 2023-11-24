@@ -10,7 +10,7 @@ namespace engine::ecs::entities
 
 
 
-	entity_id_t basic_entity::generateEntityId() noexcept
+	auto basic_entity::generateEntityId() noexcept -> entity_id_t
 	{
 		return ++m_next_entity_id;
 	}
@@ -25,7 +25,7 @@ namespace engine::ecs::entities
 
 
 
-	entity_id_t basic_entity::getID() const noexcept
+	auto basic_entity::getID() const noexcept -> entity_id_t
 	{
 		return m_id;
 	}
