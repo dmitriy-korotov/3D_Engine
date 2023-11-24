@@ -115,7 +115,7 @@ namespace engine::scene::components
 
 	auto vision::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		
@@ -138,7 +138,7 @@ namespace engine::scene::components
 
 	auto vision::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		_serialized_view.at("proj_mode").get_to(m_projection_mode);
 

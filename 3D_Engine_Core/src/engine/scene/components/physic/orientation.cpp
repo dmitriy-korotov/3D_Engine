@@ -64,7 +64,7 @@ namespace engine::scene::components
 
 	auto orientation::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 
@@ -78,7 +78,7 @@ namespace engine::scene::components
 
 	auto orientation::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		auto forward_coord = _serialized_view.at("forward").begin();
 

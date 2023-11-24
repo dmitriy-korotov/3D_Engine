@@ -58,7 +58,7 @@ namespace engine::scene::components
 
 	auto material::serialize() const noexcept -> serialized_view_t
 	{
-		serialized_view_t serialized_view = basic_component::serialize();
+		serialized_view_t serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		serialized_view["material_name"] = m_material_name;
@@ -70,7 +70,7 @@ namespace engine::scene::components
 
 	auto material::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		setMaterial(_serialized_view.at("material_name"));
 	}

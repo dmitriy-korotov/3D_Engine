@@ -13,7 +13,7 @@
 
 namespace engine::ecs::components
 {
-	class basic_component: private util::nocopyeble, protected interfaces::serializable_object
+	class basic_component: private util::nocopyeble
 	{
 	public:
 
@@ -30,13 +30,12 @@ namespace engine::ecs::components
 		component_id_t getID() const noexcept;
 
 		virtual bool putOnUI() noexcept;
-		
-		serialized_view_t serialize() const override;
-		void deserializeFrom(const serialized_view_t& _serialized_view) override;
 
 	protected:
 
 		basic_component() noexcept;
+
+		void setID(component_id_t _id) noexcept;
 
 	private:
 		

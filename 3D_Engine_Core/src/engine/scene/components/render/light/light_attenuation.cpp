@@ -73,7 +73,7 @@ namespace engine::scene::components
 
 	auto light_attenuation::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		serialized_view["linear"] = m_linear;
@@ -87,7 +87,7 @@ namespace engine::scene::components
 
 	auto light_attenuation::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		_serialized_view.at("linear").get_to(m_linear);
 		_serialized_view.at("qudratic").get_to(m_qudratic);

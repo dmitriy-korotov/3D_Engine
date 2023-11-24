@@ -62,7 +62,7 @@ namespace engine::scene::components
 
 	auto position::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		serialized_view["pos"] = serialized_view_t::array({ m_position.x, m_position.y, m_position.z });
@@ -74,7 +74,7 @@ namespace engine::scene::components
 
 	auto position::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		auto pos_coord = _serialized_view.at("pos").begin();
 

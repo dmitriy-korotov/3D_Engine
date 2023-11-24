@@ -56,11 +56,14 @@ namespace engine::scene
 
 	namespace components
 	{
-		class scene_component: public virtual ecs::components::basic_component//, interfaces::serializable_object
+		class scene_component: public virtual ecs::components::basic_component, public interfaces::serializable_object
 		{
 		public:
 
 			static constexpr std::string_view component_name = "scene_component";
+
+			serialized_view_t serialize() const;
+			void deserializeFrom(const serialized_view_t& _serialized_view);
 
 		};
 	}
@@ -69,11 +72,14 @@ namespace engine::scene
 
 	namespace systems
 	{
-		class scene_system: public ecs::systems::basic_system
+		class scene_system: public ecs::systems::basic_system, public interfaces::serializable_object
 		{
 		public:
 
 			static constexpr std::string_view system_name = "scene_system";
+
+			serialized_view_t serialize() const;
+			void deserializeFrom(const serialized_view_t& _serialized_view);
 
 		};
 	}

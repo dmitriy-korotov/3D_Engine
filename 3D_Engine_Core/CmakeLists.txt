@@ -409,6 +409,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 
+		src/engine/scene/components/scene_component.cpp
 		src/engine/scene/components/components_creator.cpp
 
 
@@ -443,6 +444,7 @@ set(ENGINE_PRIVATE_SOURCES
 
 
 
+		src/engine/scene/systems/scene_system.cpp
 		src/engine/scene/systems/systems_creator.cpp
 
 		

@@ -30,20 +30,4 @@ namespace engine::ecs::systems
 	{
 		m_is_active = false;
 	}
-
-
-
-	auto basic_system::serialize() const -> serialized_view_t
-	{
-		serialized_view_t serialized_view;
-
-		serialized_view["is_active"] = m_is_active;
-
-		return serialized_view;
-	}
-
-
-
-	auto basic_system::deserializeFrom(const serialized_view_t& _dumped_view) -> void
-	{ }
 }

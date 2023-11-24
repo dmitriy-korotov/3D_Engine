@@ -64,7 +64,7 @@ namespace engine::scene::components
 
 	auto rotation::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		serialized_view["rotation"] = serialized_view_t::array({ m_rotation.x, m_rotation.y, m_rotation.z });
@@ -76,7 +76,7 @@ namespace engine::scene::components
 
 	auto rotation::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		auto rotation_coord = _serialized_view.at("rotation").begin();
 

@@ -11,7 +11,7 @@
 
 namespace engine::ecs::systems
 {
-	class basic_system: private util::nocopyeble, public interfaces::serializable_object
+	class basic_system: private util::nocopyeble
 	{
 	public:
 
@@ -25,9 +25,6 @@ namespace engine::ecs::systems
 		bool isActive() const noexcept;
 		void enable() noexcept;
 		void disable() noexcept;
-
-		serialized_view_t serialize() const override;
-		void deserializeFrom(const serialized_view_t& _serialized_view) override;
 
 	private:
 

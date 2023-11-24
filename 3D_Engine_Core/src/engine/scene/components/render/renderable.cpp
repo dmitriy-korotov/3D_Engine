@@ -110,7 +110,7 @@ namespace engine::scene::components
 
 	auto renderable::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		serialized_view["program_name"] = m_shader_program_name;
@@ -123,7 +123,7 @@ namespace engine::scene::components
 
 	auto renderable::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		setShaderProgram(_serialized_view.at("program_name"));
 		_serialized_view.at("drawing_mode").get_to(m_drawing_mode);

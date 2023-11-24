@@ -52,7 +52,7 @@ namespace engine::scene::systems
 
 	auto scene_UI::serialize() const -> serialized_view_t
 	{
-		serialized_view_t serialized_view = basic_system::serialize();
+		serialized_view_t serialized_view = scene_system::serialize();
 
 		serialized_view["system_name"] = system_name;
 

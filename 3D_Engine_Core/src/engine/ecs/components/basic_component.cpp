@@ -20,6 +20,13 @@ namespace engine::ecs::components
 
 
 
+	auto basic_component::setID(component_id_t _id) noexcept -> void
+	{
+		m_id = _id;
+	}
+
+
+
 	auto basic_component::onConstruct() noexcept -> void
 	{ }
 
@@ -78,27 +85,5 @@ namespace engine::ecs::components
 	{
 		LOG_WARN("[Basic component WARN] Method 'putOnUI' is not overrided");
 		return false;
-	}
-
-
-
-	auto basic_component::serialize() const -> serialized_view_t
-	{
-		serialized_view_t serialize_view;
-	
-		serialize_view["id"] = m_id;
-		serialize_view["is_active"] = m_is_active;
-		serialize_view["owner"] = m_owner;
-
-		return serialize_view;
-	}
-
-
-
-	auto basic_component::deserializeFrom(const serialized_view_t& _serialized_view) -> void
-	{
-		_serialized_view.at("id").get_to(m_id);
-		_serialized_view.at("is_active").get_to(m_is_active);
-		_serialized_view.at("owner").get_to(m_owner);
 	}
 }

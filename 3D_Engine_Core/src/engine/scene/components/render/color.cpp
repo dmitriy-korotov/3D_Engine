@@ -35,7 +35,7 @@ namespace engine::scene::components
 
 	auto color::serialize() const noexcept -> serialized_view_t
 	{
-		auto serialized_view = basic_component::serialize();
+		auto serialized_view = scene_component::serialize();
 
 		serialized_view["component_name"] = component_name;
 		serialized_view["color"] = serialized_view_t::array({ m_color.r, m_color.g, m_color.b, m_color.a });
@@ -47,7 +47,7 @@ namespace engine::scene::components
 
 	auto color::deserializeFrom(const serialized_view_t& _serialized_view) noexcept -> void
 	{
-		basic_component::deserializeFrom(_serialized_view);
+		scene_component::deserializeFrom(_serialized_view);
 
 		auto color_component = _serialized_view.at("color").begin();
 
