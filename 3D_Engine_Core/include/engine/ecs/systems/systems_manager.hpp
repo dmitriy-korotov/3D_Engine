@@ -48,11 +48,79 @@ namespace engine::ecs::systems
 		template <std::derived_from<UserBasicSystem> T>
 		typename systems_storage_t::iterator findSystem() noexcept;
 
+		class systems_group
+		{
+		public:
+
+			systems_group(std::string _group_name, size_t _priority) noexcept;
+
+			template <std::derived_from<UserBasicSystem> T>
+			bool addSystem(system_ptr_t _system, size_t _priority_into_group) noexcept;
+			
+			void update(float _delta_time);
+
+			bool operator<(const systems_group& _right) const noexcept;
+
+		private:
+
+			std::string m_name;
+			size_t m_priority = 0;
+			systems_storage_t m_systems;
+
+		};
+
 	private:
 
 		systems_storage_t m_systems;
 
 	};
+
+
+
+
+
+	template <System UserBasicSystem>
+	systems_manager<UserBasicSystem>::template systems_group::systems_group(std::string _group_name, size_t _priority) noexcept
+			: m_name(std::move(_group_name))
+			, m_priority(_priority)
+	{ }
+
+
+
+	template <System UserBasicSystem>
+	template <std::derived_from<UserBasicSystem> T>
+	auto systems_manager<UserBasicSystem>::template systems_group::addSystem(system_ptr_t _system, size_t _priority_into_group) noexcept -> bool
+	{
+		auto it = m_systems.emplace(_priority_into_group, std::make_pair(T::system_name, std::move(_system)));
+
+		return (it == m_systems.end());
+	}
+
+
+
+	template <System UserBasicSystem>
+	auto systems_manager<UserBasicSystem>::template systems_group::operator<(const systems_group& _right) const noexcept -> bool
+	{
+		return m_priority < _right.m_priority;
+	}
+
+
+
+	template <System UserBasicSystem>
+	auto systems_manager<UserBasicSystem>::template systems_group::update(float _delta_time) -> void
+	{
+		for (const auto& system : m_systems)
+		{
+			if (!system.second.second->isActive())
+				continue;
+
+			system.second.second->preUpdate(_delta_time);
+			system.second.second->update(_delta_time);
+			system.second.second->postUpdate(_delta_time);
+		}
+	}
+
+
 
 
 
@@ -66,7 +134,7 @@ namespace engine::ecs::systems
 
 		if (it == m_systems.end())
 			return nullptr;
-
+		
 		return system;
 	}
 

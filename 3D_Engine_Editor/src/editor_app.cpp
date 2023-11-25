@@ -100,28 +100,12 @@ namespace editor
 
 		engine::GetResourceManager().loadModel("Cube", path_to_cube);
 		engine::GetResourceManager().loadModel("Steve", path_to_steve);
-		
+
 
 
 		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
 
-		
 
-		/*auto light = Scene::addObject<basic_entity>();
-		light->addComponent<direction_light>();
-
-
-		auto camera = Scene::addObject<engine::scene::camera>(glm::vec3(-5.f, 0.f, 0.f));
-		camera->addComponent<active_camera>();
-
-		auto cube = Scene::addObject<renderable_scene_object>("Cube", "Default");
-		auto steve = Scene::addObject<renderable_scene_object>("Steve", "Unlit");
-
-		steve->addComponent<point_light>();
-		steve->addComponent<selected>();
-
-		steve->addComponent<rotation>();
-		steve->addComponent<scale>();*/
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", getSettings().getTitle(), getSettings().getWidth(), getSettings().getHeight());
 	}
