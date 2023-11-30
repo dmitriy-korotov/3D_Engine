@@ -588,3 +588,8 @@ target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json
 
 add_subdirectory(../external/asio-1.28.0 ${CMAKE_CURRENT_BINARY_DIR}/asio-1.28.0)
 target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC asio)
+
+
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_target_properties(unit zlibstatic spdlog imgui glad assimp UpdateAssimpLibsDebugSymbolsAndDLLs PROPERTIES FOLDER hidden)
