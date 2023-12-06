@@ -86,8 +86,8 @@ namespace editor
 
 
 
-		engine::GetResourceManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\shaders");
-		engine::GetResourceManager().addModelsDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\objects");
+		engine::GetResourceManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\shaders");
+		engine::GetResourceManager().addModelsDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\objects");
 
 		auto shader_program = engine::GetResourceManager().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
 		auto unlit_shader_program = engine::GetResourceManager().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
@@ -103,7 +103,7 @@ namespace editor
 
 
 
-		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
+		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\scenes\\Scene1.scn");
 
 
 
@@ -118,7 +118,7 @@ namespace editor
 			close();
 
 		if (keyboard::isKeyPressed(Key::KEY_LEFT_CONTROL) && keyboard::isKeyPressed(Key::KEY_F))
-			Scene::save("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\scenes\\Scene1.scn");
+			Scene::save("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\scenes\\Scene1.scn");
 	}
 
 

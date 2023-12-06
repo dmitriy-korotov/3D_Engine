@@ -1,5 +1,7 @@
 #pragma once
 
+#include <engine/util/nocopyeble.hpp>
+
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
 
@@ -11,7 +13,7 @@ namespace authorization
 {
 	using namespace asio::ip;
 
-	class server
+	class server: private engine::util::nocopyeble
 	{
 	public:
 

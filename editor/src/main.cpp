@@ -10,7 +10,7 @@ int main(int _argc, char** _argv)
 {
 	auto& application = editor::Editor::instance();
 
-	application.setConfig("C:\\Users\\User\\MyProjects\\3D_Engine\\3D_Engine_Core\\res\\config\\config.json");
+	application.setConfig("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\config\\config.json");
 	
 	if (application.start().has_value())
 	{

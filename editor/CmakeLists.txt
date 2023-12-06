@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 
 
-set(EDITOR_PROJECT_NAME 3D_Engine_Editor)
+set(EDITOR_PROJECT_NAME editor)
 
 
 
@@ -30,7 +30,7 @@ add_executable(${EDITOR_PROJECT_NAME}
 
 
 target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE include)
-target_link_libraries(${EDITOR_PROJECT_NAME} PUBLIC 3D_Engine_Core imgui glm)
+target_link_libraries(${EDITOR_PROJECT_NAME} PRIVATE uengine)
 
 
 

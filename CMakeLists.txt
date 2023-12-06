@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.26)
 
-project(3D_Engine)
+project(uengine_project)
 
-add_subdirectory(3D_Engine_Core)
-add_subdirectory(3D_Engine_Editor)
-add_subdirectory(Authorization_Service)
+add_subdirectory(core)
+add_subdirectory(editor)
+add_subdirectory(authorization_service)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT 3D_Engine_Editor)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT editor)
