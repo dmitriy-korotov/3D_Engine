@@ -1,0 +1,73 @@
+cmake_minimum_required(VERSION 3.26)
+
+
+
+set(ENGINE_UTILITY_LIB utility CACHE INTERNAL "")
+
+project(${ENGINE_UTILITY_LIB})
+
+
+
+set(ENGINE_UTILITY_LIB_HEADERS
+
+		include/engine/util/fwd.hpp
+		include/engine/util/fwd/nocopyeble.hpp
+		include/engine/util/fwd/noconstructible.hpp
+		include/engine/util/fwd/nomoveble.hpp
+		include/engine/util/fwd/file_reader.hpp
+		include/engine/util/fwd/image.hpp
+		include/engine/util/fwd/json_view.hpp
+		include/engine/util/fwd/file_searcher.hpp
+
+		include/engine/util/nocopyeble.hpp
+		include/engine/util/noconstructible.hpp
+		include/engine/util/nomoveble.hpp
+		include/engine/util/file_reader.hpp
+		include/engine/util/image.hpp
+		include/engine/util/json_view.hpp
+		include/engine/util/file_searcher.hpp
+
+
+
+		include/engine/interfaces/fwd.hpp
+		include/engine/interfaces/fwd/binded_object.hpp
+		include/engine/interfaces/fwd/usage_object.hpp
+		include/engine/interfaces/fwd/serialized_view.hpp
+		include/engine/interfaces/fwd/serializable_object.hpp
+
+		include/engine/interfaces/binded_object.hpp
+		include/engine/interfaces/usage_object.hpp
+		include/engine/interfaces/serialized_view.hpp
+		include/engine/interfaces/serializable_object.hpp
+	
+)
+
+set(ENGINE_UTILITY_LIB_SOURCES
+
+		src/engine/util/file_reader.cpp
+		src/engine/util/image.cpp
+		src/engine/util/json_view.cpp
+		src/engine/util/file_searcher.cpp
+	
+)
+
+set(ENGINE_UTILITY_LIB_ALL_FILES ${ENGINE_UTILITY_LIB_HEADERS} ${ENGINE_UTILITY_LIB_SOURCES})
+
+
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_UTILITY_LIB_ALL_FILES})
+
+
+
+add_library(${ENGINE_UTILITY_LIB} STATIC ${ENGINE_UTILITY_LIB_ALL_FILES})
+add_library(${ENGINE_ALIAS}::${ENGINE_UTILITY_LIB} ALIAS ${ENGINE_UTILITY_LIB})
+
+target_include_directories(${ENGINE_UTILITY_LIB} PUBLIC include)
+
+target_link_libraries(${ENGINE_UTILITY_LIB} PUBLIC
+			${ENGINE_ALIAS}::${ENGINE_LOG_LIB}
+			nlohmann_json::nlohmann_json
+			stb
+)
+
+target_compile_features(${ENGINE_UTILITY_LIB} PUBLIC cxx_std_20)

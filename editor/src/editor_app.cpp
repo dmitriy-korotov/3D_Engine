@@ -86,11 +86,15 @@ namespace editor
 
 
 
-		engine::GetResourceManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\shaders");
-		engine::GetResourceManager().addModelsDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\objects");
+		const auto& resource_manager = engine::GetResourceManager();
 
-		auto shader_program = engine::GetResourceManager().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
-		auto unlit_shader_program = engine::GetResourceManager().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
+
+
+		resource_manager.getShadersManager().addShadersDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\shaders");
+		resource_manager.getModelsManager().addModelsDirectory("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\objects");
+
+		auto shader_program = resource_manager.getShadersManager().loadShaderProgram("Default", "DefaultVS.vs", "DefaultFS.fs");
+		auto unlit_shader_program = resource_manager.getShadersManager().loadShaderProgram("Unlit", "DefaultVS.vs", "UnlitFS.fs");
 
 		std::string path_to_cube = "cube\\Crate\\Crate1.obj";
 		std::string path_to_ball = "Ball\\Ball.obj";
@@ -98,11 +102,11 @@ namespace editor
 		std::string path_to_steve = "Steve\\Model\\Santa\\Steve.obj";
 		std::string path_to_backpack = "BackPack\\backpack.obj";
 
-		engine::GetResourceManager().loadModel("Cube", path_to_cube);
-		engine::GetResourceManager().loadModel("Steve", path_to_steve);
+		resource_manager.getModelsManager().loadModel("Cube", path_to_cube);
+		resource_manager.getModelsManager().loadModel("Steve", path_to_steve);
 
 
-
+		Scene::initialize();
 		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\scenes\\Scene1.scn");
 
 
@@ -139,6 +143,7 @@ namespace editor
 
 	auto Editor::onClose() noexcept -> void
 	{
+		Scene::terminate();
 		LOG_INFO("'{0}' application closed, size: {1}x{2}", getSettings().getTitle(), getSettings().getWidth(),	getSettings().getHeight());
 	}
 }

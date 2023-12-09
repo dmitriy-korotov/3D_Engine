@@ -1,0 +1,93 @@
+cmake_minimum_required(VERSION 3.26)
+
+
+
+set(ENGINE_WINDOW_LIB window CACHE INTERNAL "")
+
+project(${ENGINE_WINDOW_LIB})
+
+
+
+set(ENGINE_WINDOW_LIB_HEADERS
+
+		include/engine/input/fwd.hpp
+		include/engine/input/fwd/keys.hpp
+		include/engine/input/fwd/keyboard.hpp
+		include/engine/input/fwd/mouse.hpp
+
+		include/engine/input/keys.hpp
+		include/engine/input/keyboard.hpp
+		include/engine/input/mouse.hpp
+		
+
+
+		include/engine/window/fwd.hpp
+		include/engine/window/fwd/events.hpp
+		include/engine/window/fwd/basic_window_context.hpp
+		include/engine/window/fwd/basic_window.hpp
+		include/engine/window/fwd/windows_collector.hpp
+		include/engine/window/fwd/windows_manager.hpp
+
+		include/engine/window/window.hpp
+		include/engine/window/events.hpp
+		include/engine/window/basic_window_context.hpp
+		include/engine/window/basic_window.hpp
+		include/engine/window/windows_collector.hpp
+		include/engine/window/windows_manager.hpp
+		
+
+
+		include/engine/window/glfw/fwd.hpp
+		include/engine/window/glfw/fwd/glfw.hpp
+		include/engine/window/glfw/fwd/glfw_window_context.hpp
+		include/engine/window/glfw/fwd/glfw_window.hpp
+
+		include/engine/window/glfw/glfw.hpp
+		include/engine/window/glfw/glfw_window_context.hpp
+		include/engine/window/glfw/glfw_window.hpp
+	
+)
+
+set(ENGINE_WINDOW_LIB_SOURCES
+
+		src/engine/input/keyboard.cpp
+		src/engine/input/mouse.cpp
+
+
+
+		src/engine/window/basic_window_context.cpp
+		src/engine/window/basic_window.cpp
+		src/engine/window/windows_collector.cpp
+		src/engine/window/windows_manager.cpp
+
+
+
+		src/engine/window/glfw/glfw.cpp
+		src/engine/window/glfw/glfw_window_context.cpp
+		src/engine/window/glfw/glfw_window.cpp
+	
+)
+
+set(ENGINE_WINDOW_LIB_ALL_FILES ${ENGINE_WINDOW_LIB_HEADERS} ${ENGINE_WINDOW_LIB_SOURCES})
+
+
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_WINDOW_LIB_ALL_FILES})
+
+
+
+add_library(${ENGINE_WINDOW_LIB} STATIC ${ENGINE_WINDOW_LIB_ALL_FILES})
+add_library(${ENGINE_ALIAS}::${ENGINE_WINDOW_LIB} ALIAS ${ENGINE_WINDOW_LIB})
+
+target_include_directories(${ENGINE_WINDOW_LIB} PUBLIC include)
+
+target_link_libraries(${ENGINE_WINDOW_LIB} PUBLIC
+		${ENGINE_ALIAS}::${ENGINE_UTILITY_LIB}
+		${ENGINE_ALIAS}::${ENGINE_APPLICATION_LIB}				
+		glm
+)
+
+target_link_libraries(${ENGINE_WINDOW_LIB} PRIVATE glfw)
+
+
+target_compile_features(${ENGINE_WINDOW_LIB} PUBLIC cxx_std_20)

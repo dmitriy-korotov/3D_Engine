@@ -1,0 +1,87 @@
+cmake_minimum_required(VERSION 3.26)
+
+
+
+set(ENGINE_APPLICATION_LIB application CACHE INTERNAL "")
+
+project(${ENGINE_APPLICATION_LIB})
+
+
+
+set(ENGINE_APPLICATION_LIB_HEADERS
+
+		include/engine/fwd/Engine.hpp
+		include/engine/fwd/application.hpp
+		include/engine/fwd/application_settings.hpp
+		include/engine/fwd/resource_manager.hpp
+
+		include/engine/Engine.hpp
+		include/engine/application.hpp
+		include/engine/names_settings.hpp
+		include/engine/application_settings.hpp
+		include/engine/resource_manager.hpp
+
+
+
+        include/engine/modules/ui/fwd.hpp
+		include/engine/modules/ui/fwd/application_UIModule.hpp
+		include/engine/modules/ui/fwd/basic_UICreator.hpp
+		include/engine/modules/ui/fwd/basic_UIModule.hpp
+
+		include/engine/modules/ui/ui.hpp
+		include/engine/modules/ui/application_UIModule.hpp
+		include/engine/modules/ui/basic_UICreator.hpp
+		include/engine/modules/ui/basic_UIModule.hpp
+		
+
+
+		include/engine/modules/ui/imgui/fwd.hpp
+		include/engine/modules/ui/imgui/fwd/UIModule.hpp
+
+		include/engine/modules/ui/imgui/UIModule.hpp
+	
+)
+
+set(ENGINE_APPLICATION_LIB_SOURCES
+
+		src/engine/Engine.cpp
+		src/engine/application.cpp
+		src/engine/names_settings.cpp
+		src/engine/application_settings.cpp
+		src/engine/resource_manager.cpp
+
+
+
+		src/engine/modules/ui/application_UIModule.cpp
+		src/engine/modules/ui/basic_UICreator.cpp
+		src/engine/modules/ui/basic_UIModule.cpp
+
+
+
+		src/engine/modules/ui/imgui/UIModule.cpp
+	
+)
+
+set(ENGINE_APPLICATION_LIB_ALL_FILES ${ENGINE_APPLICATION_LIB_HEADERS} ${ENGINE_APPLICATION_LIB_SOURCES})
+
+
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_APPLICATION_LIB_ALL_FILES})
+
+
+
+add_library(${ENGINE_APPLICATION_LIB} STATIC ${ENGINE_APPLICATION_LIB_ALL_FILES})
+add_library(${ENGINE_ALIAS}::${ENGINE_APPLICATION_LIB} ALIAS ${ENGINE_APPLICATION_LIB})
+
+target_include_directories(${ENGINE_APPLICATION_LIB} PUBLIC include)
+
+target_link_libraries(${ENGINE_APPLICATION_LIB} PUBLIC
+		${ENGINE_ALIAS}::${ENGINE_ERROR_LIB}
+		${ENGINE_ALIAS}::${ENGINE_RENDER_LIB}
+        ${ENGINE_ALIAS}::${ENGINE_WINDOW_LIB}
+        imgui
+        glfw
+        glm
+)
+
+target_compile_features(${ENGINE_APPLICATION_LIB} PUBLIC cxx_std_20)

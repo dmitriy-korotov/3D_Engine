@@ -1,0 +1,227 @@
+cmake_minimum_required(VERSION 3.26)
+
+
+
+set(ENGINE_SCENE_LIB scene CACHE INTERNAL "")
+
+project(${ENGINE_SCENE_LIB})
+
+
+
+set(ENGINE_SCENE_LIB_HEADERS
+
+		include/engine/scene/fwd.hpp
+		include/engine/scene/fwd/Scene.hpp
+
+		include/engine/scene/common_types.hpp
+		include/engine/scene/Scene.hpp
+		include/engine/scene/world_data.hpp
+
+
+
+		include/engine/scene/objects/fwd.hpp
+		include/engine/scene/objects/fwd/scene_object.hpp
+		include/engine/scene/objects/fwd/renderable_scene_object.hpp
+		include/engine/scene/objects/fwd/basic_object_builder.hpp
+		include/engine/scene/objects/fwd/camera.hpp
+
+		include/engine/scene/objects/scene_object.hpp
+		include/engine/scene/objects/renderable_scene_object.hpp
+		include/engine/scene/objects/basic_object_builder.hpp
+		include/engine/scene/objects/camera.hpp
+
+
+
+		include/engine/scene/components/fwd.hpp
+		include/engine/scene/components/fwd/scene_component.hpp
+		include/engine/scene/components/fwd/components_creator.hpp
+
+		include/engine/scene/components/components.hpp
+		include/engine/scene/components/components_creator.hpp
+
+
+
+		include/engine/scene/components/markers/fwd.hpp
+		include/engine/scene/components/markers/fwd/selected.hpp
+		include/engine/scene/components/markers/fwd/active_camera.hpp
+					   
+		include/engine/scene/components/markers.hpp
+		include/engine/scene/components/markers/selected.hpp
+		include/engine/scene/components/markers/active_camera.hpp
+					
+
+
+		include/engine/scene/components/physic/fwd.hpp
+		include/engine/scene/components/physic/fwd/position.hpp
+		include/engine/scene/components/physic/fwd/rotation.hpp
+		include/engine/scene/components/physic/fwd/orientation.hpp
+		include/engine/scene/components/physic/fwd/direction.hpp
+		include/engine/scene/components/physic/fwd/scale.hpp
+		include/engine/scene/components/physic/fwd/velocity.hpp
+		include/engine/scene/components/physic/fwd/movement_velocity.hpp
+		include/engine/scene/components/physic/fwd/rotate_velocity.hpp
+		include/engine/scene/components/physic/fwd/transform.hpp
+		include/engine/scene/components/physic/fwd/camera_transform.hpp
+		include/engine/scene/components/physic/fwd/vision.hpp
+		include/engine/scene/components/physic/fwd/movement.hpp
+		include/engine/scene/components/physic/fwd/rotate.hpp
+					   
+		include/engine/scene/components/physic.hpp
+		include/engine/scene/components/physic/position.hpp
+		include/engine/scene/components/physic/rotation.hpp
+		include/engine/scene/components/physic/orientation.hpp
+		include/engine/scene/components/physic/direction.hpp
+		include/engine/scene/components/physic/scale.hpp
+		include/engine/scene/components/physic/velocity.hpp
+		include/engine/scene/components/physic/movement_velocity.hpp
+		include/engine/scene/components/physic/rotate_velocity.hpp
+		include/engine/scene/components/physic/transform.hpp
+		include/engine/scene/components/physic/camera_transform.hpp
+		include/engine/scene/components/physic/vision.hpp
+		include/engine/scene/components/physic/movement.hpp
+		include/engine/scene/components/physic/rotate.hpp
+				
+
+
+		include/engine/scene/components/render/fwd.hpp
+		include/engine/scene/components/render/fwd/mesh.hpp
+		include/engine/scene/components/render/fwd/material.hpp
+		include/engine/scene/components/render/fwd/color.hpp
+		include/engine/scene/components/render/fwd/renderable.hpp
+		include/engine/scene/components/render/fwd/light.hpp
+		include/engine/scene/components/render/fwd/direction_light.hpp
+		include/engine/scene/components/render/fwd/point_light.hpp
+		include/engine/scene/components/render/fwd/spot_light.hpp
+		include/engine/scene/components/render/fwd/light_attenuation.hpp
+					   
+		include/engine/scene/components/render.hpp
+		include/engine/scene/components/render/mesh.hpp
+		include/engine/scene/components/render/material.hpp
+		include/engine/scene/components/render/color.hpp
+		include/engine/scene/components/render/renderable.hpp	
+		
+		
+		
+		include/engine/scene/components/render/light/light.hpp
+		include/engine/scene/components/render/light/direction_light.hpp
+		include/engine/scene/components/render/light/point_light.hpp
+		include/engine/scene/components/render/light/spot_light.hpp
+		include/engine/scene/components/render/light/light_attenuation.hpp
+
+
+
+		include/engine/scene/systems/fwd.hpp
+		include/engine/scene/systems/fwd/scene_system.hpp
+		include/engine/scene/systems/fwd/systems_creator.hpp
+
+		include/engine/scene/systems/render.hpp
+		include/engine/scene/systems/physic.hpp
+		include/engine/scene/systems/UI.hpp
+		include/engine/scene/systems/systems_creator.hpp
+
+
+
+		include/engine/scene/systems/render/fwd.hpp
+		include/engine/scene/systems/render/fwd/render.hpp
+
+		include/engine/scene/systems/render/render.hpp
+		
+
+
+		include/engine/scene/systems/physic/fwd.hpp
+		include/engine/scene/systems/physic/fwd/camera_update.hpp
+
+		include/engine/scene/systems/physic/camera_update.hpp
+		
+
+
+		include/engine/scene/systems/UI/fwd.hpp
+		include/engine/scene/systems/UI/fwd/selected_object_UI.hpp
+		include/engine/scene/systems/UI/fwd/scene_UI.hpp
+
+		include/engine/scene/systems/UI/selected_object_UI.hpp
+		include/engine/scene/systems/UI/scene_UI.hpp
+	
+)
+
+set(ENGINE_SCENE_LIB_SOURCES
+
+		src/engine/scene/Scene.cpp
+		
+
+
+		src/engine/scene/objects/scene_object.cpp
+		src/engine/scene/objects/renderable_scene_object.cpp
+		src/engine/scene/objects/camera.cpp
+
+
+
+		src/engine/scene/components/scene_component.cpp
+		src/engine/scene/components/components_creator.cpp
+
+
+
+		src/engine/scene/components/markers/active_camera.cpp
+		src/engine/scene/components/markers/selected.cpp
+				 
+		src/engine/scene/components/physic/position.cpp
+		src/engine/scene/components/physic/rotation.cpp
+		src/engine/scene/components/physic/orientation.cpp
+		src/engine/scene/components/physic/direction.cpp
+		src/engine/scene/components/physic/scale.cpp
+		src/engine/scene/components/physic/velocity.cpp
+		src/engine/scene/components/physic/movement_velocity.cpp
+		src/engine/scene/components/physic/rotate_velocity.cpp
+		src/engine/scene/components/physic/transform.cpp
+		src/engine/scene/components/physic/camera_transform.cpp
+		src/engine/scene/components/physic/vision.cpp
+		src/engine/scene/components/physic/movement.cpp
+		src/engine/scene/components/physic/rotate.cpp
+				   
+		src/engine/scene/components/render/mesh.cpp
+		src/engine/scene/components/render/material.cpp
+		src/engine/scene/components/render/color.cpp
+		src/engine/scene/components/render/renderable.cpp
+				   
+		src/engine/scene/components/render/light/light.cpp
+		src/engine/scene/components/render/light/direction_light.cpp
+		src/engine/scene/components/render/light/point_light.cpp
+		src/engine/scene/components/render/light/spot_light.cpp
+		src/engine/scene/components/render/light/light_attenuation.cpp
+
+
+
+		src/engine/scene/systems/scene_system.cpp
+		src/engine/scene/systems/systems_creator.cpp
+
+		
+
+		src/engine/scene/systems/render/render.cpp
+
+		src/engine/scene/systems/physic/camera_update.cpp
+
+		src/engine/scene/systems/UI/selected_object_UI.cpp
+		src/engine/scene/systems/UI/scene_UI.cpp
+	
+)
+
+set(ENGINE_SCENE_LIB_ALL_FILES ${ENGINE_SCENE_LIB_HEADERS} ${ENGINE_SCENE_LIB_SOURCES})
+
+
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_SCENE_LIB_ALL_FILES})
+
+
+
+add_library(${ENGINE_SCENE_LIB} STATIC ${ENGINE_SCENE_LIB_ALL_FILES})
+add_library(${ENGINE_ALIAS}::${ENGINE_SCENE_LIB} ALIAS ${ENGINE_SCENE_LIB})
+
+target_include_directories(${ENGINE_SCENE_LIB} PUBLIC include)
+
+target_link_libraries(${ENGINE_SCENE_LIB} PUBLIC
+		${ENGINE_ALIAS}::${ENGINE_ECS_LIB}
+		${ENGINE_ALIAS}::${ENGINE_APPLICATION_LIB}
+        glm
+)
+
+target_compile_features(${ENGINE_SCENE_LIB} PUBLIC cxx_std_20)
