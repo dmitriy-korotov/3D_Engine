@@ -20,7 +20,7 @@ namespace engine::net::http
 
 		http_client() noexcept;
 
-		asio::awaitable<std::string> sendGetRequest(std::string_view _address, uint16_t _port = 80) noexcept;
+		asio::awaitable<std::string> sendGetRequest(const std::string& _request, std::string_view _address, uint16_t _port = 80) noexcept;
 
 		asio::io_context& getContext() noexcept;
 
@@ -28,7 +28,7 @@ namespace engine::net::http
 
 		asio::io_context m_execution_cxt;
 
-		tcp::socket m_socket;
+		tcp_socket_t m_socket;
 
 	};
 }

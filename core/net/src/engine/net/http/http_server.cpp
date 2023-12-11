@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <engine/net/http/session.hpp>
+
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
 
@@ -40,6 +42,8 @@ namespace engine::net::http
 			std::stringstream buffer;
 			buffer << socket.remote_endpoint();
 			LOG_INFO("[Http server INFO] Accepted: {0}", buffer.str());
+
+			std::make_shared<session>(std::move(socket))->start();
 		}
 	}
 

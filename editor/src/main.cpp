@@ -1,18 +1,33 @@
 #include <editor_app.hpp>
 
+#include <engine/logging/log.hpp>
+
 #include <engine/net/http/http_client.hpp>
 
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
 
 #include <iostream>
+#include <memory>
 
 
 
 
-auto sendRequest(engine::net::http::http_client& client) -> asio::awaitable<void>
+auto sendRequest(std::shared_ptr<engine::net::http::http_client> client) -> asio::awaitable<void>
 {
-	auto responce = co_await client.sendGetRequest("127.0.0.1", 80);
+	for (;;)
+	{
+		std::string message;
+		std::cout << "Input message:\t";
+		std::cin >> message;
+
+		if (message == "end")
+			break;
+
+		auto responce = co_await client->sendGetRequest(message, "127.0.0.1", 80);
+
+		LOG_INFO("[Http client INFO] Recived: {0}", responce);
+	}
 }
 
 
@@ -30,11 +45,11 @@ int main(int _argc, char** _argv)
 		return EXIT_FAILURE;
 	}*/
 
-	engine::net::http::http_client client;
+	auto client = std::make_shared<engine::net::http::http_client>();
 
-	asio::co_spawn(client.getContext(), sendRequest(client), asio::detached);
+	asio::co_spawn(client->getContext(), sendRequest(client), asio::detached);
 
-	client.getContext().run();
+	client->getContext().run();
 
 	return EXIT_SUCCESS;
 }

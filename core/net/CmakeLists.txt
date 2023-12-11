@@ -15,9 +15,11 @@ set(ENGINE_NET_LIB_HEADERS
 
 
 		include/engine/net/http/fwd/http_server.hpp
+		include/engine/net/http/fwd/session.hpp
 		include/engine/net/http/fwd/http_client.hpp
 
 		include/engine/net/http/http_server.hpp
+		include/engine/net/http/session.hpp
 		include/engine/net/http/http_client.hpp
 	
 )
@@ -25,6 +27,7 @@ set(ENGINE_NET_LIB_HEADERS
 set(ENGINE_NET_LIB_SOURCES
 
 		src/engine/net/http/http_server.cpp
+		src/engine/net/http/session.cpp
 		src/engine/net/http/http_client.cpp
 	
 )

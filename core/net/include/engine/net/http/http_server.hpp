@@ -20,6 +20,8 @@ namespace engine::net::http
 	public:
 
 		http_server() noexcept;
+		http_server(http_server&&) = default;
+		http_server& operator=(http_server&&) = default;
 
 		void listen(std::string_view _address, uint16_t _port = 80);
 
@@ -35,7 +37,7 @@ namespace engine::net::http
 		asio::io_context m_execution_cxt;
 		asio::signal_set m_signals;
 
-		tcp::acceptor m_acceptor;
-
+		tcp_acceptor_t m_acceptor;
+		
 	};
 }
