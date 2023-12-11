@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.26)
+
+
+
+set(AUTH_SERVICE_LIB auth_lib CACHE INTERNAL "")
+
+project(${AUTH_SERVICE_LIB})
+
+
+
+set(AUTH_SERVICE_LIB_HEADERS
+        include/auth/user.hpp
+)
+
+set(AUTH_SERVICE_LIB_SOURCES
+        src/auth/user.cpp
+)
+
+set(AUTH_SERVICE_LIB_ALL_FILES ${AUTH_SERVICE_LIB_HEADERS} ${AUTH_SERVICE_LIB_SOURCES})
+
+
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${AUTH_SERVICE_LIB_ALL_FILES})
+
+
+
+add_library(${AUTH_SERVICE_LIB} STATIC ${AUTH_SERVICE_LIB_ALL_FILES})
+
+
+
+target_include_directories(${AUTH_SERVICE_LIB} PUBLIC include)
+
+target_link_libraries(${AUTH_SERVICE_LIB} PUBLIC ${ENGINE_ALIAS}::${ENGINE_NET_LIB})

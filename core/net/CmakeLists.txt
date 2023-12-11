@@ -1,0 +1,50 @@
+cmake_minimum_required(VERSION 3.26)
+
+
+
+set(ENGINE_NET_LIB net CACHE INTERNAL "")
+
+project(${ENGINE_NET_LIB})
+
+
+
+set(ENGINE_NET_LIB_HEADERS
+
+		include/engine/net/net.hpp
+
+
+
+		include/engine/net/http/fwd/http_server.hpp
+		include/engine/net/http/fwd/http_client.hpp
+
+		include/engine/net/http/http_server.hpp
+		include/engine/net/http/http_client.hpp
+	
+)
+
+set(ENGINE_NET_LIB_SOURCES
+
+		src/engine/net/http/http_server.cpp
+		src/engine/net/http/http_client.cpp
+	
+)
+
+set(ENGINE_NET_LIB_ALL_FILES ${ENGINE_NET_LIB_HEADERS} ${ENGINE_NET_LIB_SOURCES})
+
+
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_NET_LIB_ALL_FILES})
+
+
+
+add_library(${ENGINE_NET_LIB} STATIC ${ENGINE_NET_LIB_ALL_FILES})
+add_library(${ENGINE_ALIAS}::${ENGINE_NET_LIB} ALIAS ${ENGINE_NET_LIB})
+
+target_include_directories(${ENGINE_NET_LIB} PUBLIC include)
+
+target_link_libraries(${ENGINE_NET_LIB} PUBLIC
+			${ENGINE_ALIAS}::${ENGINE_UTILITY_LIB}
+            asio
+)
+
+target_compile_features(${ENGINE_NET_LIB} PUBLIC cxx_std_20)
