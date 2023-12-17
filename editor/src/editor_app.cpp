@@ -101,7 +101,12 @@ namespace editor
 		std::string path_to_deer = "deer\\Deer.obj";
 		std::string path_to_steve = "Steve\\Model\\Santa\\Steve.obj";
 		std::string path_to_backpack = "BackPack\\backpack.obj";
+		std::string path_to_sosiska = "Sosiska\\untitled.obj";
 
+		
+		
+
+		resource_manager.getModelsManager().loadModel("Sosiska", path_to_sosiska);
 		resource_manager.getModelsManager().loadModel("Cube", path_to_cube);
 		resource_manager.getModelsManager().loadModel("Steve", path_to_steve);
 
@@ -109,7 +114,7 @@ namespace editor
 		Scene::initialize();
 		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\scenes\\Scene1.scn");
 
-
+		//auto obj = Scene::addObject<renderable_scene_object>("Sosiska", "Default");
 
 		LOG_INFO("'{0}' application started, size: {1}x{2}", getSettings().getTitle(), getSettings().getWidth(), getSettings().getHeight());
 	}
