@@ -6,6 +6,8 @@
 
 #include <unordered_map>
 #include <sstream>
+#include <exception>
+#include <optional>
 
 
 
@@ -37,6 +39,10 @@ namespace engine::net::http
 	{
 	public:
 
+		using body_wrapp_t = std::decay_t<T>;
+		using body_t = typename body_wrapp_t::body_t;
+		using headers_t = std::unordered_map<std::string, std::string>;
+
 		basic_http_message() = default;
 
 		void setHttpVersion(http_version _version) noexcept;
@@ -44,12 +50,15 @@ namespace engine::net::http
 
 		bool emplaceHeader(std::string _header, std::string _value) noexcept;
 		bool emplaceHeader(http_header _key, std::string _value) noexcept;
+		void emplaceHeaders(const headers_t& headers) noexcept;
 
-		bool setBody(T&& _body) noexcept;
-		bool setBody(const T& _body) noexcept;
+		bool hasBody() const noexcept;
 
-		T&& getBody() && noexcept;
-		const T& getBody() const & noexcept;
+		bool setBody(body_t&& _body) noexcept;
+		bool setBody(const body_t& _body) noexcept;
+
+		T&& getBody() &&;
+		const T& getBody() const &;
 
 		void prepare() noexcept;
 
@@ -61,20 +70,18 @@ namespace engine::net::http
 
 	protected:
 
-		using headers_t = std::unordered_map<std::string, std::string>;
-
 		http_version m_version;
 		headers_t m_headers;
-		T m_body;
+		std::optional<body_wrapp_t> m_body;
 
 	};
 
 
 
 
-	constexpr std::string toString(http_header _header) noexcept;
+	std::string toString(http_header _header) noexcept;
 
-	constexpr bool isValidHttpVersion(http_version _version) noexcept;
+	bool isValidHttpVersion(http_version _version) noexcept;
 
 
 
@@ -83,7 +90,7 @@ namespace engine::net::http
 	{
 		if (!isValidHttpVersion(_version))
 		{
-			LOG_ERROR("[Basic http message ERROR] Invalid http version: major '{0', minor '{1}'", _version.major, _version.minor);
+			LOG_ERROR("[Basic http message ERROR] Invalid http version: major '{0}', minor '{1}'", _version.major, _version.minor);
 			return;
 		}
 		m_version = _version;
@@ -116,34 +123,57 @@ namespace engine::net::http
 
 
 	template <http_body T>
-	auto basic_http_message<T>::setBody(T&& _body) noexcept -> bool
+	auto basic_http_message<T>::emplaceHeaders(const headers_t& headers) noexcept -> void
 	{
-		m_body = std::forward<T>(_body);
+		for (const auto& [key, value] : headers)
+			m_headers.emplace(key, value);
 	}
 
 
 
 	template <http_body T>
-	auto basic_http_message<T>::setBody(const T& _body) noexcept -> bool
+	auto basic_http_message<T>::hasBody() const noexcept -> bool
+	{
+		return m_body.has_value();
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::setBody(body_t&& _body) noexcept -> bool
+	{
+		m_body = std::forward<body_t>(_body);
+		return m_body.value().success();
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::setBody(const body_t& _body) noexcept -> bool
 	{
 		m_body = _body;
+		return m_body.value().success();
 	}
 
 
 
 
 	template <http_body T>
-	auto basic_http_message<T>::getBody() && noexcept -> T&&
+	auto basic_http_message<T>::getBody() && -> T&&
 	{
-		return std::move(m_body);
+		if (!m_body.has_value())
+			throw std::runtime_error("Body is empty");
+		return std::move(m_body.value());
 	}
 
 
 
 	template <http_body T>
-	auto basic_http_message<T>::getBody() const & noexcept -> const T&
+	auto basic_http_message<T>::getBody() const & -> const T&
 	{
-		return m_body;
+		if (!m_body.has_value())
+			throw std::runtime_error("Body is empty");
+		return m_body.value();
 	}
 
 
@@ -159,7 +189,8 @@ namespace engine::net::http
 	template <http_body T>
 	auto basic_http_message<T>::build() const -> std::string
 	{
-		std::stringstream builded_message(buildStartLine());
+		std::stringstream builded_message;
+		builded_message << buildStartLine() << "\r\n";
 
 		for (const auto& [key, value] : m_headers)
 		{
@@ -167,6 +198,8 @@ namespace engine::net::http
 		}
 		builded_message << "\r\n";
 
-		builded_message << static_cast<std::string>(m_body) << "\r\n";
+		builded_message << static_cast<std::string>(m_body.value()) << "\r\n";
+
+		return builded_message.str();
 	}
 }

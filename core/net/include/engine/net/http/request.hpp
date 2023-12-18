@@ -49,7 +49,7 @@ namespace engine::net::http
 
 
 
-	constexpr std::string toString(request_method _method) noexcept;
+	std::string toString(request_method _method) noexcept;
 
 
 
@@ -99,7 +99,7 @@ namespace engine::net::http
 		std::stringstream start_line;
 
 		start_line << toString(m_method) << " " << m_url
-				   << "HTTP/" << this->m_version.major << "." << this->m_version.minor << "\r\n";
+				   << " HTTP/" << static_cast<int>(this->m_version.major) << "." << static_cast<int>(this->m_version.minor);
 
 		return start_line.str();
 	}

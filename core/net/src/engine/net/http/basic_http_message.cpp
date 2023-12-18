@@ -6,7 +6,7 @@
 
 namespace engine::net::http
 {
-	constexpr std::string toString(http_header _header) noexcept
+	std::string toString(http_header _header) noexcept
 	{
 		switch (_header)
 		{
@@ -25,7 +25,7 @@ namespace engine::net::http
 
 
 
-	constexpr bool isValidHttpVersion(http_version _version) noexcept
+	bool isValidHttpVersion(http_version _version) noexcept
 	{
 		if (_version.major > 3)
 			return false;

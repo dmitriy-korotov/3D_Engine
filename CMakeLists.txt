@@ -20,7 +20,7 @@ set_target_properties(
 		UpdateAssimpLibsDebugSymbolsAndDLLs
 		gmock
 		gmock_main
-		gmock
+		gtest
 		gtest_main
 
 		PROPERTIES FOLDER external
