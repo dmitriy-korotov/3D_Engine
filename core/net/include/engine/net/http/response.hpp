@@ -42,7 +42,7 @@ namespace engine::net::http
 
 
 
-	constexpr std::string toString(response_status _status) noexcept;
+	std::string toString(response_status _status) noexcept;
 
 
 

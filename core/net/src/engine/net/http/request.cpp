@@ -6,7 +6,7 @@
 
 namespace engine::net::http
 {
-	std::string toString(request_method _method) noexcept
+	auto toString(request_method _method) noexcept -> std::string
 	{
 		switch (_method)
 		{
