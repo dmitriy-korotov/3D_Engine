@@ -27,6 +27,7 @@ set(ENGINE_NET_LIB_HEADERS
 		include/engine/net/http/fwd/session.hpp
 		include/engine/net/http/fwd/http_client.hpp
 
+		include/engine/net/http/fwd.hpp
 		include/engine/net/http/basic_http_message.hpp
 		include/engine/net/http/request.hpp
 		include/engine/net/http/response.hpp
@@ -39,6 +40,10 @@ set(ENGINE_NET_LIB_HEADERS
 		include/engine/net/http/http_server.hpp
 		include/engine/net/http/session.hpp
 		include/engine/net/http/http_client.hpp
+
+
+
+		include/engine/net/fwd.hpp
 	
 )
 
