@@ -142,7 +142,7 @@ namespace engine::net::http
 	template <http_body T>
 	auto basic_http_message<T>::setBody(body_t&& _body) noexcept -> bool
 	{
-		m_body = std::forward<body_t>(_body);
+		m_body.emplace(std::move(_body));
 		return m_body.value().success();
 	}
 

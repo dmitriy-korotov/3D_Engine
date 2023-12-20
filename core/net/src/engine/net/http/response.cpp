@@ -13,7 +13,7 @@ namespace engine::net::http
 		case response_status::ok:				return "OK";
 		case response_status::not_found:		return "Not found";
 		case response_status::forbidden:		return "Forbidden";
-		case response_status::badgetway:		return "Bad getway";
+		case response_status::bad_getway:		return "Bad getway";
 		default:
 			assert(false);
 		}

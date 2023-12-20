@@ -13,7 +13,7 @@ namespace engine::net::http
 		ok = 200,
 		not_found = 404,
 		forbidden = 403,
-		badgetway = 501,
+		bad_getway = 501,
 	};
 
 
@@ -67,7 +67,7 @@ namespace engine::net::http
 	{
 		std::stringstream start_line;
 
-		start_line << "HTTP/" << this->m_version.major << "." << this->m_version.minor << " "
+		start_line << "HTTP/" << static_cast<int>(this->m_version.major) << "." << static_cast<int>(this->m_version.minor) << " "
 			       << static_cast<uint16_t>(m_status) << " " << toString(m_status) << "\r\n";
 
 		return start_line.str();
