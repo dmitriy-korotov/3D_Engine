@@ -20,6 +20,7 @@ public:
 
 	void TearDown() noexcept
 	{ }
+
 };
 
 
@@ -30,12 +31,12 @@ TEST_F(http_response, build_method_test)
 	response.setStatus(response_status::not_found);
 	response.emplaceHeader("x-Label", "value");
 	response.emplaceHeader(http_header::encoding, "utf-8");
-	response.setBody(json_t::parse("{\"key\": value}"));
+	response.setBody(json_t::parse("{\"key\":\"value\"}"));
 
 	std::string expected = "HTTP/2.0 404 Not found\r\n"
 						   "x-Label: value\r\n"
 						   "Encoding: utf-8\r\n\r\n"
-						   "{\"key\": value}\r\n";
+						   "{\"key\":\"value\"}\r\n";
 
 	ASSERT_EQ(response.build(), expected);
 }
@@ -48,7 +49,7 @@ TEST_F(http_response, get_and_set_methods_test)
 	response.setStatus(response_status::not_found);
 	response.emplaceHeader("x-Label", "value");
 	response.emplaceHeader(http_header::encoding, "utf-8");
-	response.setBody(json_t::parse("{\"key\": value}"));
+	response.setBody(json_t::parse("{\"key\":\"value\"}"));
 
 	EXPECT_EQ(response.getStatus(), response_status::not_found);
 	EXPECT_EQ(response.getHttpVersion().major, 2);

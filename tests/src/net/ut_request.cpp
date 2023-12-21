@@ -18,6 +18,7 @@ public:
 
 	void TearDown() noexcept
 	{ }
+
 };
 
 
@@ -58,9 +59,9 @@ TEST_F(http_request, get_and_set_methods_test)
 
 TEST_F(http_request, request_method_to_string_test)
 {
-	EXPECT_EQ(request_method::Get, "GET");
-	EXPECT_EQ(request_method::Delete, "DELETE");
-	EXPECT_EQ(request_method::Post, "POST");
-	EXPECT_EQ(request_method::Put, "PUT");
-	EXPECT_EQ(request_method::Trace, "TRACE");
+	EXPECT_EQ(toString(request_method::Get), "GET");
+	EXPECT_EQ(toString(request_method::Delete), "DELETE");
+	EXPECT_EQ(toString(request_method::Post), "POST");
+	EXPECT_EQ(toString(request_method::Put), "PUT");
+	EXPECT_EQ(toString(request_method::Trace), "TRACE");
 }

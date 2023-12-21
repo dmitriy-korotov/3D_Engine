@@ -68,7 +68,7 @@ namespace engine::net::http
 		std::stringstream start_line;
 
 		start_line << "HTTP/" << static_cast<int>(this->m_version.major) << "." << static_cast<int>(this->m_version.minor) << " "
-			       << static_cast<uint16_t>(m_status) << " " << toString(m_status) << "\r\n";
+			       << static_cast<uint16_t>(m_status) << " " << toString(m_status);
 
 		return start_line.str();
 	}

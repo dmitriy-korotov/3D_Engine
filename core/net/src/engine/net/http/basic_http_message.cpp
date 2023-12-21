@@ -16,7 +16,10 @@ namespace engine::net::http
 		case http_header::connection:				return "Connection";
 		case http_header::cookie:					return "Cookie";
 		case http_header::encoding:					return "Accept-Encoding";
-		case http_header::date:						return "Cookie";
+		case http_header::date:						return "Date";
+		case http_header::server:					return "Server";
+		case http_header::keep_alive:				return "Keep-Alive";
+		case http_header::accept:					return "Accept";
 		default:
 			assert(false);
 		}

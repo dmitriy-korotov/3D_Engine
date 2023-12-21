@@ -21,7 +21,10 @@ namespace engine::net::http
 		connection,
 		cookie,
 		encoding,
-		date
+		date,
+		server,
+		accept,
+		keep_alive
 	};
 
 
@@ -52,18 +55,20 @@ namespace engine::net::http
 		bool emplaceHeader(http_header _key, std::string _value) noexcept;
 		void emplaceHeaders(const headers_t& headers) noexcept;
 
-		std::optional<const std::string&> get(std::string_view _header) const noexcept;
+		bool containsHeader(std::string_view _header) const noexcept;
+		bool containsHeader(http_header _header) const noexcept;
+		std::optional<std::string> get(std::string_view _header) const noexcept;
 		const std::string& at(std::string_view _header) const;
+		std::optional<std::string> get(http_header _header) const noexcept;
+		const std::string& at(http_header _header) const;
 
 		bool hasBody() const noexcept;
 
 		bool setBody(body_t&& _body) noexcept;
 		bool setBody(const body_t& _body) noexcept;
-		bool setBody(std::string&& _body) noexcept;
-		bool setBody(const std::string& _body) noexcept;
 
-		T&& getBody() &&;
-		const T& getBody() const &;
+		body_t&& getBody() &&;
+		const body_t& getBody() const &;
 
 		void prepare() noexcept;
 
@@ -140,13 +145,45 @@ namespace engine::net::http
 
 
 
+	template <http_body T>
+	auto basic_http_message<T>::containsHeader(std::string_view _header) const noexcept -> bool
+	{
+		return m_headers.contains(_header);
+	}
+
+
 
 	template <http_body T>
-	auto basic_http_message<T>::get(std::string_view _header) const noexcept -> std::optional<const std::string&>
+	auto basic_http_message<T>::containsHeader(http_header _header) const noexcept -> bool
 	{
-		if (m_headers.contains(_header))
-			return m_headers.at(_header);
+		return m_headers.contains(toString(_header));
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::get(std::string_view _header) const noexcept -> std::optional<std::string>
+	{
+		auto header = m_headers.find(_header.data());
+		if (header != m_headers.end())
+			return header->second;
 		return std::nullopt;
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::at(http_header _header) const -> const std::string&
+	{
+		return m_headers.at(toString(_header));
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::get(http_header _header) const noexcept -> std::optional<std::string>
+	{
+		get(toString(_header));
 	}
 
 
@@ -154,7 +191,7 @@ namespace engine::net::http
 	template <http_body T>
 	auto basic_http_message<T>::at(std::string_view _header) const -> const std::string&
 	{
-		return m_headers.at(_header);
+		return m_headers.at(_header.data());
 	}
 
 
@@ -186,40 +223,21 @@ namespace engine::net::http
 
 
 	template <http_body T>
-	auto basic_http_message<T>::setBody(std::string&& _body) noexcept -> bool
-	{
-		m_body.emplace(std::in_place, std::move(_body));
-		return m_body.value().success();
-	}
-
-
-
-	template <http_body T>
-	auto basic_http_message<T>::setBody(const std::string& _body) noexcept -> bool
-	{
-		m_body.emplace(std::in_place, _body);
-		return m_body.value().success();
-	}
-
-
-
-
-	template <http_body T>
-	auto basic_http_message<T>::getBody() && -> T&&
+	auto basic_http_message<T>::getBody() && -> body_t&&
 	{
 		if (!m_body.has_value())
 			throw std::runtime_error("Body is empty");
-		return std::move(m_body.value());
+		return std::move(m_body.value()).get();
 	}
 
 
 
 	template <http_body T>
-	auto basic_http_message<T>::getBody() const & -> const T&
+	auto basic_http_message<T>::getBody() const & -> const body_t&
 	{
 		if (!m_body.has_value())
 			throw std::runtime_error("Body is empty");
-		return m_body.value();
+		return m_body.value().get();
 	}
 
 
