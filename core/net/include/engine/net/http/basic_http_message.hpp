@@ -52,10 +52,15 @@ namespace engine::net::http
 		bool emplaceHeader(http_header _key, std::string _value) noexcept;
 		void emplaceHeaders(const headers_t& headers) noexcept;
 
+		std::optional<const std::string&> get(std::string_view _header) const noexcept;
+		const std::string& at(std::string_view _header) const;
+
 		bool hasBody() const noexcept;
 
 		bool setBody(body_t&& _body) noexcept;
 		bool setBody(const body_t& _body) noexcept;
+		bool setBody(std::string&& _body) noexcept;
+		bool setBody(const std::string& _body) noexcept;
 
 		T&& getBody() &&;
 		const T& getBody() const &;
@@ -63,6 +68,8 @@ namespace engine::net::http
 		void prepare() noexcept;
 
 		std::string build() const;
+
+		void reset() noexcept;
 
 	protected:
 
@@ -73,6 +80,8 @@ namespace engine::net::http
 		http_version m_version;
 		headers_t m_headers;
 		std::optional<body_wrapp_t> m_body;
+
+		bool m_is_need_prepare = false;
 
 	};
 
@@ -131,6 +140,25 @@ namespace engine::net::http
 
 
 
+
+	template <http_body T>
+	auto basic_http_message<T>::get(std::string_view _header) const noexcept -> std::optional<const std::string&>
+	{
+		if (m_headers.contains(_header))
+			return m_headers.at(_header);
+		return std::nullopt;
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::at(std::string_view _header) const -> const std::string&
+	{
+		return m_headers.at(_header);
+	}
+
+
+
 	template <http_body T>
 	auto basic_http_message<T>::hasBody() const noexcept -> bool
 	{
@@ -151,7 +179,25 @@ namespace engine::net::http
 	template <http_body T>
 	auto basic_http_message<T>::setBody(const body_t& _body) noexcept -> bool
 	{
-		m_body = _body;
+		m_body.emplace(_body);
+		return m_body.value().success();
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::setBody(std::string&& _body) noexcept -> bool
+	{
+		m_body.emplace(std::in_place, std::move(_body));
+		return m_body.value().success();
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::setBody(const std::string& _body) noexcept -> bool
+	{
+		m_body.emplace(std::in_place, _body);
 		return m_body.value().success();
 	}
 
@@ -181,7 +227,7 @@ namespace engine::net::http
 	template <http_body T>
 	auto basic_http_message<T>::prepare() noexcept -> void
 	{
-		emplaceHeader(http_header::content_lenth, 0);
+		m_is_need_prepare = true;
 	}
 
 
@@ -192,14 +238,28 @@ namespace engine::net::http
 		std::stringstream builded_message;
 		builded_message << buildStartLine() << "\r\n";
 
+		auto body = static_cast<std::string>(m_body.value());
+
+		if (auto content_length_key = toString(http_header::content_lenth); m_is_need_prepare && !m_headers.contains(content_length_key))
+			builded_message << content_length_key << ": " << std::to_string(body.size()) << "\r\n";
+
 		for (const auto& [key, value] : m_headers)
-		{
 			builded_message << key << ": " << value << "\r\n";
-		}
 		builded_message << "\r\n";
 
-		builded_message << static_cast<std::string>(m_body.value()) << "\r\n";
+		builded_message << body << "\r\n";
 
 		return builded_message.str();
+	}
+
+
+
+	template <http_body T>
+	auto basic_http_message<T>::reset() noexcept -> void
+	{
+		m_body.reset();
+		m_headers.clear();
+		m_is_need_prepare = false;
+		m_version = http_version();
 	}
 }
