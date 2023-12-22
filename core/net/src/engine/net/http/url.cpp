@@ -24,7 +24,7 @@ namespace engine::net::http
 
 
 
-	auto from_string(const std::string& _url_string) -> url
+	auto url::from_string(const std::string& _url_string) -> url
 	{
 		std::string absolute_path;
 		url::query_t query;
@@ -53,9 +53,14 @@ namespace engine::net::http
 			position++;
 
 			while (position < _url_string.size() && _url_string[position] != '&')
-				key.push_back(_url_string[position++]);
+				value.push_back(_url_string[position++]);
+
+			position++;
 
 			query.emplace(std::move(key), std::move(value));
+
+			if (position >= _url_string.size())
+				break;
 		}
 
 		return url(std::move(absolute_path), std::move(query));
