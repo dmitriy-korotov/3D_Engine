@@ -11,3 +11,4 @@
 #include <engine/net/http/fwd/response_parser.hpp>
 #include <engine/net/http/fwd/session.hpp>
 #include <engine/net/http/fwd/string_body.hpp>
+#include <engine/net/http/fwd/url.hpp>
