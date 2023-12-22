@@ -4,10 +4,7 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <asio/io_context.hpp>
-#include <asio/signal_set.hpp>
-#include <asio/ip/tcp.hpp>
-#include <asio/awaitable.hpp>
+#include <memory>
 
 
 
@@ -22,22 +19,19 @@ namespace engine::net::http
 		http_server() noexcept;
 		http_server(http_server&&) = default;
 		http_server& operator=(http_server&&) = default;
+		~http_server();
 
 		void listen(std::string_view _address, uint16_t _port = 80);
 
 	private:
+		
+		class pimpl;
+		using upimpl_t = std::unique_ptr<pimpl>;
 
-		asio::awaitable<void> __listen();
+		upimpl_t& impl() noexcept;
+		const upimpl_t& impl() const noexcept;
 
-		void setupSignals() noexcept;
-		void bindAcceptor(std::string_view _address, uint16_t _port);
-
-	private:
-
-		asio::io_context m_execution_cxt;
-		asio::signal_set m_signals;
-
-		tcp_acceptor_t m_acceptor;
+		upimpl_t m_pimpl = nullptr;
 		
 	};
 }
