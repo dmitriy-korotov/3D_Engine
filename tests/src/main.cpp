@@ -2,9 +2,9 @@
 
 
 
-int main(int argc, char** argv)
+int main(int _argc, char** _argv)
 {
-	testing::InitGoogleTest(&argc, argv);
+	testing::InitGoogleTest(&_argc, _argv);
 	
 	return RUN_ALL_TESTS();
 }

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <engine/net/http/url.hpp>
+#include <engine/net/http/url_decoder.hpp>
 
 
 
@@ -55,4 +56,17 @@ TEST(url_class, parse_method_test)
 
 	EXPECT_EQ(query.at("name"), "Maria");
 	EXPECT_EQ(query.at("surname"), "Surname");
+}
+
+
+
+TEST(url_class, decoding_test)
+{
+	auto test1 = "/path/to/file?my%20name=Dima&her%20surname=Korotov";
+	auto test2 = "/?20%2010=Dima&her%20&20surname=Ivanov%32%21";
+	auto test3 = "/yandex.ru?20%2010=Dima&her%20%20surname=Ivanov%20Ivan%20age";
+
+	EXPECT_EQ(url_decoder::decode(test1), "/path/to/file?my name=Dima&her surname=Korotov");
+	EXPECT_EQ(url_decoder::decode(test2), "/?20 10=Dima&her &20surname=Ivanov%32%21");
+	EXPECT_EQ(url_decoder::decode(test3), "/yandex.ru?20 10=Dima&her  surname=Ivanov Ivan age");
 }
