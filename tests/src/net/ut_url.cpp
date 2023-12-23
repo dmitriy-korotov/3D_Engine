@@ -44,9 +44,9 @@ TEST(url_class, get_and_set_methods_test)
 
 TEST(url_class, parse_method_test)
 {
-	auto abs_endpoint = url::from_string("ftp:://google.com/registration");
-	auto endpoint = url::from_string("/home/users/id");
-	auto endpoint_with_query = url::from_string("/master/index.html?name=Maria&surname=Surname");
+	auto abs_endpoint = url::fromString("ftp:://google.com/registration");
+	auto endpoint = url::fromString("/home/users/id");
+	auto endpoint_with_query = url::fromString("/master/index.html?name=Maria&surname=Surname");
 
 	EXPECT_EQ(abs_endpoint.getAbsolutePath(), "ftp:://google.com/registration");
 	EXPECT_EQ(endpoint.getAbsolutePath(), "/home/users/id");

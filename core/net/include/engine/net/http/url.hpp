@@ -16,7 +16,7 @@ namespace engine::net::http
 		using url_path_t = std::filesystem::path;
 		using query_t = std::unordered_map<std::string, std::string>;
 
-		static url from_string(const std::string& _url_string);
+		static url fromString(const std::string& _url_string);
 
 		url(url_path_t _url) noexcept;
 		url(url_path_t _url, query_t _query_string) noexcept;

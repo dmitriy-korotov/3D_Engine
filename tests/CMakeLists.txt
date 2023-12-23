@@ -16,6 +16,7 @@ set(ENGINE_TEST_FILES
 	src/net/ut_basic_http_message.cpp
 	src/net/ut_request.cpp
 	src/net/ut_response.cpp
+	src/net/ut_http_parsing.cpp
 
 )
 

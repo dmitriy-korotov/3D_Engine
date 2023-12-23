@@ -51,6 +51,8 @@ namespace engine::net::http
 
 	std::string toString(request_method _method) noexcept;
 
+	request_method fromString(const std::string& _method_str);
+
 
 
 	template <http_body T>

@@ -2,9 +2,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
-#include <engine/net/http/fwd/basic_http_message.hpp>
+#include <engine/net/http/basic_http_message.hpp>
 
-#include <optional>
 #include <tuple>
 
 
@@ -25,22 +24,23 @@ namespace engine::net::http
 
 		basic_http_message_parser() = default;
 		
-		bool parse(const std::string& _http_message) noexcept;
+		void parse(const std::string& _http_message);
 
 		message_t&& get() && noexcept;
 		const message_t& get() const & noexcept;
 
 	protected:
 
-		virtual bool parseFirstLine(std::string_view _line) const = 0;
+		virtual void parseFirstLine(std::string_view _line) = 0;
+		void parseVersion(std::string_view _version_string);
 
 	private:
 
 		using header_t = std::pair<std::string, std::string>;
 
-		std::optional<size_t> parseHeaders(const std::string& _http_message, size_t _pos) noexcept;
+		size_t parseHeaders(const std::string& _http_message, size_t _pos);
 		std::tuple<header_t, int> parseHeader(const std::string& _http_message, size_t _pos) const noexcept;
-		std::optional<size_t> parseBody(const std::string& _http_message, size_t _pos) noexcept;
+		size_t parseBody(const std::string& _http_message, size_t _pos);
 
 	protected:
 
@@ -53,37 +53,53 @@ namespace engine::net::http
 
 
 	template <http_body T, http_message<T> U>
-	auto basic_http_message_parser<T, U>::parse(const std::string& _http_message) noexcept -> bool
+	auto basic_http_message_parser<T, U>::parse(const std::string& _http_message) -> void
 	{
 		auto first_line_end = _http_message.find_first_of("\r\n");
 		if (first_line_end == std::string::npos)
-			return false;
+			throw std::runtime_error("Invalid http request format: can't find '\\r\\n'");
 
-		if (!parseFirstLine(std::string_view(_http_message.begin(), _http_message.begin() + first_line_end)))
-			return false;
+		parseFirstLine(std::string_view(_http_message.begin(), _http_message.begin() + first_line_end));
 
 		auto headers_end_pos = parseHeaders(_http_message, first_line_end + 2);
-		if (!headers_end_pos.has_value())
-			return false;
-
-		auto parse_end_pos = parseBody(_http_message, headers_end_pos.value());
-		if (!parse_end_pos.has_value())
-			return false;
-
-		return true;
+		
+		auto parse_end_pos = parseBody(_http_message, headers_end_pos);
 	}
 
 
 
 	template <http_body T, http_message<T> U>
-	auto basic_http_message_parser<T, U>::parseHeaders(const std::string& _http_message, size_t _pos) noexcept -> std::optional<size_t>
+	auto basic_http_message_parser<T, U>::parseVersion(std::string_view _version_string) -> void
+	{
+		auto start = _version_string.find('/');
+		if (start == std::string::npos)
+			throw std::runtime_error("Invalid http version format: expected '/'");
+
+		auto point_pos = _version_string.find('.', start);
+		if (point_pos == std::string::npos)
+			throw std::runtime_error("Invalid http version format: expected '.'");
+
+		auto major = std::atoi(std::string_view(_version_string.begin() + start + 1,
+												_version_string.begin() + point_pos).data());
+		auto minor = std::atoi(std::string_view(_version_string.begin() + point_pos + 1,
+												_version_string.end()).data());
+
+		m_message.setHttpVersion(http_version{ .major = static_cast<uint8_t>(major),
+											   .minor = static_cast<uint8_t>(minor) });
+	}
+
+
+
+	template <http_body T, http_message<T> U>
+	auto basic_http_message_parser<T, U>::parseHeaders(const std::string& _http_message, size_t _pos) -> size_t
 	{
 		for (;;)
 		{
-			auto [key, value, line_size] = parseHeader(_http_message, _pos);
+			auto [header, line_size] = parseHeader(_http_message, _pos);
+			auto& [key, value] = header;
 
 			if (line_size == -1) // error line parsing
-				return std::nullopt;
+				throw std::runtime_error("Error request headers parsing");
 
 			if (line_size == 0)
 				break;
@@ -115,28 +131,29 @@ namespace engine::net::http
 		for (;; _pos++, count++)
 		{
 			if (_pos == _http_message.size())
-				return false;
+				return { {}, -1 };
 
 			if (_http_message[_pos] == ':')
+			{
+				count++;
 				break;
+			}
 
 			header.first.push_back(_http_message[_pos]);
 		}
 
-		while (_pos + 1 < _http_message.length() && std::isspace(++_pos))
-		{
+		while (_pos + 1 < _http_message.length() && std::isspace(_http_message[++_pos]))
 			count++;
-		}
 
 		for (;; _pos++, count++)
 		{
 			if (_pos + 1 >= _http_message.size())
-				return false;
+				return { {}, -1 };
 
 			if (_http_message[_pos] == '\r' && _http_message[_pos + 1] == '\n')
 				break;
 
-			header.first.push_back(_http_message[_pos]);
+			header.second.push_back(_http_message[_pos]);
 		}
 
 		return { header, count + 2 };
@@ -145,16 +162,12 @@ namespace engine::net::http
 
 
 	template <http_body T, http_message<T> U>
-	auto basic_http_message_parser<T, U>::parseBody(const std::string& _http_message, size_t _pos) noexcept -> std::optional<size_t>
+	auto basic_http_message_parser<T, U>::parseBody(const std::string& _http_message, size_t _pos) -> size_t
 	{
-		std::string string_body = _http_message.substr(_pos, _http_message.size() - _pos);
-		T::body_t body;
-		if (!body.parse(std::move(string_body)))
-			return std::nullopt;
-
-		m_message.setBody(std::move(body));
-
-		return string_body.size();
+		std::string string_body = _http_message.substr(_pos, _http_message.size() - _pos - 2);
+		auto size = string_body.size();
+		m_message.setBody(std::move(string_body));
+		return size;
 	}
 
 

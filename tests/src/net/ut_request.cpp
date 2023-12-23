@@ -65,3 +65,14 @@ TEST_F(http_request, request_method_to_string_test)
 	EXPECT_EQ(toString(request_method::Put), "PUT");
 	EXPECT_EQ(toString(request_method::Trace), "TRACE");
 }
+
+
+
+TEST_F(http_request, from_string_to_request_method)
+{
+	EXPECT_EQ(fromString("GET"), request_method::Get);
+	EXPECT_EQ(fromString("DELETE"), request_method::Delete);
+	EXPECT_EQ(fromString("POST"), request_method::Post);
+	EXPECT_EQ(fromString("PUT"), request_method::Put);
+	EXPECT_EQ(fromString("TRACE"), request_method::Trace);
+}

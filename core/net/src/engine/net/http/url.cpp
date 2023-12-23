@@ -24,7 +24,7 @@ namespace engine::net::http
 
 
 
-	auto url::from_string(const std::string& _url_string) -> url
+	auto url::fromString(const std::string& _url_string) -> url
 	{
 		std::string absolute_path;
 		url::query_t query;
