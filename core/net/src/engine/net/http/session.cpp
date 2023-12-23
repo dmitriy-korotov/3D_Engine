@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <engine/net/http/response.hpp>
+
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
 #include <asio/buffer.hpp>
@@ -10,8 +12,9 @@
 
 namespace engine::net::http
 {
-	session::session(tcp_socket_t&& _socket) noexcept
+	session::session(tcp_socket_t&& _socket, hcontext_sptr_t _handlers_context) noexcept
 			: m_socket(std::move(_socket))
+			, m_handlers_context(std::move(_handlers_context))
 	{ }
 
 
@@ -38,6 +41,12 @@ namespace engine::net::http
 
 		LOG_INFO("[Http session INFO] {0}: {1}", address.str(), answer);
 
-		auto bytes_sended = co_await m_socket.async_write_some(asio::buffer(answer), asio::use_awaitable);
+
+		response<string_body> response;
+		response.emplaceHeader(http_header::host, "Engine");
+		response.setBody("<html><h1 style=\"color: green;\">Hello, world!</h1></html>");
+
+
+		auto bytes_sended = co_await m_socket.async_write_some(asio::buffer(response.build()), asio::use_awaitable);
 	}
 }

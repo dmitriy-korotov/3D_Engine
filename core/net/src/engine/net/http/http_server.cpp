@@ -26,6 +26,10 @@ namespace engine::net::http
 
 		void listen(std::string_view _address, uint16_t _port);
 
+		void setupWorkDirectory(path _work_directory) noexcept;
+
+		bool registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept;
+
 	private:
 
 		void setupSignals() noexcept;
@@ -40,6 +44,8 @@ namespace engine::net::http
 
 		tcp_acceptor_t m_acceptor;
 
+		hcontext_sptr_t m_handlers_context;
+
 	};
 
 
@@ -50,6 +56,20 @@ namespace engine::net::http
 			: m_acceptor(m_execution_cxt)
 			, m_signals(m_execution_cxt, SIGTERM, SIGINT)
 	{ }
+
+
+
+	auto http_server::pimpl::setupWorkDirectory(path _work_directory) noexcept -> void
+	{
+		m_handlers_context->work_directory = std::move(_work_directory);
+	}
+
+
+
+	auto http_server::pimpl::registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept -> bool
+	{
+		return m_handlers_context->handlers.emplace(_url, std::move(_handler)).second;
+	}
 
 
 
@@ -108,7 +128,7 @@ namespace engine::net::http
 			buffer << socket.remote_endpoint();
 			LOG_INFO("[Http server INFO] Accepted: {0}", buffer.str());
 
-			std::make_shared<session>(std::move(socket))->start();
+			std::make_shared<session>(std::move(socket), m_handlers_context)->start();
 		}
 	}
 
@@ -122,6 +142,20 @@ namespace engine::net::http
 	http_server::http_server() noexcept
 			: m_pimpl(std::make_unique<pimpl>())
 	{ }
+
+
+
+	auto http_server::setupWorkDirectory(path _work_directory) noexcept -> void
+	{
+		impl()->setupWorkDirectory(std::move(_work_directory));
+	}
+
+
+
+	auto http_server::registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept -> bool
+	{
+		return impl()->registrateURLHandler(_url, std::move(_handler));
+	}
 
 
 

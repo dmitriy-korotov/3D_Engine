@@ -4,6 +4,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/net/http/handlers_context.hpp>
+
 #include <memory>
 
 
@@ -22,6 +24,10 @@ namespace engine::net::http
 		~http_server();
 
 		void listen(std::string_view _address, uint16_t _port = 80);
+
+		void setupWorkDirectory(path _work_directory) noexcept;
+
+		bool registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept;
 
 	private:
 		

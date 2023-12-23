@@ -4,6 +4,8 @@
 
 #include <engine/util/nocopyeble.hpp>
 
+#include <engine/net/http/handlers_context.hpp>
+
 #include <asio/awaitable.hpp>
 
 #include <memory>
@@ -18,7 +20,7 @@ namespace engine::net::http
 
 		using session_ptr_t = std::shared_ptr<session>;
 
-		session(tcp_socket_t&& _socket) noexcept;
+		session(tcp_socket_t&& _socket, hcontext_sptr_t _handlers_context) noexcept;
 
 		void start() noexcept;
 
@@ -30,6 +32,7 @@ namespace engine::net::http
 
 		enum { BUFFER_SIZE = 1024 };
 		tcp_socket_t m_socket;
+		hcontext_sptr_t m_handlers_context = nullptr;
 
 	};
 }
