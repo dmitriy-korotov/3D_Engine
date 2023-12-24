@@ -18,6 +18,8 @@ namespace engine::net::http
 
 		json_body() = default;
 		json_body(std::string&& _data) noexcept;
+		json_body(json_t&& _data) noexcept;
+		json_body(const json_t& _data) noexcept;
 		json_body(const json_body&) = default;
 		json_body(json_body&&) = default;
 		json_body& operator=(const json_body&) = default;

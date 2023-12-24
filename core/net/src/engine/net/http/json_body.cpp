@@ -10,6 +10,18 @@ namespace engine::net::http
 
 
 
+	json_body::json_body(json_t&& _data) noexcept
+		: m_data(std::move(_data))
+	{ }
+
+
+
+	json_body::json_body(const json_t& _data) noexcept
+		: m_data(_data)
+	{ }
+
+
+
 	auto json_body::success() const noexcept -> bool
 	{
 		return true;

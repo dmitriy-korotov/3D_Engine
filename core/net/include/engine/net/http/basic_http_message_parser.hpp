@@ -164,9 +164,14 @@ namespace engine::net::http
 	template <http_body T, http_message<T> U>
 	auto basic_http_message_parser<T, U>::parseBody(const std::string& _http_message, size_t _pos) -> size_t
 	{
+		auto all_message_size = _http_message.size();
+		if (_http_message[all_message_size - 2] != '\r' || _http_message[all_message_size - 1] != '\n')
+			throw std::runtime_error("Expected '\\r\\n' after body");
+
 		std::string string_body = _http_message.substr(_pos, _http_message.size() - _pos - 2);
 		auto size = string_body.size();
-		m_message.setBody(std::move(string_body));
+		auto body = T(std::move(string_body));
+		m_message.setBody(std::move(body).get());
 		return size;
 	}
 

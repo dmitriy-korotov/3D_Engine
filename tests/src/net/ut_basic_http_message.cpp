@@ -48,7 +48,7 @@ TEST_F(http_message_common, get_and_set_methods_test)
 	request.emplaceHeader("x-Content", "25");
 	request.emplaceHeader(http_header::keep_alive, "timeout=5");
 	request.emplaceHeaders({ {"x-Cost", "100"}, {"Label", "title"}, {"23", "URL"} });
-	request.setBody("{\"user_id\": 126}");
+	request.setBody(json_t::parse("{\"user_id\": 126}"));
 
 	EXPECT_EQ(request.getHttpVersion().major, 2);
 	EXPECT_EQ(request.getHttpVersion().minor, 5);
@@ -59,7 +59,9 @@ TEST_F(http_message_common, get_and_set_methods_test)
 	EXPECT_EQ(request.get("Label").value(), "title");
 	EXPECT_EQ(request.get("23").value(), "URL");
 
-	EXPECT_EQ(request.getBody().dump(), "{\"user_id\":126}");
+	auto body = request.getBody();
+
+	EXPECT_EQ(static_cast<int>(body.at("user_id")), 126);
 }
 
 

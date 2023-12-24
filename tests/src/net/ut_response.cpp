@@ -35,7 +35,7 @@ TEST_F(http_response, build_method_test)
 
 	std::string expected = "HTTP/2.0 404 Not found\r\n"
 						   "x-Label: value\r\n"
-						   "Encoding: utf-8\r\n\r\n"
+						   "Accept-Encoding: utf-8\r\n\r\n"
 						   "{\"key\":\"value\"}\r\n";
 
 	ASSERT_EQ(response.build(), expected);
