@@ -28,6 +28,8 @@ namespace engine::net::http
 
 		asio::awaitable<void> startSession(session_ptr_t _session) noexcept;
 
+		response<string_body> handleRequest(const request<string_body>& _request) noexcept;
+
 	private:
 
 		enum { BUFFER_SIZE = 1024 };

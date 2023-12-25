@@ -6,9 +6,39 @@
 
 
 
+
+
+using namespace engine::net::http;
+
 int main(int _argc, const char** _argv)
 {
-	engine::net::http::http_server server;
+	http_server server;
+
+	server.setupWorkDirectory("C:\\Users\\User\\Documents\\projects\\FirstWebSite");
+
+	server.registrateURLHandler("/user",
+		[](const request<string_body>& _request) -> response<string_body>
+		{
+			response<string_body> response;
+			response.setBody("<html><h1 style=\"color: red;\">User!</h1></html>");
+			return response;
+		});
+
+	server.registrateURLHandler("/registration",
+		[](const request<string_body>& _request) -> response<string_body>
+		{
+			response<string_body> response;
+			response.setBody("<html><h1 style=\"color: red;\">Registration!</h1></html>");
+			return response;
+		});
+
+	server.registrateURLHandler("/home",
+		[](const request<string_body>& _request) -> response<string_body>
+		{
+			response<string_body> response;
+			response.setBody("<html><h1 style=\"color: red;\">Home!</h1></html>");
+			return response;
+		});
 
 	try 
 	{

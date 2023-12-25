@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <engine/net/util/ip.hpp>
+
 #include <engine/net/http/session.hpp>
 
 #include <asio/io_context.hpp>
@@ -44,7 +46,7 @@ namespace engine::net::http
 
 		tcp_acceptor_t m_acceptor;
 
-		hcontext_sptr_t m_handlers_context;
+		hcontext_sptr_t m_handlers_context = nullptr;
 
 	};
 
@@ -55,6 +57,7 @@ namespace engine::net::http
 	http_server::pimpl::pimpl() noexcept
 			: m_acceptor(m_execution_cxt)
 			, m_signals(m_execution_cxt, SIGTERM, SIGINT)
+			, m_handlers_context(std::make_shared<handlers_context>())
 	{ }
 
 
@@ -78,9 +81,7 @@ namespace engine::net::http
 		setupSignals();
 		bindAcceptor(_address, _port);
 
-		std::stringstream acceptor_address;
-		acceptor_address << m_acceptor.local_endpoint();
-		LOG_INFO("[Http server INFO] Server is started on address '{0}'", acceptor_address.str());
+		LOG_INFO("[Http server INFO] Server is started on address '{0}'", utility::toString(m_acceptor.local_endpoint()));
 		
 		asio::co_spawn(m_execution_cxt, accept(), asio::detached);
 
@@ -92,7 +93,7 @@ namespace engine::net::http
 	auto http_server::pimpl::setupSignals() noexcept -> void
 	{
 		m_signals.async_wait(
-			[this]([[maybe_unused]] asio::error_code _error, [[maybe_unused]] int _signal) -> void
+			[this](asio::error_code _error, int _signal) -> void
 			{
 				if (_error)
 					LOG_ERROR("[Http server ERROR] Error code '{0}', message: {1}", _error.value(), _error.message());
@@ -124,10 +125,9 @@ namespace engine::net::http
 		for (;;)
 		{
 			auto socket = co_await m_acceptor.async_accept(asio::use_awaitable);
-			std::stringstream buffer;
-			buffer << socket.remote_endpoint();
-			LOG_INFO("[Http server INFO] Accepted: {0}", buffer.str());
 
+			LOG_INFO("[Http server INFO] Accepted address '{0}'", utility::toString(socket.remote_endpoint()));
+			
 			std::make_shared<session>(std::move(socket), m_handlers_context)->start();
 		}
 	}

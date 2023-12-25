@@ -21,7 +21,7 @@ namespace engine::util
 
 	auto file_reader::read(const path& _path_to_file) noexcept -> void
 	{
-		std::ifstream fin(_path_to_file);
+		std::ifstream fin(_path_to_file, std::ios::binary);
 		if (fin.is_open())
 		{
 			m_data.clear();
