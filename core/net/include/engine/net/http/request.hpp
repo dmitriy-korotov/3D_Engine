@@ -1,6 +1,7 @@
 #pragma once
 
 #include <engine/net/http/basic_http_message.hpp>
+#include <engine/net/http/url.hpp>
 
 #include <sstream>
 
@@ -29,9 +30,9 @@ namespace engine::net::http
 		void setMethod(request_method _method) noexcept;
 		request_method getMethod() const noexcept;
 
-		void setURL(const std::string& _url) noexcept;
-		void setURL(std::string&& _url) noexcept;
-		const std::string& getURL() const & noexcept;
+		void setURL(const url& _url) noexcept;
+		void setURL(url&& _url) noexcept;
+		const url& getURL() const & noexcept;
 
 	protected:
 
@@ -41,7 +42,7 @@ namespace engine::net::http
 
 		request_method m_method = request_method::Get;
 
-		std::string m_url = "/";
+		url m_url = "/";
 
 	};
 
@@ -72,7 +73,7 @@ namespace engine::net::http
 
 
 	template <http_body T>
-	auto request<T>::setURL(const std::string& _url) noexcept -> void
+	auto request<T>::setURL(const url& _url) noexcept -> void
 	{
 		m_url = _url;
 	}
@@ -80,7 +81,7 @@ namespace engine::net::http
 
 
 	template <http_body T>
-	auto request<T>::setURL(std::string&& _url) noexcept -> void
+	auto request<T>::setURL(url&& _url) noexcept -> void
 	{
 		m_url = std::move(_url);
 	}
@@ -88,7 +89,7 @@ namespace engine::net::http
 
 
 	template <http_body T>
-	auto request<T>::getURL() const& noexcept -> const std::string&
+	auto request<T>::getURL() const& noexcept -> const url&
 	{
 		return m_url;
 	}
@@ -100,7 +101,7 @@ namespace engine::net::http
 	{
 		std::stringstream start_line;
 
-		start_line << toString(m_method) << " " << m_url
+		start_line << toString(m_method) << " " << static_cast<std::string>(m_url)
 				   << " HTTP/" << static_cast<int>(this->m_version.major) << "." << static_cast<int>(this->m_version.minor);
 
 		return start_line.str();

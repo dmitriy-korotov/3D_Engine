@@ -46,7 +46,7 @@ namespace engine::net::http
 		parser.parse(buffer);
 		auto request = std::move(parser).get();
 
-		LOG_INFO("[Http session INFO] {0}: url '{1}'", utility::toString(m_socket.remote_endpoint()), request.getURL());
+		LOG_INFO("[Http session INFO] {0}: url '{1}'", utility::toString(m_socket.remote_endpoint()), request.getURL().getAbsolutePath());
 
 		auto response = handleRequest(request);
 		auto bytes_sended = co_await m_socket.async_write_some(asio::buffer(response.build()), asio::use_awaitable);
@@ -61,7 +61,7 @@ namespace engine::net::http
 	auto session::handleRequest(const request<string_body>& _request) noexcept -> response<string_body>
 	{
 		response<string_body> response;
-		auto url = _request.getURL();
+		auto url = _request.getURL().getAbsolutePath();
 		const auto& handler = m_handlers_context->handlers.find(url);
 		if (handler != m_handlers_context->handlers.end())
 		{

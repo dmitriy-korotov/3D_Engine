@@ -2,6 +2,8 @@
 
 #include <engine/net/http/basic_http_message_parser.hpp>
 #include <engine/net/http/request.hpp>
+#include <engine/net/http/url_decoder.hpp>
+#include <engine/net/http/url.hpp>
 
 #include <sstream>
 
@@ -34,7 +36,7 @@ namespace engine::net::http
 		if (url.empty())
 			throw std::runtime_error("Empty url in request");
 
-		this->m_message.setURL(std::move(url));
+		this->m_message.setURL(url::fromString(url_decoder::decode(url)));
 
 		std::string version;
 		line >> version;
