@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.26)
 
 set(AUTH_SERVICE_CLIENT auth_client)
 
-project(${AUTH_SERVICE_CLIENT})
+project(${AUTH_SERVICE_CLIENT} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 
 
@@ -31,3 +31,7 @@ add_library(${AUTH_SERVICE_CLIENT} STATIC ${AUTH_SERVICE_CLIENT_ALL_FILES})
 target_include_directories(${AUTH_SERVICE_CLIENT} PUBLIC include)
 
 target_link_libraries(${AUTH_SERVICE_CLIENT} PUBLIC ${AUTH_SERVICE_LIB})
+
+
+
+set_target_properties(${AUTH_SERVICE_CLIENT} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_BINARY_DIR})

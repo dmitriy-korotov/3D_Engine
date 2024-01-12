@@ -35,3 +35,7 @@ target_include_directories(${ENGINE_ERROR_LIB} INTERFACE ${CMAKE_CURRENT_SOURCE_
 set_target_properties(${ENGINE_ERROR_LIB} PROPERTIES LINKER_LANGUAGE CXX)
 
 target_compile_features(${ENGINE_ERROR_LIB} INTERFACE cxx_std_20)
+
+
+
+set_target_properties(${ENGINE_ERROR_LIB} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_BINARY_DIR})

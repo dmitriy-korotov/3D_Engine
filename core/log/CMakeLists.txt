@@ -30,3 +30,7 @@ target_link_libraries(${ENGINE_LOG_LIB} INTERFACE spdlog)
 set_target_properties(${ENGINE_LOG_LIB} PROPERTIES LINKER_LANGUAGE CXX)
 
 target_compile_features(${ENGINE_LOG_LIB} INTERFACE cxx_std_20)
+
+
+
+set_target_properties(${ENGINE_LOG_LIB} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_BINARY_DIR})

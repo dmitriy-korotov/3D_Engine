@@ -5,40 +5,6 @@ cmake_minimum_required(VERSION 3.26)
 set(ENGINE_PROJECT_NAME uengine)
 set(ENGINE_ALIAS ${ENGINE_PROJECT_NAME} CACHE INTERNAL "")
 
-set(ENGINE_EXTERNAL_LIBS_DIRECTORY ../external)
-
-
-
-################################################################ ADDING EXTERNAL SUBDIRECTORIES #############################################################################
-
-
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/spdlog ${CMAKE_CURRENT_BINARY_DIR}/spdlog)
-
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/json ${CMAKE_CURRENT_BINARY_DIR}/json)
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/stb ${CMAKE_CURRENT_BINARY_DIR}/stb)
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/glfw ${CMAKE_CURRENT_BINARY_DIR}/glfw)
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/glad ${CMAKE_CURRENT_BINARY_DIR}/glad)
-
-set(ASSIMP_BUILD_TESTS OFF CACHE INTERNAL "")
-set(ASSIMP_INSTALL OFF CACHE INTERNAL "")
-set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/assimp ${CMAKE_CURRENT_BINARY_DIR}/assimp)
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/imgui ${CMAKE_CURRENT_BINARY_DIR}/imgui)
-
-add_subdirectory(${ENGINE_EXTERNAL_LIBS_DIRECTORY}/asio-1.28.0 ${CMAKE_CURRENT_BINARY_DIR}/asio-1.28.0)
-
-
-
 ################################################################ ADDING ENGINE SUBDIRECTORIES ###############################################################################
 
 

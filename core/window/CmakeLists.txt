@@ -91,3 +91,7 @@ target_link_libraries(${ENGINE_WINDOW_LIB} PRIVATE glfw)
 
 
 target_compile_features(${ENGINE_WINDOW_LIB} PUBLIC cxx_std_20)
+
+
+
+set_target_properties(${ENGINE_WINDOW_LIB} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_BINARY_DIR})

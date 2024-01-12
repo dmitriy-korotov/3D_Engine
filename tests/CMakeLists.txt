@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 
-project(engine_tests)
 
 
-
-add_subdirectory(../external/gtest ${CMAKE_CURRENT_BINARY_DIR}/tests)
+project(engine_tests LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 
 
@@ -29,3 +27,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_TEST_FILES})
 add_executable(${PROJECT_NAME} ${ENGINE_TEST_FILES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest uengine::net)
+
+
+
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${ENGINE_BINARY_DIR})
