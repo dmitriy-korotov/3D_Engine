@@ -9,11 +9,18 @@ project(${AUTH_SERVICE_LIB} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 
 set(AUTH_SERVICE_LIB_HEADERS
+
+        include/auth/fwd.hpp
+        include/auth/fwd/user.hpp
+
         include/auth/user.hpp
+
 )
 
 set(AUTH_SERVICE_LIB_SOURCES
+
         src/auth/user.cpp
+
 )
 
 set(AUTH_SERVICE_LIB_ALL_FILES ${AUTH_SERVICE_LIB_HEADERS} ${AUTH_SERVICE_LIB_SOURCES})
