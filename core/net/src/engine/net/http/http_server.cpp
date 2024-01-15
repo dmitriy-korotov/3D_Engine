@@ -30,7 +30,7 @@ namespace engine::net::http
 
 		void setupWorkDirectory(path _work_directory) noexcept;
 
-		bool registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept;
+		bool registrateURLHandler(const std::string& _url, request_method _method, url_handler_t _handler) noexcept;
 
 	private:
 
@@ -69,9 +69,12 @@ namespace engine::net::http
 
 
 
-	auto http_server::pimpl::registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept -> bool
+	auto http_server::pimpl::registrateURLHandler(const std::string& _url, request_method _method, url_handler_t _handler) noexcept -> bool
 	{
-		return m_handlers_context->handlers.emplace(_url, std::move(_handler)).second;
+		if (m_handlers_context->handlers.contains(_method))
+			return m_handlers_context->handlers[_method].emplace(_url, std::move(_handler)).second;
+		std::unordered_map<std::string, url_handler_t> handlers_storage = { {_url, std::move(_handler)} };
+		return m_handlers_context->handlers.emplace(_method, std::move(handlers_storage)).second;
 	}
 
 
@@ -152,9 +155,9 @@ namespace engine::net::http
 
 
 
-	auto http_server::registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept -> bool
+	auto http_server::registrateURLHandler(const std::string& _url, request_method _method, url_handler_t _handler) noexcept -> bool
 	{
-		return impl()->registrateURLHandler(_url, std::move(_handler));
+		return impl()->registrateURLHandler(_url, _method, std::move(_handler));
 	}
 
 

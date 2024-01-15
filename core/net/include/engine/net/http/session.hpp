@@ -28,7 +28,7 @@ namespace engine::net::http
 
 		asio::awaitable<void> startSession(session_ptr_t _session) noexcept;
 
-		response<string_body> handleRequest(const request<string_body>& _request) noexcept;
+		response_t handleRequest(const request_t& _request) noexcept;
 
 	private:
 

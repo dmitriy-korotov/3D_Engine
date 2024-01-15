@@ -27,7 +27,7 @@ namespace engine::net::http
 
 		void setupWorkDirectory(path _work_directory) noexcept;
 
-		bool registrateURLHandler(const std::string& _url, url_handler_t _handler) noexcept;
+		bool registrateURLHandler(const std::string& _url, request_method _method, url_handler_t _handler) noexcept;
 
 	private:
 		

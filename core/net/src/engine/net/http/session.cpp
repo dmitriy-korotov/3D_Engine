@@ -58,14 +58,18 @@ namespace engine::net::http
 
 
 
-	auto session::handleRequest(const request<string_body>& _request) noexcept -> response<string_body>
+	auto session::handleRequest(const request_t& _request) noexcept -> response_t
 	{
-		response<string_body> response;
+		response_t response;
 		auto url = _request.getURL().getAbsolutePath();
-		const auto& handler = m_handlers_context->handlers.find(url);
-		if (handler != m_handlers_context->handlers.end())
+
+		const auto& handlers_storage = m_handlers_context->handlers.find(_request.getMethod());
+		bool is_storage_founded = handlers_storage != m_handlers_context->handlers.end();
+
+
+		if (is_storage_founded && handlers_storage->second.find(url) != handlers_storage->second.end())
 		{
-			response = std::invoke(handler->second, _request);
+			response = std::invoke(handlers_storage->second[url], _request);
 		}
 		else
 		{

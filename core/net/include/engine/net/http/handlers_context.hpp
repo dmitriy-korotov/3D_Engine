@@ -14,14 +14,19 @@ namespace engine::net::http
 {
 	using std::filesystem::path;
 
-	using url_handler_t = std::function<response<string_body>(const request<string_body>&)>;
+	using request_t = request<string_body>;
+	using response_t = response<string_body>;
+
+	using url_handler_t = std::function<response_t(const request_t&)>;
+
+	using handlers_storage_t = std::unordered_map<request_method, std::unordered_map<std::string, url_handler_t>>;
 
 	class handlers_context
 	{
 	public:
 
 		path work_directory;
-		std::unordered_map<std::string, url_handler_t> handlers;
+		handlers_storage_t handlers;
 
 	};
 

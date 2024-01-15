@@ -20,7 +20,7 @@ namespace auth
 
 	auto authorization_server::registrateAPI() noexcept -> void
 	{
-		registrateURLHandler("/api/v1/users",
+		registrateURLHandler("/api/v1/users", engine::net::http::request_method::Post,
 			[this](const request<string_body>& _request) -> response<string_body>
 			{
 				return createUserHandler(_request);
