@@ -26,7 +26,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ENGINE_TEST_FILES})
 
 add_executable(${PROJECT_NAME} ${ENGINE_TEST_FILES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest uengine::net)
+target_link_libraries(${PROJECT_NAME} PRIVATE GTest::gtest ${ENGINE_ALIAS}::${ENGINE_NET_LIB})
 
 
 

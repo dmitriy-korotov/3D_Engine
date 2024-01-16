@@ -21,7 +21,7 @@ namespace auth
 	auto authorization_server::registrateAPI() noexcept -> void
 	{
 		registrateURLHandler("/api/v1/users", engine::net::http::request_method::Post,
-			[this](const request<string_body>& _request) -> response<string_body>
+			[this](const request_t& _request) -> response_t
 			{
 				return createUserHandler(_request);
 			});
@@ -29,7 +29,7 @@ namespace auth
 
 
 
-	response<string_body> authorization_server::createUserHandler(const request<string_body>& _request)
+	response_t authorization_server::createUserHandler(const request_t& _request)
 	{
 		response<string_body> response;
 		response.setBody("<html><h1>New user created!</h1></html>");
