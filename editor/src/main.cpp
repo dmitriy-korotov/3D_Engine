@@ -3,6 +3,7 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/net/http/http_client.hpp>
+#include <engine/net/http/string_body.hpp>
 
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
@@ -12,21 +13,36 @@
 
 
 
+using namespace engine::net::http;
 
-auto sendRequest(std::shared_ptr<engine::net::http::http_client> client) -> asio::awaitable<void>
+
+
+auto sendRequest(std::shared_ptr<http_client> client) -> asio::awaitable<void>
 {
 	for (;;)
 	{
-		std::string message;
-		std::cout << "Input message:\t";
-		std::cin >> message;
+		try
+		{
+			std::string message;
+			std::cout << "Input message:\t";
+			std::cin >> message;
 
-		if (message == "end")
-			break;
+			if (message == "end")
+				break;
 
-		auto responce = co_await client->sendGetRequest(message, "127.0.0.1", 80);
+			request<string_body> request;
+			request.setURL(url::fromString("/api/v1/users"));
+			request.setMethod(request_method::Post);
+			request.setBody(message);
 
-		LOG_INFO("[Http client INFO] Recived: {0}", responce);
+			response<string_body> responce = co_await client->sendRequest(request, tcp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 80));
+
+			LOG_INFO("[Http client INFO] Recived: {0}", responce.build());
+		}
+		catch (const std::exception& _ex)
+		{
+			LOG_INFO("[Http client INFO] Exception: {0}", std::string(_ex.what()));
+		}
 	}
 }
 

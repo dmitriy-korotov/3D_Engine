@@ -28,7 +28,7 @@ TEST_F(http_request, buid_method_test)
 {
 	request.setMethod(request_method::Get);
 	request.setHttpVersion({ .major = 2, .minor = 0 });
-	request.setURL("/test/index.html");
+	request.setURL(url::fromString("/test/index.html"));
 	request.emplaceHeader(http_header::host, "engine");
 	request.emplaceHeader(http_header::content_type, "application/json");
 	request.setBody("<html>Hello World!</html>");
@@ -47,7 +47,7 @@ TEST_F(http_request, get_and_set_methods_test)
 {
 	request.setMethod(request_method::Post);
 	request.setHttpVersion({ .major = 1, .minor = 2 });
-	request.setURL("/api/v1/users");
+	request.setURL(url::fromString("/api/v1/users"));
 
 	ASSERT_EQ(request.getMethod(), request_method::Post);
 	ASSERT_EQ(request.getHttpVersion().major, 1);

@@ -29,6 +29,7 @@ namespace engine::net::http
 		std::string getAbsolutePath() const noexcept;
 
 		operator std::string() const noexcept;
+		bool operator==(const std::string& _url) const noexcept;
 
 	private:
 

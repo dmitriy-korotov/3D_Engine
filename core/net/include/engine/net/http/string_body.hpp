@@ -14,6 +14,7 @@ namespace engine::net::http
 
 		string_body() = default;
 		string_body(std::string&& _data) noexcept;
+		string_body(const std::string& _data) noexcept;
 		string_body(const string_body&) = default;
 		string_body(string_body&&) = default;
 		string_body& operator=(const string_body&) = default;

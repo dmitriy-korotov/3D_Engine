@@ -1,5 +1,7 @@
 #include <auth/authorization_server.hpp>
 
+#include <engine/logging/log.hpp>
+
 
 
 namespace auth
@@ -31,6 +33,8 @@ namespace auth
 
 	response_t authorization_server::createUserHandler(const request_t& _request)
 	{
+		LOG_INFO("[Authorization server INFO] POST '/api/v1/users' called");
+
 		response<string_body> response;
 		response.setBody("<html><h1>New user created!</h1></html>");
 		return response;

@@ -10,6 +10,12 @@ namespace engine::net::http
 
 
 
+	string_body::string_body(const std::string& _data) noexcept
+		: m_data(_data)
+	{ }
+
+
+
 	auto string_body::success() const noexcept -> bool
 	{
 		return true;

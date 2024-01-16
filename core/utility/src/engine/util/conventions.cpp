@@ -6,7 +6,7 @@
 
 namespace engine::util
 {
-	std::string toString(std::thread::id _id) noexcept
+	auto toString(std::thread::id _id) noexcept -> std::string
 	{
 		std::ostringstream out;
 		out << _id;

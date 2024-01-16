@@ -57,7 +57,7 @@ namespace engine::net::http
 	{
 		auto first_line_end = _http_message.find_first_of("\r\n");
 		if (first_line_end == std::string::npos)
-			throw std::runtime_error("Invalid http request format: can't find '\\r\\n'");
+			throw std::runtime_error("Invalid http message format: can't find '\\r\\n'");
 
 		parseFirstLine(std::string_view(_http_message.begin(), _http_message.begin() + first_line_end));
 

@@ -63,7 +63,11 @@ namespace engine::net::http
 				break;
 		}
 
-		return url(std::move(absolute_path), std::move(query));
+		auto result_url = url(std::move(absolute_path));
+		if (is_query_pairs_exists)
+			result_url.setQueryString(std::move(query));
+
+		return result_url;
 	}
 
 
@@ -114,11 +118,18 @@ namespace engine::net::http
 	url::operator std::string() const noexcept
 	{
 		std::stringstream buffer;
-		buffer << m_absolute_path;
+		buffer << m_absolute_path.generic_string();
 		
 		if (m_query_string.has_value())
 			buffer << '?' << toString(m_query_string.value());
 		
 		return buffer.str();
+	}
+
+
+
+	auto url::operator==(const std::string& _url) const noexcept -> bool
+	{
+		return m_absolute_path == _url;
 	}
 }
