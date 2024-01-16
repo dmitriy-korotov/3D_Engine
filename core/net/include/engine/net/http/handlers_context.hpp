@@ -7,6 +7,7 @@
 #include <functional>
 #include <filesystem>
 #include <memory>
+#include <mutex>
 
 
 
@@ -27,6 +28,7 @@ namespace engine::net::http
 
 		path work_directory;
 		handlers_storage_t handlers;
+		std::mutex handlers_mutex;
 
 	};
 

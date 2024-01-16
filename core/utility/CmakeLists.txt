@@ -27,6 +27,7 @@ set(ENGINE_UTILITY_LIB_HEADERS
 		include/engine/util/json_view.hpp
 		include/engine/util/file_searcher.hpp
 		include/engine/util/date.hpp
+		include/engine/util/conventions.hpp
 
 
 
@@ -50,6 +51,7 @@ set(ENGINE_UTILITY_LIB_SOURCES
 		src/engine/util/json_view.cpp
 		src/engine/util/file_searcher.cpp
 		src/engine/util/date.cpp
+		src/engine/util/conventions.cpp
 	
 )
 

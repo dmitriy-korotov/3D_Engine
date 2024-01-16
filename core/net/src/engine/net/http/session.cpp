@@ -3,6 +3,7 @@
 #include <engine/logging/log.hpp>
 
 #include <engine/util/date.hpp>
+#include <engine/util/conventions.hpp>
 #include <engine/util/file_reader.hpp>
 
 #include <engine/net/util/ip.hpp>
@@ -40,20 +41,26 @@ namespace engine::net::http
 
 		auto bytes_readed = co_await m_socket.async_read_some(asio::buffer(buffer), asio::use_awaitable);
 		if (bytes_readed == 0)
-			LOG_WARN("[Http session WARN] recived zero bytes");
+			LOG_WARN("[Http session WARN] [Thread ID '{0}'] recived zero bytes", util::toString(std::this_thread::get_id()));
 
 		request_parser<string_body> parser;
 		parser.parse(buffer);
 		auto request = std::move(parser).get();
 
-		LOG_INFO("[Http session INFO] {0}: url '{1}'", utility::toString(m_socket.remote_endpoint()), request.getURL().getAbsolutePath());
+		LOG_INFO("[Http session INFO] [Thread ID '{0}'] {1}: method '{2}', url '{3}'",
+				 util::toString(std::this_thread::get_id()),
+				 utility::toString(m_socket.remote_endpoint()),
+				 toString(request.getMethod()),
+				 request.getURL().getAbsolutePath());
 
 		auto response = handleRequest(request);
 		auto bytes_sended = co_await m_socket.async_write_some(asio::buffer(response.build()), asio::use_awaitable);
 	}
 	catch (const std::exception& _ex)
 	{
-		LOG_ERROR("[Http session ERROR] Cached exception: '{0}'", std::string(_ex.what()));
+		LOG_ERROR("[Http session ERROR] [Thread ID '{0}'] Cached exception: '{1}'",
+				  util::toString(std::this_thread::get_id()),
+				  std::string(_ex.what()));
 	}
 
 

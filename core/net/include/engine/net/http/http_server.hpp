@@ -18,7 +18,9 @@ namespace engine::net::http
 	{
 	public:
 
-		http_server() noexcept;
+		static size_t s_default_threads_count;
+
+		http_server(size_t _threads_count = s_default_threads_count) noexcept;
 		http_server(http_server&&) = default;
 		http_server& operator=(http_server&&) = default;
 		~http_server();
