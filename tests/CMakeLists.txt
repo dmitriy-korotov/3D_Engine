@@ -15,6 +15,7 @@ set(ENGINE_TEST_FILES
 	src/net/ut_request.cpp
 	src/net/ut_response.cpp
 	src/net/ut_http_parsing.cpp
+	src/net/ut_host.cpp
 
 )
 

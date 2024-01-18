@@ -17,7 +17,7 @@ using namespace engine::net::http;
 
 
 
-auto sendRequest(std::shared_ptr<http_client> client) -> asio::awaitable<void>
+auto ConnectToServer(http_client& _client) -> asio::awaitable<void>
 {
 	for (;;)
 	{
@@ -35,7 +35,8 @@ auto sendRequest(std::shared_ptr<http_client> client) -> asio::awaitable<void>
 			request.setMethod(request_method::Post);
 			request.setBody(message);
 
-			response<string_body> responce = co_await client->sendRequest(request, tcp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 80));
+			co_await _client.connect(tcp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 80));
+			response<string_body> responce = co_await _client.sendRequest(request);
 
 			LOG_INFO("[Http client INFO] Recived: {0}", responce.build());
 		}
@@ -44,6 +45,7 @@ auto sendRequest(std::shared_ptr<http_client> client) -> asio::awaitable<void>
 			LOG_INFO("[Http client INFO] Exception: {0}", std::string(_ex.what()));
 		}
 	}
+	_client.disconnect();
 }
 
 
@@ -61,11 +63,21 @@ int main(int _argc, char** _argv)
 		return EXIT_FAILURE;
 	}*/
 
-	auto client = std::make_shared<engine::net::http::http_client>();
+	asio::io_context context;
 
-	asio::co_spawn(client->getContext(), sendRequest(client), asio::detached);
+	http_client client(context);
 
-	client->getContext().run();
+	try
+	{
+		asio::co_spawn(context, ConnectToServer(client), asio::detached);
+
+		context.run();
+	}
+	catch (const std::exception& _ex)
+	{
+		LOG_ERROR("Catched exception: '{0}'", std::string(_ex.what()));
+		return EXIT_FAILURE;
+	}
 
 	return EXIT_SUCCESS;
 }

@@ -131,6 +131,7 @@ namespace engine::net::http
 				if (_signal == SIGINT)
 				{
 					LOG_INFO("[Http server INFO] Server is closed.");
+					m_thread_pool.stop();
 					m_execution_cxt.stop();
 				}
 			});
