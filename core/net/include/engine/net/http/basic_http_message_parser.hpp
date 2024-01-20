@@ -151,7 +151,7 @@ namespace engine::net::http
 			if (_pos + 1 >= _http_message.size())
 			{
 				header.second.push_back(_http_message[_pos]);
-				return { header, count };
+				return { header, count + 1 };
 			}
 
 			if (_http_message[_pos] == '\r' && _http_message[_pos + 1] == '\n')
@@ -169,8 +169,8 @@ namespace engine::net::http
 	auto basic_http_message_parser<T, U>::parseBody(const std::string& _http_message, size_t _pos) -> size_t
 	{
 		auto all_message_size = _http_message.size();
-		if (_http_message[all_message_size - 2] == '\r' && _http_message[all_message_size - 1] == '\n')
-			all_message_size - 2;
+		if ((_http_message[all_message_size - 2] == '\r') && (_http_message[all_message_size - 1] == '\n'))
+			all_message_size -= 2;
 
 		std::string string_body = _http_message.substr(_pos, all_message_size - _pos);
 		auto size = string_body.size();
