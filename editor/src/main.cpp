@@ -23,26 +23,25 @@ auto ConnectToServer(http_client& _client) -> asio::awaitable<void>
 	{
 		try
 		{
-			std::string message;
-			std::cout << "Input message:\t";
-			std::cin >> message;
+			std::string host;
+			std::cout << "Input host address:\t";
+			std::cin >> host;
 
-			if (message == "end")
+			std::string url;
+			std::cout << "Input url:\t";
+			std::cin >> url;
+
+			if (host == "end")
 				break;
 
-			request<string_body> request;
-			request.setURL(url::fromString("/api/v1/users"));
-			request.setMethod(request_method::Post);
-			request.setBody(message);
-
-			co_await _client.connect(tcp::endpoint(asio::ip::address_v4::from_string("127.0.0.1"), 80));
-			response<string_body> responce = co_await _client.sendRequest(request);
+			_client.connect({ host, 80 });
+			response<string_body> responce = co_await _client.GET(url::fromString(url), request_t::headers_t{ {"Connection", "close"}});
 
 			LOG_INFO("[Http client INFO] Recived: {0}", responce.build());
 		}
 		catch (const std::exception& _ex)
 		{
-			LOG_INFO("[Http client INFO] Exception: {0}", std::string(_ex.what()));
+			LOG_ERROR("[Http client INFO] Exception: {0}", std::string(_ex.what()));
 		}
 	}
 	_client.disconnect();

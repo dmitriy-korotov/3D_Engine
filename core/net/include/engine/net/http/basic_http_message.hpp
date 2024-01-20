@@ -256,7 +256,9 @@ namespace engine::net::http
 		std::stringstream builded_message;
 		builded_message << buildStartLine() << "\r\n";
 
-		auto body = static_cast<std::string>(m_body.value());
+		std::string body;
+		if (m_body.has_value())
+			body = m_body.value();
 
 		if (auto content_length_key = toString(http_header::content_lenth); m_is_need_prepare && !m_headers.contains(content_length_key))
 			builded_message << content_length_key << ": " << std::to_string(body.size()) << "\r\n";
@@ -265,7 +267,8 @@ namespace engine::net::http
 			builded_message << key << ": " << value << "\r\n";
 		builded_message << "\r\n";
 
-		builded_message << body << "\r\n";
+		if (m_body.has_value())
+			builded_message << body << "\r\n";
 
 		return builded_message.str();
 	}

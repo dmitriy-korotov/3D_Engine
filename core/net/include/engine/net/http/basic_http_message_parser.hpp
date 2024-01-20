@@ -63,7 +63,8 @@ namespace engine::net::http
 
 		auto headers_end_pos = parseHeaders(_http_message, first_line_end + 2);
 		
-		auto parse_end_pos = parseBody(_http_message, headers_end_pos);
+		if (headers_end_pos < _http_message.size())
+			auto parse_end_pos = parseBody(_http_message, headers_end_pos);
 	}
 
 
@@ -99,7 +100,7 @@ namespace engine::net::http
 			auto& [key, value] = header;
 
 			if (line_size == -1) // error line parsing
-				throw std::runtime_error("Error request headers parsing");
+				throw std::runtime_error("Error http meesage headers parsing");
 
 			if (line_size == 0)
 				break;
@@ -118,7 +119,7 @@ namespace engine::net::http
 	auto basic_http_message_parser<T, U>::parseHeader(const std::string& _http_message, size_t _pos) const noexcept -> std::tuple<header_t, int>
 	{
 		if (_pos + 1 >= _http_message.size())
-			return { {}, -1 };
+			return { {}, 0 };
 
 		if (_http_message[_pos] == '\r' && _http_message[_pos + 1] == '\n')
 			return { {}, 0 };
@@ -148,7 +149,10 @@ namespace engine::net::http
 		for (;; _pos++, count++)
 		{
 			if (_pos + 1 >= _http_message.size())
-				return { {}, -1 };
+			{
+				header.second.push_back(_http_message[_pos]);
+				return { header, count };
+			}
 
 			if (_http_message[_pos] == '\r' && _http_message[_pos + 1] == '\n')
 				break;
@@ -165,10 +169,10 @@ namespace engine::net::http
 	auto basic_http_message_parser<T, U>::parseBody(const std::string& _http_message, size_t _pos) -> size_t
 	{
 		auto all_message_size = _http_message.size();
-		if (_http_message[all_message_size - 2] != '\r' || _http_message[all_message_size - 1] != '\n')
-			throw std::runtime_error("Expected '\\r\\n' after body");
+		if (_http_message[all_message_size - 2] == '\r' && _http_message[all_message_size - 1] == '\n')
+			all_message_size - 2;
 
-		std::string string_body = _http_message.substr(_pos, _http_message.size() - _pos - 2);
+		std::string string_body = _http_message.substr(_pos, all_message_size - _pos);
 		auto size = string_body.size();
 		auto body = T(std::move(string_body));
 		m_message.setBody(std::move(body).get());

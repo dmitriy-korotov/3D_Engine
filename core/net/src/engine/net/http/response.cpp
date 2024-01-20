@@ -14,9 +14,7 @@ namespace engine::net::http
 		case response_status::not_found:		return "Not found";
 		case response_status::forbidden:		return "Forbidden";
 		case response_status::bad_getway:		return "Bad getway";
-		default:
-			assert(false);
 		}
-		return "";
+		return "Unknowing";
 	}
 }

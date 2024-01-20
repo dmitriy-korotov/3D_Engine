@@ -12,37 +12,86 @@ namespace engine::net::http
 	
 
 
-	auto http_client::connect(const tcp::endpoint& _host_address) noexcept-> asio::awaitable<void>
+	auto http_client::connect(const host& _host) noexcept -> void
 	{
-		if (m_socket.is_open())
-			m_socket.close();
-		co_await m_socket.async_connect(_host_address, asio::use_awaitable);
+		m_host = tcp::endpoint(address::from_string(_host.getAddress()), _host.getPort());
+		m_is_connected = true;
 	}
 
 
 
 	auto http_client::disconnect() noexcept -> void
 	{
-		m_socket.close();
+		m_host = tcp::endpoint();
+		m_is_connected = false;
 	}
 
 
 
-	auto http_client::sendRequest(const request_t& _request) noexcept -> asio::awaitable<response_t>
+	auto http_client::isConnected() const noexcept -> bool
 	{
-		if (!m_socket.is_open())
-			throw std::runtime_error("Unconnected client, please connect to host");
+		return m_is_connected;
+	}
+
+
+
+	auto http_client::request(const request_t& _request) -> asio::awaitable<response_t>
+	{
+		if (!m_is_connected)
+			throw std::runtime_error("Client is unconnected, please connect to host");
+
+		co_await m_socket.async_connect(m_host, asio::use_awaitable);
 
 		auto bytes_sended = co_await m_socket.async_send(asio::buffer(_request.build()), asio::use_awaitable);
 
 		char buffer[1024] = {};
 		auto bytes_recived = co_await m_socket.async_read_some(asio::buffer(buffer), asio::use_awaitable);
 
+		m_socket.close();
+
 		response_parser<string_body> parser;
 		parser.parse(std::string(buffer));
 
 		auto response = std::move(parser).get();
 
+		co_return response;
+	}
+
+
+
+	auto http_client::GET(url _url, const request_t::headers_t& _headers) -> asio::awaitable<response_t>
+	{
+		request_t request;
+		request.setMethod(request_method::Get);
+		request.setURL(std::move(_url));
+		request.emplaceHeaders(_headers);
+		auto response = co_await this->request(request);
+		co_return response;
+	}
+
+
+
+	auto http_client::POST(url _url, std::string _data, const request_t::headers_t& _headers) ->asio::awaitable<response_t>
+	{
+		request_t request;
+		request.setMethod(request_method::Post);
+		request.setURL(std::move(_url));
+		request.emplaceHeaders(_headers);
+		request.setBody(std::move(_data));
+		auto response = co_await this->request(request);
+		co_return response;
+	}
+
+
+
+	auto http_client::PUT(url _url, std::string _data, const request_t::headers_t& _headers) -> asio::awaitable<response_t>
+	{
+		request_t request;
+		request.setMethod(request_method::Put);
+		request.setURL(std::move(_url));
+		request.emplaceHeaders(_headers);
+		request.setBody(std::move(_data));
+		auto response = co_await this->request(request);
 		co_return response;
 	}
 }
