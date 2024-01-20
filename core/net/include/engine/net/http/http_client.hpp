@@ -35,16 +35,16 @@ namespace engine::net::http
 
 		bool isConnected() const noexcept;
 
-		asio::awaitable<response_t> request(const request_t& _request);
-		asio::awaitable<response_t> GET(url _url, const request_t::headers_t& _headers = {});
-		asio::awaitable<response_t> POST(url _url, std::string _data, const request_t::headers_t& _headers = {});
-		asio::awaitable<response_t> PUT(url _url, std::string _data, const request_t::headers_t& _headers = {});
+		asio::awaitable<response_t> request(const request_t& _request) const;
+		asio::awaitable<response_t> GET(url _url, const request_t::headers_t& _headers = {}) const;
+		asio::awaitable<response_t> POST(url _url, std::string _data, const request_t::headers_t& _headers = {}) const;
+		asio::awaitable<response_t> PUT(url _url, std::string _data, const request_t::headers_t& _headers = {}) const;
 
 	private:
 
 		bool m_is_connected = false;
 		tcp::endpoint m_host;
-		tcp_socket_t m_socket;
+		mutable tcp_socket_t m_socket;
 
 	};
 }

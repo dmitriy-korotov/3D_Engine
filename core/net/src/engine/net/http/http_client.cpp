@@ -35,7 +35,7 @@ namespace engine::net::http
 
 
 
-	auto http_client::request(const request_t& _request) -> asio::awaitable<response_t>
+	auto http_client::request(const request_t& _request) const -> asio::awaitable<response_t>
 	{
 		if (!m_is_connected)
 			throw std::runtime_error("Client is unconnected, please connect to host");
@@ -59,7 +59,7 @@ namespace engine::net::http
 
 
 
-	auto http_client::GET(url _url, const request_t::headers_t& _headers) -> asio::awaitable<response_t>
+	auto http_client::GET(url _url, const request_t::headers_t& _headers) const -> asio::awaitable<response_t>
 	{
 		request_t request;
 		request.setMethod(request_method::Get);
@@ -71,7 +71,7 @@ namespace engine::net::http
 
 
 
-	auto http_client::POST(url _url, std::string _data, const request_t::headers_t& _headers) ->asio::awaitable<response_t>
+	auto http_client::POST(url _url, std::string _data, const request_t::headers_t& _headers) const ->asio::awaitable<response_t>
 	{
 		request_t request;
 		request.setMethod(request_method::Post);
@@ -84,7 +84,7 @@ namespace engine::net::http
 
 
 
-	auto http_client::PUT(url _url, std::string _data, const request_t::headers_t& _headers) -> asio::awaitable<response_t>
+	auto http_client::PUT(url _url, std::string _data, const request_t::headers_t& _headers) const -> asio::awaitable<response_t>
 	{
 		request_t request;
 		request.setMethod(request_method::Put);

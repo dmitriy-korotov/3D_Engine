@@ -26,6 +26,8 @@ namespace auth
 
 	class user
 	{
+	public:
+
 		user() = default;
 		user(std::string _login, email_t _email, std::string _password) noexcept;
 		user(std::string _login, phone_t _phone, std::string _password) noexcept;

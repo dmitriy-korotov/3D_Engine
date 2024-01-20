@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 
 
-set(AUTH_SERVICE_LIB auth_lib)
+set(AUTH_SERVICE_LIB auth_lib CACHE INTERNAL "")
 
 project(${AUTH_SERVICE_LIB} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
@@ -36,8 +36,6 @@ add_library(${AUTH_SERVICE_LIB} STATIC ${AUTH_SERVICE_LIB_ALL_FILES})
 
 
 target_include_directories(${AUTH_SERVICE_LIB} PUBLIC include)
-
-target_link_libraries(${AUTH_SERVICE_LIB} PUBLIC ${ENGINE_ALIAS}::${ENGINE_NET_LIB})
 
 
 

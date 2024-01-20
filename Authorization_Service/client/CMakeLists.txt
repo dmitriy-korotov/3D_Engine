@@ -30,7 +30,10 @@ add_library(${AUTH_SERVICE_CLIENT} STATIC ${AUTH_SERVICE_CLIENT_ALL_FILES})
 
 target_include_directories(${AUTH_SERVICE_CLIENT} PUBLIC include)
 
-target_link_libraries(${AUTH_SERVICE_CLIENT} PUBLIC ${AUTH_SERVICE_LIB})
+target_link_libraries(${AUTH_SERVICE_CLIENT} PUBLIC
+            ${AUTH_SERVICE_LIB}
+            ${ENGINE_ALIAS}::${ENGINE_NET_LIB}
+)
 
 
 
