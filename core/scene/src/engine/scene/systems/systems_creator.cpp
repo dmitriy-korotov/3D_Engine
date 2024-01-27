@@ -17,7 +17,7 @@ namespace engine::scene::systems
 
 
 
-	auto systems_creator::getCreator(const std::string& _system_name) noexcept -> creatorfn_ptr_t
+	auto systems_creator::getSystemCreator(const std::string& _system_name) noexcept -> creatorfn_ptr_t
 	{
 		auto creator = m_creators.find(_system_name);
 		if (creator == m_creators.end())

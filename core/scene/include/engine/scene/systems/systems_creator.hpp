@@ -21,7 +21,7 @@ namespace engine::scene::systems
 
 		static bool addCreator(std::string _system_name, creatorfn_t _creator_function) noexcept;
 
-		static [[nodiscard]] creatorfn_ptr_t getCreator(const std::string& _system_name) noexcept;
+		static [[nodiscard]] creatorfn_ptr_t getSystemCreator(const std::string& _system_name) noexcept;
 
 	private:
 
@@ -32,12 +32,12 @@ namespace engine::scene::systems
 
 
 	template <SceneSystem T>
-	void AddSystemCreator(size_t _priority) noexcept
+	void AddSystemCreator(std::string _group_name, size_t _priority) noexcept
 	{
 		systems_creator::addCreator(std::string(T::system_name),
-			[_priority]() -> system_ptr_t<basic_system_t>
+			[group_name = std::move(_group_name), _priority]() -> system_ptr_t<basic_system_t>
 			{
-				return Scene::addSystem<T>(_priority);
+				return Scene::addSystem<T>(group_name, _priority);
 			});
 	}
 

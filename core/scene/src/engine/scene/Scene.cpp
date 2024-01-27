@@ -43,6 +43,34 @@ namespace engine::scene
 
 
 
+	bool Scene::addSystemsGroup(const std::string& _group_name, size_t _group_priority) noexcept
+	{
+		return m_entity_component_system.getSystemsManager()->addSystemsGroup(_group_name, _group_priority);
+	}
+
+
+
+	bool Scene::delSystemsGroup(const std::string& _group_name) noexcept
+	{
+		return m_entity_component_system.getSystemsManager()->removeSystemsGroup(_group_name);
+	}
+
+
+
+	void Scene::enableSystemsGroup(const std::string& _group_name) noexcept
+	{
+		m_entity_component_system.getSystemsManager()->enableGroup(_group_name);
+	}
+
+
+
+	void Scene::disableSystemsGroup(const std::string& _group_name) noexcept
+	{
+		m_entity_component_system.getSystemsManager()->disableGroup(_group_name);
+	}
+
+
+
 	auto Scene::initialize() noexcept -> bool
 	{
 		return m_entity_component_system.initialize();
@@ -115,7 +143,7 @@ namespace engine::scene
 			for (auto it = systems.begin(); it != systems.end(); it++)
 			{
 				LOG_INFO("System: {0}", std::string(it->at("system_name")));
-				auto system_creator = systems::systems_creator::getCreator(std::string(it->at("system_name")));
+				auto system_creator = systems::systems_creator::getSystemCreator(std::string(it->at("system_name")));
 				if (system_creator != nullptr)
 					(*system_creator)();
 			}
@@ -159,7 +187,7 @@ namespace engine::scene
 
 		for (auto& system : m_entity_component_system.getSystemsManager()->getSystems())
 		{
-			auto dumped_view = system.second.second->serialize();
+			auto dumped_view = system->serialize();
 			systems_array.push_back(std::move(dumped_view));
 		}
 

@@ -32,6 +32,8 @@
 #include <engine/scene/components/components.hpp>
 #include <engine/scene/components/components_creator.hpp>
 
+#include <imgui/imgui.h>
+
 
 
 
@@ -54,10 +56,10 @@ namespace editor
 
 	auto Editor::onStart() noexcept -> void
 	{
-		AddSystemCreator<camera_update>(1);
-		AddSystemCreator<render>(2);
-		AddSystemCreator<scene_UI>(3);
-		AddSystemCreator<selected_object_UI>(4);
+		AddSystemCreator<camera_update>("Physic", 1);
+		AddSystemCreator<render>("Render", 1);
+		AddSystemCreator<scene_UI>("UI", 1);
+		AddSystemCreator<selected_object_UI>("UI", 2);
 
 		AddComponentCreator<active_camera>();
 		AddComponentCreator<selected>();
@@ -110,8 +112,12 @@ namespace editor
 		resource_manager.getModelsManager().loadModel("Cube", path_to_cube);
 		resource_manager.getModelsManager().loadModel("Steve", path_to_steve);
 
-
 		Scene::initialize();
+
+		Scene::addSystemsGroup("Physic", 1);
+		Scene::addSystemsGroup("Render", 2);
+		Scene::addSystemsGroup("UI", 3);
+
 		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\scenes\\Scene1.scn");
 
 		//auto obj = Scene::addObject<renderable_scene_object>("Sosiska", "Default");
@@ -134,8 +140,26 @@ namespace editor
 
 	auto Editor::onUpdate() noexcept -> void
 	{	
+		static bool is_registration = true;
+		static std::string login;
+		static std::string password;
+
 		engine::Engine::getApplicationUIModule()->onUIDrawBegin();
+		if (is_registration)
+		{
+			ImGui::SetNextWindowBgAlpha(1.f);
+			ImGui::SetNextWindowSize({ static_cast<float>(getSettings().getWidth()), static_cast<float>(getSettings().getHeight())});
+			ImGui::Begin("Registration", &is_registration);
+
+			ImGui::InputText("Input login", login.data(), 100);
+			ImGui::InputText("Input password", password.data(), 100, ImGuiInputTextFlags_Password);
+			if (ImGui::Button("Registrate"))
+				is_registration = false;
+
+			ImGui::End();
+		}
 		Scene::update(0.33f);
+		
 		engine::Engine::getApplicationUIModule()->onUIDrawEnd();
 	}
 

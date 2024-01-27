@@ -162,8 +162,15 @@ namespace engine::scene
 
 
 
+		static bool addSystemsGroup(const std::string& _group_name, size_t _group_priority) noexcept;
+
+		static bool delSystemsGroup(const std::string& _group_name) noexcept;
+		
+		static void enableSystemsGroup(const std::string& _group_name) noexcept;
+		static void disableSystemsGroup(const std::string& _group_name) noexcept;
+
 		template <SceneSystem T, typename ...Args>
-		static system_ptr_t<basic_system_t> addSystem(Args&&... _args) noexcept;
+		static system_ptr_t<basic_system_t> addSystem(const std::string& _group_name, Args&&... _args) noexcept;
 
 		template <SceneSystem T>
 		static bool delSystem() noexcept;
@@ -282,9 +289,9 @@ namespace engine::scene
 
 
 	template <SceneSystem T, typename ...Args>
-	auto Scene::addSystem(Args&&... _args) noexcept -> system_ptr_t<basic_system_t>
+	auto Scene::addSystem(const std::string& _group_name, Args&&... _args) noexcept -> system_ptr_t<basic_system_t>
 	{
-		return m_entity_component_system.getSystemsManager()->addSystem<T>(std::forward<Args>(_args)...);
+		return m_entity_component_system.getSystemsManager()->addSystem<T>(_group_name, std::forward<Args>(_args)...);
 	}
 
 
