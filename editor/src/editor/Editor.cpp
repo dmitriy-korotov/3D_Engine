@@ -1,6 +1,6 @@
 #pragma warning(suppress : 4996)
 
-#include <editor_app.hpp>
+#include <editor/Editor.hpp>
 
 #include <engine/logging/log.hpp>
 
@@ -35,7 +35,7 @@
 #include <engine/scene/components/components.hpp>
 #include <engine/scene/components/components_creator.hpp>
 
-#include <imgui/imgui.h>
+#include <editor/UI/registration_UI.hpp>
 
 
 
@@ -63,6 +63,7 @@ namespace editor
 		AddSystemCreator<render>("Render", 1);
 		AddSystemCreator<scene_UI>("UI", 1);
 		AddSystemCreator<selected_object_UI>("UI", 2);
+		AddSystemCreator<ui::registration_UI>("UI", 3);
 
 		AddComponentCreator<active_camera>();
 		AddComponentCreator<selected>();
@@ -143,27 +144,7 @@ namespace editor
 
 	auto Editor::onUpdate() noexcept -> void
 	{	
-		static bool is_registration = true;
-		static std::string login;
-		static std::string password;
-
-		//engine::Engine::getApplicationUIModule()->onUIDrawBegin();
-		/*if (is_registration)
-		{
-			ImGui::SetNextWindowBgAlpha(1.f);
-			ImGui::SetNextWindowSize({ static_cast<float>(getSettings().getWidth()), static_cast<float>(getSettings().getHeight())});
-			ImGui::Begin("Registration", &is_registration);
-
-			ImGui::InputText("Input login", login.data(), 100);
-			ImGui::InputText("Input password", password.data(), 100, ImGuiInputTextFlags_Password);
-			if (ImGui::Button("Registrate"))
-				is_registration = false;
-
-			ImGui::End();
-		}*/
 		Scene::update(0.33f);
-		
-		//engine::Engine::getApplicationUIModule()->onUIDrawEnd();
 	}
 
 

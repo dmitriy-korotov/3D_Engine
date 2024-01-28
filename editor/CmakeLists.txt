@@ -9,24 +9,33 @@ project(${EDITOR_PROJECT_NAME} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 
 set(EDITOR_INCLUDES
-		include/editor_app.hpp
+
+		include/editor/UI/registration_UI.hpp
+
+		include/editor/Editor.hpp
+
 )
 
 set(EDITOR_SOURCES
+
 		src/main.cpp
-		src/editor_app.cpp
+
+		src/editor/UI/registration_UI.cpp
+
+		src/editor/Editor.cpp
+
 )
 
-set(EDITOR_ALL_SOURCES ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
+set(EDITOR_ALL_FILES ${EDITOR_INCLUDES} ${EDITOR_SOURCES})
 
 
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_ALL_SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${EDITOR_ALL_FILES})
 
 
 
 add_executable(${EDITOR_PROJECT_NAME}
-		${EDITOR_ALL_SOURCES}		
+		${EDITOR_ALL_FILES}		
 )
 
 

@@ -22,14 +22,14 @@ namespace engine::scene::systems
 
 
 
-	auto selected_object_UI::preUpdate(float _delta_time) const noexcept -> void
+	auto selected_object_UI::preUpdate(float _delta_time) noexcept -> void
 	{
 		m_UI_module.get()->begin("Selected object");
 	}
 
 
 
-	auto selected_object_UI::update(float _delta_time) const noexcept -> void
+	auto selected_object_UI::update(float _delta_time) noexcept -> void
 	{
 		auto selected_component = Scene::getComponent<selected>();
 		if (selected_component == nullptr)
@@ -64,7 +64,7 @@ namespace engine::scene::systems
 
 
 
-	auto selected_object_UI::postUpdate(float _delta_time) const noexcept -> void
+	auto selected_object_UI::postUpdate(float _delta_time) noexcept -> void
 	{
 		m_UI_module.get()->end();
 	}

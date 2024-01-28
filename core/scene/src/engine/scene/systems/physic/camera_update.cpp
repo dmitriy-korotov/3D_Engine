@@ -23,7 +23,7 @@ using namespace engine::modules::ui;
 
 namespace engine::scene::systems
 {
-	auto camera_update::update(float _delta_time) const noexcept -> void
+	auto camera_update::update(float _delta_time) noexcept -> void
 	{
 		auto active_camera_component = Scene::getComponent<active_camera>();
 		if (active_camera_component != nullptr)
@@ -113,7 +113,7 @@ namespace engine::scene::systems
 
 
 	auto camera_update::rotateCamera(const rotate& _rotate_component,
-									 const rotate_velocity& _rotate_velocity_component, float _delta_time) const noexcept -> void
+									 const rotate_velocity& _rotate_velocity_component, float _delta_time) noexcept -> void
 	{
 		glm::vec3 rotation_delta(0.f);
 

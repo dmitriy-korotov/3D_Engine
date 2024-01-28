@@ -22,7 +22,7 @@ using namespace engine::render;
 
 namespace engine::scene::systems
 {
-	auto render::preUpdate([[maybe_unused]] float _delta_time) const noexcept -> void
+	auto render::preUpdate([[maybe_unused]] float _delta_time) noexcept -> void
 	{
 		auto& renderer = Engine::getApplicationRenderer();
 
@@ -34,7 +34,7 @@ namespace engine::scene::systems
 
 
 
-	auto render::update([[maybe_unused]] float _delta_time) const noexcept -> void
+	auto render::update([[maybe_unused]] float _delta_time) noexcept -> void
 	{
 		auto renderable_components = Scene::getComponents<renderable>();
 		if (renderable_components.has_value())

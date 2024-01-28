@@ -22,9 +22,9 @@ namespace engine::scene::systems
 
 		selected_object_UI() noexcept;
 
-		void preUpdate(float _delta_time) const noexcept override;
-		void update(float _delta_time) const noexcept override;
-		void postUpdate(float _delta_time) const noexcept override;
+		void preUpdate(float _delta_time) noexcept override;
+		void update(float _delta_time) noexcept override;
+		void postUpdate(float _delta_time) noexcept override;
 
 		serialized_view_t serialize() const override;
 

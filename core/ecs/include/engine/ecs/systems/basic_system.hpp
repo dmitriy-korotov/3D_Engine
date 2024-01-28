@@ -18,9 +18,9 @@ namespace engine::ecs::systems
 		basic_system() = default;
 		virtual ~basic_system() = default;
 
-		virtual void preUpdate(float _delta_time) const noexcept;
-		virtual void update(float _delta_time) const noexcept = 0;
-		virtual void postUpdate(float _delta_time) const noexcept;
+		virtual void preUpdate(float _delta_time) noexcept;
+		virtual void update(float _delta_time) noexcept = 0;
+		virtual void postUpdate(float _delta_time) noexcept;
 
 		bool isActive() const noexcept;
 		void enable() noexcept;

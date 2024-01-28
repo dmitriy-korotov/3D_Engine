@@ -17,15 +17,15 @@ namespace engine::scene::systems
 
 
 
-		void update(float _delta_time) const noexcept;
-		void postUpdate(float _delta_time) const noexcept;
+		void update(float _delta_time) noexcept;
+		void postUpdate(float _delta_time) noexcept;
 
 		serialized_view_t serialize() const override;
 
 	private:
 
-		mutable glm::vec4 m_bacgroud_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
-		mutable glm::vec3 m_light_direction = glm::vec3(0.f, 0.f, 0.f);
+		glm::vec4 m_bacgroud_color = glm::vec4(0.f, 0.f, 0.f, 1.f);
+		glm::vec3 m_light_direction = glm::vec3(0.f, 0.f, 0.f);
 
 	};
 }

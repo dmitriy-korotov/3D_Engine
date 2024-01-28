@@ -12,8 +12,8 @@ namespace engine::scene::systems
 
 		static constexpr std::string_view system_name = "render";
 
-		void preUpdate(float _delta_time) const noexcept override;
-		void update(float _delta_time) const noexcept override;
+		void preUpdate(float _delta_time) noexcept override;
+		void update(float _delta_time) noexcept override;
 
 		serialized_view_t serialize() const override;
 

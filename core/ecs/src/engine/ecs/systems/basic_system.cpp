@@ -4,10 +4,10 @@
 
 namespace engine::ecs::systems
 {
-	auto basic_system::preUpdate(float _delta_time) const noexcept -> void
+	auto basic_system::preUpdate(float _delta_time) noexcept -> void
 	{ }
 
-	auto basic_system::postUpdate(float _delta_time) const noexcept -> void
+	auto basic_system::postUpdate(float _delta_time) noexcept -> void
 	{ }
 
 

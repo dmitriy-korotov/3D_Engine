@@ -14,7 +14,7 @@ using namespace engine::scene::components;
 
 namespace engine::scene::systems
 {
-	auto scene_UI::update([[maybe_unused]] float _delta_time) const noexcept -> void
+	auto scene_UI::update([[maybe_unused]] float _delta_time) noexcept -> void
 	{
 		auto component = Scene::getComponent<direction_light>();
 		if (component == nullptr)
@@ -43,7 +43,7 @@ namespace engine::scene::systems
 
 
 
-	auto scene_UI::postUpdate([[maybe_unused]] float _delta_time) const noexcept -> void
+	auto scene_UI::postUpdate([[maybe_unused]] float _delta_time) noexcept -> void
 	{
 		Engine::getApplicationRenderer()->setClearColor(m_bacgroud_color.r, m_bacgroud_color.g, m_bacgroud_color.b, m_bacgroud_color.a);
 	}
