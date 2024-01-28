@@ -1,3 +1,5 @@
+#pragma warning(suppress : 4996)
+
 #include <editor_app.hpp>
 
 #include <engine/logging/log.hpp>
@@ -10,6 +12,7 @@
 #include <engine/scene/components/render.hpp>
 
 #include <engine/scene/systems/physic/camera_update.hpp>
+#include <engine/scene/systems/UI/UI_group_update_wrapper.hpp>
 #include <engine/scene/systems/UI/selected_object_UI.hpp>
 #include <engine/scene/systems/UI/scene_UI.hpp>
 #include <engine/scene/systems/render/render.hpp>
@@ -116,7 +119,7 @@ namespace editor
 
 		Scene::addSystemsGroup("Physic", 1);
 		Scene::addSystemsGroup("Render", 2);
-		Scene::addSystemsGroup("UI", 3);
+		Scene::addSystemsGroup("UI", 3, std::make_unique<UI_group_update_wrapper>());
 
 		Scene::load("C:\\Users\\User\\MyProjects\\3D_Engine\\core\\res\\scenes\\Scene1.scn");
 
@@ -144,8 +147,8 @@ namespace editor
 		static std::string login;
 		static std::string password;
 
-		engine::Engine::getApplicationUIModule()->onUIDrawBegin();
-		if (is_registration)
+		//engine::Engine::getApplicationUIModule()->onUIDrawBegin();
+		/*if (is_registration)
 		{
 			ImGui::SetNextWindowBgAlpha(1.f);
 			ImGui::SetNextWindowSize({ static_cast<float>(getSettings().getWidth()), static_cast<float>(getSettings().getHeight())});
@@ -157,10 +160,10 @@ namespace editor
 				is_registration = false;
 
 			ImGui::End();
-		}
+		}*/
 		Scene::update(0.33f);
 		
-		engine::Engine::getApplicationUIModule()->onUIDrawEnd();
+		//engine::Engine::getApplicationUIModule()->onUIDrawEnd();
 	}
 
 

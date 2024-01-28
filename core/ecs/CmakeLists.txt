@@ -40,9 +40,11 @@ set(ENGINE_ECS_LIB_HEADERS
 
 		include/engine/ecs/systems/fwd.hpp
 		include/engine/ecs/systems/fwd/basic_system.hpp
+		include/engine/ecs/systems/fwd/basic_group_update_wrapper.hpp
 		include/engine/ecs/systems/fwd/systems_manager.hpp
 
 		include/engine/ecs/systems/basic_system.hpp
+		include/engine/ecs/systems/basic_group_update_wrapper.hpp
 		include/engine/ecs/systems/systems_manager.hpp
 	
 )

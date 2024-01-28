@@ -4,6 +4,8 @@
 
 #include <engine/ecs/systems/basic_system.hpp>
 
+#include <engine/ecs/systems/basic_group_update_wrapper.hpp>
+
 #include <map>
 #include <memory>
 #include <concepts>
@@ -25,7 +27,8 @@ namespace engine::ecs::systems
 
 		void update(float _delta_time);
 
-		bool addSystemsGroup(const std::string& _group_name, size_t _group_priority) noexcept;
+		bool addSystemsGroup(const std::string& _group_name, size_t _group_priority,
+							 group_update_wrapper_ptr_t _update_wrapper = nullptr) noexcept;
 		bool removeSystemsGroup(const std::string& _group_name) noexcept;
 		void removeAllSystemsGroups() noexcept;
 
@@ -83,7 +86,7 @@ namespace engine::ecs::systems
 
 		};
 
-		using groups_storage_t = std::map<size_t, systems_group>;
+		using groups_storage_t = std::map<size_t, std::pair<systems_group, group_update_wrapper_ptr_t>>;
 
 	private:
 
@@ -194,7 +197,8 @@ namespace engine::ecs::systems
 
 
 	template <System UserBasicSystem>
-	auto systems_manager<UserBasicSystem>::addSystemsGroup(const std::string& _group_name, size_t _priority) noexcept -> bool
+	auto systems_manager<UserBasicSystem>::addSystemsGroup(const std::string& _group_name, size_t _priority,
+														   group_update_wrapper_ptr_t _update_wrapper) noexcept -> bool
 	{
 		auto group_it = findGroup(_group_name);
 		if (group_it != m_groups.end())
@@ -202,7 +206,7 @@ namespace engine::ecs::systems
 			LOG_WARN("[Systems manager WARN] System with name '{0}' already exists", _group_name);
 			return false;
 		}
-		return m_groups.emplace(_priority, systems_group(_group_name)).second;
+		return m_groups.emplace(_priority, std::make_pair(systems_group(_group_name), std::move(_update_wrapper))).second;
 	}
 
 
@@ -214,7 +218,7 @@ namespace engine::ecs::systems
 		if (group_it == m_groups.end())
 			return false;
 
-		for (auto [system_priority, system] : group_it->second.getSystemsStorage())
+		for (auto [system_priority, system] : group_it->second.first.getSystemsStorage())
 			m_systems_locations.erase(std::string(system->system_name));
 
 		return (m_groups.erase(group_it) != m_groups.end());
@@ -236,7 +240,7 @@ namespace engine::ecs::systems
 	{
 		auto group_it = findGroup(_group_name);
 		if (group_it != m_groups.end())
-			group_it->second.enable();
+			group_it->second.first.enable();
 	}
 
 
@@ -246,7 +250,7 @@ namespace engine::ecs::systems
 	{
 		auto group_it = findGroup(_group_name);
 		if (group_it != m_groups.end())
-			group_it->second.disable();
+			group_it->second.first.disable();
 	}
 
 
@@ -264,7 +268,7 @@ namespace engine::ecs::systems
 			return nullptr;
 		}
 
-		bool success = group_it->second.addSystem(system, _priority);
+		bool success = group_it->second.first.addSystem(system, _priority);
 		if (!success)
 			return nullptr;
 
@@ -284,7 +288,7 @@ namespace engine::ecs::systems
 	{
 		for (auto begin = m_groups.begin(); begin != m_groups.end(); begin++)
 		{
-			if (begin->second.getName() == _group_name)
+			if (begin->second.first.getName() == _group_name)
 				return begin;
 		}
 		return m_groups.end();
@@ -301,7 +305,7 @@ namespace engine::ecs::systems
 			return nullptr;
 
 		auto [group_priority, system_priority] = m_systems_locations[system_name];
-		const auto& group_systems = m_groups[group_priority].getSystemsStorage();
+		const auto& group_systems = m_groups[group_priority].first.getSystemsStorage();
 		return group_systems[system_priority];
 	}
 
@@ -317,7 +321,7 @@ namespace engine::ecs::systems
 
 		auto [group_priority, system_priority] = m_systems_locations[system_name];
 		m_systems_locations.erase(system_name);
-		return m_groups[group_priority].removeSystem(system_priority);
+		return m_groups[group_priority].first.removeSystem(system_priority);
 	}
 
 
@@ -349,10 +353,16 @@ namespace engine::ecs::systems
 	{
 		for (auto& [priority, group] : m_groups)
 		{
-			if (!group.isActive())
+			if (!group.first.isActive())
 				continue;
 
-			group.update(_delta_time);
+			if (group.second != nullptr)
+				group.second->preUpdate(_delta_time);
+
+			group.first.update(_delta_time);
+			
+			if (group.second != nullptr)
+				group.second->postUpdate(_delta_time);
 		}
 	}
 
@@ -364,7 +374,7 @@ namespace engine::ecs::systems
 		std::vector<system_ptr_t> systems;
 		for (const auto& [group_priority, group] : m_groups)
 		{
-			for (const auto& [system_proirity, system] : group.getSystemsStorage())
+			for (const auto& [system_proirity, system] : group.first.getSystemsStorage())
 			{
 				systems.push_back(system);
 			}
@@ -378,7 +388,7 @@ namespace engine::ecs::systems
 	auto systems_manager<UserBasicSystem>::removeAllSystems() noexcept -> void
 	{
 		for (auto& [priority, group] : m_groups)
-			group.removeSystems();
+			group.first.removeSystems();
 		m_systems_locations.clear();
 	}
 }

@@ -162,7 +162,8 @@ namespace engine::scene
 
 
 
-		static bool addSystemsGroup(const std::string& _group_name, size_t _group_priority) noexcept;
+		static bool addSystemsGroup(const std::string& _group_name, size_t _group_priority,
+								    ecs::systems::group_update_wrapper_ptr_t _update_wrapper = nullptr) noexcept;
 
 		static bool delSystemsGroup(const std::string& _group_name) noexcept;
 		

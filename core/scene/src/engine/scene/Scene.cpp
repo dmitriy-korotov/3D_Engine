@@ -43,9 +43,10 @@ namespace engine::scene
 
 
 
-	bool Scene::addSystemsGroup(const std::string& _group_name, size_t _group_priority) noexcept
+	bool Scene::addSystemsGroup(const std::string& _group_name, size_t _group_priority, 
+								ecs::systems::group_update_wrapper_ptr_t _update_wrapper) noexcept
 	{
-		return m_entity_component_system.getSystemsManager()->addSystemsGroup(_group_name, _group_priority);
+		return m_entity_component_system.getSystemsManager()->addSystemsGroup(_group_name, _group_priority, std::move(_update_wrapper));
 	}
 
 

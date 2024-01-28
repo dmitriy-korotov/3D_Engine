@@ -136,9 +136,11 @@ set(ENGINE_SCENE_LIB_HEADERS
 
 
 		include/engine/scene/systems/UI/fwd.hpp
+		include/engine/scene/systems/UI/fwd/UI_group_update_wrapper.hpp
 		include/engine/scene/systems/UI/fwd/selected_object_UI.hpp
 		include/engine/scene/systems/UI/fwd/scene_UI.hpp
 
+		include/engine/scene/systems/UI/UI_group_update_wrapper.hpp
 		include/engine/scene/systems/UI/selected_object_UI.hpp
 		include/engine/scene/systems/UI/scene_UI.hpp
 	
@@ -198,8 +200,13 @@ set(ENGINE_SCENE_LIB_SOURCES
 
 		src/engine/scene/systems/render/render.cpp
 
+
+
 		src/engine/scene/systems/physic/camera_update.cpp
 
+
+
+		src/engine/scene/systems/UI/UI_group_update_wrapper.cpp
 		src/engine/scene/systems/UI/selected_object_UI.cpp
 		src/engine/scene/systems/UI/scene_UI.cpp
 	
