@@ -33,6 +33,7 @@ target_include_directories(${AUTH_SERVICE_CLIENT} PUBLIC include)
 target_link_libraries(${AUTH_SERVICE_CLIENT} PUBLIC
             ${AUTH_SERVICE_LIB}
             ${ENGINE_ALIAS}::${ENGINE_NET_LIB}
+            ${ENGINE_ALIAS}::${ENGINE_ERROR_LIB}
 )
 
 

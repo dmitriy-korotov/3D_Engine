@@ -10,6 +10,10 @@ namespace engine::error
 
 	struct no_error_t {};
 
+	inline constexpr no_error_t no_error;
+
+
+
 	class error
 	{
 	public:
@@ -27,7 +31,7 @@ namespace engine::error
 
 		bool m_has_error = true;
 		std::string m_message;
-		error_code m_code;
+		error_code m_code = 0;
 
 	};
 }

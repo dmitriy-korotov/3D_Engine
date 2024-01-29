@@ -10,7 +10,7 @@ project(${EDITOR_PROJECT_NAME} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 set(EDITOR_INCLUDES
 
-		include/editor/UI/registration_UI.hpp
+		include/editor/controllers/registration_controller.hpp
 
 		include/editor/Editor.hpp
 
@@ -21,6 +21,8 @@ set(EDITOR_SOURCES
 		src/main.cpp
 
 		src/editor/UI/registration_UI.cpp
+
+		src/editor/controllers/registration_controller.cpp
 
 		src/editor/Editor.cpp
 
@@ -41,7 +43,7 @@ add_executable(${EDITOR_PROJECT_NAME}
 
 
 target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE include)
-target_link_libraries(${EDITOR_PROJECT_NAME} PRIVATE uengine)
+target_link_libraries(${EDITOR_PROJECT_NAME} PRIVATE uengine auth_client)
 
 
 

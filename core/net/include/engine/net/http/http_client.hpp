@@ -35,6 +35,8 @@ namespace engine::net::http
 
 		bool isConnected() const noexcept;
 
+		host getHost() const;
+
 		asio::awaitable<response_t> request(const request_t& _request) const;
 		asio::awaitable<response_t> GET(url _url, const request_t::headers_t& _headers = {}) const;
 		asio::awaitable<response_t> POST(url _url, std::string _data, const request_t::headers_t& _headers = {}) const;

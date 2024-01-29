@@ -12,12 +12,14 @@ namespace editor::ui
 
 		static constexpr std::string_view system_name = "registration_UI";
 
+		void preUpdate(float _delta_time) noexcept override;
 		void update(float _delta_time) noexcept override;
+		void postUpdate(float _delta_time) noexcept override;
 
 	private:
 
-		bool m_is_registration = true;
 		std::string m_login;
+		std::string m_email;
 		std::string m_password;
 		std::string m_confirmed_password;
 		bool m_is_remembered = false;

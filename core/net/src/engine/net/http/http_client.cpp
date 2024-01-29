@@ -35,6 +35,16 @@ namespace engine::net::http
 
 
 
+	auto http_client::getHost() const -> host
+	{
+		if (!isConnected())
+			throw std::runtime_error("Client in not connected to host");
+
+		return host(m_host.address().to_string(), m_host.port());
+	}
+
+
+
 	auto http_client::request(const request_t& _request) const -> asio::awaitable<response_t>
 	{
 		if (!m_is_connected)

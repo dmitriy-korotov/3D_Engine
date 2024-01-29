@@ -4,12 +4,12 @@
 
 namespace engine::error
 {
-	error::error(no_error_t _no_error) noexcept
+	error::error([[maybe_unused]] no_error_t _no_error) noexcept
 			: m_has_error(false)
 	{ }
 
 
-	error::error(std::string _error_message, error_code _code = 0) noexcept
+	error::error(std::string _error_message, error_code _code) noexcept
 			: m_message(std::move(_error_message))
 			, m_code(_code)
 	{ }
@@ -29,6 +29,7 @@ namespace engine::error
 	}
 	
 	
+
 	auto error::code() const noexcept -> error_code
 	{
 		return m_code;
