@@ -7,3 +7,4 @@
 #include <engine/util/fwd/noconstructible.hpp>
 #include <engine/util/fwd/nocopyeble.hpp>
 #include <engine/util/fwd/nomoveble.hpp>
+#include <engine/util/fwd/singleton.hpp>
