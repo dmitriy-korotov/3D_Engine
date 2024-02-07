@@ -20,7 +20,8 @@ namespace auth
 
 		void registrateAPI() noexcept;
 
-		response<string_body> /* API '/api/v1/users' */ createUserHandler(const request<string_body>& _request);
+		// API 'POST /api/v1/users' 
+		response_t createUserHandler(const request_t& _request);
 
 	};
 }

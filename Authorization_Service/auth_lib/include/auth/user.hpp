@@ -31,6 +31,13 @@ namespace auth
 		user() = default;
 		user(std::string _login, email_t _email, std::string _password) noexcept;
 		user(std::string _login, phone_t _phone, std::string _password) noexcept;
+		user(user&&) noexcept = default;
+		user(const user& _other)
+			: m_email(_other.m_email)
+			, m_login(_other.m_login)
+			, m_method(_other.m_method)
+			, m_password(_other.m_password)
+		{ }
 		~user();
 
 		void setLogin(std::string _login) noexcept;

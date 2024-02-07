@@ -4,6 +4,8 @@
 
 
 
+
+
 using namespace nlohmann;
 
 namespace auth
@@ -11,17 +13,19 @@ namespace auth
 	static auto fillJSONUserData(const user& _user) noexcept -> json
 	{
 		json json_user;
-		json_user["login"] = _user.getLogin();
+		json_user["username"] = _user.getLogin();
 		json_user["password"] = _user.getPassword();
 		if (_user.getConfirmationMethod() == confirmation_method::Phone)
 		{
-			json_user["confirmation_method"] = "phone";
+			json_user["confirm_method"] = "phone";
 			json_user["phone"] = _user.getPhone();
+			json_user["email"] = "NULL";
 		}
 		else
 		{
-			json_user["confirmation_method"] = "email";
+			json_user["confirm_method"] = "email";
 			json_user["email"] = _user.getEmail();
+			json_user["phone"] = "NULL";
 		}
 		return json_user;
 	}

@@ -16,8 +16,7 @@ project(uengine_project LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 
 option(ENIGNE_BUILD_TESTS ON "Building engine tests")
-
-
+option(ENGINE_ENABLE_ADDRESS_SANITIZER OFF "Enable address sanitizer")
 
 
 
@@ -84,6 +83,10 @@ set_target_properties(
 
 		PROPERTIES FOLDER external
 )
+
+if (${ENGINE_ENABLE_ADDRESS_SANITIZER})
+	set_target_properties(uengine PROPERTIES COMPILE_FLAGS -fsanitize=address)
+endif()
 
 if (${ENGINE_BUILD_TESTS})
 	set_target_properties(
