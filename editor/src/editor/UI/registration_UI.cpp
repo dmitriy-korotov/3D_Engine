@@ -2,6 +2,8 @@
 
 #include <engine/application_settings.hpp>
 
+#include <engine/Engine.hpp>
+
 #include <editor/controllers/registration_controller.hpp>
 
 #include <imgui/imgui.h>
@@ -59,9 +61,68 @@ namespace editor::ui
 				return;
 			}
 
-			auth::user user(std::move(m_login), auth::email_t{ .email = std::move(m_email) }, m_password);
+			auth::user user(std::move(m_login), auth::email_t{ .email = std::move(m_email) }, std::move(m_password));
 
-			controllers::registration_controller::registrateUser(user);
+			engine::Engine::getApplicationExecutor()->completeTaskBlocking(
+				[](auth::user _user) -> asio::awaitable<int>
+				{
+					std::stringstream out;
+					out << std::this_thread::get_id();
+
+					try
+					{
+						auto result = co_await controllers::registration_controller::onClickRegistrateButton(_user);
+					}
+					catch (const std::exception& _ex)
+					{
+						LOG_ERROR("Exception: {0}", std::string(_ex.what()));
+					}
+
+					LOG_INFO("[Thread ID '{0}'] Task completed", out.str());
+					std::this_thread::sleep_for(std::chrono::seconds(5));
+					co_return 5;
+				}, user);
+
+			engine::Engine::getApplicationExecutor()->completeTaskAsync(
+				[](auth::user _user) -> asio::awaitable<int> 
+				{
+					std::stringstream out;
+					out << std::this_thread::get_id();
+
+					try
+					{
+						auto result = co_await controllers::registration_controller::onClickRegistrateButton(_user);
+						if (result)
+							LOG_ERROR("ERROR: {0}", result.message());
+					}
+					catch (const std::exception& _ex)
+					{
+						LOG_ERROR("Exception: {0}", std::string(_ex.what()));
+					}
+
+					LOG_INFO("[Thread ID '{0}'] Task completed", out.str());
+					std::this_thread::sleep_for(std::chrono::seconds(5));
+					co_return 5;
+				}, user).then(					
+					[](int code) -> engine::unit_t {
+						std::stringstream out;
+						out << std::this_thread::get_id();
+						LOG_INFO("[Thread ID '{0}'] Handler completed width code {1}", out.str(), code);
+						std::this_thread::sleep_for(std::chrono::seconds(5));
+						return {};
+					}).then(
+						[](engine::unit_t) -> engine::unit_t
+						{
+							std::stringstream out;
+							out << std::this_thread::get_id();
+							LOG_ERROR("[Thread ID '{0}'] Second handler completed", out.str());
+							return {};
+						}
+					);
+
+			//engine::Engine::getApplicationExecutor()->completeTaskAsync(controllers::registration_controller::onClickRegistrateButton, user);
+
+			//controllers::registration_controller::onClickRegistrateButton(user);
 
 			disable();
 		}

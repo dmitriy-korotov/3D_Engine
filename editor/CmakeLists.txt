@@ -10,6 +10,8 @@ project(${EDITOR_PROJECT_NAME} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 set(EDITOR_INCLUDES
 
+		include/editor/UI/registration_UI.hpp
+
 		include/editor/controllers/registration_controller.hpp
 
 		include/editor/Editor.hpp

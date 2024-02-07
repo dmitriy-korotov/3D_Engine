@@ -1,5 +1,3 @@
-#define _CRT_NONSTDC_NO_WARNINGS
-
 #include <editor/Editor.hpp>
 
 #include <iostream>

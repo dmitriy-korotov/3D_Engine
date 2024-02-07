@@ -1,5 +1,3 @@
-#pragma warning(suppress : 4996)
-
 #include <editor/Editor.hpp>
 
 #include <engine/logging/log.hpp>
@@ -36,6 +34,8 @@
 #include <engine/scene/components/components_creator.hpp>
 
 #include <editor/UI/registration_UI.hpp>
+
+#include <engine/application_executor.hpp>
 
 
 
@@ -90,7 +90,7 @@ namespace editor
 		AddComponentCreator<mesh>();
 		AddComponentCreator<renderable>();
 
-
+	
 
 		const auto& resource_manager = engine::GetResourceManager();
 
