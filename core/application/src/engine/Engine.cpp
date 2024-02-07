@@ -23,6 +23,20 @@ namespace engine
 
 
 
+	auto Engine::setCommonExecutionThreadsCount(size_t _threads_count) noexcept -> void
+	{
+		application_executor::setCommonThreadsCount(_threads_count);
+	}
+
+
+
+	auto Engine::setThreadsCountForAsyncExecution(size_t _threads_count) noexcept -> void
+	{
+		application_executor::setThreadsCountForAsyncExecution(_threads_count);
+	}
+
+
+
 	auto Engine::getApplicationRenderer() noexcept -> const render_ptr_t&
 	{
 		return application_renderer::instance().getRenderer();
@@ -33,5 +47,12 @@ namespace engine
 	auto Engine::getApplicationUIModule() noexcept -> const UIModule_ptr_t&
 	{
 		return application_UIModule::instance().getUIModule();
+	}
+
+
+
+	auto Engine::getApplicationExecutor() noexcept -> const application_executor_ptr_t&
+	{
+		return application_executor::instance();
 	}
 }

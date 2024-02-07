@@ -14,12 +14,14 @@ set(ENGINE_APPLICATION_LIB_HEADERS
 		include/engine/fwd/application.hpp
 		include/engine/fwd/application_settings.hpp
 		include/engine/fwd/resource_manager.hpp
+		include/engine/fwd/application_executor.hpp
 
 		include/engine/Engine.hpp
 		include/engine/application.hpp
 		include/engine/names_settings.hpp
 		include/engine/application_settings.hpp
 		include/engine/resource_manager.hpp
+		include/engine/application_executor.hpp
 
 
 
@@ -49,6 +51,7 @@ set(ENGINE_APPLICATION_LIB_SOURCES
 		src/engine/names_settings.cpp
 		src/engine/application_settings.cpp
 		src/engine/resource_manager.cpp
+		src/engine/application_executor.cpp
 
 
 
@@ -79,6 +82,7 @@ target_link_libraries(${ENGINE_APPLICATION_LIB} PUBLIC
 		${ENGINE_ALIAS}::${ENGINE_ERROR_LIB}
 		${ENGINE_ALIAS}::${ENGINE_RENDER_LIB}
         ${ENGINE_ALIAS}::${ENGINE_WINDOW_LIB}
+		asio
         imgui
         glfw
         glm

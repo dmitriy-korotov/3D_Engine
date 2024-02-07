@@ -229,9 +229,8 @@ namespace engine
         switch (UI_module_impl)
         {
         case UIModuleImpl::ImGui:
-            UI_module = std::shared_ptr<imgui::UIModule>(&imgui::UIModule::instance(),
-                                                         [](imgui::UIModule* _UI_module) -> void
-                                                         { });
+            UI_module = std::shared_ptr<imgui::UIModule>(std::shared_ptr<void>{},
+                                                         &imgui::UIModule::instance());
             break;
         case UIModuleImpl::Qt:
             break;
@@ -326,6 +325,8 @@ namespace engine
 
         onStart();
 
+        engine::Engine::getApplicationExecutor()->initExecutionContext();
+
         m_is_closed = false;
         while (!isClosed())
         {
@@ -333,6 +334,8 @@ namespace engine
             onUpdate();
             onDrawUI();
         }
+
+        engine::Engine::getApplicationExecutor()->stopAllExecutions();
 
         onClose();
 
