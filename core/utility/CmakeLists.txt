@@ -31,6 +31,8 @@ set(ENGINE_UTILITY_LIB_HEADERS
 		include/engine/util/conventions.hpp
 		include/engine/util/singleton.hpp
 		include/engine/util/concepts.hpp
+		include/engine/util/system.hpp
+
 
 
 		include/engine/interfaces/fwd.hpp
@@ -54,6 +56,7 @@ set(ENGINE_UTILITY_LIB_SOURCES
 		src/engine/util/file_searcher.cpp
 		src/engine/util/date.cpp
 		src/engine/util/conventions.cpp
+		src/engine/util/system.cpp
 	
 )
 
