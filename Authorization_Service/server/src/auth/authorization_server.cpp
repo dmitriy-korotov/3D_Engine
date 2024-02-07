@@ -2,6 +2,8 @@
 
 #include <engine/logging/log.hpp>
 
+#include <engine/net/db/connection_data.hpp>
+
 #include <nlohmann/json.hpp>
 
 #include <pqxx/pqxx>
@@ -33,17 +35,25 @@ namespace auth
 	auto authorization_server::registrateAPI() noexcept -> void
 	{
 		registrateURLHandler("/api/v1/users",
-							 request_method::Post,
+							 http::request_method::Post,
 							 std::bind(&authorization_server::createUserHandler, this, std::placeholders::_1));
 	}
 
 
 
-	response_t authorization_server::createUserHandler(const request_t& _request)
+	http::response_t authorization_server::createUserHandler(http::request_t& _request)
 	{
 		LOG_INFO("[Authorization server INFO] POST '/api/v1/users' handler started");
 
-		pqxx::connection conn("dbname=users hostaddr=127.0.0.1 user=dmitriy password=Votorok228");
+		db::connection_data conn_data
+		{
+			.dbname = "users",
+			.hostaddr = "127.0.0.1",
+			.user = "dmitriy",
+			.password = "Votorok228"
+		};
+
+		pqxx::connection conn(conn_data.toString());
 		if (conn.is_open())
 		{
 			LOG_INFO("Connection to database succesful!");
@@ -55,7 +65,7 @@ namespace auth
 		}
 		pqxx::work w(conn);
 
-		engine::net::http::response<string_body> response;
+		http::response<http::string_body> response;
 
 		try
 		{
@@ -90,7 +100,7 @@ namespace auth
 		catch (const std::exception& _ex)
 		{
 			LOG_ERROR("[Authorization server INFO] Exception: {0}", std::string(_ex.what()));
-			response.setStatus(response_status::bad_getway);
+			response.setStatus(http::response_status::bad_getway);
 			response.setBody("{code:500, message:\"Server error\"}");
 			return response;
 		}

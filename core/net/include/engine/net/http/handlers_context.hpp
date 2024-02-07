@@ -18,7 +18,7 @@ namespace engine::net::http
 	using request_t = request<string_body>;
 	using response_t = response<string_body>;
 
-	using url_handler_t = std::function<response_t(const request_t&)>;
+	using url_handler_t = std::function<response_t(request_t&)>;
 
 	using handlers_storage_t = std::unordered_map<request_method, std::unordered_map<std::string, url_handler_t>>;
 

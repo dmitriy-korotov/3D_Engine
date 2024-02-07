@@ -10,12 +10,16 @@ set(ENGINE_TEST_FILES
 
 	src/main.cpp
 
-	src/net/ut_url.cpp
-	src/net/ut_basic_http_message.cpp
-	src/net/ut_request.cpp
-	src/net/ut_response.cpp
-	src/net/ut_http_parsing.cpp
-	src/net/ut_host.cpp
+	src/net/http/ut_url.cpp
+	src/net/http/ut_basic_http_message.cpp
+	src/net/http/ut_request.cpp
+	src/net/http/ut_response.cpp
+	src/net/http/ut_http_parsing.cpp
+	src/net/http/ut_host.cpp
+
+
+
+	src/net/db/ut_connection_data.cpp
 
 )
 

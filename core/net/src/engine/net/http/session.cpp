@@ -65,7 +65,7 @@ namespace engine::net::http
 
 
 
-	auto session::handleRequest(const request_t& _request) noexcept -> response_t
+	auto session::handleRequest(request_t& _request) noexcept -> response_t
 	{
 		response_t response;
 		auto url = _request.getURL().getAbsolutePath();

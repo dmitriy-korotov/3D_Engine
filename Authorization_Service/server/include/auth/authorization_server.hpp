@@ -6,9 +6,9 @@
 
 namespace auth
 {
-	using namespace engine::net::http;
+	using namespace engine::net;
 
-	class authorization_server : protected http_server
+	class authorization_server : protected http::http_server
 	{
 	public:
 
@@ -20,8 +20,8 @@ namespace auth
 
 		void registrateAPI() noexcept;
 
-		// API 'POST /api/v1/users' 
-		response_t createUserHandler(const request_t& _request);
+		// API - POST - '/api/v1/users' 
+		http::response_t createUserHandler(http::request_t& _request);
 
 	};
 }
