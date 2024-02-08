@@ -10,6 +10,10 @@ project(${AUTH_SERVICE_SERVER} LANGUAGES CXX VERSION ${ENGINE_VERSION})
 
 set(AUTH_SERVICE_SERVER_HEADERS
 
+        include/auth/db/auth_db_settings.hpp
+
+        include/auth/db/tables/users_table.hpp
+
         include/auth/fwd.hpp
         include/auth/fwd/authorization_server.hpp
 
@@ -18,6 +22,10 @@ set(AUTH_SERVICE_SERVER_HEADERS
 )
 
 set(AUTH_SERVICE_SERVER_SOURCES
+
+        src/auth/db/auth_db_settings.cpp
+
+        src/auth/db/tables/users_table.cpp
 
         src/auth/authorization_server.cpp
         src/main.cpp
